@@ -142,12 +142,20 @@ header {
   align-self: end;
   justify-self: end;
   width: 270px;
+  position: relative;
+  padding: 6px;
+  border-radius: 0;
+  background: linear-gradient(45deg, var(--color-accent) 0%, var(--accent-light) 50%, var(--color-accent) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+  overflow: hidden;
 }
 
 .mascot {
   max-width: 100%;
   height: auto;
   display: block;
+  border-radius: 0;
 }
 
 header h1 {
@@ -366,6 +374,7 @@ footer a:hover, footer a:focus {
     width: 180px;
     justify-self: center;
     margin-top: var(--spacing-medium);
+    padding: 4px;
   }
   
   header h1 {
