@@ -122,10 +122,10 @@ header {
 
 .mascot-container {
   position: absolute;
-  right: 5%;
-  bottom: 85px;
+  right: 0;
+  bottom: 106px;
   z-index: 1;
-  width: 220px;
+  width: 270px;
   overflow: visible;
 }
 
@@ -318,8 +318,8 @@ footer {
   }
   
   .mascot-container {
-    width: 160px;
-    bottom: 60px;
+    width: 200px;
+    bottom: 76px;
     right: 0;
   }
 }
