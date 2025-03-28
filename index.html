@@ -11,16 +11,21 @@
 </head>
 <body>
   <header>
-    <div class="header-content">
-      <div>
-        <h1>HENRY MANES</h1>
-        <p class="role">OBS BROWSER SOURCES & STREAMING TOOLS</p>
-        <p class="tagline">Free and open source streaming tools designed for maximum customizability and platform independence. Refresh your browser source to get the latest updates.</p>
-        <p><a href="https://www.twitch.tv/parfaitfair" target="_blank">Follow me on Twitch</a></p>
-      </div>
+    <!-- Title goes first in the DOM with lowest z-index -->
+    <div class="title-wrapper">
+      <h1>HENRY MANES</h1>
     </div>
+    
+    <!-- Mascot goes in the middle of the DOM -->
     <div class="mascot-container">
       <img src="assets/images/PolarBearTransparent.png" alt="Polar Bear Mascot" class="mascot">
+    </div>
+    
+    <!-- Other text content goes last with highest z-index -->
+    <div class="header-text">
+      <p class="role">OBS BROWSER SOURCES & STREAMING TOOLS</p>
+      <p class="tagline">Free and open source streaming tools designed for maximum customizability and platform independence. Refresh your browser source to get the latest updates.</p>
+      <p><a href="https://www.twitch.tv/parfaitfair" target="_blank">Follow me on Twitch</a></p>
     </div>
   </header>
   

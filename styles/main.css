@@ -110,23 +110,28 @@ header {
   padding-bottom: var(--spacing-large);
   position: relative;
   overflow: visible;
+  min-height: 200px; /* Ensure enough height for content positioning */
 }
 
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.title-wrapper {
   position: relative;
-  z-index: 2;
+  z-index: 1; /* Lowest z-index, will be behind mascot */
 }
 
 .mascot-container {
   position: absolute;
   right: 0;
   bottom: 106px;
-  z-index: 1;
+  z-index: 2; /* Middle z-index, in front of title but behind other text */
   width: 270px;
   overflow: visible;
+}
+
+.header-text {
+  position: relative;
+  z-index: 3; /* Highest z-index, will be in front of mascot */
+  margin-top: 0; /* Remove negative margin to fix overlap */
+  padding-top: var(--spacing-unit);
 }
 
 .mascot {
