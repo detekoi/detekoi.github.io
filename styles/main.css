@@ -39,9 +39,11 @@
   --color-background: #ffffff;
   --color-text: #121212;
   --color-accent: #ff3e00;
+  --accent-light: #ff7a51; /* Added for gradient effect */
   --color-secondary: #eeeeee;
   --color-border: #333333;
   --color-card-bg: #f5f5f5;
+  --shadow-color: rgba(255, 62, 0, 0.3); /* Added for button hover effect */
   
   /* Spacing */
   --spacing-unit: 8px;
@@ -64,6 +66,8 @@
     --color-secondary: #222222;
     --color-card-bg: #1e1e1e;
     --color-border: #bbbbbb;
+    --accent-light: #ff7a51;
+    --shadow-color: rgba(255, 62, 0, 0.5);
   }
 }
 
@@ -89,14 +93,31 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+/* Gradient Shift Button */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 a {
-  color: var(--color-accent);
+  color: #fff;
   text-decoration: none;
   transition: all 0.2s ease;
+  padding: 6px 12px;
+  background: linear-gradient(45deg, var(--color-accent) 0%, var(--accent-light) 50%, var(--color-accent) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+  display: inline-block;
+  font-weight: 600;
 }
 
 a:hover, a:focus {
-  text-decoration: underline;
+  text-decoration: none;
+  animation-play-state: paused;
+  background-position: right center;
+  box-shadow: 0 5px 15px var(--shadow-color);
+  transform: translateY(-2px);
 }
 
 /* Header */
