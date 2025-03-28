@@ -65,10 +65,6 @@
     --color-card-bg: #1e1e1e;
     --color-border: #bbbbbb;
   }
-  
-  header .tagline {
-    background-color: rgba(30, 30, 30, 0.7);
-  }
 }
 
 /* Base Styles */
@@ -108,36 +104,29 @@ header {
   margin-bottom: var(--spacing-large);
   border-bottom: 4px solid var(--color-border);
   padding-bottom: var(--spacing-large);
-  position: relative;
-  overflow: visible;
-  min-height: 200px; /* Ensure enough height for content positioning */
+  display: grid;
+  grid-template-columns: 1fr 270px; /* Left content and right mascot */
+  grid-template-areas:
+    "content mascot";
+  gap: var(--spacing-unit);
 }
 
-.title-wrapper {
-  position: relative;
-  z-index: 1; /* Lowest z-index, will be behind mascot */
+.header-content {
+  grid-area: content;
+  padding-right: var(--spacing-medium);
 }
 
 .mascot-container {
-  position: absolute;
-  right: 0;
-  bottom: 106px;
-  z-index: 2; /* Middle z-index, in front of title but behind other text */
+  grid-area: mascot;
+  align-self: end;
+  justify-self: end;
   width: 270px;
-  overflow: visible;
-}
-
-.header-text {
-  position: relative;
-  z-index: 3; /* Highest z-index, will be in front of mascot */
-  margin-top: 0; /* Remove negative margin to fix overlap */
-  padding-top: var(--spacing-unit);
 }
 
 .mascot {
   max-width: 100%;
   height: auto;
-  transform: translateY(30%); /* Makes the bear peek out from bottom */
+  display: block;
 }
 
 header h1 {
@@ -156,13 +145,8 @@ header .role {
 header .tagline {
   font-size: var(--font-size-regular);
   margin-top: var(--spacing-medium);
-  max-width: 800px;
+  max-width: 65%;
   opacity: 0.9;
-  background-color: rgba(255, 255, 255, 0.6);
-  padding: 8px 12px;
-  display: inline-block;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
   line-height: 1.8;
 }
 
@@ -322,9 +306,34 @@ footer {
     grid-template-columns: 1fr;
   }
   
+  header {
+    grid-template-columns: 1fr 200px;
+  }
+  
   .mascot-container {
     width: 200px;
-    bottom: 77px;
-    right: 0;
+  }
+}
+
+@media (max-width: 575px) {
+  header {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "content"
+      "mascot";
+  }
+  
+  .mascot-container {
+    width: 180px;
+    justify-self: center;
+    margin-top: var(--spacing-medium);
+  }
+  
+  header h1 {
+    font-size: 2.8rem;
+  }
+  
+  header .tagline {
+    max-width: 100%;
   }
 }
