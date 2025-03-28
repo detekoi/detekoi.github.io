@@ -65,6 +65,10 @@
     --color-card-bg: #1e1e1e;
     --color-border: #bbbbbb;
   }
+  
+  header .tagline {
+    background-color: rgba(30, 30, 30, 0.7);
+  }
 }
 
 /* Base Styles */
@@ -119,10 +123,9 @@ header {
 .mascot-container {
   position: absolute;
   right: 5%;
-  bottom: -20px; /* Adjust to make bear peek from bottom border */
+  bottom: 85px;
   z-index: 1;
   width: 220px;
-  height: 424px;
   overflow: visible;
 }
 
@@ -149,7 +152,13 @@ header .tagline {
   font-size: var(--font-size-regular);
   margin-top: var(--spacing-medium);
   max-width: 800px;
-  opacity: 0.8;
+  opacity: 0.9;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 8px 12px;
+  display: inline-block;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  line-height: 1.8;
 }
 
 /* Project Grid */
@@ -310,13 +319,7 @@ footer {
   
   .mascot-container {
     width: 160px;
-    height: 313px;
+    bottom: 60px;
     right: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .mascot-container {
-    display: none;
   }
 }
