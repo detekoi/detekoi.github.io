@@ -104,6 +104,32 @@ header {
   margin-bottom: var(--spacing-large);
   border-bottom: 4px solid var(--color-border);
   padding-bottom: var(--spacing-large);
+  position: relative;
+  overflow: visible;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+.mascot-container {
+  position: absolute;
+  right: 5%;
+  bottom: -20px; /* Adjust to make bear peek from bottom border */
+  z-index: 1;
+  width: 220px;
+  height: 424px;
+  overflow: visible;
+}
+
+.mascot {
+  max-width: 100%;
+  height: auto;
+  transform: translateY(30%); /* Makes the bear peek out from bottom */
 }
 
 header h1 {
@@ -280,5 +306,17 @@ footer {
   
   .project-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .mascot-container {
+    width: 160px;
+    height: 313px;
+    right: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .mascot-container {
+    display: none;
   }
 }
