@@ -1,6 +1,6 @@
 require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
-const axios = require('axios'); // Using axios for HTTP requests
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/genai"); // Import the library
 const path = require('path');
 
 const app = express();
@@ -11,14 +11,16 @@ app.use(express.json({ limit: '10mb' })); // Increase limit for base64 image dat
 
 // --- Gemini API Configuration ---
 const API_KEY = process.env.GEMINI_API_KEY;
-// Using gemini-1.5-flash as requested initially, ensure this model supports image input/output as needed.
-// Vision models like gemini-pro-vision are typically for analysis. Image generation models might be different.
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent'; // Adjusted model
+const MODEL_NAME = "gemini-1.5-flash-latest"; // Multimodal model suitable for text + image input
 
 if (!API_KEY) {
   console.error("FATAL ERROR: GEMINI_API_KEY environment variable is not set.");
   process.exit(1); // Exit if API key is missing
 }
+
+// Initialize the GoogleGenerativeAI client
+const genAI = new GoogleGenerativeAI(API_KEY);
+const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
 // --- API Endpoint for Gemini Mascot Generation ---
 app.post('/api/gemini-mascot', async (req, res) => {
@@ -28,56 +30,77 @@ app.post('/api/gemini-mascot', async (req, res) => {
     return res.status(400).json({ error: 'Missing required fields: prompt, base64ImageData, mimeType' });
   }
 
-  // Construct the request body for the Gemini API
-  const requestBody = {
-    contents: [{
-      parts: [
-        { text: prompt },
-        {
-          inline_data: {
-            mime_type: mimeType,
-            data: base64ImageData
-          }
-        }
-      ]
-    }],
-    // Add generationConfig if needed (e.g., for image generation models)
-    // generationConfig: {
-    //   "response_mime_type": "image/png", // Example: Request PNG output if supported
-    // }
+  // Prepare the parts for the generateContent call
+  const imagePart = {
+    inlineData: {
+      data: base64ImageData,
+      mimeType: mimeType,
+    },
+  };
+  const textPart = { text: prompt };
+
+  // Define generation config (optional, adjust as needed)
+  const generationConfig = {
+    temperature: 0.4, // Example: Adjust creativity
+    topK: 32,
+    topP: 1,
+    maxOutputTokens: 4096, // Example: Limit output size
+    // responseMimeType: "image/png" // Request image output if model supports it explicitly
   };
 
+  // Define safety settings (optional, adjust as needed)
+   const safetySettings = [
+    { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+    { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+    { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+    { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
+  ];
+
+
   try {
-    console.log(`Forwarding request to Gemini API (${API_URL})...`);
-    const geminiResponse = await axios.post(`${API_URL}?key=${API_KEY}`, requestBody, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Ensure axios handles large responses if needed, though base64 shouldn't exceed defaults usually
+    console.log(`Sending request to Gemini API via @google/genai library (Model: ${MODEL_NAME})...`);
+
+    // Call the Gemini API using the library
+    const result = await model.generateContent({
+        contents: [{ role: "user", parts: [textPart, imagePart] }], // Pass both text and image parts
+        generationConfig,
+        safetySettings
     });
 
-    console.log('Received response from Gemini API.');
+    const response = result.response; // Get the response object from the result
 
-    // --- IMPORTANT: Adapt this based on ACTUAL Gemini response structure ---
-    // This part extracts the *first* image found in the response.
-    // The structure might differ significantly based on the model (flash vs pro-vision)
-    // and whether it's generating, editing, or describing an image.
+    console.log('Received response from Gemini API.');
+    // console.log('Full API Response:', JSON.stringify(response, null, 2)); // Optional: Log full response for debugging
+
+    // --- Extract image data from the library's response structure ---
     let newImageDataUri = null;
-    if (geminiResponse.data.candidates && geminiResponse.data.candidates[0].content && geminiResponse.data.candidates[0].content.parts) {
-       // Look for an image part in the response
-       const imagePart = geminiResponse.data.candidates[0].content.parts.find(part => part.inline_data && part.inline_data.mime_type.startsWith('image/'));
-       if (imagePart) {
-          newImageDataUri = `data:${imagePart.inline_data.mime_type};base64,${imagePart.inline_data.data}`;
-          console.log('Extracted image data from response.');
-       } else {
-          // Log if no image part found, maybe return text part?
-          const textPart = geminiResponse.data.candidates[0].content.parts.find(part => part.text);
-          console.warn("Gemini API did not return an image part. Text response:", textPart?.text);
-          // Decide how to handle non-image responses (e.g., return the text)
-       }
+    if (response && response.candidates && response.candidates[0] && response.candidates[0].content && response.candidates[0].content.parts) {
+      const parts = response.candidates[0].content.parts;
+      // Find the first part that contains image data
+      const generatedImagePart = parts.find(part => part.inlineData && part.inlineData.mimeType.startsWith('image/'));
+
+      if (generatedImagePart) {
+        newImageDataUri = `data:${generatedImagePart.inlineData.mimeType};base64,${generatedImagePart.inlineData.data}`;
+        console.log('Extracted image data from response.');
+      } else {
+        // Log if no image part found, maybe return text part?
+        const textPart = parts.find(part => part.text);
+        console.warn("Gemini API did not return an image part. Text response:", textPart?.text);
+        // Optionally, you could send the text response back to the client if helpful
+        // res.json({ textResponse: textPart?.text }); return;
+      }
     } else {
-       console.error('Unexpected Gemini API response structure:', geminiResponse.data);
-       // It's possible the response is valid but doesn't contain an image candidate as expected.
+      console.error('Unexpected Gemini API response structure or no candidates found:', response);
+      // Log safety feedback if available
+       if (response && response.promptFeedback) {
+           console.error('Prompt Feedback:', response.promptFeedback);
+       }
+       if (response && response.candidates && response.candidates[0] && response.candidates[0].finishReason) {
+           console.error('Finish Reason:', response.candidates[0].finishReason);
+           if (response.candidates[0].safetyRatings) {
+               console.error('Safety Ratings:', response.candidates[0].safetyRatings);
+           }
+       }
     }
     // --- End of response parsing ---
 
@@ -85,27 +108,11 @@ app.post('/api/gemini-mascot', async (req, res) => {
     res.json({ newImageDataUri: newImageDataUri });
 
   } catch (error) {
-    // Log detailed error information
-    console.error('Error calling Gemini API:');
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.error('Status:', error.response.status);
-      console.error('Headers:', error.response.headers);
-      console.error('Data:', error.response.data);
-    } else if (error.request) {
-      // The request was made but no response was received
-      console.error('Request:', error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.error('Error Message:', error.message);
-    }
-    console.error('Config:', error.config);
-
+    console.error('Error calling Gemini API via @google/genai library:', error);
     // Send an appropriate error response to the client
-    res.status(error.response?.status || 500).json({
-       error: 'Failed to call Gemini API',
-       details: error.response?.data?.error?.message || error.message
+    res.status(500).json({
+       error: 'Failed to process request with Gemini API',
+       details: error.message // Provide the error message from the library
     });
   }
 });
