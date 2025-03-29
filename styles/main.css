@@ -153,7 +153,8 @@ header {
 
 .mascot-container:active {
   transform: translate(2px, 2px);
-  box-shadow: 4px 4px 0 var(--color-text);
+  box-shadow: 2px 2px 0 var(--color-text);
+  background-color: #eaeaea;
 }
 
 .mascot {
@@ -403,7 +404,7 @@ footer a:active {
   
   .mascot-container:active {
     transform: translate(2px, 2px);
-    box-shadow: 4px 4px 0 var(--shadow-color);
+    box-shadow: 1px 1px 0 var(--shadow-color);
   }
   
   .project {
