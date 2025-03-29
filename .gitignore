@@ -39,3 +39,12 @@ yarn-error.log*
 
 # Node.js server dependencies
 node_modules/
+
+#aider
+.aider*
+
+#cursor
+.cursor*
+
+#cursor
+.cursor*
