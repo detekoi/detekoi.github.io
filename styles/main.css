@@ -81,6 +81,17 @@
     --accent-light: #ff7a51;
     --shadow-color: rgba(255, 62, 0, 0.5);
   }
+  
+  /* Override button styles for dark mode */
+  a {
+    background-color: #222222;
+    color: #ffffff;
+    border-color: #ffffff;
+  }
+  
+  a:active {
+    background-color: #333333;
+  }
 }
 
 /* Base Styles */
@@ -105,31 +116,30 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
-/* Gradient Shift Button */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
+/* 3D Skeuomorphic Button Style */
 a {
-  color: #fff;
+  background-color: white;
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  position: relative;
+  box-shadow: 4px 4px 0 var(--color-text);
   text-decoration: none;
   transition: all 0.2s ease;
   padding: 6px 12px;
-  background: linear-gradient(45deg, var(--color-accent) 0%, var(--accent-light) 50%, var(--color-accent) 100%);
-  background-size: 200% 200%;
-  animation: gradientShift 3s ease infinite;
   display: inline-block;
   font-weight: 600;
 }
 
 a:hover, a:focus {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--color-text);
   text-decoration: none;
-  animation-play-state: paused;
-  background-position: right center;
-  box-shadow: 0 5px 15px var(--shadow-color);
-  transform: translateY(-2px);
+}
+
+a:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-text);
+  background-color: #eaeaea;
 }
 
 /* Header */
@@ -340,8 +350,8 @@ footer a {
   padding: 0;
   font-weight: normal;
   display: inline;
-  animation: none;
-  border-radius: 0;
+  border: none;
+  box-shadow: none;
 }
 
 footer a:hover, footer a:focus {
@@ -349,6 +359,12 @@ footer a:hover, footer a:focus {
   background: none;
   box-shadow: none;
   transform: none;
+}
+
+footer a:active {
+  transform: none;
+  box-shadow: none;
+  background: none;
 }
 
 /* Responsive Adjustments */
