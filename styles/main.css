@@ -328,26 +328,28 @@ footer {
 
 /* Footer links */
 footer a {
-  background: none;
-  color: var(--color-accent);
+  text-decoration: underline;
+  color: var(--color-text);
   padding: 0;
-  font-weight: normal;
+  font-weight: bold;
   display: inline;
   border: none;
   box-shadow: none;
+  transition: color 0.2s ease;
 }
 
 footer a:hover, footer a:focus {
   text-decoration: underline;
-  background: none;
   box-shadow: none;
   transform: none;
+  color: #666666;
 }
 
 footer a:active {
   transform: none;
   box-shadow: none;
   background: none;
+  color: #999999;
 }
 
 /* Dark Mode */
@@ -358,7 +360,7 @@ footer a:active {
     --color-secondary: #333333;
     --color-card-bg: #1e1e1e;
     --color-border: #ffffff;
-    --shadow-color: rgb(255, 255, 255, 0.5);
+    --shadow-color: rgb(255, 255, 255, 0.4);
   }
   
   /* Override button styles for dark mode */
@@ -372,7 +374,7 @@ footer a:active {
   
   a:hover, a:focus {
     transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.3);
+    box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.2);
     background-color: #ffffff;
     color: #000000;
   }
@@ -392,7 +394,7 @@ footer a:active {
   
   .mascot-container:hover {
     transform: translate(-3px, -3px);
-    box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.3);
+    box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.2);
   }
   
   .mascot-container:active {
@@ -406,7 +408,29 @@ footer a:active {
   
   .project:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 11px 11px 1px rgb(255, 255, 255, 0.3);
+    box-shadow: 11px 11px 1px rgb(255, 255, 255, 0.2);
+  }
+
+  /* Footer link styles for dark mode */
+  footer a {
+    background-color: transparent;
+    color: #ffffff;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  footer a:hover, footer a:focus {
+    color: #cccccc;
+    transform: none;
+    box-shadow: none;
+  }
+
+  footer a:active {
+    color: #999999;
+    transform: none;
+    box-shadow: none;
+    background: none;
   }
 }
 
