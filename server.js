@@ -1,6 +1,7 @@
 require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
-const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/genai"); // Import the library
+// Correctly import the necessary classes from the library
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/genai");
 const path = require('path');
 
 const app = express();
@@ -16,6 +17,12 @@ const MODEL_NAME = "gemini-2.0-flash-exp"; // Multimodal model suitable for text
 if (!API_KEY) {
   console.error("FATAL ERROR: GEMINI_API_KEY environment variable is not set.");
   process.exit(1); // Exit if API key is missing
+}
+
+// Add a check to ensure API_KEY is valid before initializing
+if (typeof API_KEY !== 'string' || API_KEY.trim() === '') {
+    console.error("FATAL ERROR: GEMINI_API_KEY is not a valid string.");
+    process.exit(1);
 }
 
 // Initialize the GoogleGenerativeAI client
