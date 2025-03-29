@@ -50,12 +50,9 @@
   /* Colors - Light Mode Default */
   --color-background: #ffffff;
   --color-text: #121212;
-  --color-accent: #ff335c;
-  --accent-light: #ff7a51; /* Added for gradient effect */
   --color-secondary: #eeeeee;
   --color-border: #333333;
   --color-card-bg: #f5f5f5;
-  --shadow-color: rgba(255, 62, 0, 0.3); /* Added for button hover effect */
   
   /* Spacing */
   --spacing-unit: 8px;
@@ -68,52 +65,6 @@
   --font-size-medium: 1.5rem;
   --font-size-regular: 1rem;
   --font-size-small: 0.875rem;
-}
-
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #121212;
-    --color-text: #ffffff;
-    --color-secondary: #333333;
-    --color-card-bg: #1e1e1e;
-    --color-border: #ffffff;
-    --accent-light: #ff7a51;
-    --shadow-color: rgba(255, 255, 255, 0.2);
-  }
-  
-  /* Override button styles for dark mode */
-  a {
-    background-color: #333333;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.8);
-  }
-  
-  a:hover, a:focus {
-    background-color: #444444;
-    box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.8);
-  }
-  
-  a:active {
-    background-color: #555555;
-    box-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
-  }
-  
-  /* Override mascot container for dark mode */
-  .mascot-container {
-    background-color: #333333;
-    border: 2px solid #ffffff;
-    box-shadow: 8px 8px 0 rgba(255, 255, 255, 0.8);
-  }
-  
-  .mascot-container:hover {
-    box-shadow: 11px 11px 0 rgba(255, 255, 255, 0.8);
-  }
-  
-  .mascot-container:active {
-    box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.8);
-  }
 }
 
 /* Base Styles */
@@ -154,7 +105,7 @@ a {
 
 a:hover, a:focus {
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--color-text);
+  box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
   text-decoration: none;
 }
 
@@ -190,14 +141,14 @@ header {
   padding: 8px;
   background-color: white;
   border: 2px solid var(--color-text);
-  box-shadow: 8px 8px 0 var(--color-text);
+  box-shadow: 4px 4px 0 var(--color-text);
   transition: all 0.3s ease;
   overflow: hidden;
 }
 
 .mascot-container:hover {
   transform: translate(-3px, -3px);
-  box-shadow: 11px 11px 0 var(--color-text);
+  box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
 }
 
 .mascot-container:active {
@@ -250,11 +201,12 @@ header .tagline {
   display: flex;
   flex-direction: column;
   height: 100%;
+  box-shadow: 8px 8px 0 var(--color-border);
 }
 
 .project:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translate(-2px, -2px);
+  box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
 }
 
 .project-title {
@@ -396,6 +348,66 @@ footer a:active {
   transform: none;
   box-shadow: none;
   background: none;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #121212;
+    --color-text: #ffffff;
+    --color-secondary: #333333;
+    --color-card-bg: #1e1e1e;
+    --color-border: #ffffff;
+    --shadow-color: rgb(255, 255, 255, 0.5);
+  }
+  
+  /* Override button styles for dark mode */
+  a {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #555555;
+    box-shadow: 4px 4px 0 var(--shadow-color);
+    transition: all 0.2s ease;
+  }
+  
+  a:hover, a:focus {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.3);
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
+  a:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--shadow-color);
+    background-color: #eaeaea;
+  }
+  
+  /* Override mascot container for dark mode */
+  .mascot-container {
+    background-color: #ffffff;
+    border: 2px solid #555555;
+    box-shadow: 4px 4px 0 var(--shadow-color);
+  }
+  
+  .mascot-container:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.3);
+  }
+  
+  .mascot-container:active {
+    transform: translate(2px, 2px);
+    box-shadow: 4px 4px 0 var(--shadow-color);
+  }
+  
+  .project {
+    box-shadow: 8px 8px 0 var(--shadow-color);
+  }
+  
+  .project:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 11px 11px 1px rgb(255, 255, 255, 0.3);
+  }
 }
 
 /* Responsive Adjustments */
