@@ -33,3 +33,6 @@ yarn-error.log*
 .parcel-cache/
 .publish/
 .aider*
+
+# Environment variables file
+.env
