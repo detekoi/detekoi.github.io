@@ -149,6 +149,7 @@ header {
 .mascot-container:hover {
   transform: translate(-3px, -3px);
   box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
+  transform: scale(1.02);
 }
 
 .mascot-container:active {
@@ -162,6 +163,8 @@ header {
   height: auto;
   display: block;
   border-radius: 0;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 header h1 {

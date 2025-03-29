@@ -1,4 +1,4 @@
-// Lightbox functionality for screenshots
+// Lightbox functionality for screenshots and mascot
 document.addEventListener('DOMContentLoaded', () => {
   // Create the lightbox elements
   const lightboxOverlay = document.createElement('div');
@@ -20,8 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
   lightboxOverlay.appendChild(lightboxContainer);
   document.body.appendChild(lightboxOverlay);
   
-  // Find all screenshots
+  // Find all screenshots and mascot image
   const screenshots = document.querySelectorAll('.screenshot');
+  const mascot = document.querySelector('.mascot');
   
   // Add click event to screenshots
   screenshots.forEach(screenshot => {
@@ -36,6 +37,20 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.overflow = 'hidden'; // Prevent scrolling
     });
   });
+  
+  // Add click event to mascot image
+  if (mascot) {
+    mascot.style.cursor = 'pointer';
+    mascot.addEventListener('click', () => {
+      // Set the image source
+      lightboxImage.src = mascot.src;
+      lightboxImage.alt = mascot.alt;
+      
+      // Show the lightbox
+      lightboxOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Prevent scrolling
+    });
+  }
   
   // Close lightbox when clicking the close button
   lightboxClose.addEventListener('click', closeLightbox);
