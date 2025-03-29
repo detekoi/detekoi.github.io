@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const config = {
         pixelSize: 1,       // Minimum pixel size for finest static
         density: 0.4,       // Increased density for more visible static
-        baseAlpha: 0.5,    // Increased alpha for more visible effect
+        baseAlpha: 0.4,    // Increased alpha for more visible effect
         alphaVariance: 0.25, // Slightly increased variance
 
         // Color ranges (0-255) - Enhanced contrast
@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         lightIntensityMax: 200, // Wider range for better visibility
 
         // Optional Frame Rate Limiting (uncomment interval logic below if needed)
-        // frameInterval: 50 // Milliseconds between frames (~20fps). Lower = faster.
+         frameInterval: 20 // Milliseconds between frames (~20fps). Lower = faster.
     };
     // -----------------------------
 
-    // let lastFrameTime = 0; // Needed only if using frameInterval
+     let lastFrameTime = 0; // Needed only if using frameInterval
 
     function resizeCanvas() {
         canvas.width = window.innerWidth;
@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawStatic(timestamp) { // timestamp is only needed if using frameInterval
 
         // --- Optional Frame Rate Limiting ---
-        /*
+        
         if (timestamp - lastFrameTime < config.frameInterval) {
             animationFrameId = requestAnimationFrame(drawStatic);
             return;
         }
         lastFrameTime = timestamp;
-        */
+        
         // --------------------------------------
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
