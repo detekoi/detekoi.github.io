@@ -245,6 +245,11 @@ header .tagline {
   padding: 4px 8px;
   font-size: var(--font-size-small);
   font-weight: 700;
+  transition: background-color 0.2s ease;
+}
+
+.project:active .project-tech span {
+  background-color: #d1d1d1;
 }
 
 .project-links {
@@ -454,6 +459,10 @@ footer a:active {
   header .role,
   header .tagline {
     background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .project:active .project-tech span {
+    background-color: #444444;
   }
 }
 
