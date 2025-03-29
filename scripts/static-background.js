@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('staticCanvas');
     // Important: Check if the canvas element actually exists before proceeding
     if (!canvas) {
-        console.error("Static background canvas element not found.");
         return;
     }
     const ctx = canvas.getContext('2d');
@@ -81,7 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update the mode based on the media query
     function updateMode(event) {
         isDarkMode = event.matches;
-        console.log("Color scheme changed. Dark Mode:", isDarkMode);
         // No need to redraw immediately, the animation loop will pick it up.
         // If your theme.js adds/removes a class like 'dark-mode' to the body,
         // you could potentially sync using that instead of or in addition to the media query.
@@ -97,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start the animation
     // Use performance.now() if using frameInterval: drawStatic(performance.now());
     // Otherwise, just start it:
-    console.log("Static background initialized: canvas dimensions", canvas.width, "x", canvas.height);
     animationFrameId = requestAnimationFrame(drawStatic);
 
     // Listen for system theme changes
