@@ -173,14 +173,12 @@ header h1 {
 header .role {
   font-size: var(--font-size-medium);
   margin-top: var(--spacing-unit);
-  opacity: 0.9;
 }
 
 header .tagline {
   font-size: var(--font-size-regular);
   margin-top: var(--spacing-medium);
   max-width: 65%;
-  opacity: 0.9;
   line-height: 1.8;
 }
 
@@ -207,6 +205,12 @@ header .tagline {
 .project:hover {
   transform: translate(-2px, -2px);
   box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
+}
+
+.project:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-border);
+  background-color: #eaeaea;
 }
 
 .project-title {
@@ -431,6 +435,12 @@ footer a:active {
     transform: none;
     box-shadow: none;
     background: none;
+  }
+
+  .project:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--shadow-color);
+    background-color: #333333;
   }
 }
 

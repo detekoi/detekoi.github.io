@@ -14,18 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Increased values for more visible static effect
     const config = {
         pixelSize: 1,       // Minimum pixel size for finest static
-        density: 0.4,       // Increased density for more visible static
-        baseAlpha: 0.4,    // Increased alpha for more visible effect
+        density: 0.66,       // Increased density for more visible static
+        baseAlpha: 0.8,    // Increased alpha for more visible effect
         alphaVariance: 0.25, // Slightly increased variance
 
         // Color ranges (0-255) - Enhanced contrast
         darkIntensityMin: 40,  // Brighter dots on dark bg
         darkIntensityMax: 100, // Wider range for better visibility
-        lightIntensityMin: 120, // Darker dots on light bg (increased contrast)
+        lightIntensityMin: 125, // Darker dots on light bg (increased contrast)
         lightIntensityMax: 200, // Wider range for better visibility
 
         // Optional Frame Rate Limiting (uncomment interval logic below if needed)
-         frameInterval: 20 // Milliseconds between frames (~20fps). Lower = faster.
+         frameInterval: 45 // Milliseconds between frames (~20fps). Lower = faster.
     };
     // -----------------------------
 
