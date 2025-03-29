@@ -11,7 +11,7 @@ app.use(express.json({ limit: '10mb' })); // Increase limit for base64 image dat
 
 // --- Gemini API Configuration ---
 const API_KEY = process.env.GEMINI_API_KEY;
-const MODEL_NAME = "gemini-1.5-flash-latest"; // Multimodal model suitable for text + image input
+const MODEL_NAME = "gemini-2.0-flash-exp"; // Multimodal model suitable for text + image input
 
 if (!API_KEY) {
   console.error("FATAL ERROR: GEMINI_API_KEY environment variable is not set.");
