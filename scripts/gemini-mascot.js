@@ -9,15 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // --- Gemini API Configuration ---
-  // WARNING: Never hardcode your API key in client-side code for production.
-  // Use a backend proxy or secure method to handle the key.
-  const API_KEY = 'YOUR_GEMINI_API_KEY'; // Replace with your actual key for testing ONLY
-  const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-vision:generateContent'; // Adjust if using a different model/version
-
+  // Prompt for the Gemini API
   const prompt = "zoom out full body head to toe to reveal the bear is wearing fashion garments and accessories, make it a cohesive theme. also, change his blue neckerchief into a different color.";
 
-  // Function to fetch image and convert to base64
+  // Backend API endpoint URL
+  const BACKEND_API_URL = '/api/gemini-mascot'; // Calls our own server
+
+  // Function to fetch image, get its MIME type, and convert to base64
   async function getImageBase64(imageUrl) {
     try {
       const response = await fetch(imageUrl);
@@ -25,49 +23,34 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const blob = await response.blob();
+      const mimeType = blob.type; // Get the MIME type from the blob
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result.split(',')[1]); // Get base64 part
+        reader.onloadend = () => {
+          const base64Data = reader.result.split(',')[1]; // Get base64 part
+          resolve({ base64Data, mimeType }); // Resolve with both data and type
+        };
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
     } catch (error) {
-      console.error('Error fetching or converting image:', error);
+      console.error('Error fetching, getting MIME type, or converting image:', error);
       throw error; // Re-throw to be caught by the caller
     }
   }
 
-  // Function to call Gemini API
-  async function callGeminiAPI(base64ImageData) {
-    if (API_KEY === 'YOUR_GEMINI_API_KEY') {
-       alert("Please replace 'YOUR_GEMINI_API_KEY' in scripts/gemini-mascot.js with your actual Gemini API key.");
-       throw new Error("API Key not set.");
-    }
 
+  // Function to call our backend API
+  async function callBackendAPI(prompt, base64ImageData, mimeType) {
     const requestBody = {
-      contents: [{
-        parts: [
-          { text: prompt },
-          {
-            inline_data: {
-              mime_type: 'image/png', // Assuming the transparent image is PNG
-              data: base64ImageData
-            }
-          }
-        ]
-      }],
-      // Add generationConfig if needed (e.g., temperature, max output tokens)
-      // generationConfig: {
-      //   "temperature": 0.4,
-      //   "topK": 32,
-      //   "topP": 1,
-      //   "maxOutputTokens": 4096,
-      //   "stopSequences": []
-      // },
+      prompt: prompt,
+      base64ImageData: base64ImageData,
+      mimeType: mimeType
     };
 
     try {
-      const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+      console.log('Sending request to backend endpoint:', BACKEND_API_URL);
+      const response = await fetch(BACKEND_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,39 +59,28 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        console.error('Gemini API Error Response:', errorData);
-        throw new Error(`Gemini API error! status: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
+        // Try to parse error response from backend
+        let errorDetails = `HTTP error! status: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          console.error('Backend API Error Response:', errorData);
+          errorDetails += ` - ${errorData.error || 'Unknown backend error'}${errorData.details ? ': ' + errorData.details : ''}`;
+        } catch (e) {
+          // If response is not JSON, use status text
+          errorDetails += ` - ${response.statusText}`;
+        }
+        throw new Error(errorDetails);
       }
 
       const data = await response.json();
+      console.log('Received response from backend:', data);
 
-      // Extract the image data from the response (structure might vary based on model/task)
-      // This assumes the response format includes the generated image data directly.
-      // Adjust based on the actual Gemini API response structure for image generation/editing.
-      // It's more likely Gemini Vision API describes images or answers questions about them,
-      // rather than editing and returning a new image directly in this flow.
-      // Let's assume for now it *could* return base64 data in a specific part.
-      // You WILL likely need to adjust this response parsing logic.
-      if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
-         const imagePart = data.candidates[0].content.parts.find(part => part.inline_data && part.inline_data.mime_type.startsWith('image/'));
-         if (imagePart) {
-            return `data:${imagePart.inline_data.mime_type};base64,${imagePart.inline_data.data}`;
-         } else {
-            // If no image part, maybe it returned text? Log it.
-            console.warn("Gemini API did not return an image part. Response:", data.candidates[0].content.parts);
-            const textPart = data.candidates[0].content.parts.find(part => part.text);
-             alert(`Gemini response (no image found): ${textPart ? textPart.text : 'Check console for details.'}`);
-            return null; // Indicate no image was returned
-         }
-      } else {
-         console.error('Unexpected Gemini API response structure:', data);
-         throw new Error('Could not find generated image data in the API response.');
-      }
+      // The backend now returns the image data URI directly, or null
+      return data.newImageDataUri;
 
     } catch (error) {
-      console.error('Error calling Gemini API:', error);
-      alert(`Failed to get response from Gemini: ${error.message}`);
+      console.error('Error calling backend API:', error);
+      alert(`Failed to get response from backend: ${error.message}`);
       throw error; // Re-throw
     }
   }
@@ -120,13 +92,14 @@ document.addEventListener('DOMContentLoaded', () => {
     geminiButton.textContent = '🪄'; // Change icon or text
 
     try {
-      console.log('Fetching base image...');
-      const base64Image = await getImageBase64(targetMascotSrc);
-      console.log('Calling Gemini API...');
-      const newImageDataUri = await callGeminiAPI(base64Image);
+      console.log('Fetching base image and converting to base64...');
+      const { base64Data, mimeType } = await getImageBase64(targetMascotSrc);
+
+      console.log(`Image fetched (MIME type: ${mimeType}), calling backend API...`);
+      const newImageDataUri = await callBackendAPI(prompt, base64Data, mimeType);
 
       if (newImageDataUri) {
-        console.log('Updating mascot image...');
+        console.log('Received new image data URI from backend. Updating mascot image...');
         mascotImage.src = newImageDataUri;
         mascotImage.alt = "AI-generated version of the mascot based on user prompt."; // Update alt text
       } else {

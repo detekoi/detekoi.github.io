@@ -36,3 +36,6 @@ yarn-error.log*
 
 # Environment variables file
 .env
+
+# Node.js server dependencies
+node_modules/
