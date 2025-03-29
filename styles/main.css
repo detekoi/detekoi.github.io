@@ -390,6 +390,190 @@ header .tagline {
   line-height: 1;
 }
 
+/* Image Generator Section */
+.image-generator-section {
+  margin: var(--spacing-large) 0;
+  padding: var(--spacing-large) 0;
+  border-top: 4px solid var(--color-border);
+}
+
+.image-generator-section h2 {
+  font-size: var(--font-size-large);
+  margin-bottom: var(--spacing-unit);
+}
+
+.image-generator-section p {
+  margin-bottom: var(--spacing-medium);
+}
+
+.prompt-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  margin-bottom: var(--spacing-medium);
+  max-width: 800px;
+}
+
+#image-prompt {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-regular);
+  border: 2px solid var(--color-border);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  resize: vertical;
+}
+
+#generate-image-button {
+  align-self: flex-start;
+  padding: 12px 24px;
+  font-size: var(--font-size-regular);
+  font-weight: 700;
+  background-color: white;
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  box-shadow: 4px 4px 0 var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#generate-image-button:hover,
+#generate-image-button:focus {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
+}
+
+#generate-image-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-text);
+  background-color: #eaeaea;
+}
+
+#generate-image-button:disabled {
+  cursor: wait;
+  background-color: #cccccc;
+  box-shadow: 1px 1px 0 var(--color-text);
+  transform: translate(1px, 1px);
+}
+
+#loading-indicator {
+  margin: var(--spacing-medium) 0;
+  font-style: italic;
+}
+
+#generated-image-container {
+  margin: var(--spacing-medium) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  align-items: flex-start;
+}
+
+.generated-image {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid var(--color-border);
+  box-shadow: 4px 4px 0 var(--color-text);
+}
+
+.download-button {
+  padding: 8px 16px;
+  font-size: var(--font-size-small);
+  font-weight: 700;
+  background-color: white;
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  box-shadow: 4px 4px 0 var(--color-text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.download-button:hover,
+.download-button:focus {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
+}
+
+.download-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-text);
+  background-color: #eaeaea;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-weight: 700;
+}
+
+#text-response-container {
+  margin-top: var(--spacing-medium);
+  padding: var(--spacing-medium);
+  background-color: var(--color-card-bg);
+  border: 2px solid var(--color-border);
+  max-width: 800px;
+}
+
+/* Dark mode adjustments for the image generator */
+@media (prefers-color-scheme: dark) {
+  #image-prompt {
+    background-color: #333333;
+    border-color: #555555;
+  }
+  
+  #generate-image-button,
+  .download-button {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #555555;
+    box-shadow: 4px 4px 0 var(--shadow-color);
+  }
+  
+  #generate-image-button:hover,
+  #generate-image-button:focus,
+  .download-button:hover,
+  .download-button:focus {
+    box-shadow: 6px 6px 1px rgba(255, 255, 255, 0.1);
+  }
+  
+  #generate-image-button:active,
+  .download-button:active {
+    box-shadow: 1px 1px 0 var(--shadow-color);
+    background-color: #eaeaea;
+  }
+  
+  #generate-image-button:disabled {
+    background-color: #666666;
+    box-shadow: 1px 1px 0 var(--shadow-color);
+  }
+  
+  .generated-image {
+    border-color: #555555;
+    box-shadow: 4px 4px 0 var(--shadow-color);
+  }
+  
+  .error-message {
+    color: #ff6b6b;
+  }
+  
+  #text-response-container {
+    background-color: #333333;
+    border-color: #555555;
+  }
+}
+
+/* Responsive adjustments for the image generator */
+@media (max-width: 768px) {
+  .prompt-container {
+    max-width: 100%;
+  }
+  
+  #text-response-container {
+    max-width: 100%;
+  }
+}
+
 /* Footer */
 footer {
   margin-top: var(--spacing-large);

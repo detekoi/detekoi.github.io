@@ -134,6 +134,25 @@
       </article>
     </section>
   </main>
+
+  <!-- Image Generator Section -->
+  <section class="image-generator-section">
+    <div id="image-generator-container" class="container">
+      <h2>Gemini AI Image Generator</h2>
+      <p>Create custom images using Google's Gemini 2.0 model</p>
+      
+      <div class="prompt-container">
+        <textarea id="image-prompt" placeholder="Describe the image you want to generate..."></textarea>
+        <button id="generate-image-button">Generate Image</button>
+      </div>
+      
+      <div id="loading-indicator" style="display: none;">Generating your image... This may take a moment...</div>
+      
+      <div id="generated-image-container"></div>
+      
+      <div id="text-response-container"></div>
+    </div>
+  </section>
   
   <footer>
     <p>Polar Bear Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank">RUNNERBEAN36</a></p>
