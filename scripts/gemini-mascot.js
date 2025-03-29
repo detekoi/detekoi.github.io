@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Prompt for the Gemini API - customized to edit the existing bear image
-  const prompt = "Zoom out full body head-to-toe to reveal that the bear is wearing fashion garments and accessories, make it a cohesive theme. Also, change his blue neckerchief into any vibrant color.";
+  const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a fashion stylist in garments and accessories, drawn from menswear and womenswear. Express one or two subcultures, for example, in no particular order: Aran knitwear, streetwear, heritage, western, couture, goth, leather, swimwear, jock, emo, athleisure, quiet luxury, bohemian, resort, outdoors, etc. Also, change or remove the neckerchief and dark gray waistline as needed.";
 
   // Backend API endpoint URL - now using the working image generation endpoint
   const BACKEND_API_URL = '/api/generate-image'; // Use the working endpoint
