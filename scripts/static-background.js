@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alphaVariance: 0.25, // Slightly increased variance
 
         // Color ranges (0-255) - Enhanced contrast
-        darkIntensityMin: 40,  // Brighter dots on dark bg
+        darkIntensityMin: 30,  // Brighter dots on dark bg
         darkIntensityMax: 100, // Wider range for better visibility
         lightIntensityMin: 125, // Darker dots on light bg (increased contrast)
         lightIntensityMax: 200, // Wider range for better visibility
