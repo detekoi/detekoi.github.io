@@ -13,7 +13,7 @@ app.use(express.json({ limit: '10mb' })); // Increase limit for base64 image dat
 const API_KEY = process.env.GEMINI_API_KEY;
 // Using gemini-1.5-flash as requested initially, ensure this model supports image input/output as needed.
 // Vision models like gemini-pro-vision are typically for analysis. Image generation models might be different.
-const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent'; // Adjusted model
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent'; // Adjusted model
 
 if (!API_KEY) {
   console.error("FATAL ERROR: GEMINI_API_KEY environment variable is not set.");
@@ -29,7 +29,6 @@ app.post('/api/gemini-mascot', async (req, res) => {
   }
 
   // Construct the request body for the Gemini API
-  // Ensure the model you use (gemini-1.5-flash-latest) accepts this format.
   const requestBody = {
     contents: [{
       parts: [
