@@ -80,7 +80,7 @@
   font-size: var(--font-size-regular);
   overflow: hidden;
   transform-origin: center;
-  transition: 0.4s cubic-bezier(0.28, 0.55, 0.385, 1.65);
+  transition: 0.4s ease;
 }
 
 .image {
@@ -100,7 +100,7 @@
 .container .card:nth-child(1) {
   z-index: 10;
   top: 0px;
-  left: 40px; /* Adjusted position for smaller card */
+  left: 50px; /* Adjusted position for smaller card - now at 50px */
   opacity: 1;
   /* Updated shadow for the top card to match aesthetic */
   box-shadow: 8px 8px 1px rgba(0, 0, 0, 0.8);
@@ -138,7 +138,7 @@
   transform: translate(-2px, -2px) scale(1.02);
   /* Enhanced shadow on hover */
   box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
-  left: 38px; /* Adjusted hover position */
+  left: 48px; /* Adjusted hover position for new 50px left */
 }
 
 .container .card:first-child:active {
@@ -146,7 +146,7 @@
   /* Sharp shadow on active, matching .project:active */
   box-shadow: 2px 2px 0 var(--color-border);
   background-color: var(--color-secondary);
-  left: 42px; /* Adjusted active position */
+  left: 52px; /* Adjusted active position for new 50px left */
 }
 
 /* Dark Mode Adjustments */

@@ -46,6 +46,49 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addAsFront) {
       // Add as the first child
       if (mascotContainer.firstChild) {
+        // First, shift all existing cards back one position
+        const existingCards = $('.card').toArray();
+        existingCards.forEach((card, index) => {
+          // Update position of each card to match the nth-child positions in CSS
+          // This ensures cards maintain the cascading effect
+          const $card = $(card);
+          
+          // Apply inline styles that match the CSS nth-child rules but shifted by one
+          if (index === 0) {
+            // First existing card becomes second
+            $card.css({
+              'z-index': '9',
+              'top': '-10px', 
+              'left': '40px',
+              'opacity': '0.9'
+            });
+          } else if (index === 1) {
+            // Second existing card becomes third
+            $card.css({
+              'z-index': '8',
+              'top': '-20px',
+              'left': '30px', 
+              'opacity': '0.8'
+            });
+          } else if (index === 2) {
+            // Third existing card becomes fourth
+            $card.css({
+              'z-index': '7',
+              'top': '-30px',
+              'left': '20px',
+              'opacity': '0.7'
+            });
+          } else if (index === 3) {
+            // Fourth existing card becomes fifth
+            $card.css({
+              'z-index': '6',
+              'top': '-40px',
+              'left': '10px',
+              'opacity': '0.5'
+            });
+          }
+        });
+        
         mascotContainer.insertBefore(newCard, mascotContainer.firstChild);
       } else {
         mascotContainer.appendChild(newCard);
@@ -86,6 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
           $('.card:last-child').remove();
         }
       }, 100);
+    }
+    
+    // Call updateCarouselControls to show controls if more than one card
+    if (typeof window.updateCarouselControls === 'function') {
+      window.updateCarouselControls();
     }
     
     // Save to localStorage - use timeout to not block UI
@@ -169,6 +217,13 @@ document.addEventListener('DOMContentLoaded', () => {
       
       // Start the sequential process
       addImageWithDelay(0);
+      
+      // Update carousel controls after loading all images
+      setTimeout(() => {
+        if (typeof window.updateCarouselControls === 'function') {
+          window.updateCarouselControls();
+        }
+      }, 100);
     }
   }
 

@@ -15,7 +15,7 @@
             top: '-=50px', // Move up
             opacity: 0, // Fade out while sliding
             boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)' // Remove shadow during transition
-        }, 400, 'swing', function() {
+        }, 400, 'linear', function() {
             // Animation complete for slide-out
 
             // 2. Move to end, set initial position for slide-in from above
@@ -36,7 +36,7 @@
                     boxShadow: isDarkMode() ?
                               '8px 8px 0 rgba(255, 255, 255, 0.33)' : // Dark mode sharp shadow
                               '8px 8px 0 #333333'                      // Light mode sharp shadow
-                }, 400, 'swing', function() {
+                }, 400, 'linear', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(5) CSS rule applies the sharp shadow correctly
                     $(this).removeAttr('style');
@@ -59,7 +59,7 @@
             top: '-=50px', // Move up
             opacity: 0,    // Fade out
             boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)' // Remove shadow during transition
-        }, 400, 'swing', function() {
+        }, 400, 'linear', function() {
             // Animation complete for slide-out
 
             // 2. Move to beginning, set initial position for slide-in from top
@@ -83,7 +83,7 @@
                     boxShadow: isDarkMode() ?
                               '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
                               '8px 8px 1px rgba(0, 0, 0, 0.8)'        // Light mode updated shadow
-                }, 400, 'swing', function() {
+                }, 400, 'linear', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(1) CSS rule applies the updated shadow correctly
                     $(this).removeAttr('style');
@@ -91,9 +91,25 @@
         });
     }
 
+    // Function to hide/show carousel controls based on number of cards
+    function updateCarouselControls() {
+        var cardCount = $('.card').length;
+        if (cardCount <= 1) {
+            $('.carousel-controls').hide();
+        } else {
+            $('.carousel-controls').show();
+        }
+    }
+
     // Expose functions globally
     window.rotate = rotate;
     window.rotatePrev = rotatePrev;
+    window.updateCarouselControls = updateCarouselControls;
+
+    // Call initially to set up controls visibility
+    $(document).ready(function() {
+        updateCarouselControls();
+    });
 
     // Listen for dark mode changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
