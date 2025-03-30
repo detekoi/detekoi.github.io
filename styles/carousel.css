@@ -197,6 +197,16 @@
     color: var(--color-text);
     box-shadow: 8px 8px 0 var(--shadow-color);
   }
+  
+  /* Dark mode hover/active for description */
+  .mascot-ai-description:hover {
+    box-shadow: 10px 10px 1px rgba(255, 255, 255, 0.1); /* Dark mode enhanced shadow */
+  }
+  
+  .mascot-ai-description:active {
+    box-shadow: 2px 2px 0 var(--shadow-color); /* Dark mode reduced shadow */
+    background-color: #333333; /* Dark mode active background */
+  }
 }
 
 /* Styling for the mascot loading indicator */
@@ -246,7 +256,22 @@
   box-shadow: 8px 8px 0 var(--color-border);
   position: relative; /* Needed for z-index */
   z-index: 11; /* Ensure description is above cards */
+  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease, background-color 0.2s ease; /* Added transitions for hover/active */
 }
+
+/* Hover effect similar to buttons/cards */
+.mascot-ai-description:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 10px 10px 1px rgba(0, 0, 0, 0.6); /* Enhanced shadow */
+}
+
+/* Active effect similar to buttons/cards */
+.mascot-ai-description:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-border); /* Reduced shadow */
+  background-color: var(--color-secondary); /* Background change on click */
+}
+
 
 .mascot-ai-description.visible {
   opacity: 1;
