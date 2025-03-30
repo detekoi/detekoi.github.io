@@ -8,6 +8,13 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000; // Use port from env var or default to 3000
 
+// Ensure CORS is allowed if your frontend will be hosted separately
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 // Middleware to parse JSON bodies
 app.use(express.json({ limit: '10mb' })); // Increase limit for base64 image data
 
