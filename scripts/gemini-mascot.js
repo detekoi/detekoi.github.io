@@ -175,23 +175,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set initial container height adjustment function
   function adjustContainerHeight() {
     const firstMascotImg = document.querySelector('.card:first-child .mascot');
-    if (!firstMascotImg) return;
+    const firstCard = document.querySelector('.card:first-child'); // Get the card element
     
-    // Adjust container height based on image dimensions
-    // Use a fixed width for the calculation to ensure consistency
-    const fixedWidth = 370;
+    // Ensure we have the card, the image, and the image's natural dimensions
+    if (!firstCard || !firstMascotImg || !firstMascotImg.naturalWidth || !firstMascotImg.naturalHeight) {
+      // Exit if we can't calculate; CSS should provide a fallback height
+      return; 
+    }
+    
+    // Get the current actual width of the card element
+    const currentCardWidth = firstCard.offsetWidth; 
+
+    // Calculate height based on the image's natural aspect ratio and the card's current width
     const aspectRatio = firstMascotImg.naturalHeight / firstMascotImg.naturalWidth;
-    const newHeight = Math.round(fixedWidth * aspectRatio);
+    const newHeight = Math.round(currentCardWidth * aspectRatio);
+
+    // Apply adjusted minimum and maximum height constraints
+    const minHeight = 200; // Adjusted minimum height
+    const maxHeight = 450; // Adjusted maximum height
     
-    // Apply minimum height to ensure visibility and max height for images
-    const minHeight = 250;
-    const maxHeight = 500;
-    // Use a calculated height that works well with the new width
+    // Calculate the final height, respecting the constraints
     const calculatedHeight = Math.min(Math.max(newHeight, minHeight), maxHeight);
-    mascotContainer.style.height = `${calculatedHeight}px`;
+    
+    // Set the inline style for the container
+    mascotContainer.style.height = `${calculatedHeight}px`; 
   }
 
-  // Store the original container height after initialization
+  // Store the original container height after initialization (optional, might not be needed anymore)
   let originalContainerHeight;
   
   // Set initial container height
