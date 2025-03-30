@@ -27,11 +27,13 @@
                 .animate({
                     top: '-40px',    // Target top for 5th card
                     opacity: 0.5,    // Target opacity for 5th card
-                    boxShadow: isDarkMode() ? 
-                              '8px 8px 0 rgba(255, 255, 255, 0.33)' : // Dark mode shadow
-                              '8px 8px 0 #333333'                      // Light mode shadow
+                    // Apply the SHARP shadow when animating to the 5th position
+                    boxShadow: isDarkMode() ?
+                              '8px 8px 0 rgba(255, 255, 255, 0.33)' : // Dark mode sharp shadow
+                              '8px 8px 0 #333333'                      // Light mode sharp shadow
                 }, 400, 'swing', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
+                    // This ensures the :nth-child(5) CSS rule applies the sharp shadow correctly
                     $(this).removeAttr('style');
                 });
         });
@@ -62,11 +64,13 @@
                 .animate({
                     top: '0px',      // Target top for 1st card
                     opacity: 1,      // Target opacity for 1st card
-                    boxShadow: isDarkMode() ? 
-                              '8px 8px 0 rgba(255, 255, 255, 0.33)' : // Dark mode shadow
-                              '8px 8px 0 #333333'                      // Light mode shadow
+                    // Apply the SOFTER shadow when animating to the 1st position
+                    boxShadow: isDarkMode() ?
+                              '8px 8px 5px rgba(255, 255, 255, 0.2)' : // Dark mode softer shadow
+                              '8px 8px 5px rgba(51, 51, 51, 0.5)'      // Light mode softer shadow
                 }, 400, 'swing', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
+                    // This ensures the :nth-child(1) CSS rule applies the softer shadow correctly
                     $(this).removeAttr('style');
                 });
         });
@@ -79,8 +83,15 @@
 
     // Listen for dark mode changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        // Ensure the current card has the right shadow style if needed
-        $('.card:first-child').removeAttr('style');
+        // Re-apply the correct shadow based on the new mode if the card has inline styles
+        // (e.g., if mode changes mid-animation). Otherwise, CSS handles it.
+        $('.card').each(function() {
+            // If the card has inline styles (likely from animation), clear them
+            // so the CSS rules for the new color scheme take effect.
+            if ($(this).attr('style')) {
+                $(this).removeAttr('style');
+            }
+        });
     });
 
     // Button event listeners
