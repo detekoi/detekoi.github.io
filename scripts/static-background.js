@@ -14,14 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Basic static effect configuration
     const config = {
         pixelSize: 1,       // Minimum pixel size for finest static
-        density: 0.9,       // Base density for normal mode (increased to match default background)
+        density: 0.8,       // Base density for normal mode (increased to match default background)
         baseAlpha: 0.85,    // Base alpha for normal mode (increased slightly)
         alphaVariance: 0.25, // Alpha variance for normal mode
 
         // Color ranges (0-255) - Enhanced contrast
         darkIntensityMin: 30,  // Brighter dots on dark bg
         darkIntensityMax: 100, // Wider range for better visibility
-        lightIntensityMin: 125, // Darker dots on light bg (increased contrast)
+        lightIntensityMin: 135, // Darker dots on light bg (increased contrast)
         lightIntensityMax: 200, // Wider range for better visibility
         
         // Frame timing
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Transition parameters
         transitionProgress: 0,   // Progress from 0-1
-        transitionSpeed: 0.015,  // How much to increment per frame (lower = smoother)
+        transitionSpeed: 0.012,  // How much to increment per frame (lower = smoother)
         
         // Effect parameters that will be dynamically calculated
         currentDensity: 0.66,   // Will be updated during transitions
@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
         autoChangeTimeout = setTimeout(() => {
             // Start fading back to normal
             disableMagicMode();
-        }, 2000); // Keep intense for 2 seconds before starting to fade
+        }, 5000); // Keep intense for 5 seconds before starting to fade
     }
     
     // Function to start fading back to normal
