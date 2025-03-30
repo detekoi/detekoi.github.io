@@ -1,0 +1,202 @@
+/* Card Carousel - Adapted to match portfolio aesthetic */
+
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--spacing-large) 0;
+  position: relative;
+}
+
+.carousel-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: var(--spacing-large);
+}
+
+.prev-btn, .next-btn {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 10px 0;
+  box-shadow: 4px 4px 0 var(--color-border);
+  transition: all 0.2s ease;
+}
+
+.prev-btn:hover, .next-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
+}
+
+.prev-btn:active, .next-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--color-border);
+  background-color: var(--color-secondary);
+}
+
+.container {
+  position: relative;
+  width: 350px;
+  height: 320px; /* Slightly increased height to match portfolio cards */
+  margin-bottom: var(--spacing-medium);
+}
+
+.card {
+  position: absolute;
+  top: 0;
+  left: 25px;
+  background-color: var(--color-card-bg);
+  width: 300px;
+  height: 320px;
+  border-radius: 0; /* Remove border radius to match portfolio style */
+  border: 3px solid var(--color-border);
+  box-shadow: 8px 8px 0 var(--color-border);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-regular);
+  overflow: hidden;
+  transform-origin: center;
+  transition: 0.4s cubic-bezier(0.28, 0.55, 0.385, 1.65);
+}
+
+.image {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Better image handling */
+}
+
+.detail {
+  padding: var(--spacing-medium);
+  position: relative;
+}
+
+.detail h3 {
+  font-size: var(--font-size-medium);
+  font-weight: 700;
+  margin: 0 0 var(--spacing-unit) 0;
+  line-height: 1.2;
+}
+
+.detail p {
+  font-size: var(--font-size-regular);
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.card:nth-child(1) {
+  z-index: 10;
+  top: 0px;
+  opacity: 1;
+}
+
+.card:nth-child(2) {
+  z-index: 9;
+  top: -10px;
+  left: 15px;
+  opacity: 0.9;
+}
+
+.card:nth-child(3) {
+  z-index: 8;
+  top: -20px;
+  left: 5px;
+  opacity: 0.8;
+}
+
+.card:nth-child(4) {
+  z-index: 7;
+  top: -30px;
+  left: -5px;
+  opacity: 0.7;
+}
+
+.card:nth-child(5) {
+  z-index: 6;
+  top: -40px;
+  left: -15px;
+  opacity: 0.5;
+}
+
+.card:first-child:hover {
+  transform: translate(-2px, -2px) scale(1.02);
+  box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
+}
+
+.card:first-child:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-border);
+  background-color: var(--color-secondary);
+}
+
+/* Dark Mode Adjustments */
+@media (prefers-color-scheme: dark) {
+  .prev-btn, .next-btn {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    box-shadow: 4px 4px 0 var(--shadow-color);
+  }
+  
+  .prev-btn:hover, .next-btn:hover {
+    box-shadow: 6px 6px 1px rgba(255, 255, 255, 0.1);
+  }
+  
+  .prev-btn:active, .next-btn:active {
+    box-shadow: 1px 1px 0 var(--shadow-color);
+    background-color: #333333;
+  }
+  
+  .card {
+    box-shadow: 8px 8px 0 var(--shadow-color);
+  }
+  
+  .card:first-child:hover {
+    box-shadow: 11px 11px 1px rgba(255, 255, 255, 0.1);
+  }
+  
+  .card:first-child:active {
+    box-shadow: 2px 2px 0 var(--shadow-color);
+    background-color: #333333;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .carousel-wrapper {
+    flex-direction: column;
+  }
+  
+  .carousel-controls {
+    flex-direction: row;
+    margin-right: 0;
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  .prev-btn, .next-btn {
+    margin: 0 10px;
+  }
+  
+  .container {
+    width: 300px; /* Slightly narrower on mobile */
+  }
+  
+  .card {
+    width: 280px; /* Adjust card width for mobile */
+    left: 10px;
+  }
+}
