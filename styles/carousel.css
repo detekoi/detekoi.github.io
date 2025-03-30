@@ -193,21 +193,23 @@
   .carousel-wrapper {
     flex-direction: column;
   }
-  
+
   .carousel-controls {
     flex-direction: row;
     margin-right: 0;
-    margin-bottom: var(--spacing-medium);
+    /* Remove bottom margin, add top margin */
+    margin-top: var(--spacing-medium); 
+    order: 2; /* Display controls after the container */
   }
-  
   .prev-btn, .next-btn {
     margin: 0 10px;
   }
-  
   .container {
     width: 300px; /* Slightly narrower on mobile */
+    order: 1; /* Display container before the controls */
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
   }
-  
   .card {
     width: 280px; /* Adjust card width for mobile */
     left: 10px;
