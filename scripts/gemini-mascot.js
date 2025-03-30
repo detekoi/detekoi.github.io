@@ -1,53 +1,227 @@
 document.addEventListener('DOMContentLoaded', () => {
   const styleInspirationLink = document.getElementById('style-inspiration-link');
   const mascotContainer = document.querySelector('.mascot-container');
-  const mascotCard = document.querySelector('.mascot-card');
-  const mascotImage = document.querySelector('.mascot'); // The main image on the front
   const mascotLoading = document.querySelector('.mascot-loading');
-  const mascotAiDescription = document.getElementById('mascot-ai-description'); // The description div below container
+  const mascotAiDescription = document.getElementById('mascot-ai-description');
 
-  if (!styleInspirationLink || !mascotContainer || !mascotCard || !mascotImage || !mascotLoading || !mascotAiDescription) {
+  // Maximum number of AI-generated images to keep
+  const MAX_AI_IMAGES = 5;
+  
+  // Storage key for carousel images
+  const STORAGE_KEY = 'mascot_carousel_images';
+
+  if (!styleInspirationLink || !mascotContainer || !mascotLoading || !mascotAiDescription) {
     console.error('Required mascot elements not found.');
     return;
   }
 
-  // Set initial container height based on image dimensions
-  function setInitialHeight() {
-    if (mascotImage.complete) {
-      adjustContainerHeight();
+  // Initialize the local storage for carousel images if it doesn't exist
+  let carouselImages = [];
+  try {
+    const storedImages = localStorage.getItem(STORAGE_KEY);
+    if (storedImages) {
+      carouselImages = JSON.parse(storedImages);
+      console.log(`Loaded ${carouselImages.length} stored AI images`);
+    }
+  } catch (error) {
+    console.error('Error loading stored AI images:', error);
+    // Continue with empty array if there's an error
+  }
+
+  // Function to add a new image to the carousel
+  function addImageToCarousel(imageDataUri, description, addAsFront = false) {
+    // Create a new card element
+    const newCard = document.createElement('div');
+    newCard.classList.add('card', 'mascot-card');
+    newCard.dataset.card = ($('.card').length + 1).toString();
+    
+    // Structure the card with just the image component
+    newCard.innerHTML = `
+      <div class="image">
+        <img src="${imageDataUri}" alt="AI-generated polar bear mascot: ${description}" class="mascot">
+      </div>
+    `;
+    
+    // Add the new card to the container (either at front or end)
+    if (addAsFront) {
+      // Add as the first child
+      if (mascotContainer.firstChild) {
+        mascotContainer.insertBefore(newCard, mascotContainer.firstChild);
+      } else {
+        mascotContainer.appendChild(newCard);
+      }
+      
+      // Update description immediately to match the first card
+      mascotAiDescription.textContent = description;
     } else {
-      mascotImage.addEventListener('load', adjustContainerHeight);
+      // Add at the end
+      mascotContainer.appendChild(newCard);
+    }
+    
+    // Add click listener for lightbox if available
+    const newImg = newCard.querySelector('.mascot');
+    if (newImg && window.showLightbox) {
+      newImg.style.cursor = 'pointer';
+      newImg.addEventListener('click', () => {
+        window.showLightbox(newImg.src, newImg.alt, description);
+      });
+    }
+    
+    // Store the image data in local storage
+    carouselImages.push({
+      imageDataUri,
+      description,
+      timestamp: Date.now()
+    });
+    
+    // Keep only the MAX_AI_IMAGES most recent images
+    if (carouselImages.length > MAX_AI_IMAGES) {
+      // Remove the oldest image
+      carouselImages.shift();
+      
+      // Use setTimeout to delay DOM manipulation for better performance
+      setTimeout(() => {
+        // Also remove the oldest card in the DOM if there are more than MAX_AI_IMAGES
+        if ($('.card').length > MAX_AI_IMAGES) {
+          $('.card:last-child').remove();
+        }
+      }, 100);
+    }
+    
+    // Save to localStorage - use timeout to not block UI
+    setTimeout(() => {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(carouselImages));
+      } catch (error) {
+        console.error('Error saving AI images to localStorage:', error);
+      }
+    }, 50);
+  }
+
+  // Load the existing carousel images from localStorage
+  function loadStoredCarouselImages() {
+    // If we have stored images, add them to the carousel
+    if (carouselImages.length > 0) {
+      // Sort images by timestamp (newest first)
+      carouselImages.sort((a, b) => b.timestamp - a.timestamp);
+      
+      // Update description with the newest image description
+      if (carouselImages[0] && carouselImages[0].description) {
+        mascotAiDescription.textContent = carouselImages[0].description;
+        mascotAiDescription.style.display = 'block';
+        mascotAiDescription.classList.add('visible');
+      }
+      
+      // Add images with a small delay between each one to improve performance
+      const addImageWithDelay = (index) => {
+        if (index >= carouselImages.length) return;
+        
+        const imageData = carouselImages[index];
+        
+        // Create a new card for each stored image
+        const storedCard = document.createElement('div');
+        storedCard.classList.add('card', 'mascot-card');
+        storedCard.dataset.card = ($('.card').length + 1).toString();
+        
+        // Structure the card with just the image component
+        storedCard.innerHTML = `
+          <div class="image">
+            <img src="${imageData.imageDataUri}" alt="AI-generated polar bear mascot: ${imageData.description}" class="mascot">
+          </div>
+        `;
+        
+        // Add the card to the container (prepend to ensure newest first)
+        // For the first image, overwrite the existing card
+        if (index === 0 && $('.card').length === 1 && carouselImages.length > 0) {
+          // Replace the first card rather than adding a new one
+          const firstCard = $('.card:first-child')[0];
+          if (firstCard) {
+            firstCard.innerHTML = storedCard.innerHTML;
+            
+            // Add click listener for lightbox if available
+            const img = firstCard.querySelector('.mascot');
+            if (img && window.showLightbox) {
+              img.style.cursor = 'pointer';
+              img.addEventListener('click', () => {
+                window.showLightbox(img.src, img.alt, imageData.description);
+              });
+            }
+          }
+        } else {
+          // For subsequent images, add new cards
+          mascotContainer.insertBefore(storedCard, mascotContainer.firstChild);
+          
+          // Add click listener for lightbox if available
+          const img = storedCard.querySelector('.mascot');
+          if (img && window.showLightbox) {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', () => {
+              window.showLightbox(img.src, img.alt, imageData.description);
+            });
+          }
+        }
+        
+        // Schedule the next image to be added
+        setTimeout(() => {
+          addImageWithDelay(index + 1);
+        }, 20);
+      };
+      
+      // Start the sequential process
+      addImageWithDelay(0);
     }
   }
 
+  // Set initial container height adjustment function
   function adjustContainerHeight() {
-    const containerWidth = mascotContainer.offsetWidth;
-    const aspectRatio = mascotImage.naturalHeight / mascotImage.naturalWidth;
-    const newHeight = Math.round(containerWidth * aspectRatio);
+    const firstMascotImg = document.querySelector('.card:first-child .mascot');
+    if (!firstMascotImg) return;
     
-    // Apply minimum height to ensure visibility
+    // Adjust container height based on image dimensions
+    // Use a fixed width for the calculation to ensure consistency
+    const fixedWidth = 370;
+    const aspectRatio = firstMascotImg.naturalHeight / firstMascotImg.naturalWidth;
+    const newHeight = Math.round(fixedWidth * aspectRatio);
+    
+    // Apply minimum height to ensure visibility and max height for images
     const minHeight = 250;
-    const maxHeight = 600;
-    mascotContainer.style.height = `${Math.min(Math.max(newHeight, minHeight), maxHeight)}px`;
+    const maxHeight = 500;
+    // Use a calculated height that works well with the new width
+    const calculatedHeight = Math.min(Math.max(newHeight, minHeight), maxHeight);
+    mascotContainer.style.height = `${calculatedHeight}px`;
   }
 
-  // Initialize container height
+  // Store the original container height after initialization
+  let originalContainerHeight;
+  
+  // Set initial container height
+  function setInitialHeight() {
+    const firstMascotImg = document.querySelector('.card:first-child .mascot');
+    if (!firstMascotImg) return;
+    
+    if (firstMascotImg.complete) {
+      adjustContainerHeight();
+      originalContainerHeight = mascotContainer.offsetHeight;
+    } else {
+      firstMascotImg.addEventListener('load', () => {
+        adjustContainerHeight();
+        originalContainerHeight = mascotContainer.offsetHeight;
+      });
+    }
+  }
+
+  // Initialize height and load stored images
   setInitialHeight();
+  loadStoredCarouselImages();
   
   // Handle browser resize
   window.addEventListener('resize', adjustContainerHeight);
-
-  // Store the original image source and alt text for error recovery
-  const originalMascotSrc = mascotImage.src;
-  const originalMascotAlt = mascotImage.alt;
-  const originalContainerHeight = mascotContainer.offsetHeight; // Store height after initialization
 
   // Prompt for the Gemini API
   const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In a short description, you have the information at hand, so confidently attribute specific designers or brands, even obscure ones (or just 'vintage'). No language like 'possibly,' 'likely,' 'perhaps,' or 'reminiscent of.'";
 
   // Backend API endpoint URL
   const BACKEND_API_URL = 'api/generate-image';
-
 
   // Keep track of image generation state
   let isGeneratingImage = false;
@@ -67,16 +241,8 @@ document.addEventListener('DOMContentLoaded', () => {
     mascotLoading.style.display = 'flex'; // Show loading indicator
 
     // Activate magical background effect if available
-    // This will smoothly transition to the intense state and automatically fade back
     if (window.staticBackground && typeof window.staticBackground.enableMagicMode === 'function') {
-      // Just calling enableMagicMode will trigger the entire sequence:
-      // 1. Smooth fade to intense state
-      // 2. Hold at intense state for a moment
-      // 3. Automatically fade back to normal state
       window.staticBackground.enableMagicMode();
-      
-      // No need for additional timeouts as the background effect now handles
-      // the complete cycle internally
     }
 
     try {
@@ -116,48 +282,45 @@ document.addEventListener('DOMContentLoaded', () => {
         tempImg.onload = () => {
           console.log(`New image loaded: ${tempImg.width}x${tempImg.height}`);
           
-          // Calculate new height based on container's current width and new image aspect ratio
-          const containerWidth = mascotContainer.offsetWidth;
-          const aspectRatio = tempImg.height / tempImg.width;
-          let newHeight = Math.round(containerWidth * aspectRatio);
-
-          // Optional: Clamp height to avoid excessively tall images
-          const maxHeight = 600; // Example max height
-          newHeight = Math.min(newHeight, maxHeight);
-
-          console.log(`Adjusting container height to: ${newHeight}px`);
-
-          // Set the container height BEFORE updating the image source
-          // Use requestAnimationFrame to ensure layout is updated before transition
-          requestAnimationFrame(() => {
-            mascotContainer.style.height = `${newHeight}px`;
-
-            // Update the main mascot image (on the front, while card is flipped)
-            mascotImage.src = newImageSrc;
-            mascotImage.alt = "AI-generated polar bear mascot in a new style: " + newDescription.substring(0, 50) + "..."; // Update alt text
-
-            // Update the description text below the container
-            mascotAiDescription.textContent = newDescription;
-            mascotAiDescription.style.display = 'block'; // Make it display block first
+          // Use a series of timeouts to space out the DOM operations
+          // First, add the new image to the carousel - adding as the first child
+          setTimeout(() => {
+            addImageToCarousel(newImageSrc, newDescription, true);
             
-            // Use a tiny timeout to allow display:block to apply before adding class for transition
+            // No need to rotate when adding as first child
+            // But we'll force a repaint in case needed
             setTimeout(() => {
-              mascotAiDescription.classList.add('visible');
-            }, 10);
-
-            // Hide loading indicator BEFORE flipping back
-            mascotLoading.style.display = 'none'; // Hide loading indicator
-            
-            // No need to explicitly deactivate magic background
-            // The background effect will automatically fade back to normal
-
-            // Reset state after animation likely finishes
-            setTimeout(() => {
-              isGeneratingImage = false;
-              styleInspirationLink.style.pointerEvents = 'auto';
-              styleInspirationLink.style.opacity = '1';
-            }, 800); // Corresponds to flip duration
-          });
+              // Force a repaint
+              if ($('.card').length > 0) {
+                $('.card:first-child').css('opacity', '0.99');
+                setTimeout(() => {
+                  $('.card:first-child').css('opacity', '1');
+                }, 50);
+              }
+              
+              // Then update the description text
+              setTimeout(() => {
+                // Update the description text below the container
+                mascotAiDescription.textContent = newDescription;
+                mascotAiDescription.style.display = 'block';
+                
+                // Hide loading indicator
+                mascotLoading.style.display = 'none';
+                
+                // Finally, add the visible class and reset state
+                setTimeout(() => {
+                  mascotAiDescription.classList.add('visible');
+                  
+                  // Reset state after animation likely finishes
+                  setTimeout(() => {
+                    isGeneratingImage = false;
+                    styleInspirationLink.style.pointerEvents = 'auto';
+                    styleInspirationLink.style.opacity = '1';
+                  }, 300);
+                }, 50);
+              }, 200);
+            }, 100);
+          }, 0);
         };
 
         tempImg.onerror = () => {
@@ -179,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper function to handle errors consistently
   function handleGenerationError(error) {
-    // Hide loading indicator BEFORE flipping back
+    // Hide loading indicator
     mascotLoading.style.display = 'none';
 
     // Display error message in the description area
@@ -189,33 +352,11 @@ document.addEventListener('DOMContentLoaded', () => {
       mascotAiDescription.classList.add('visible');
     }, 10);
 
-    // Reset image to original
-    mascotImage.src = originalMascotSrc;
-    mascotImage.alt = originalMascotAlt;
-
-    // Reset container height
-    requestAnimationFrame(() => {
-      mascotContainer.style.height = `${originalContainerHeight}px`; // Or 'auto' if preferred
-
-      // No need to explicitly deactivate magic background
-      // The background effect will automatically fade back to normal
-
-      // Reset state after animation
-      setTimeout(() => {
-        isGeneratingImage = false;
-        styleInspirationLink.style.pointerEvents = 'auto';
-        styleInspirationLink.style.opacity = '1';
-      }, 800);
-    });
-  }
-
-  // Add click listener to mascot image for lightbox if window.showLightbox is available
-  if (mascotImage && window.showLightbox) {
-    mascotImage.style.cursor = 'pointer';
-    mascotImage.addEventListener('click', () => {
-      const descriptionText = mascotAiDescription.classList.contains('visible') ? 
-        mascotAiDescription.textContent : mascotImage.alt;
-      window.showLightbox(mascotImage.src, mascotImage.alt, descriptionText);
-    });
+    // Reset state after animation
+    setTimeout(() => {
+      isGeneratingImage = false;
+      styleInspirationLink.style.pointerEvents = 'auto';
+      styleInspirationLink.style.opacity = '1';
+    }, 800);
   }
 });

@@ -1,7 +1,12 @@
+// Make rotate functions globally accessible while maintaining the original functionality
 (function() {
-    var rotate, rotatePrev;
-
-    rotate = function() {
+    // Helper function to detect dark mode
+    function isDarkMode() {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    
+    // Define rotate function to move card from front to back
+    function rotate() {
         // Move the first card to the end with a slide-out animation
         var $firstCard = $('.card:first-child');
         
@@ -37,10 +42,17 @@
                     $(this).removeAttr('style');
                 });
         });
-    };
+    }
 
-    rotatePrev = function() {
+    // Define rotatePrev function to move card from back to front
+    function rotatePrev() {
         var $lastCard = $('.card:last-child');
+
+        // Avoid animation if there's only one card
+        if ($('.card').length <= 1) {
+            console.log('Only one card present, no rotation needed');
+            return;
+        }
 
         // 1. Animate slide out upwards
         $lastCard.animate({
@@ -54,7 +66,7 @@
             $(this)
                 .prependTo('.container')
                 .css({
-                    'left': '25px',  // Target left for 1st card
+                    'left': '50px',  // Target left for 1st card (moved right)
                     'top': '-50px',  // Start above the final position
                     'z-index': 11,   // Higher z-index initially
                     'opacity': 0,    // Keep hidden initially
@@ -77,12 +89,11 @@
                     $(this).removeAttr('style');
                 });
         });
-    };
-
-    // Helper function to detect dark mode
-    function isDarkMode() {
-        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
+
+    // Expose functions globally
+    window.rotate = rotate;
+    window.rotatePrev = rotatePrev;
 
     // Listen for dark mode changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
@@ -99,20 +110,69 @@
 
     // Button event listeners
     $('.next-btn').click(function() {
-        return rotate();
+        rotate();
+        
+        // Update the description to match the first card after rotation
+        updateDescriptionFromFirstCard();
+        
+        return false; // Prevent default action
     });
 
     $('.prev-btn').click(function() {
-        return rotatePrev();
+        rotatePrev();
+        
+        // Update the description to match the first card after rotation
+        updateDescriptionFromFirstCard();
+        
+        return false; // Prevent default action
     });
+    
+    // Function to update description from the first card
+    function updateDescriptionFromFirstCard() {
+        setTimeout(() => {
+            const firstImg = $('.card:first-child .mascot');
+            if (firstImg.length > 0) {
+                const altText = firstImg.attr('alt') || '';
+                const description = extractDescriptionFromAlt(altText);
+                const descriptionEl = document.getElementById('mascot-ai-description');
+                if (descriptionEl) {
+                    descriptionEl.textContent = description;
+                    descriptionEl.style.display = 'block';
+                    descriptionEl.classList.add('visible');
+                }
+            }
+        }, 500); // Wait for rotation animation to complete
+    }
+    
+    // Extract description from alt text
+    function extractDescriptionFromAlt(altText) {
+        if (!altText) return '';
+        
+        // If it's the format "AI-generated polar bear mascot: [description]..."
+        if (altText.indexOf(': ') !== -1) {
+            const parts = altText.split(': ');
+            if (parts.length >= 2) {
+                // Remove trailing ellipsis if present
+                let desc = parts.slice(1).join(': ');
+                if (desc.endsWith('...')) {
+                    desc = desc.slice(0, -3);
+                }
+                return desc;
+            }
+        }
+        
+        return altText;
+    }
 
     // Optional: Add keyboard navigation
     $(document).keydown(function(e) {
         if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
             rotatePrev();
+            updateDescriptionFromFirstCard();
         } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
             rotate();
+            updateDescriptionFromFirstCard();
         }
     });
 
-}).call(this);
+})();

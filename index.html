@@ -7,6 +7,7 @@
   <title>HENRY MANES | OBS Tools</title>
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/carousel.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -20,15 +21,22 @@
       <p class="links"><a href="#" id="style-inspiration-link">STYLE INSPIRATION</a></p>
     </div>
     <div class="header-mascot-area"> <!-- Added a wrapper -->
-      <div class="mascot-container">
-        <div class="mascot-card">
-          <!-- Front Face Content -->
-          <img src="assets/images/PolarBearCafeFin.jpg" alt="This illustration depicts Shirokuma (Polar Bear), a character from the anime Shirokuma Cafe (Polar Bear Cafe). He's standing upright wearing a blue patterned scarf or neckerchief tied around his neck. He's holding a tray with an ube-flavored parfait in a tall glass - the dessert is light purple in color and garnished with flowers. Shirokuma has a gentle, pleasant expression and is positioned in front of his own cafe building with green foliage visible to the side. The art style is colorful and cheerful, with a warm, inviting atmosphere typical of the anime's lighthearted tone." class="mascot">
+      <div class="carousel-wrapper">
+        <div class="carousel-controls">
+          <button class="next-btn">↑</button>
+          <button class="prev-btn">↓</button>
         </div>
-        <div class="mascot-loading" style="display: none;"> <!-- Initially hidden -->
-          <div class="mascot-loading-spinner"></div>
-          <p>Loading style inspiration...</p>
+        <div class="container mascot-container">
+          <div data-card="1" class="card mascot-card">
+            <div class="image">
+              <img src="assets/images/PolarBearCafeFin.jpg" alt="This illustration depicts Shirokuma (Polar Bear), a character from the anime Shirokuma Cafe (Polar Bear Cafe). He's standing upright wearing a blue patterned scarf or neckerchief tied around his neck. He's holding a tray with an ube-flavored parfait in a tall glass - the dessert is light purple in color and garnished with flowers. Shirokuma has a gentle, pleasant expression and is positioned in front of his own cafe building with green foliage visible to the side. The art style is colorful and cheerful, with a warm, inviting atmosphere typical of the anime's lighthearted tone." class="mascot">
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="mascot-loading" style="display: none;"> <!-- Initially hidden -->
+        <div class="mascot-loading-spinner"></div>
+        <p>Loading style inspiration...</p>
       </div>
       <!-- Dedicated description area BELOW the container -->
       <div id="mascot-ai-description" class="mascot-ai-description" style="display: none;"></div>
@@ -154,6 +162,8 @@
   <script src="scripts/theme.js"></script>
   <script src="scripts/lightbox.js"></script>
   <script src="scripts/static-background.js"></script>
-  <script src="scripts/gemini-mascot.js"></script> <!-- We will update this -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="scripts/carousel.js"></script>
+  <script src="scripts/gemini-mascot.js"></script>
 </body>
 </html>

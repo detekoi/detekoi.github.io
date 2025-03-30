@@ -3,16 +3,22 @@
 .carousel-wrapper {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: var(--spacing-large) 0;
+  justify-content: flex-start;
+  margin: 0;
   position: relative;
+  width: 100%;
+  padding-left: 0;
+  /* Use max-width to ensure it fills the available space */
+  max-width: 470px;
 }
 
 .carousel-controls {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: var(--spacing-large);
+  margin-right: 20px; /* Reduced margin to give more space to cards */
+  position: relative;
+  left: -30px; /* Move controls even further left to compensate */
 }
 
 .prev-btn, .next-btn {
@@ -43,20 +49,28 @@
   background-color: var(--color-secondary);
 }
 
-.container {
+.carousel-wrapper .container {
   position: relative;
-  width: 350px;
-  height: 320px; /* Slightly increased height to match portfolio cards */
-  margin-bottom: var(--spacing-medium);
+  width: 400px; /* Further increased width to maximize card display area */
+  height: auto; /* Allow dynamic height based on content */
+  margin-bottom: 0;
 }
 
-.card {
+/* Specific styling for mascot carousel container */
+.container.mascot-container {
+  min-height: 320px; /* Minimum height for the mascot container */
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.container .card {
   position: absolute;
   top: 0;
-  left: 25px;
+  left: 0;
   background-color: var(--color-card-bg);
-  width: 300px;
-  height: 320px;
+  width: 370px; /* Significantly increased card width */
+  height: auto;
   border-radius: 0; /* Remove border radius to match portfolio style */
   border: 3px solid var(--color-border);
   /* Default sharp shadow for cards lower in the stack */
@@ -70,82 +84,70 @@
 
 .image {
   width: 100%;
-  height: 180px;
+  height: 100%;
   overflow: hidden;
+  /* Set aspect ratio based on typical Gemini API output (470x1024) */
+  aspect-ratio: 470/1024;
+  max-height: 500px;
 }
 
 .image img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Better image handling */
+  object-fit: contain; /* Better image handling that preserves aspect ratio */
+  max-height: 500px; /* Maximum height for images */
 }
 
-.detail {
-  padding: var(--spacing-medium);
-  position: relative;
-}
-
-.detail h3 {
-  font-size: var(--font-size-medium);
-  font-weight: 700;
-  margin: 0 0 var(--spacing-unit) 0;
-  line-height: 1.2;
-}
-
-.detail p {
-  font-size: var(--font-size-regular);
-  color: var(--color-text);
-  margin: 0;
-  line-height: 1.6;
-}
-
-.card:nth-child(1) {
+.container .card:nth-child(1) {
   z-index: 10;
   top: 0px;
+  left: 50px; /* Position front card to the right */
   opacity: 1;
   /* Updated shadow for the top card to match aesthetic */
   box-shadow: 8px 8px 1px rgba(0, 0, 0, 0.8);
 }
 
-.card:nth-child(2) {
+.container .card:nth-child(2) {
   z-index: 9;
   top: -10px;
-  left: 15px;
+  left: 40px;
   opacity: 0.9;
 }
 
-.card:nth-child(3) {
+.container .card:nth-child(3) {
   z-index: 8;
   top: -20px;
-  left: 5px;
+  left: 30px;
   opacity: 0.8;
 }
 
-.card:nth-child(4) {
+.container .card:nth-child(4) {
   z-index: 7;
   top: -30px;
-  left: -5px;
+  left: 20px;
   opacity: 0.7;
 }
 
-.card:nth-child(5) {
+.container .card:nth-child(5) {
   z-index: 6;
   top: -40px;
-  left: -15px;
+  left: 10px;
   opacity: 0.5;
 }
 
-.card:first-child:hover {
+.container .card:first-child:hover {
   transform: translate(-2px, -2px) scale(1.02);
   /* Enhanced shadow on hover */
   box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
+  left: 48px; /* Maintain the offset position while hovering */
 }
 
-.card:first-child:active {
+.container .card:first-child:active {
   transform: translate(2px, 2px);
   /* Sharp shadow on active, matching .project:active */
   box-shadow: 2px 2px 0 var(--color-border);
   background-color: var(--color-secondary);
+  left: 52px; /* Maintain the offset position while active */
 }
 
 /* Dark Mode Adjustments */
@@ -166,32 +168,97 @@
     background-color: #333333;
   }
   
-  .card {
+  .container .card {
     /* Default sharp shadow for dark mode */
     box-shadow: 8px 8px 0 var(--shadow-color);
   }
 
-  .card:nth-child(1) {
+  .container .card:nth-child(1) {
      /* Updated shadow for the top card in dark mode */
      box-shadow: 8px 8px 1px rgba(255, 255, 255, 0.3); /* Adjusted alpha for dark mode */
   }
   
-  .card:first-child:hover {
+  .container .card:first-child:hover {
      /* Enhanced shadow on hover in dark mode */
     box-shadow: 11px 11px 1px rgba(255, 255, 255, 0.1);
+    left: 48px; /* Maintain the offset position while hovering */
   }
   
-  .card:first-child:active {
+  .container .card:first-child:active {
      /* Sharp shadow on active in dark mode, matching .project:active */
     box-shadow: 2px 2px 0 var(--shadow-color);
     background-color: #333333;
+    left: 52px; /* Maintain the offset position while active */
   }
+  
+  /* Dark mode styling for the mascot description */
+  .mascot-ai-description {
+    background-color: var(--color-card-bg);
+    border-color: var(--color-border);
+    color: var(--color-text);
+    box-shadow: 8px 8px 0 var(--shadow-color);
+  }
+}
+
+/* Styling for the mascot loading indicator */
+.header-mascot-area .mascot-loading {
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background-color: var(--color-background);
+  border: 3px solid var(--color-border);
+  box-shadow: 8px 8px 0 var(--color-border);
+  padding: var(--spacing-medium);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+}
+
+.mascot-loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-medium);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.mascot-ai-description {
+  margin-top: var(--spacing-medium);
+  padding: var(--spacing-medium);
+  width: 370px; /* Match the card width */
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  text-align: left;
+  font-size: var(--font-size-small);
+  background-color: var(--color-card-bg);
+  border: 3px solid var(--color-border);
+  box-shadow: 8px 8px 0 var(--color-border);
+}
+
+.mascot-ai-description.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .carousel-wrapper {
     flex-direction: column;
+    align-items: center;
+    padding-left: 0; /* Reset padding for mobile */
+    max-width: 100%; /* Allow full width in mobile */
   }
 
   .carousel-controls {
@@ -200,18 +267,52 @@
     /* Remove bottom margin, add top margin */
     margin-top: var(--spacing-medium); 
     order: 2; /* Display controls after the container */
+    left: 0; /* Reset left positioning for mobile */
   }
   .prev-btn, .next-btn {
     margin: 0 10px;
   }
-  .container {
-    width: 300px; /* Slightly narrower on mobile */
+  .carousel-wrapper .container {
+    width: 300px; /* Wider container on mobile */
     order: 1; /* Display container before the controls */
     margin-left: auto; /* Center the container */
     margin-right: auto; /* Center the container */
   }
-  .card {
+  .container .card {
     width: 280px; /* Adjust card width for mobile */
     left: 10px;
+  }
+  
+  .header-mascot-area .mascot-loading {
+    width: 180px;
+    height: 180px;
+    top: 100px;
+  }
+  
+  .mascot-ai-description {
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 575px) {
+  .carousel-wrapper .container {
+    width: 280px;
+  }
+  
+  .container .card {
+    width: 260px;
+    left: 10px;
+  }
+  
+  .mascot-ai-description {
+    width: 260px;
+  }
+  
+  .header-mascot-area .mascot-loading {
+    width: 160px;
+    height: 160px;
+    top: 80px;
   }
 }
