@@ -30,7 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Magic effect parameters
         magicMode: false,   // Flag to enable magic effect
         magicDensity: 1.3,  // Increased density for magic effect
-        magicColor: [180, 130, 255] // Purple-ish magic color
+        magicColor: [180, 130, 255], // Purple-ish magic color
+        
+        // Transition parameters
+        transitionActive: false, // Flag for transition state
+        transitionProgress: 0,   // Progress from 0-1
+        transitionSpeed: 0.02,   // How much to increment per frame (higher = faster)
+        transitionDirection: 1   // 1 = enabling magic, -1 = disabling magic
     };
     // -----------------------------
 
@@ -55,8 +61,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Adjust density based on magic mode
-        const effectiveDensity = config.magicMode ? config.magicDensity : config.density;
+        // Handle transition if active
+        if (config.transitionActive) {
+            // Update transition progress
+            config.transitionProgress += config.transitionSpeed * config.transitionDirection;
+            
+            // Check if transition is complete
+            if (config.transitionProgress >= 1) {
+                config.transitionProgress = 1;
+                config.transitionActive = false;
+            } else if (config.transitionProgress <= 0) {
+                config.transitionProgress = 0;
+                config.transitionActive = false;
+                config.magicMode = false; // Ensure magic mode is turned off when transition completes
+            }
+        }
+        
+        // Calculate effective parameters based on transition state
+        let effectiveDensity, effectiveMagicMode;
+        
+        if (config.transitionActive || config.transitionProgress > 0) {
+            // We're in a transition or partially transitioned state
+            const normalDensity = config.density;
+            const magicDensity = config.magicDensity;
+            effectiveDensity = normalDensity + (magicDensity - normalDensity) * config.transitionProgress;
+            effectiveMagicMode = config.transitionProgress; // Use as a blend factor (0-1)
+        } else {
+            // No transition, use direct values
+            effectiveDensity = config.magicMode ? config.magicDensity : config.density;
+            effectiveMagicMode = config.magicMode ? 1 : 0;
+        }
         
         // Optimized calculation for number of dots 
         // Using a more efficient density calculation for better performance
@@ -68,17 +102,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let r, g, b, alpha;
             
-            if (config.magicMode) {
-                // Use magic color with some variation
-                r = config.magicColor[0] + (Math.random() * 50 - 25);
-                g = config.magicColor[1] + (Math.random() * 50 - 25);
-                b = config.magicColor[2] + (Math.random() * 50 - 25);
-                alpha = config.baseAlpha + (Math.random() - 0.3) * config.alphaVariance;
+            if (effectiveMagicMode > 0) {
+                // Calculate normal static values
+                let intensity;
+                if (isDarkMode) {
+                    intensity = config.darkIntensityMin + Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
+                } else {
+                    intensity = config.lightIntensityMin + Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
+                }
+                intensity = Math.floor(intensity);
                 
-                // Add some white sparkles
-                if (Math.random() > 0.95) {
+                // Calculate magic values with variation
+                const magicR = config.magicColor[0] + (Math.random() * 50 - 25);
+                const magicG = config.magicColor[1] + (Math.random() * 50 - 25);
+                const magicB = config.magicColor[2] + (Math.random() * 50 - 25);
+                
+                // Blend between regular and magic colors based on transition progress
+                if (Math.random() > 0.95 * effectiveMagicMode) {
+                    // White sparkles, more likely as transition progresses
                     r = g = b = 255;
-                    alpha = Math.random() * 0.9 + 0.1;
+                    alpha = Math.random() * 0.9 * effectiveMagicMode + (1 - effectiveMagicMode) * (config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance);
+                } else {
+                    // Blend between gray and magic color
+                    r = intensity * (1 - effectiveMagicMode) + magicR * effectiveMagicMode;
+                    g = intensity * (1 - effectiveMagicMode) + magicG * effectiveMagicMode;
+                    b = intensity * (1 - effectiveMagicMode) + magicB * effectiveMagicMode;
+                    alpha = config.baseAlpha + (Math.random() - (effectiveMagicMode < 0.5 ? 0.5 : 0.3)) * config.alphaVariance;
                 }
             } else {
                 // Regular static mode
@@ -113,16 +162,35 @@ document.addEventListener('DOMContentLoaded', () => {
         // No need to redraw immediately, the animation loop will pick it up.
     }
     
-    // Function to enable magic effect mode
+    // Function to enable magic effect mode with smooth transition
     function enableMagicMode() {
         config.magicMode = true;
-        // The animation loop will pick it up
+        config.transitionActive = true;
+        config.transitionDirection = 1; // Positive direction = enabling magic mode
+        
+        // If we're already transitioning in the other direction, just change direction
+        if (config.transitionProgress > 0 && config.transitionDirection < 0) {
+            config.transitionDirection = 1;
+        } else {
+            // Otherwise start from 0 if not already transitioning
+            config.transitionProgress = config.transitionProgress || 0;
+        }
     }
     
-    // Function to disable magic effect mode
+    // Function to disable magic effect mode with smooth transition
     function disableMagicMode() {
-        config.magicMode = false;
-        // The animation loop will pick it up
+        config.transitionActive = true;
+        config.transitionDirection = -1; // Negative direction = disabling magic mode
+        
+        // If we're already transitioning in the other direction, just change direction
+        if (config.transitionProgress < 1 && config.transitionDirection > 0) {
+            config.transitionDirection = -1;
+        } else {
+            // Otherwise make sure we're starting from correct position
+            config.transitionProgress = config.transitionProgress || 1;
+        }
+        
+        // Note: magicMode flag is toggled off at the end of the transition
     }
 
     // Initial Setup
