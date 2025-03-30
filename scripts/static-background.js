@@ -11,32 +11,36 @@ document.addEventListener('DOMContentLoaded', () => {
     let isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
     // --- Configurable Parameters ---
-    // Increased values for more visible static effect
+    // Basic static effect configuration
     const config = {
         pixelSize: 1,       // Minimum pixel size for finest static
-        density: 0.66,       // Increased density for more visible static
-        baseAlpha: 0.8,    // Increased alpha for more visible effect
-        alphaVariance: 0.25, // Slightly increased variance
+        density: 0.66,      // Base density for normal mode
+        baseAlpha: 0.8,     // Base alpha for normal mode
+        alphaVariance: 0.25, // Alpha variance for normal mode
 
         // Color ranges (0-255) - Enhanced contrast
         darkIntensityMin: 30,  // Brighter dots on dark bg
         darkIntensityMax: 100, // Wider range for better visibility
         lightIntensityMin: 125, // Darker dots on light bg (increased contrast)
         lightIntensityMax: 200, // Wider range for better visibility
-
-        // Optional Frame Rate Limiting (uncomment interval logic below if needed)
-        frameInterval: 45, // Milliseconds between frames (~20fps). Lower = faster.
         
-        // Magic effect parameters
-        magicMode: false,   // Flag to enable magic effect
-        magicDensity: 1.3,  // Increased density for magic effect
-        magicColor: [180, 130, 255], // Purple-ish magic color
+        // Frame timing
+        frameInterval: 45, // Milliseconds between frames (~20fps)
+        
+        // Effect state tracking
+        effectState: 'normal', // Can be 'normal', 'intensifying', 'intense', 'fading'
+        
+        // Intense mode parameters (what we transition to)
+        intenseDensity: 1.3,    // Higher density for intense mode
+        intenseColor: [180, 130, 255], // Purple-ish magic color
         
         // Transition parameters
-        transitionActive: false, // Flag for transition state
         transitionProgress: 0,   // Progress from 0-1
-        transitionSpeed: 0.02,   // How much to increment per frame (higher = faster)
-        transitionDirection: 1   // 1 = enabling magic, -1 = disabling magic
+        transitionSpeed: 0.015,  // How much to increment per frame (lower = smoother)
+        
+        // Effect parameters that will be dynamically calculated
+        currentDensity: 0.66,   // Will be updated during transitions
+        currentColorMix: 0      // 0 = normal colors, 1 = intense colors
     };
     // -----------------------------
 
@@ -50,110 +54,128 @@ document.addEventListener('DOMContentLoaded', () => {
     function drawStatic(timestamp) { // timestamp is only needed if using frameInterval
 
         // --- Optional Frame Rate Limiting ---
-        
         if (timestamp - lastFrameTime < config.frameInterval) {
             animationFrameId = requestAnimationFrame(drawStatic);
             return;
         }
         lastFrameTime = timestamp;
-        
         // --------------------------------------
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Handle transition if active
-        if (config.transitionActive) {
-            // Update transition progress
-            config.transitionProgress += config.transitionSpeed * config.transitionDirection;
-            
-            // Check if transition is complete
-            if (config.transitionProgress >= 1) {
-                config.transitionProgress = 1;
-                config.transitionActive = false;
-            } else if (config.transitionProgress <= 0) {
-                config.transitionProgress = 0;
-                config.transitionActive = false;
-                config.magicMode = false; // Ensure magic mode is turned off when transition completes
-            }
-        }
         
-        // Calculate effective parameters based on transition state
-        let effectiveDensity, effectiveMagicMode;
+        // Update the effect state and transition progress
+        updateEffectState();
         
-        if (config.transitionActive || config.transitionProgress > 0) {
-            // We're in a transition or partially transitioned state
-            const normalDensity = config.density;
-            const magicDensity = config.magicDensity;
-            effectiveDensity = normalDensity + (magicDensity - normalDensity) * config.transitionProgress;
-            effectiveMagicMode = config.transitionProgress; // Use as a blend factor (0-1)
-        } else {
-            // No transition, use direct values
-            effectiveDensity = config.magicMode ? config.magicDensity : config.density;
-            effectiveMagicMode = config.magicMode ? 1 : 0;
-        }
+        // Calculate the actual number of dots based on current density
+        const numDots = Math.floor((canvas.width * canvas.height) / 50 * config.currentDensity);
         
-        // Optimized calculation for number of dots 
-        // Using a more efficient density calculation for better performance
-        const numDots = Math.floor((canvas.width * canvas.height) / 50 * effectiveDensity);
-
+        // Draw the static dots
         for (let i = 0; i < numDots; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
 
-            let r, g, b, alpha;
+            // Determine the dot appearance
+            const { r, g, b, alpha } = calculateDotColor();
             
-            if (effectiveMagicMode > 0) {
-                // Calculate normal static values
-                let intensity;
-                if (isDarkMode) {
-                    intensity = config.darkIntensityMin + Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
-                } else {
-                    intensity = config.lightIntensityMin + Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
-                }
-                intensity = Math.floor(intensity);
-                
-                // Calculate magic values with variation
-                const magicR = config.magicColor[0] + (Math.random() * 50 - 25);
-                const magicG = config.magicColor[1] + (Math.random() * 50 - 25);
-                const magicB = config.magicColor[2] + (Math.random() * 50 - 25);
-                
-                // Blend between regular and magic colors based on transition progress
-                if (Math.random() > 0.95 * effectiveMagicMode) {
-                    // White sparkles, more likely as transition progresses
-                    r = g = b = 255;
-                    alpha = Math.random() * 0.9 * effectiveMagicMode + (1 - effectiveMagicMode) * (config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance);
-                } else {
-                    // Blend between gray and magic color
-                    r = intensity * (1 - effectiveMagicMode) + magicR * effectiveMagicMode;
-                    g = intensity * (1 - effectiveMagicMode) + magicG * effectiveMagicMode;
-                    b = intensity * (1 - effectiveMagicMode) + magicB * effectiveMagicMode;
-                    alpha = config.baseAlpha + (Math.random() - (effectiveMagicMode < 0.5 ? 0.5 : 0.3)) * config.alphaVariance;
-                }
-            } else {
-                // Regular static mode
-                let intensity;
-                // Use the isDarkMode flag determined by the media query
-                if (isDarkMode) {
-                    intensity = config.darkIntensityMin + Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
-                } else {
-                    intensity = config.lightIntensityMin + Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
-                }
-                intensity = Math.floor(intensity);
-                r = g = b = intensity;
-                alpha = config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance;
-            }
-            
-            // Ensure values are in valid range
-            r = Math.min(255, Math.max(0, Math.floor(r)));
-            g = Math.min(255, Math.max(0, Math.floor(g)));
-            b = Math.min(255, Math.max(0, Math.floor(b)));
-
+            // Draw the dot
             ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
             ctx.fillRect(x, y, config.pixelSize, config.pixelSize);
         }
-
+        
         // Request the next frame
         animationFrameId = requestAnimationFrame(drawStatic);
+    }
+    
+    // Helper function to update the effect state and transition progress
+    function updateEffectState() {
+        // Handle state transitions
+        switch(config.effectState) {
+            case 'intensifying':
+                // Increase the transition progress
+                config.transitionProgress += config.transitionSpeed;
+                
+                // If we've reached the maximum intensity
+                if (config.transitionProgress >= 1) {
+                    config.transitionProgress = 1;
+                    config.effectState = 'intense'; // Switch to intense state
+                }
+                break;
+                
+            case 'fading':
+                // Decrease the transition progress
+                config.transitionProgress -= config.transitionSpeed;
+                
+                // If we've reached the normal state
+                if (config.transitionProgress <= 0) {
+                    config.transitionProgress = 0;
+                    config.effectState = 'normal'; // Switch to normal state
+                }
+                break;
+                
+            // For 'normal' and 'intense' states, no progress updates needed
+            // They are stable states representing the two extremes
+        }
+        
+        // Update the current parameters based on transition progress
+        updateCurrentParameters();
+    }
+    
+    // Helper function to update current parameters based on transition progress
+    function updateCurrentParameters() {
+        // Interpolate between normal and intense parameters
+        config.currentDensity = config.density + 
+            (config.intenseDensity - config.density) * config.transitionProgress;
+            
+        config.currentColorMix = config.transitionProgress;
+    }
+    
+    // Helper function to calculate the color for a single dot
+    function calculateDotColor() {
+        // Get the base intensity based on theme
+        let intensity;
+        if (isDarkMode) {
+            intensity = config.darkIntensityMin + 
+                Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
+        } else {
+            intensity = config.lightIntensityMin + 
+                Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
+        }
+        intensity = Math.floor(intensity);
+        
+        // Calculate the color and alpha
+        let r, g, b, alpha;
+        
+        // Determine if we need to blend in intense colors
+        if (config.currentColorMix > 0) {
+            // Calculate the intense color with some variation
+            const intenseR = config.intenseColor[0] + (Math.random() * 50 - 25);
+            const intenseG = config.intenseColor[1] + (Math.random() * 50 - 25);
+            const intenseB = config.intenseColor[2] + (Math.random() * 50 - 25);
+            
+            // Add some white sparkles occasionally
+            if (Math.random() > 0.95 * config.currentColorMix) {
+                r = g = b = 255;
+                alpha = Math.random() * 0.9 * config.currentColorMix;
+            } else {
+                // Blend between normal and intense colors
+                r = intensity * (1 - config.currentColorMix) + intenseR * config.currentColorMix;
+                g = intensity * (1 - config.currentColorMix) + intenseG * config.currentColorMix;
+                b = intensity * (1 - config.currentColorMix) + intenseB * config.currentColorMix;
+                alpha = config.baseAlpha + 
+                    (Math.random() - 0.5) * config.alphaVariance;
+            }
+        } else {
+            // Normal mode - grayscale static
+            r = g = b = intensity;
+            alpha = config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance;
+        }
+        
+        // Ensure values are in valid range
+        r = Math.min(255, Math.max(0, Math.floor(r)));
+        g = Math.min(255, Math.max(0, Math.floor(g)));
+        b = Math.min(255, Math.max(0, Math.floor(b)));
+        
+        return { r, g, b, alpha };
     }
 
     // Function to update the mode based on the media query
@@ -162,35 +184,44 @@ document.addEventListener('DOMContentLoaded', () => {
         // No need to redraw immediately, the animation loop will pick it up.
     }
     
-    // Function to enable magic effect mode with smooth transition
+    // Keep track of automatic state changes
+    let autoChangeTimeout = null;
+    
+    // Function to start enhancing the static (transition to intense)
     function enableMagicMode() {
-        config.magicMode = true;
-        config.transitionActive = true;
-        config.transitionDirection = 1; // Positive direction = enabling magic mode
-        
-        // If we're already transitioning in the other direction, just change direction
-        if (config.transitionProgress > 0 && config.transitionDirection < 0) {
-            config.transitionDirection = 1;
-        } else {
-            // Otherwise start from 0 if not already transitioning
-            config.transitionProgress = config.transitionProgress || 0;
+        // Clear any existing auto-timeout to avoid conflicts
+        if (autoChangeTimeout) {
+            clearTimeout(autoChangeTimeout);
+            autoChangeTimeout = null;
         }
+        
+        // Set initial values for smooth starting transition
+        if (config.effectState === 'normal' || config.effectState === 'fading') {
+            config.transitionProgress = 0;
+            config.currentDensity = config.density;
+            config.currentColorMix = 0;
+        }
+        
+        // Change state to intensifying
+        config.effectState = 'intensifying';
+        
+        // Set a timeout to automatically start fading after reaching intense state
+        autoChangeTimeout = setTimeout(() => {
+            // Start fading back to normal
+            disableMagicMode();
+        }, 2000); // Keep intense for 2 seconds before starting to fade
     }
     
-    // Function to disable magic effect mode with smooth transition
+    // Function to start fading back to normal
     function disableMagicMode() {
-        config.transitionActive = true;
-        config.transitionDirection = -1; // Negative direction = disabling magic mode
-        
-        // If we're already transitioning in the other direction, just change direction
-        if (config.transitionProgress < 1 && config.transitionDirection > 0) {
-            config.transitionDirection = -1;
-        } else {
-            // Otherwise make sure we're starting from correct position
-            config.transitionProgress = config.transitionProgress || 1;
+        // Clear any existing auto-timeout to avoid conflicts
+        if (autoChangeTimeout) {
+            clearTimeout(autoChangeTimeout);
+            autoChangeTimeout = null;
         }
         
-        // Note: magicMode flag is toggled off at the end of the transition
+        // Set to fading state (the animation loop will handle the actual transition)
+        config.effectState = 'fading';
     }
 
     // Initial Setup
@@ -199,13 +230,28 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners
     window.addEventListener('resize', resizeCanvas);
 
+    // Initialize current parameters to match normal state
+    config.currentDensity = config.density;
+    
     // Start the animation
     animationFrameId = requestAnimationFrame(drawStatic);
     
     // Expose functions to window for other scripts to use
     window.staticBackground = {
-        enableMagicMode,
-        disableMagicMode
+        enableMagicMode,    // Transition to intense state
+        disableMagicMode,   // Transition back to normal state
+        
+        // Add some utility functions for direct state control if needed
+        setIntense: function() {
+            config.effectState = 'intense';
+            config.transitionProgress = 1;
+            updateCurrentParameters();
+        },
+        setNormal: function() {
+            config.effectState = 'normal';
+            config.transitionProgress = 0;
+            updateCurrentParameters();
+        }
     };
 
     // Listen for system theme changes

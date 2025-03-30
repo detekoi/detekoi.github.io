@@ -67,8 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
     mascotCard.classList.add('flipped'); // Flip the card to show loading
 
     // Activate magical background effect if available
+    // This will smoothly transition to the intense state and automatically fade back
     if (window.staticBackground && typeof window.staticBackground.enableMagicMode === 'function') {
+      // Just calling enableMagicMode will trigger the entire sequence:
+      // 1. Smooth fade to intense state
+      // 2. Hold at intense state for a moment
+      // 3. Automatically fade back to normal state
       window.staticBackground.enableMagicMode();
+      
+      // No need for additional timeouts as the background effect now handles
+      // the complete cycle internally
     }
 
     try {
@@ -142,11 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- Flip Back ---
             mascotCard.classList.remove('flipped');
-
-            // Deactivate magic background
-            if (window.staticBackground && typeof window.staticBackground.disableMagicMode === 'function') {
-              window.staticBackground.disableMagicMode();
-            }
+            
+            // No need to explicitly deactivate magic background
+            // The background effect will automatically fade back to normal
 
             // Reset state after animation likely finishes
             setTimeout(() => {
@@ -196,10 +202,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Flip back
       mascotCard.classList.remove('flipped');
 
-      // Deactivate magic background
-      if (window.staticBackground && typeof window.staticBackground.disableMagicMode === 'function') {
-        window.staticBackground.disableMagicMode();
-      }
+      // No need to explicitly deactivate magic background
+      // The background effect will automatically fade back to normal
 
       // Reset state after animation
       setTimeout(() => {
