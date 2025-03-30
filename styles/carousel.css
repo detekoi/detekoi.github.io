@@ -282,6 +282,19 @@
     width: 280px; /* Adjust card width for mobile */
     left: 10px;
   }
+
+  /* Ensure image container adjusts height based on image aspect ratio */
+  .container .card .image {
+    aspect-ratio: auto; /* Override fixed aspect ratio */
+    height: auto;       /* Allow height to adjust based on content */
+    /* Consider adjusting or removing max-height if it causes issues */
+  }
+
+  /* Ensure image scales correctly within the adjusted container */
+  .container .card .image img {
+    height: auto;       /* Height adjusts based on width and aspect ratio */
+    max-height: none;   /* Remove max-height constraint on image itself */
+  }
   
   .header-mascot-area .mascot-loading {
     width: 180px;
