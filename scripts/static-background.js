@@ -67,7 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateEffectState();
         
         // Calculate the actual number of dots based on current density
-        const numDots = Math.floor((canvas.width * canvas.height) / 50 * config.currentDensity);
+        // Add a minimum number of dots to ensure we always have some static
+        const baseMinDots = Math.floor((canvas.width * canvas.height) / 100); // Minimum dots regardless of density
+        const densityDots = Math.floor((canvas.width * canvas.height) / 50 * config.currentDensity);
+        const numDots = Math.max(baseMinDots, densityDots);
         
         // Draw the static dots
         for (let i = 0; i < numDots; i++) {
@@ -122,11 +125,24 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Helper function to update current parameters based on transition progress
     function updateCurrentParameters() {
-        // Interpolate between normal and intense parameters
-        config.currentDensity = config.density + 
-            (config.intenseDensity - config.density) * config.transitionProgress;
+        // Interpolate between normal and intense parameters with easing
+        // Use a quadratic easing function for smoother transitions at beginning and end
+        const easeInOut = config.transitionProgress < 0.5 ? 
+            2 * config.transitionProgress * config.transitionProgress : 
+            1 - Math.pow(-2 * config.transitionProgress + 2, 2) / 2;
             
-        config.currentColorMix = config.transitionProgress;
+        // Set minimum density to never go below 90% of normal density
+        // This ensures we never have a completely empty screen
+        const minDensity = config.density * 0.9;
+        
+        // Calculate current density with easing and minimum
+        config.currentDensity = Math.max(
+            minDensity,
+            config.density + (config.intenseDensity - config.density) * easeInOut
+        );
+            
+        // Color mix can use the same easing for smooth transitions
+        config.currentColorMix = easeInOut;
     }
     
     // Helper function to calculate the color for a single dot
@@ -230,9 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event Listeners
     window.addEventListener('resize', resizeCanvas);
 
-    // Initialize current parameters to match normal state
-    config.currentDensity = config.density;
-    config.currentColorMix = 0;
+    // Initialize system to normal state
+    config.effectState = 'normal';
+    config.transitionProgress = 0;
+    
+    // Initialize current parameters (density, etc.)
+    updateCurrentParameters();
     
     // Start the animation
     animationFrameId = requestAnimationFrame(drawStatic);
