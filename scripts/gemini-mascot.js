@@ -64,8 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     styleInspirationLink.style.opacity = '0.7'; // Visual feedback
     mascotAiDescription.classList.remove('visible'); // Hide previous description
     mascotAiDescription.style.display = 'none'; // Ensure it's hidden
-    mascotLoading.style.display = 'flex'; // Explicitly show loading spinner on the back face
-    mascotContainer.classList.add('flipped'); // Flip the CONTAINER
+    mascotLoading.style.display = 'flex'; // Show loading indicator
 
     // Activate magical background effect if available
     // This will smoothly transition to the intense state and automatically fade back
@@ -147,10 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 10);
 
             // Hide loading indicator BEFORE flipping back
-            mascotLoading.style.display = 'none';
-
-            // --- Flip Back ---
-            mascotContainer.classList.remove('flipped'); // This triggers the animation on the CONTAINER
+            mascotLoading.style.display = 'none'; // Hide loading indicator
             
             // No need to explicitly deactivate magic background
             // The background effect will automatically fade back to normal
@@ -200,9 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset container height
     requestAnimationFrame(() => {
       mascotContainer.style.height = `${originalContainerHeight}px`; // Or 'auto' if preferred
-
-      // Flip back
-      mascotContainer.classList.remove('flipped'); // Flip the CONTAINER back
 
       // No need to explicitly deactivate magic background
       // The background effect will automatically fade back to normal

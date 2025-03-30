@@ -152,33 +152,24 @@ header {
   background-color: white;
   border: 2px solid var(--color-text);
   box-shadow: 4px 4px 0 var(--color-text);
-  /* Combined transitions including flip */
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease; /* Added flip transition */
-  perspective: 1000px; /* Apply 3D perspective */
-  transform-style: preserve-3d; /* Allow children to be positioned in 3D */
+  /* Transitions for hover/active effects and height */
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease, transform 0.3s ease; /* Removed flip transition, kept hover transform */
+  /* perspective: 1000px; Removed */
+  /* transform-style: preserve-3d; Removed */
   box-sizing: border-box;
   overflow: hidden; /* Keep overflow hidden */
 }
 
-/* Apply flip to the container */
-.mascot-container.flipped {
-  transform: rotateY(180deg);
-}
+/* Removed .mascot-container.flipped rule */
 
 .mascot-container:hover {
-  /* Apply hover only when the CONTAINER is not flipped */
-}
-
-.mascot-container:not(.flipped):hover {
+  /* Apply hover effects directly */
   transform: translate(-3px, -3px);
   box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
 }
 
 .mascot-container:active {
-  /* Apply active only when the CONTAINER is not flipped */
-}
-
-.mascot-container:not(.flipped):active {
+  /* Apply active effects directly */
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--color-text);
   background-color: #eaeaea;
@@ -207,8 +198,8 @@ header {
   justify-content: center;
   align-items: center;
   overflow: hidden; /* Hide overflow from image */
-  backface-visibility: hidden; /* Hide this when container flips */
-  -webkit-backface-visibility: hidden; /* Safari */
+  /* backface-visibility: hidden; Removed */
+  /* -webkit-backface-visibility: hidden; Removed */
   background-color: white; /* Give it the default background */
 }
 
@@ -221,11 +212,11 @@ header {
   height: 100%;
   top: 0;
   left: 0;
-  backface-visibility: hidden; /* Hide back face */
-  -webkit-backface-visibility: hidden; /* Safari */
-  transform: rotateY(180deg); /* Rotate to be the back face */
-  background-color: white; /* Give it a background */
-  /* z-index: 1; Removed - generally not needed with backface-visibility */
+  /* backface-visibility: hidden; Removed */
+  /* -webkit-backface-visibility: hidden; Removed */
+  /* transform: rotateY(180deg); Removed */
+  background-color: rgba(255, 255, 255, 0.9); /* Use semi-transparent background */
+  z-index: 5; /* Ensure it overlays the card */
   display: none; /* Initially hidden, JS will show it */
   flex-direction: column;
   align-items: center;
@@ -800,10 +791,13 @@ footer a:active {
     box-shadow: 4px 4px 0 var(--shadow-color);
   }
 
-  /* Apply dark background to the card (front face) and loading (back face) */
-  .mascot-card,
-  .mascot-loading {
+  /* Apply dark background to the card (front face) */
+  .mascot-card {
     background-color: #1e1e1e;
+  }
+  /* Apply semi-transparent dark background to loading overlay */
+  .mascot-loading {
+     background-color: rgba(30, 30, 30, 0.9); /* Semi-transparent dark */
   }
 
   .mascot-loading p {
@@ -815,13 +809,14 @@ footer a:active {
     border-top: 5px solid #ffffff;
   }
   
+  /* Apply dark mode hover/active directly */
   .mascot-container:hover {
-     /* Keep existing dark mode hover */
+    transform: translate(-3px, -3px);
     box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.1);
   }
   
   .mascot-container:active {
-     /* Keep existing dark mode active */
+    transform: translate(2px, 2px);
     box-shadow: 1px 1px 0 var(--shadow-color);
     background-color: #333; /* Darker active state */
   }
