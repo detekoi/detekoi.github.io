@@ -38,7 +38,7 @@ This will read the polar bear image, send it to the Gemini API for editing, and 
 
 ## Using the Website
 
-- Click on the ✨ button next to the mascot to generate a customized version
+- Click on the Style Inspiration button a fashionable Polar Bear
 - Browse projects in the project grid
 - Click on screenshots to view them in a lightbox
 

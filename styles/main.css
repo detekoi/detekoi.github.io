@@ -172,12 +172,10 @@ header {
 
 .mascot {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   cursor: pointer;
   transition: transform 0.3s ease, opacity 0.3s ease; /* Add opacity transition */
-  object-fit: contain; /* Maintain aspect ratio */
-  max-height: 500px; /* Add a max height just in case */
 }
 
 /* Card Flip Animation Styles */
@@ -284,12 +282,6 @@ header {
 #style-inspiration-link {
   position: relative;
   overflow: hidden;
-}
-
-#style-inspiration-link:after {
-  content: '✨';
-  margin-left: 5px;
-  display: inline-block;
 }
 
 /* Style for the Gemini Button */
