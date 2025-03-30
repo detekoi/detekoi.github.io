@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Card Carousel</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/carousel.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Portfolio Carousel</h1>
+            <div class="role">Project Showcase</div>
+            <div class="tagline">Explore my portfolio projects with this stylish 3D card carousel, adapted to match my site's design aesthetic.</div>
+        </div>
+    </header>
+    
+    <div class="carousel-wrapper">
+        <div class="carousel-controls">
+            <button class="next-btn">↑</button>
+            <button class="prev-btn">↓</button>
+        </div>
+        <div class="container">
+            <div data-card="1" class="card">
+                <div class="image">
+                    <img src="images/bg-4.jpg" alt="Project 1">
+                </div>
+                <div class="detail">
+                    <h3>Web Application</h3>
+                    <p>A responsive web application built with React and Node.js for real-time data visualization</p>
+                </div>
+            </div>
+
+            <div data-card="2" class="card">
+                <div class="image">
+                    <img src="images/bg-3.jpg" alt="Project 2">
+                </div>
+                <div class="detail">
+                    <h3>Mobile App Design</h3>
+                    <p>UI/UX design for a health tracking application focused on accessibility and usability</p>
+                </div>
+            </div>
+
+            <div data-card="3" class="card">
+                <div class="image">
+                    <img src="images/bg-2.jpg" alt="Project 3">
+                </div>
+                <div class="detail">
+                    <h3>E-commerce Platform</h3>
+                    <p>Full-stack e-commerce solution with secure payment processing and inventory management</p>
+                </div>
+            </div>
+
+            <div data-card="4" class="card">
+                <div class="image">
+                    <img src="images/bg-1.jpg" alt="Project 4">
+                </div>
+                <div class="detail">
+                    <h3>Data Visualization</h3>
+                    <p>Interactive dashboards built with D3.js to present complex data in an intuitive format</p>
+                </div>
+            </div>
+
+            <div data-card="5" class="card">
+                <div class="image">
+                    <img src="images/bg-5.jpg" alt="Project 5">
+                </div>
+                <div class="detail">
+                    <h3>AI Integration</h3>
+                    <p>Implementation of machine learning algorithms to enhance user experience and personalization</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="project-grid">
+        <div class="project">
+            <h2 class="project-title">How to Use</h2>
+            <p class="project-description">
+                This carousel is designed to showcase your portfolio projects with a 3D stacking effect. 
+                Navigate between projects using the up and down arrows, or keyboard navigation.
+            </p>
+            <div class="project-tech">
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>JavaScript</span>
+                <span>jQuery</span>
+            </div>
+            <div class="project-description">
+                <p>The carousel has been fully integrated with your portfolio's design language, featuring:</p>
+                <ul>
+                    <li>Matching typography from Atkinson Hyperlegible</li>
+                    <li>3D skeuomorphic design with consistent shadows</li>
+                    <li>Dark mode support</li>
+                    <li>Responsive design for all screen sizes</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Adapted carousel design for your portfolio site, 2025.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="scripts/carousel.js"></script>
+</body>
+</html>
