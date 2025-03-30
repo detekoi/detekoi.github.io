@@ -231,11 +231,11 @@
 }
 
 .mascot-loading-spinner {
-  width: 60px;  /* Make it wider */
-  height: 45px; /* Make it shorter */
+  width: 50px;  /* Set width and height equal for a circle */
+  height: 50px; /* Set width and height equal for a circle */
   border: 5px solid var(--color-border);
   border-top-color: var(--color-accent);
-  border-radius: 50%; /* This creates an ellipse when width != height */
+  border-radius: 50%; /* This creates a circle when width == height */
   animation: spin 1s linear infinite;
   margin-bottom: var(--spacing-medium);
 }
