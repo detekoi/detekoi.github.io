@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     styleInspirationLink.style.opacity = '0.7'; // Visual feedback
     mascotAiDescription.classList.remove('visible'); // Hide previous description
     mascotAiDescription.style.display = 'none'; // Ensure it's hidden
-    mascotLoading.style.display = 'flex'; // Show loading spinner on the back
-    mascotCard.classList.add('flipped'); // Flip the CARD to show loading
+    mascotLoading.style.display = 'flex'; // Explicitly show loading spinner on the back face
+    mascotCard.classList.add('flipped'); // Flip the CARD
 
     // Activate magical background effect if available
     // This will smoothly transition to the intense state and automatically fade back
@@ -146,11 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
               mascotAiDescription.classList.add('visible');
             }, 10);
 
-            // Hide loading indicator
+            // Hide loading indicator BEFORE flipping back
             mascotLoading.style.display = 'none';
 
             // --- Flip Back ---
-            mascotCard.classList.remove('flipped');
+            mascotCard.classList.remove('flipped'); // This triggers the animation
             
             // No need to explicitly deactivate magic background
             // The background effect will automatically fade back to normal
@@ -183,7 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper function to handle errors consistently
   function handleGenerationError(error) {
-    mascotLoading.style.display = 'none'; // Hide loading
+    // Hide loading indicator BEFORE flipping back
+    mascotLoading.style.display = 'none';
 
     // Display error message in the description area
     mascotAiDescription.textContent = `Failed to generate style: ${error.message}`;

@@ -152,37 +152,30 @@ header {
   background-color: white;
   border: 2px solid var(--color-text);
   box-shadow: 4px 4px 0 var(--color-text);
-  /* Combined transitions including flip */
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease; /* Added height transition */
-  perspective: 1000px;
-  transform-style: preserve-3d; /* Needed for children to be 3D */
+  /* Transitions for hover/active effects and height */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease; /* Removed flip transition from container */
+  perspective: 1000px; /* Apply 3D perspective */
+  transform-style: preserve-3d; /* Allow children to be positioned in 3D */
   box-sizing: border-box;
   overflow: hidden; /* Keep overflow hidden */
 }
 
-/* Apply flip to the container */
-.mascot-container.flipped {
-  transform: rotateY(180deg);
-}
+/* Remove .mascot-container.flipped rule */
 
 .mascot-container:hover {
-  /* transform: translate(-3px, -3px); Removed: Now conditional */
-  /* box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6); Removed: Now conditional */
-  /* Removed scale transform to simplify interaction with dynamic height */
+  /* Apply hover only when the CARD inside is not flipped */
 }
 
-.mascot-container:not(.flipped):hover {
+.mascot-container:has(.mascot-card:not(.flipped)):hover {
   transform: translate(-3px, -3px);
   box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
 }
 
 .mascot-container:active {
-  /* transform: translate(2px, 2px); Removed: Now conditional */
-  /* box-shadow: 2px 2px 0 var(--color-text); Removed: Now conditional */
-  /* background-color: #eaeaea; Removed: Now conditional */
+  /* Apply active only when the CARD inside is not flipped */
 }
 
-.mascot-container:not(.flipped):active {
+.mascot-container:has(.mascot-card:not(.flipped)):active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--color-text);
   background-color: #eaeaea;
@@ -200,13 +193,16 @@ header {
 .mascot-card {
   width: 100%;
   height: 100%; /* Fill the container */
-  position: relative; /* Keep relative */
-  transform-style: preserve-3d; /* Keep this so children are 3D */
-  /* transition: removed - now handled by container */
-  display: block; /* Or flex, ensure it fills container */
+  position: relative; /* Relative for absolute children */
+  transform-style: preserve-3d; /* Enable 3D for children */
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Flip transition */
+  display: block; /* Ensure it fills container */
 }
 
-/* .mascot-card.flipped { removed - class moved to container } */
+/* Add the flipped state for the card */
+.mascot-card.flipped {
+  transform: rotateY(180deg);
+}
 
 .mascot-card-front,
 .mascot-card-back {
@@ -215,38 +211,36 @@ header {
   height: 100%;
   top: 0;
   left: 0;
-  backface-visibility: hidden;
+  backface-visibility: hidden; /* Hide the back of the element when facing away */
   -webkit-backface-visibility: hidden; /* Safari */
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Important */
-  display: flex; /* Use flex to help center content */
+  overflow: hidden; /* Prevent content spillover */
+  display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
-  align-items: center; /* Center content horizontally */
-  /* transform-style: preserve-3d; Remove from children, only needed on direct parent */
+  justify-content: center;
+  align-items: center;
+  /* No transform-style needed here */
 }
 
 .mascot-card-front {
+  background-color: white; /* Match container or set desired background */
+  z-index: 1; /* Optional: ensure front is initially above back if needed */
   /* No rotation needed */
-  background-color: white; /* Match container */
-  z-index: 1; /* Ensure front is above back */
-  display: flex;
+  display: flex; /* Keep flex for centering image */
   justify-content: center;
   align-items: center;
 }
 
 .mascot-card-back {
-  transform: rotateY(180deg);
-  background-color: white; /* Match front/container */
-  /* Ensure loading is centered */
-  justify-content: center;
-  align-items: center;
+  transform: rotateY(180deg); /* Start rotated */
+  background-color: white; /* Match front/container or set desired background */
+  /* Flex properties already inherited will center content */
 }
 
 /* Loading animation */
 .mascot-loading {
-  display: flex; /* Keep as flex */
+  display: none; /* Initially hidden, JS will show it */
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -820,9 +814,9 @@ footer a:active {
     box-shadow: 4px 4px 0 var(--shadow-color);
   }
 
-  .mascot-card-front, /* Ensure front/back match container */
+  .mascot-card-front,
   .mascot-card-back {
-    background-color: #1e1e1e;
+    background-color: #1e1e1e; /* Match dark container background */
   }
   
   .mascot-loading p {
