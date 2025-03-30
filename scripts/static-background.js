@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Basic static effect configuration
     const config = {
         pixelSize: 1,       // Minimum pixel size for finest static
-        density: 0.66,      // Base density for normal mode
-        baseAlpha: 0.8,     // Base alpha for normal mode
+        density: 0.9,       // Base density for normal mode (increased to match default background)
+        baseAlpha: 0.85,    // Base alpha for normal mode (increased slightly)
         alphaVariance: 0.25, // Alpha variance for normal mode
 
         // Color ranges (0-255) - Enhanced contrast
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         effectState: 'normal', // Can be 'normal', 'intensifying', 'intense', 'fading'
         
         // Intense mode parameters (what we transition to)
-        intenseDensity: 1.3,    // Higher density for intense mode
+        intenseDensity: 1.5,    // Higher density for intense mode (increased for more contrast)
         intenseColor: [180, 130, 255], // Purple-ish magic color
         
         // Transition parameters
@@ -232,6 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize current parameters to match normal state
     config.currentDensity = config.density;
+    config.currentColorMix = 0;
     
     // Start the animation
     animationFrameId = requestAnimationFrame(drawStatic);
