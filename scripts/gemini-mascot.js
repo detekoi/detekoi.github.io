@@ -190,12 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const aspectRatio = firstMascotImg.naturalHeight / firstMascotImg.naturalWidth;
     const newHeight = Math.round(currentCardWidth * aspectRatio);
 
-    // Apply adjusted minimum and maximum height constraints
-    const minHeight = 180; // Slightly reduced minimum height
-    const maxHeight = 400; // Reduced maximum height for smaller desktop size
+    // Apply minimum height constraint
+    const minHeight = 150; // Further reduced minimum height
+    // Removed maxHeight constraint to allow natural aspect ratio scaling
     
-    // Calculate the final height, respecting the constraints
-    const calculatedHeight = Math.min(Math.max(newHeight, minHeight), maxHeight);
+    // Calculate the final height, respecting only the minimum constraint
+    const calculatedHeight = Math.max(newHeight, minHeight);
     
     // Set the inline style for the container
     mascotContainer.style.height = `${calculatedHeight}px`; 

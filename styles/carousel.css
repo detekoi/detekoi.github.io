@@ -84,11 +84,9 @@
 
 .image {
   width: 100%;
-  height: 100%;
+  height: auto; /* Allow height to be determined by content */
   overflow: hidden;
-  /* Set aspect ratio based on typical Gemini API output (470x1024) */
-  aspect-ratio: 470/1024;
-  max-height: 500px;
+  /* Removed fixed aspect-ratio and max-height */
 }
 
 .image img {
