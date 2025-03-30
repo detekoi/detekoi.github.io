@@ -152,30 +152,33 @@ header {
   background-color: white;
   border: 2px solid var(--color-text);
   box-shadow: 4px 4px 0 var(--color-text);
-  /* Transitions for hover/active effects and height */
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease; /* Removed flip transition from container */
+  /* Combined transitions including flip */
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease; /* Added flip transition */
   perspective: 1000px; /* Apply 3D perspective */
   transform-style: preserve-3d; /* Allow children to be positioned in 3D */
   box-sizing: border-box;
   overflow: hidden; /* Keep overflow hidden */
 }
 
-/* Remove .mascot-container.flipped rule */
-
-.mascot-container:hover {
-  /* Apply hover only when the CARD inside is not flipped */
+/* Apply flip to the container */
+.mascot-container.flipped {
+  transform: rotateY(180deg);
 }
 
-.mascot-container:has(.mascot-card:not(.flipped)):hover {
+.mascot-container:hover {
+  /* Apply hover only when the CONTAINER is not flipped */
+}
+
+.mascot-container:not(.flipped):hover {
   transform: translate(-3px, -3px);
   box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
 }
 
 .mascot-container:active {
-  /* Apply active only when the CARD inside is not flipped */
+  /* Apply active only when the CONTAINER is not flipped */
 }
 
-.mascot-container:has(.mascot-card:not(.flipped)):active {
+.mascot-container:not(.flipped):active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--color-text);
   background-color: #eaeaea;
@@ -195,14 +198,11 @@ header {
   height: 100%; /* Fill the container */
   position: relative; /* Relative for absolute children */
   transform-style: preserve-3d; /* Enable 3D for children */
-  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Flip transition */
+  /* transition: removed - now handled by container */
   display: block; /* Ensure it fills container */
 }
 
-/* Add the flipped state for the card */
-.mascot-card.flipped {
-  transform: rotateY(180deg);
-}
+/* .mascot-card.flipped { removed - class moved to container } */
 
 .mascot-card-front,
 .mascot-card-back {
