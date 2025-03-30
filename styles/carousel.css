@@ -19,6 +19,7 @@
   margin-right: 20px; /* Reduced margin to give more space to cards */
   position: relative;
   left: -30px; /* Move controls even further left to compensate */
+  z-index: 11; /* Ensure controls are above cards */
 }
 
 .prev-btn, .next-btn {
@@ -243,6 +244,8 @@
   background-color: var(--color-card-bg);
   border: 3px solid var(--color-border);
   box-shadow: 8px 8px 0 var(--color-border);
+  position: relative; /* Needed for z-index */
+  z-index: 11; /* Ensure description is above cards */
 }
 
 .mascot-ai-description.visible {
