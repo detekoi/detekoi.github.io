@@ -58,9 +58,12 @@
                     'top': '-50px',  // Start above the final position
                     'z-index': 11,   // Higher z-index initially
                     'opacity': 0,    // Keep hidden initially
-                    'box-shadow': '0px 0px 0px rgba(0, 0, 0, 0)' // Start with no shadow
+                    // Start with the hover-like shadow
+                    'box-shadow': isDarkMode() ?
+                                  '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
+                                  '11px 11px 1px rgba(0, 0, 0, 0.6)'        // Light mode hover shadow
                 })
-                // 3. Animate slide-in to the 1st card position
+                // 3. Animate slide-in to the 1st card position (animating shadow to final state)
                 .animate({
                     top: '0px',      // Target top for 1st card
                     opacity: 1,      // Target opacity for 1st card
