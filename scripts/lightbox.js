@@ -72,17 +72,26 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close lightbox event listeners
   lightboxClose.addEventListener('click', closeLightbox);
   
-  // Close when clicking anywhere except the image itself
+  // Close when clicking anywhere except the image or description
   lightboxOverlay.addEventListener('click', (e) => {
-    // Only prevent closing if the click was directly on the image
-    if (e.target !== lightboxImage) {
+    // Check if the click target is either the image or the description (or child of description)
+    const isClickOnImage = e.target === lightboxImage;
+    const isClickOnDescription = e.target === lightboxDescription || 
+                               lightboxDescription.contains(e.target);
+    
+    // Close only if click is not on image or description
+    if (!isClickOnImage && !isClickOnDescription) {
       closeLightbox();
     }
   });
   
-  // Prevent clicks on the image from closing the lightbox
+  // Prevent clicks on the image and description from closing the lightbox
   lightboxImage.addEventListener('click', (e) => {
-    e.stopPropagation(); // Stop click from propagating to container/overlay
+    e.stopPropagation(); // Stop click from propagating 
+  });
+  
+  lightboxDescription.addEventListener('click', (e) => {
+    e.stopPropagation(); // Allow text selection without closing
   });
   
   document.addEventListener('keydown', (e) => {
