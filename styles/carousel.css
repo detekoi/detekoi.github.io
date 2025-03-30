@@ -231,8 +231,8 @@
 }
 
 .mascot-loading-spinner {
-  width: 55px;  /* Slightly wider */
-  height: 50px; /* Slightly shorter */
+  width: 47px;  /* User specified width */
+  height: 50px; /* User specified height */
   border: 5px solid var(--color-border);
   border-top-color: var(--color-accent);
   border-radius: 50%; /* Creates a subtle ellipse */
