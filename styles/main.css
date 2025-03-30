@@ -196,50 +196,35 @@ header {
 .mascot-card {
   width: 100%;
   height: 100%; /* Fill the container */
-  position: relative; /* Relative for absolute children */
-  transform-style: preserve-3d; /* Enable 3D for children */
+  position: absolute; /* Position absolutely within container */
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* transform-style: preserve-3d; No longer needed as it has no 3D children */
   /* transition: removed - now handled by container */
-  display: block; /* Ensure it fills container */
+  display: flex; /* Use flex to center the image */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Hide overflow from image */
+  backface-visibility: hidden; /* Hide this when container flips */
+  -webkit-backface-visibility: hidden; /* Safari */
+  background-color: white; /* Give it the default background */
 }
 
-/* .mascot-card.flipped { removed - class moved to container } */
+/* Remove styles for .mascot-card-front and .mascot-card-back */
 
-.mascot-card-front,
-.mascot-card-back {
-  position: absolute;
+/* Loading animation - Now a direct child of container */
+.mascot-loading {
+  position: absolute; /* Position absolutely within container */
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  backface-visibility: hidden; /* Hide the back of the element when facing away */
+  backface-visibility: hidden; /* Hide back face */
   -webkit-backface-visibility: hidden; /* Safari */
-  margin: 0;
-  padding: 0;
-  overflow: hidden; /* Prevent content spillover */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* No transform-style needed here */
-}
-
-.mascot-card-front {
-  background-color: white; /* Match container or set desired background */
-  z-index: 1; /* Optional: ensure front is initially above back if needed */
-  /* No rotation needed */
-  display: flex; /* Keep flex for centering image */
-  justify-content: center;
-  align-items: center;
-}
-
-.mascot-card-back {
-  transform: rotateY(180deg); /* Start rotated */
-  background-color: white; /* Match front/container or set desired background */
-  /* Flex properties already inherited will center content */
-}
-
-/* Loading animation */
-.mascot-loading {
+  transform: rotateY(180deg); /* Rotate to be the back face */
+  background-color: white; /* Give it a background */
+  z-index: 1; /* Ensure it's layered correctly if needed */
   display: none; /* Initially hidden, JS will show it */
   flex-direction: column;
   align-items: center;
@@ -814,11 +799,12 @@ footer a:active {
     box-shadow: 4px 4px 0 var(--shadow-color);
   }
 
-  .mascot-card-front,
-  .mascot-card-back {
-    background-color: #1e1e1e; /* Match dark container background */
+  /* Apply dark background to the card (front face) and loading (back face) */
+  .mascot-card,
+  .mascot-loading {
+    background-color: #1e1e1e;
   }
-  
+
   .mascot-loading p {
     color: #ffffff;
   }
