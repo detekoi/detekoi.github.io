@@ -62,7 +62,7 @@ app.post('/api/generate-image', async (req, res) => {
     const base64Image = imageData.toString('base64');
     
     // Get prompt from the request, or use default
-    const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the bear is wearing fashion garments and accessories, make it a cohesive theme. Also, change his blue neckerchief into any vibrant color.";
+    const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the subject has been styled by a professional stylist, make it a cohesive theme.";
     
     console.log(`Using prompt: ${prompt.substring(0, 50)}...`);
     
