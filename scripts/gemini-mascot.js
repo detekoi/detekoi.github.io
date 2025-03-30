@@ -191,8 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const newHeight = Math.round(currentCardWidth * aspectRatio);
 
     // Apply adjusted minimum and maximum height constraints
-    const minHeight = 200; // Adjusted minimum height
-    const maxHeight = 450; // Adjusted maximum height
+    const minHeight = 180; // Slightly reduced minimum height
+    const maxHeight = 400; // Reduced maximum height for smaller desktop size
     
     // Calculate the final height, respecting the constraints
     const calculatedHeight = Math.min(Math.max(newHeight, minHeight), maxHeight);

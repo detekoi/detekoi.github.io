@@ -8,8 +8,8 @@
   position: relative;
   width: 100%;
   padding-left: 0;
-  /* Use max-width to ensure it fills the available space */
-  max-width: 470px;
+  /* Use max-width to ensure it fills the available space - Reduced for smaller desktop size */
+  max-width: 420px; 
 }
 
 .carousel-controls {
@@ -69,7 +69,7 @@
   top: 0;
   left: 0;
   background-color: var(--color-card-bg);
-  width: 370px; /* Significantly increased card width */
+  width: 320px; /* Reduced card width for smaller desktop size */
   height: auto;
   border-radius: 0; /* Remove border radius to match portfolio style */
   border: 3px solid var(--color-border);
@@ -101,7 +101,7 @@
 .container .card:nth-child(1) {
   z-index: 10;
   top: 0px;
-  left: 50px; /* Position front card to the right */
+  left: 40px; /* Adjusted position for smaller card */
   opacity: 1;
   /* Updated shadow for the top card to match aesthetic */
   box-shadow: 8px 8px 1px rgba(0, 0, 0, 0.8);
@@ -139,7 +139,7 @@
   transform: translate(-2px, -2px) scale(1.02);
   /* Enhanced shadow on hover */
   box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
-  left: 48px; /* Maintain the offset position while hovering */
+  left: 38px; /* Adjusted hover position */
 }
 
 .container .card:first-child:active {
@@ -147,7 +147,7 @@
   /* Sharp shadow on active, matching .project:active */
   box-shadow: 2px 2px 0 var(--color-border);
   background-color: var(--color-secondary);
-  left: 52px; /* Maintain the offset position while active */
+  left: 42px; /* Adjusted active position */
 }
 
 /* Dark Mode Adjustments */
@@ -181,14 +181,14 @@
   .container .card:first-child:hover {
      /* Enhanced shadow on hover in dark mode */
     box-shadow: 11px 11px 1px rgba(255, 255, 255, 0.1);
-    left: 48px; /* Maintain the offset position while hovering */
+    left: 38px; /* Adjusted hover position */
   }
   
   .container .card:first-child:active {
      /* Sharp shadow on active in dark mode, matching .project:active */
     box-shadow: 2px 2px 0 var(--shadow-color);
     background-color: #333333;
-    left: 52px; /* Maintain the offset position while active */
+    left: 42px; /* Adjusted active position */
   }
   
   /* Dark mode styling for the mascot description */
@@ -236,7 +236,7 @@
 .mascot-ai-description {
   margin-top: var(--spacing-medium);
   padding: var(--spacing-medium);
-  width: 370px; /* Match the card width */
+  width: 320px; /* Match the reduced card width */
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
