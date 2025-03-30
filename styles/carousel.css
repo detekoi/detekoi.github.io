@@ -264,8 +264,8 @@
   .carousel-controls {
     flex-direction: row;
     margin-right: 0;
-    /* Reduce top margin further to bring controls closer to cards */
-    margin-top: 5px; /* Reduced from --spacing-small */
+    /* Increase top margin to add space between container and controls */
+    margin-top: 20px; /* Increased from 5px */
     order: 2; /* Display controls after the container */
     left: 0; /* Reset left positioning for mobile */
   }
