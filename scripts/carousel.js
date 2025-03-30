@@ -64,13 +64,13 @@
                 .animate({
                     top: '0px',      // Target top for 1st card
                     opacity: 1,      // Target opacity for 1st card
-                    // Apply the SOFTER shadow when animating to the 1st position
+                    // Apply the UPDATED shadow when animating to the 1st position
                     boxShadow: isDarkMode() ?
-                              '8px 8px 5px rgba(255, 255, 255, 0.2)' : // Dark mode softer shadow
-                              '8px 8px 5px rgba(51, 51, 51, 0.5)'      // Light mode softer shadow
+                              '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
+                              '8px 8px 1px rgba(0, 0, 0, 0.8)'        // Light mode updated shadow
                 }, 400, 'swing', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
-                    // This ensures the :nth-child(1) CSS rule applies the softer shadow correctly
+                    // This ensures the :nth-child(1) CSS rule applies the updated shadow correctly
                     $(this).removeAttr('style');
                 });
         });

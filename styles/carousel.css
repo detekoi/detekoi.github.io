@@ -103,8 +103,8 @@
   z-index: 10;
   top: 0px;
   opacity: 1;
-  /* Softer shadow for the top card */
-  box-shadow: 8px 8px 5px rgba(51, 51, 51, 0.5);
+  /* Updated shadow for the top card to match aesthetic */
+  box-shadow: 8px 8px 1px rgba(0, 0, 0, 0.8);
 }
 
 .card:nth-child(2) {
@@ -137,8 +137,8 @@
 
 .card:first-child:hover {
   transform: translate(-2px, -2px) scale(1.02);
-  /* Slightly enhanced softer shadow on hover */
-  box-shadow: 10px 10px 6px rgba(51, 51, 51, 0.5);
+  /* Enhanced shadow on hover */
+  box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
 }
 
 .card:first-child:active {
@@ -172,13 +172,13 @@
   }
 
   .card:nth-child(1) {
-     /* Softer shadow for the top card in dark mode */
-     box-shadow: 8px 8px 5px rgba(255, 255, 255, 0.2);
+     /* Updated shadow for the top card in dark mode */
+     box-shadow: 8px 8px 1px rgba(255, 255, 255, 0.3); /* Adjusted alpha for dark mode */
   }
   
   .card:first-child:hover {
-     /* Enhanced softer shadow on hover in dark mode */
-    box-shadow: 10px 10px 6px rgba(255, 255, 255, 0.25);
+     /* Enhanced shadow on hover in dark mode */
+    box-shadow: 11px 11px 1px rgba(255, 255, 255, 0.1);
   }
   
   .card:first-child:active {
