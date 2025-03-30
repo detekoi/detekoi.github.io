@@ -188,6 +188,7 @@ header {
   width: 100%;
   height: 100%;
   display: block;
+  object-fit: contain; /* Ensure image aspect ratio is maintained */
   cursor: pointer;
   transition: transform 0.3s ease, opacity 0.3s ease; /* Add opacity transition */
 }
@@ -224,7 +225,7 @@ header {
   -webkit-backface-visibility: hidden; /* Safari */
   transform: rotateY(180deg); /* Rotate to be the back face */
   background-color: white; /* Give it a background */
-  z-index: 1; /* Ensure it's layered correctly if needed */
+  /* z-index: 1; Removed - generally not needed with backface-visibility */
   display: none; /* Initially hidden, JS will show it */
   flex-direction: column;
   align-items: center;
