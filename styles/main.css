@@ -153,14 +153,10 @@ header {
   border: 2px solid var(--color-text);
   box-shadow: 4px 4px 0 var(--color-text);
   /* Transitions for hover/active effects and height */
-  transition: box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease, transform 0.3s ease; /* Removed flip transition, kept hover transform */
-  /* perspective: 1000px; Removed */
-  /* transform-style: preserve-3d; Removed */
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, height 0.5s ease, transform 0.3s ease;
   box-sizing: border-box;
   overflow: hidden; /* Keep overflow hidden */
 }
-
-/* Removed .mascot-container.flipped rule */
 
 .mascot-container:hover {
   /* Apply hover effects directly */
@@ -191,14 +187,10 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  /* transform-style: preserve-3d; No longer needed as it has no 3D children */
-  /* transition: removed - now handled by container */
   display: flex; /* Use flex to center the image */
   justify-content: center;
   align-items: center;
   overflow: hidden; /* Hide overflow from image */
-  /* backface-visibility: hidden; Removed */
-  /* -webkit-backface-visibility: hidden; Removed */
   background-color: white; /* Give it the default background */
 }
 
@@ -211,9 +203,6 @@ header {
   height: 100%;
   top: 0;
   left: 0;
-  /* backface-visibility: hidden; Removed */
-  /* -webkit-backface-visibility: hidden; Removed */
-  /* transform: rotateY(180deg); Removed */
   background-color: rgba(255, 255, 255, 0.9); /* Use semi-transparent background */
   z-index: 5; /* Ensure it overlays the card */
   display: none; /* Initially hidden, JS will show it */
