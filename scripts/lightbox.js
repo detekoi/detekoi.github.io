@@ -71,11 +71,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Close lightbox event listeners
   lightboxClose.addEventListener('click', closeLightbox);
+  
+  // Close when clicking anywhere except the image itself
   lightboxOverlay.addEventListener('click', (e) => {
-    if (e.target === lightboxOverlay) {
+    // Only prevent closing if the click was directly on the image
+    if (e.target !== lightboxImage) {
       closeLightbox();
     }
   });
+  
+  // Prevent clicks on the image from closing the lightbox
+  lightboxImage.addEventListener('click', (e) => {
+    e.stopPropagation(); // Stop click from propagating to container/overlay
+  });
+  
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && lightboxOverlay.classList.contains('active')) {
       closeLightbox();
