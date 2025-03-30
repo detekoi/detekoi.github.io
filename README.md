@@ -1,4 +1,4 @@
-# Personal Portfolio Website
+# Henry's Portfolio Website
 
 This repository contains the code for my personal portfolio website.
 
@@ -7,9 +7,9 @@ This repository contains the code for my personal portfolio website.
 - [Setup and Installation](#setup-and-installation)
 - [Customization](#customization)
   - [Mascot](#customizing-the-mascot)
-  - [Static Background](#customizing-the-static-background)
-- [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
+- [Deployment](#deployment)
+- [Static Background Customization](#static-background-customization)
 
 ## Features
 
@@ -91,83 +91,33 @@ To use your own mascot, you'll need to update several files:
    node scripts/test-image-generation.js
    ```
 
-## Customizing the Static Background
+### Gemini API Performance
 
-The website features a dynamic static noise background effect that can be customized by modifying parameters in `scripts/static-background.js`. The effect includes both a normal state and an enhanced "magic mode" that activates during certain interactions.
+1. **Image Size Considerations**
+   - Keep mascot images at recommended size (512x512px)
+   - Larger images increase API response time and costs
+   - Smaller images may reduce generation quality
 
-### Basic Parameters
+2. **Rate Limiting**
+   - Default cooldown period between generations
+   - Prevents API abuse and manages costs
+   - Adjust in `server.js` if needed:
+     ```javascript
+     const RATE_LIMIT_MS = 5000; // 5 seconds between generations
+     ```
 
-To adjust the basic static effect, modify these parameters in the `config` object:
+3. **Caching Strategy**
+   - Generated outfits are cached server-side
+   - Reduces API calls and improves response times
+   - Configure cache size in `server.js`:
+     ```javascript
+     const CACHE_SIZE = 10; // Number of recent generations to keep
+     ```
 
-```javascript
-const config = {
-    pixelSize: 1,       // Size of each static pixel
-    density: 0.8,       // Density of static dots
-    baseAlpha: 0.85,    // Base opacity of static
-    alphaVariance: 0.25 // Random variance in opacity
-};
-```
-
-### Color Settings
-
-The static effect automatically adapts to light/dark mode. Customize the intensity ranges:
-
-```javascript
-const config = {
-    // Dark mode settings (bright dots on dark background)
-    darkIntensityMin: 30,
-    darkIntensityMax: 100,
-    
-    // Light mode settings (dark dots on light background)
-    lightIntensityMin: 135,
-    lightIntensityMax: 200
-};
-```
-
-### Magic Mode Effects
-
-When magic mode activates (during certain interactions), the static becomes more intense and colorful. Customize these effects:
-
-```javascript
-const config = {
-    intenseDensity: 1.8,    // Density during magic mode
-    intenseColor: [200, 120, 255], // Purple magic color [R,G,B]
-    transitionSpeed: 0.012   // Speed of transition to/from magic mode
-};
-```
-
-### Magic Mode and Gemini Integration
-
-The static background's Magic Mode is designed to enhance the user experience during Gemini AI image generation. When you click the Style Inspiration button to generate a new outfit for the mascot:
-
-1. Magic Mode automatically activates, creating a purple-tinted static effect
-2. This visual feedback indicates that the AI is processing your request
-3. The effect persists for four seconds
-4. After four seconds, the effect smoothly fades back to normal
-
-This creates a cohesive experience where the background responds to AI interactions, making the website feel more dynamic and interactive.
-
-### Performance Settings
-
-Adjust performance-related parameters:
-
-```javascript
-const config = {
-    frameInterval: 45, // Milliseconds between frames (~20fps)
-};
-```
-
-### Triggering Magic Mode Programmatically
-
-You can trigger the enhanced static effect from your JavaScript code:
-
-```javascript
-// Enable magic mode
-window.staticBackground.enableMagicMode();
-
-// Disable magic mode
-window.staticBackground.disableMagicMode();
-```
+4. **Error Handling**
+   - Graceful fallbacks when API is unavailable
+   - Automatic retries for failed generations
+   - User feedback through UI state changes
 
 ## Technology Stack
 
@@ -277,3 +227,137 @@ The repository includes two GitHub Actions workflows:
 - **Separated Concerns**: Frontend and backend can be deployed and scaled independently
 
 This deployment setup provides a production-ready environment that's both scalable and maintainable. The separation of frontend and backend deployments allows for independent scaling and updates while maintaining a cohesive system through automated workflows.
+
+## Static Background Customization
+
+The website features a dynamic static noise background effect that can be customized by modifying parameters in `scripts/static-background.js`. The effect includes both a normal state and an enhanced "magic mode" that activates during certain interactions.
+
+### Basic Parameters
+
+To adjust the basic static effect, modify these parameters in the `config` object:
+
+```javascript
+const config = {
+    pixelSize: 1,       // Size of each static pixel
+    density: 0.8,       // Density of static dots
+    baseAlpha: 0.85,    // Base opacity of static
+    alphaVariance: 0.25 // Random variance in opacity
+};
+```
+
+### Color Settings
+
+The static effect automatically adapts to light/dark mode. Customize the intensity ranges:
+
+```javascript
+const config = {
+    // Dark mode settings (bright dots on dark background)
+    darkIntensityMin: 30,
+    darkIntensityMax: 100,
+    
+    // Light mode settings (dark dots on light background)
+    lightIntensityMin: 135,
+    lightIntensityMax: 200
+};
+```
+
+### Magic Mode Effects
+
+When magic mode activates (during certain interactions), the static becomes more intense and colorful. Customize these effects:
+
+```javascript
+const config = {
+    intenseDensity: 1.8,    // Density during magic mode
+    intenseColor: [200, 120, 255], // Purple magic color [R,G,B]
+    transitionSpeed: 0.012   // Speed of transition to/from magic mode
+};
+```
+
+### Magic Mode and Gemini Integration
+
+The static background's Magic Mode is designed to enhance the user experience during Gemini AI image generation. When you click the Style Inspiration button to generate a new outfit for the mascot:
+
+1. Magic Mode automatically activates, creating a purple-tinted static effect
+2. This visual feedback indicates that the AI is processing your request
+3. The effect persists for four seconds
+4. After four seconds, the effect smoothly fades back to normal
+
+This creates a cohesive experience where the background responds to AI interactions, making the website feel more dynamic and interactive.
+
+### Performance Settings
+
+Adjust performance-related parameters:
+
+```javascript
+const config = {
+    frameInterval: 45, // Milliseconds between frames (~20fps)
+};
+```
+
+### Triggering Magic Mode Programmatically
+
+You can trigger the enhanced static effect from your JavaScript code:
+
+```javascript
+// Enable magic mode
+window.staticBackground.enableMagicMode();
+
+// Disable magic mode
+window.staticBackground.disableMagicMode();
+```
+
+### Static Background Performance
+
+The static background effect is designed to be performant while maintaining visual quality. Here are key considerations:
+
+1. **Frame Rate Control**
+   - Default runs at ~20fps (45ms intervals) to balance smoothness and CPU usage
+   - Automatically pauses when tab is not visible
+   - Adjust `frameInterval` for different performance targets:
+     ```javascript
+     const config = {
+         frameInterval: 45, // Increase for better performance, decrease for smoother animation
+     };
+     ```
+
+2. **Density Scaling**
+   - Static density automatically scales with screen size
+   - Adjust `density` and `intenseDensity` for performance:
+     ```javascript
+     const config = {
+         density: 0.8,        // Decrease for better performance
+         intenseDensity: 1.8  // Decrease for better performance in magic mode
+     };
+     ```
+
+3. **Pixel Size Optimization**
+   - Larger `pixelSize` values improve performance but reduce quality
+   - Consider increasing on lower-end devices:
+     ```javascript
+     const config = {
+         pixelSize: 1, // Increase to 2 or 3 for better performance
+     };
+     ```
+
+4. **Dark Mode Optimizations**
+   - Automatically reduces effects intensity in dark mode
+   - Fewer particles and lower opacity for better visibility and performance
+
+### Browser Support
+
+- Static effect uses `requestAnimationFrame` for optimal performance
+- Fallback to simpler static effect on older browsers
+- Automatically adjusts quality based on device capabilities
+- Supports both mouse and touch interactions
+
+### Network Optimization
+
+1. **API Endpoint Location**
+   - Deploy Cloud Run backend in regions close to your users
+   - Use CDN for static assets
+   - Configure CORS appropriately for your deployment
+
+2. **Asset Loading**
+   - Mascot images are lazy-loaded
+   - Static effect starts immediately while assets load
+   - Progressive enhancement approach
