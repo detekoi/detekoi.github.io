@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In a short description, you have the information at hand, so confidently attribute specific designers or brands, even obscure ones (or just 'vintage'). No language like 'possibly,' 'likely,' 'perhaps,' or 'reminiscent of.'";
 
   // Backend API endpoint URL
-  const BACKEND_API_URL = 'https://shirokuma-server-md77ensuuq-uc.a.run.app/api/generate-image';
+  const BACKEND_API_URL = 'api/generate-image';
 
 
   // Keep track of image generation state
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mascotAiDescription.classList.remove('visible'); // Hide previous description
     mascotAiDescription.style.display = 'none'; // Ensure it's hidden
     mascotLoading.style.display = 'flex'; // Show loading spinner on the back
-    mascotCard.classList.add('flipped'); // Flip the card to show loading
+    mascotCard.classList.add('flipped'); // Flip the CARD to show loading
 
     // Activate magical background effect if available
     // This will smoothly transition to the intense state and automatically fade back
