@@ -94,11 +94,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // EFFECT LAYER: Only if we're not in normal state
         if (config.effectState !== 'normal' && config.transitionProgress > 0) {
             // Calculate intensity dots - these have color and vary with transition
-            // Significantly increased dot count for more intense visual effect
-            const effectDots = Math.floor((canvas.width * canvas.height) / 30 * 
+            // Adjust density based on dark mode - less intense in dark mode
+            const densityMultiplier = isDarkMode ? 40 : 30; // Higher divisor = fewer dots in dark mode
+            const effectDots = Math.floor((canvas.width * canvas.height) / densityMultiplier * 
                 (config.intenseDensity - config.density) * config.transitionProgress);
                 
-            // Draw more and bigger dots for enhanced visual effect
+            // Draw dots with adjusted size for dark mode
             for (let i = 0; i < effectDots; i++) {
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * canvas.height;
@@ -106,20 +107,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Get special effect color (purple/magic)
                 const { r, g, b, alpha } = calculateEffectColor();
                 
-                // Draw the effect dot - occasionally make some dots larger for more visual impact
-                const dotSize = Math.random() > 0.9 ? config.pixelSize * 2 : config.pixelSize;
-                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                // Smaller dots and fewer large ones in dark mode
+                const largeThreshold = isDarkMode ? 0.95 : 0.9; // 5% large dots in dark mode vs 10% in light
+                const dotSize = Math.random() > largeThreshold ? config.pixelSize * 2 : config.pixelSize;
+                
+                // Lower alpha for dark mode
+                const effectiveAlpha = isDarkMode ? alpha * 0.8 : alpha;
+                
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${effectiveAlpha})`;
                 ctx.fillRect(x, y, dotSize, dotSize);
             }
             
-            // Add some extra bright sparkles for additional visual impact
-            const sparkleCount = Math.floor((canvas.width * canvas.height) / 2000 * config.transitionProgress);
+            // Add some extra bright sparkles for additional visual impact - fewer in dark mode
+            const sparkleMultiplier = isDarkMode ? 3000 : 2000; // Higher divisor = fewer sparkles
+            const sparkleCount = Math.floor((canvas.width * canvas.height) / sparkleMultiplier * config.transitionProgress);
+            
             for (let i = 0; i < sparkleCount; i++) {
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * canvas.height;
                 
+                // Lower opacity sparkles in dark mode
+                const sparkleAlpha = isDarkMode ? 0.5 * config.transitionProgress : 0.7 * config.transitionProgress;
+                
                 // Always use white for these special sparkles
-                ctx.fillStyle = `rgba(255, 255, 255, ${0.7 * config.transitionProgress})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${sparkleAlpha})`;
                 ctx.fillRect(x, y, config.pixelSize * 2, config.pixelSize * 2);
             }
         }
@@ -186,37 +197,43 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Helper function to calculate the special effect color (used for magic/intense state)
     function calculateEffectColor() {
-        // Calculate the intense color with some variation
-        // Use less variation to maintain more consistent vibrant colors
-        const intenseR = config.intenseColor[0] + (Math.random() * 40 - 20);
-        const intenseG = config.intenseColor[1] + (Math.random() * 30 - 15);
-        const intenseB = config.intenseColor[2] + (Math.random() * 20 - 10); // Less variation for blue to keep purple vibrant
+        // Calculate the intense color with some variation - adjust based on dark mode
+        // Less vibrant colors in dark mode
+        const colorIntensity = isDarkMode ? 0.85 : 1.0;
+        
+        // Apply dark mode adjustments to colors
+        const intenseR = (config.intenseColor[0] * colorIntensity) + (Math.random() * 40 - 20);
+        const intenseG = (config.intenseColor[1] * colorIntensity) + (Math.random() * 30 - 15);
+        const intenseB = (config.intenseColor[2] * colorIntensity) + (Math.random() * 20 - 10);
         
         let r, g, b, alpha;
         
         // Add some colorful variation
         const colorRoll = Math.random();
         
-        // White sparkles (10% chance)
-        if (colorRoll > 0.9) {
+        // White sparkles (less in dark mode)
+        if (colorRoll > (isDarkMode ? 0.93 : 0.9)) { // 7% chance in dark mode vs 10% in light
             r = g = b = 255;
-            alpha = Math.random() * 0.95 * config.transitionProgress; // Brighter white sparkles
+            // Dimmer white sparkles in dark mode
+            alpha = Math.random() * (isDarkMode ? 0.7 : 0.95) * config.transitionProgress;
         }
-        // Cyan accent sparkles (5% chance) - complementary to purple
-        else if (colorRoll > 0.85) {
+        // Cyan accent sparkles (fewer in dark mode)
+        else if (colorRoll > (isDarkMode ? 0.9 : 0.85)) { // 3% chance in dark mode vs 5% in light
             r = 100 + Math.random() * 50;
             g = 220 + Math.random() * 35;
             b = 255;
-            alpha = (0.8 + Math.random() * 0.2) * config.transitionProgress; // Brighter cyan sparkles
+            // Dimmer cyan sparkles in dark mode
+            alpha = ((isDarkMode ? 0.6 : 0.8) + Math.random() * 0.2) * config.transitionProgress;
         }
-        // Main purple/magic color (85% chance)
+        // Main purple/magic color
         else {
-            // Use the intense colors with enhanced alpha
+            // Use the intense colors with adjusted alpha based on mode
             r = intenseR;
             g = intenseG;
             b = intenseB;
-            // Use higher base alpha for more vibrant appearance
-            alpha = (0.9 + (Math.random() * 0.1 - 0.05)) * config.transitionProgress;
+            // Lower alpha for dark mode
+            const baseAlpha = isDarkMode ? 0.75 : 0.9;
+            alpha = (baseAlpha + (Math.random() * 0.1 - 0.05)) * config.transitionProgress;
         }
         
         // Ensure values are in valid range
