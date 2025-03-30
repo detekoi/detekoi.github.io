@@ -1,24 +1,75 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const geminiButton = document.getElementById('gemini-button');
-  const mascotImage = document.querySelector('.mascot');
-  const originalMascotSrc = mascotImage.src; // Store the original image source
+  const styleInspirationLink = document.getElementById('style-inspiration-link');
+  const mascotContainer = document.querySelector('.mascot-container');
+  const mascotCard = document.querySelector('.mascot-card');
+  const mascotImage = document.querySelector('.mascot'); // The main image on the front
+  const mascotLoading = document.querySelector('.mascot-loading');
+  const mascotAiDescription = document.getElementById('mascot-ai-description'); // The description div below container
 
-  if (!geminiButton || !mascotImage) {
-    console.error('Required elements (button or mascot image) not found.');
+  if (!styleInspirationLink || !mascotContainer || !mascotCard || !mascotImage || !mascotLoading || !mascotAiDescription) {
+    console.error('Required mascot elements not found.');
     return;
   }
 
-  // Prompt for the Gemini API - customized to edit the existing bear image
+  // Set initial container height based on image dimensions
+  function setInitialHeight() {
+    if (mascotImage.complete) {
+      adjustContainerHeight();
+    } else {
+      mascotImage.addEventListener('load', adjustContainerHeight);
+    }
+  }
+
+  function adjustContainerHeight() {
+    const containerWidth = mascotContainer.offsetWidth;
+    const aspectRatio = mascotImage.naturalHeight / mascotImage.naturalWidth;
+    const newHeight = Math.round(containerWidth * aspectRatio);
+    
+    // Apply minimum height to ensure visibility
+    const minHeight = 250;
+    const maxHeight = 600;
+    mascotContainer.style.height = `${Math.min(Math.max(newHeight, minHeight), maxHeight)}px`;
+  }
+
+  // Initialize container height
+  setInitialHeight();
+  
+  // Handle browser resize
+  window.addEventListener('resize', adjustContainerHeight);
+
+  // Store the original image source and alt text for error recovery
+  const originalMascotSrc = mascotImage.src;
+  const originalMascotAlt = mascotImage.alt;
+  const originalContainerHeight = mascotContainer.offsetHeight; // Store height after initialization
+
+  // Prompt for the Gemini API
   const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In a short description, you have the information at hand, so confidently attribute specific designers or brands, even obscure ones (or just 'vintage'). No language like 'possibly,' 'likely,' 'perhaps,' or 'reminiscent of.'";
 
-  // Backend API endpoint URL - now using the working image generation endpoint
-  const BACKEND_API_URL = '/api/generate-image'; // Use the working endpoint
+  // Backend API endpoint URL
+  const BACKEND_API_URL = '/api/generate-image';
 
-  // Event listener for the button
-  geminiButton.addEventListener('click', async () => {
-    // Indicate processing started
-    geminiButton.disabled = true;
-    geminiButton.textContent = '🪄'; // Change icon to magic wand
+  // Keep track of image generation state
+  let isGeneratingImage = false;
+
+  // Event listener for the style inspiration link
+  styleInspirationLink.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    if (isGeneratingImage) return;
+    isGeneratingImage = true;
+
+    // --- Start Loading State ---
+    styleInspirationLink.style.pointerEvents = 'none'; // Disable further clicks
+    styleInspirationLink.style.opacity = '0.7'; // Visual feedback
+    mascotAiDescription.classList.remove('visible'); // Hide previous description
+    mascotAiDescription.style.display = 'none'; // Ensure it's hidden
+    mascotLoading.style.display = 'flex'; // Show loading spinner on the back
+    mascotCard.classList.add('flipped'); // Flip the card to show loading
+
+    // Activate magical background effect if available
+    if (window.staticBackground && typeof window.staticBackground.enableMagicMode === 'function') {
+      window.staticBackground.enableMagicMode();
+    }
 
     try {
       console.log('Sending image generation request to server...');
@@ -31,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (!response.ok) {
-        // Handle error response
+        // Handle error response gracefully
         let errorMessage = `HTTP error! status: ${response.status}`;
         try {
           const errorData = await response.json();
@@ -39,40 +90,133 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
           errorMessage += ` - ${response.statusText}`;
         }
-        throw new Error(errorMessage);
+        throw new Error(errorMessage); // Throw to be caught by the catch block
       }
 
       const data = await response.json();
-      console.log('Received response from server:', data);
+      console.log('Received response from server');
 
-      // Update the mascot image if we received an image
       if (data.imageDataUri) {
-        console.log('Received new image data URI from backend. Updating mascot image...');
-        mascotImage.src = data.imageDataUri;
-        mascotImage.alt = "AI-generated polar bear mascot."; // Update alt text
+        console.log('Received new image data URI. Preparing display...');
+
+        // --- Process New Image and Text ---
+        const newImageSrc = data.imageDataUri;
+        const newDescription = data.textResponse || "Generated a new style!";
+
+        // Preload the new image to get its dimensions
+        const tempImg = new Image();
+        tempImg.onload = () => {
+          console.log(`New image loaded: ${tempImg.width}x${tempImg.height}`);
+          
+          // Calculate new height based on container's current width and new image aspect ratio
+          const containerWidth = mascotContainer.offsetWidth;
+          const aspectRatio = tempImg.height / tempImg.width;
+          let newHeight = Math.round(containerWidth * aspectRatio);
+
+          // Optional: Clamp height to avoid excessively tall images
+          const maxHeight = 600; // Example max height
+          newHeight = Math.min(newHeight, maxHeight);
+
+          console.log(`Adjusting container height to: ${newHeight}px`);
+
+          // Set the container height BEFORE updating the image source
+          // Use requestAnimationFrame to ensure layout is updated before transition
+          requestAnimationFrame(() => {
+            mascotContainer.style.height = `${newHeight}px`;
+
+            // Update the main mascot image (on the front, while card is flipped)
+            mascotImage.src = newImageSrc;
+            mascotImage.alt = "AI-generated polar bear mascot in a new style: " + newDescription.substring(0, 50) + "..."; // Update alt text
+
+            // Update the description text below the container
+            mascotAiDescription.textContent = newDescription;
+            mascotAiDescription.style.display = 'block'; // Make it display block first
+            
+            // Use a tiny timeout to allow display:block to apply before adding class for transition
+            setTimeout(() => {
+              mascotAiDescription.classList.add('visible');
+            }, 10);
+
+            // Hide loading indicator
+            mascotLoading.style.display = 'none';
+
+            // --- Flip Back ---
+            mascotCard.classList.remove('flipped');
+
+            // Deactivate magic background
+            if (window.staticBackground && typeof window.staticBackground.disableMagicMode === 'function') {
+              window.staticBackground.disableMagicMode();
+            }
+
+            // Reset state after animation likely finishes
+            setTimeout(() => {
+              isGeneratingImage = false;
+              styleInspirationLink.style.pointerEvents = 'auto';
+              styleInspirationLink.style.opacity = '1';
+            }, 800); // Corresponds to flip duration
+          });
+        };
+
+        tempImg.onerror = () => {
+          console.error('Failed to load the received image data URI.');
+          handleGenerationError(new Error('Failed to load generated image.'));
+        }
+
+        tempImg.src = newImageSrc; // Start loading the image
+
       } else {
         console.log('No image data received from API.');
-        alert('The AI could not generate a new mascot image. Please try again.');
+        handleGenerationError(new Error("No image data received. Please try again."));
       }
-
     } catch (error) {
-      console.error('Error generating mascot image:', error);
-      alert(`Failed to generate new mascot: ${error.message}`);
-      geminiButton.textContent = '❌'; // Indicate error state
-      
-      // Re-enable after a delay if error
-      setTimeout(() => {
-        geminiButton.disabled = false;
-        geminiButton.textContent = '✨';
-      }, 2000);
-
-    } finally {
-      // Re-enable button unless it was set to error state
-      if (geminiButton.textContent !== '❌') {
-        geminiButton.disabled = false;
-        geminiButton.textContent = '✨'; // Restore original icon
-      }
+      console.error('Error during mascot generation process:', error);
+      handleGenerationError(error);
     }
   });
 
+  // Helper function to handle errors consistently
+  function handleGenerationError(error) {
+    mascotLoading.style.display = 'none'; // Hide loading
+
+    // Display error message in the description area
+    mascotAiDescription.textContent = `Failed to generate style: ${error.message}`;
+    mascotAiDescription.style.display = 'block';
+    setTimeout(() => {
+      mascotAiDescription.classList.add('visible');
+    }, 10);
+
+    // Reset image to original
+    mascotImage.src = originalMascotSrc;
+    mascotImage.alt = originalMascotAlt;
+
+    // Reset container height
+    requestAnimationFrame(() => {
+      mascotContainer.style.height = `${originalContainerHeight}px`; // Or 'auto' if preferred
+
+      // Flip back
+      mascotCard.classList.remove('flipped');
+
+      // Deactivate magic background
+      if (window.staticBackground && typeof window.staticBackground.disableMagicMode === 'function') {
+        window.staticBackground.disableMagicMode();
+      }
+
+      // Reset state after animation
+      setTimeout(() => {
+        isGeneratingImage = false;
+        styleInspirationLink.style.pointerEvents = 'auto';
+        styleInspirationLink.style.opacity = '1';
+      }, 800);
+    });
+  }
+
+  // Add click listener to mascot image for lightbox if window.showLightbox is available
+  if (mascotImage && window.showLightbox) {
+    mascotImage.style.cursor = 'pointer';
+    mascotImage.addEventListener('click', () => {
+      const descriptionText = mascotAiDescription.classList.contains('visible') ? 
+        mascotAiDescription.textContent : mascotImage.alt;
+      window.showLightbox(mascotImage.src, mascotImage.alt, descriptionText);
+    });
+  }
 });

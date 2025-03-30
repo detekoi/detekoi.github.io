@@ -121,10 +121,11 @@ header {
   border-bottom: 4px solid var(--color-border);
   padding-bottom: var(--spacing-large);
   display: grid;
-  grid-template-columns: 1fr 270px; /* Left content and right mascot */
+  grid-template-columns: 1fr auto; /* Left content, right mascot area */
   grid-template-areas:
-    "content mascot";
-  gap: var(--spacing-unit);
+    "content mascot-area"; /* Renamed mascot to mascot-area */
+  gap: var(--spacing-medium); /* Reduced gap slightly */
+  align-items: start; /* Align items to the top */
 }
 
 .header-content {
@@ -132,24 +133,35 @@ header {
   padding-right: var(--spacing-medium);
 }
 
+.header-mascot-area { /* Style the new wrapper */
+  grid-area: mascot-area;
+  display: flex;
+  flex-direction: column; /* Stack container and description */
+  align-items: flex-end; /* Align container to the right */
+  gap: var(--spacing-unit); /* Gap between image and description */
+  width: 270px; /* Maintain the desired width for the area */
+}
+
 .mascot-container {
-  grid-area: mascot;
-  align-self: end;
-  justify-self: end;
-  width: 270px;
+  /* Removed grid-area styling from here */
+  align-self: stretch; /* Let it stretch if needed, but width is controlled by parent */
+  width: 100%; /* Take full width of the header-mascot-area */
+  height: auto; /* Let height be determined by content initially */
+  min-height: 300px; /* Ensure minimum height to show image initially */
   position: relative;
-  padding: 8px;
   background-color: white;
   border: 2px solid var(--color-text);
   box-shadow: 4px 4px 0 var(--color-text);
   transition: all 0.3s ease;
-  overflow: hidden;
+  perspective: 1000px;
+  box-sizing: border-box;
+  overflow: hidden; /* Keep overflow hidden */
 }
 
 .mascot-container:hover {
   transform: translate(-3px, -3px);
   box-shadow: 6px 6px 1px rgba(0, 0, 0, 0.6);
-  transform: scale(1.02);
+  /* Removed scale transform to simplify interaction with dynamic height */
 }
 
 .mascot-container:active {
@@ -159,12 +171,125 @@ header {
 }
 
 .mascot {
-  max-width: 100%;
+  width: 100%;
   height: auto;
   display: block;
-  border-radius: 0;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Add opacity transition */
+  object-fit: contain; /* Maintain aspect ratio */
+  max-height: 500px; /* Add a max height just in case */
+}
+
+/* Card Flip Animation Styles */
+.mascot-card {
+  width: 100%;
+  height: 100%; /* Fill the container */
+  position: relative; /* Change from absolute if it was */
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: block; /* Or flex, ensure it fills container */
+}
+
+.mascot-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.mascot-card-front,
+.mascot-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; /* Safari */
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Important */
+  display: flex; /* Use flex to help center content */
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  transform-style: preserve-3d; /* Keep this if needed */
+}
+
+.mascot-card-front {
+  /* No rotation needed */
+  background-color: white; /* Match container */
+  z-index: 1; /* Ensure front is above back */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mascot-card-back {
+  transform: rotateY(180deg);
+  background-color: white; /* Match front/container */
+  /* Ensure loading is centered */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loading animation */
+.mascot-loading {
+  display: flex; /* Keep as flex */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Take full height */
+  text-align: center;
+  padding: 20px; /* Add some padding */
+  box-sizing: border-box;
+}
+
+.mascot-loading p {
+  margin-top: 15px;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.mascot-loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--color-secondary);
+  border-top: 5px solid var(--color-text);
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* NEW Styles for the description area below the mascot */
+.mascot-ai-description {
+  width: 100%; /* Match the width of the mascot area */
+  margin-top: var(--spacing-unit);
+  padding: var(--spacing-unit);
+  background-color: var(--color-card-bg);
+  border: 2px solid var(--color-border);
+  box-shadow: 4px 4px 0 var(--color-text);
+  font-size: var(--font-size-small);
+  line-height: 1.4;
+  max-height: 200px; /* Limit height and allow scroll */
+  overflow-y: auto;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition */
+  opacity: 0; /* Hidden initially */
+  transform: translateY(10px); /* Slide in effect */
+}
+
+/* Style inspiration link */
+#style-inspiration-link {
+  position: relative;
+  overflow: hidden;
+}
+
+#style-inspiration-link:after {
+  content: '✨';
+  margin-left: 5px;
+  display: inline-block;
 }
 
 /* Style for the Gemini Button */
@@ -243,6 +368,29 @@ header .tagline {
   background-color: rgba(255, 255, 255, 0.66);
   padding: 8px 12px;
   border-radius: 4px;
+}
+
+/* Added visible state for mascot-ai-description */
+.mascot-ai-description.visible {
+  opacity: 1;
+  transform: translateY(0);
+  display: block; /* Ensure it's displayed when visible class is added */
+}
+
+@media (prefers-color-scheme: dark) {
+  .mascot-ai-description {
+    background-color: #333333; /* Darker background */
+    border-color: #555555;
+    box-shadow: 4px 4px 0 var(--shadow-color);
+    color: var(--color-text); /* Ensure text is light */
+  }
+}
+
+@media (max-width: 575px) {
+  .mascot-ai-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 /* Project Grid */
@@ -368,13 +516,29 @@ header .tagline {
   position: relative;
   max-width: 90%;
   max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .lightbox-image {
   max-width: 100%;
-  max-height: 90vh;
+  max-height: 70vh;
   border: 2px solid var(--color-border);
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-description {
+  margin-top: 20px;
+  padding: 15px;
+  max-width: 80%;
+  max-height: 20vh;
+  overflow-y: auto;
+  background-color: var(--color-card-bg);
+  border: 2px solid var(--color-border);
+  color: var(--color-text);
+  font-size: var(--font-size-small);
+  line-height: 1.5;
 }
 
 .lightbox-close {
@@ -643,20 +807,34 @@ footer a:active {
   
   /* Override mascot container for dark mode */
   .mascot-container {
-    /* background-color: #ffffff; No longer needed if image covers it */
+    background-color: #1e1e1e; /* Dark background for container */
     border: 2px solid #555555;
     box-shadow: 4px 4px 0 var(--shadow-color);
   }
+
+  .mascot-card-front, /* Ensure front/back match container */
+  .mascot-card-back {
+    background-color: #1e1e1e;
+  }
+  
+  .mascot-loading p {
+    color: #ffffff;
+  }
+  
+  .mascot-loading-spinner {
+    border: 5px solid #333333;
+    border-top: 5px solid #ffffff;
+  }
   
   .mascot-container:hover {
-    transform: translate(-3px, -3px);
+     /* Keep existing dark mode hover */
     box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.1);
   }
   
   .mascot-container:active {
-    transform: translate(2px, 2px);
+     /* Keep existing dark mode active */
     box-shadow: 1px 1px 0 var(--shadow-color);
-    background-color: #eaeaea; /* Keep active state consistent */
+    background-color: #333; /* Darker active state */
   }
 
   /* Gemini button dark mode adjustments */
@@ -748,11 +926,11 @@ footer a:active {
   }
   
   header {
-    grid-template-columns: 1fr 200px;
+    grid-template-columns: 1fr 225px;
   }
   
-  .mascot-container {
-    width: 225px;
+  .header-mascot-area {
+     width: 225px; /* Adjust mascot area width */
   }
 }
 
@@ -761,13 +939,14 @@ footer a:active {
     grid-template-columns: 1fr;
     grid-template-areas:
       "content"
-      "mascot";
+      "mascot-area"; /* Adjust grid area name */
   }
   
-  .mascot-container {
-    justify-self: center;
-    margin-top: var(--spacing-medium);
-    padding: 6px;
+  .header-mascot-area {
+    width: 90%; /* Let it take more width */
+    max-width: 270px; /* But cap it */
+    align-items: center; /* Center align in mobile */
+    margin: var(--spacing-medium) auto 0 auto; /* Center the block */
   }
   
   header h1 {

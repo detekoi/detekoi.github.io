@@ -17,29 +17,45 @@
       <p class="role">OBS BROWSER SOURCES & STREAMING TOOLS</p>
       <p class="tagline">Free and open source streaming tools designed for maximum customizability and platform independence. Refresh your browser source to get the latest updates.</p>
       <p class="links"><a href="https://www.twitch.tv/parfaitfair" target="_blank">MY TWITCH</a></p>
+      <p class="links"><a href="#" id="style-inspiration-link">STYLE INSPIRATION</a></p>
     </div>
-    <div class="mascot-container">
-      <button id="gemini-button" title="Generate new mascot look with AI">✨</button>
-      <img src="assets/images/PolarBearCafeFin.jpg" alt="This illustration depicts Shirokuma (Polar Bear), a character from the anime Shirokuma Cafe (Polar Bear Cafe). He's standing upright wearing a blue patterned scarf or neckerchief tied around his neck. He's holding a tray with an ube-flavored parfait in a tall glass - the dessert is light purple in color and garnished with flowers. Shirokuma has a gentle, pleasant expression and is positioned in front of his own cafe building with green foliage visible to the side. The art style is colorful and cheerful, with a warm, inviting atmosphere typical of the anime's lighthearted tone." class="mascot">
+    <div class="header-mascot-area"> <!-- Added a wrapper -->
+      <div class="mascot-container">
+        <div class="mascot-card">
+          <div class="mascot-card-front">
+            <img src="assets/images/PolarBearCafeFin.jpg" alt="This illustration depicts Shirokuma (Polar Bear), a character from the anime Shirokuma Cafe (Polar Bear Cafe). He's standing upright wearing a blue patterned scarf or neckerchief tied around his neck. He's holding a tray with an ube-flavored parfait in a tall glass - the dessert is light purple in color and garnished with flowers. Shirokuma has a gentle, pleasant expression and is positioned in front of his own cafe building with green foliage visible to the side. The art style is colorful and cheerful, with a warm, inviting atmosphere typical of the anime's lighthearted tone." class="mascot">
+          </div>
+          <div class="mascot-card-back">
+            <!-- Only the loading indicator is needed here -->
+            <div class="mascot-loading">
+              <div class="mascot-loading-spinner"></div>
+              <p>Generating new style...</p>
+            </div>
+            <!-- Removed mascot-result, mascot-new, mascot-description-container -->
+          </div>
+        </div>
+      </div>
+      <!-- Dedicated description area BELOW the container -->
+      <div id="mascot-ai-description" class="mascot-ai-description" style="display: none;"></div>
     </div>
   </header>
-  
+
   <main>
     <section class="project-grid">
       <!-- Jam Deck -->
       <article class="project">
         <h2 class="project-title">JAM DECK</h2>
         <p class="project-description">Apple Music Stream Now Playing Widget for OBS (macOS/Apple Music only)</p>
-        
+
         <div class="project-tech">
           <span>Python</span>
           <span>AppleScript</span>
         </div>
-        
+
         <div class="screenshot-container">
           <img src="assets/images/screenshots/jam-deck.png" alt="Screenshot of Jam Deck showing four Apple Music now playing widgets with different color themes. Each widget displays album artwork, song title, and artist information in various styles - pink, green, dark, and white themes with different song information including Japanese characters, Wintime by CHAI, 'Dakotas' by Sofia Kourtesis, 'Learning Lessens (Shy One Remix)' by Andrew Ashong & Kaidi Tatham, and 'Hidden Memory' by AceMoMa." class="screenshot">
         </div>
-        
+
         <div class="project-links">
           <a href="https://github.com/detekoi/jam-deck/releases" target="_blank">Download</a>
           <a href="https://github.com/detekoi/jam-deck" target="_blank">GitHub</a>
@@ -50,17 +66,17 @@
       <article class="project">
         <h2 class="project-title">CHAT OVERLAY</h2>
         <p class="project-description">Chat Overlay for Twitch and OBS featuring an AI-powered custom theme generator</p>
-        
+
         <div class="project-tech">
           <span>JavaScript</span>
           <span>Twitch API</span>
           <span>AI</span>
         </div>
-        
+
         <div class="screenshot-container">
           <img src="assets/images/screenshots/chat-preview.png" alt="Screenshot of the Chat Overlay tool with a purple border showing a Twitch chat interface. The top panel includes a channel name input field and connect button with system welcome messages. The bottom panel shows a live chat connected to 'parfaitfair' with example messages from 'parfaittest' and 'parfaitfair' in different colors, demonstrating the compact and clean layout for stream overlays." class="screenshot">
         </div>
-        
+
         <div class="project-links">
           <a href="https://detekoi.github.io/compact-chat-overlay/" target="_blank">Use Now</a>
           <a href="https://github.com/detekoi/compact-chat-overlay" target="_blank">GitHub</a>
@@ -71,17 +87,17 @@
       <article class="project">
         <h2 class="project-title">CUSTOM CLOCK</h2>
         <p class="project-description">Customizable clock overlay for OBS streams and recordings</p>
-        
+
         <div class="project-tech">
           <span>HTML</span>
           <span>CSS</span>
           <span>JavaScript</span>
         </div>
-        
+
         <div class="screenshot-container">
           <img src="assets/images/screenshots/default-clock.png" alt="Screenshot of the Custom Clock overlay showing a minimalist clock with both analog and digital displays. The analog clock has a clean white circle design with thin hour marks and dark gray hands with green accents at the tips. Below it, a digital time display shows '03:47 PM' in a modern gray font. The design features a transparent background suitable for stream overlays." class="screenshot">
         </div>
-        
+
         <div class="project-links">
           <a href="https://detekoi.github.io/minimal-clock-overlay/" target="_blank">Use Now</a>
           <a href="https://github.com/detekoi/minimal-clock-overlay" target="_blank">GitHub</a>
@@ -92,13 +108,13 @@
       <article class="project">
         <h2 class="project-title">OVERLAY COLLECTION</h2>
         <p class="project-description">Collection of static browser overlays for OBS, regularly updated with new components</p>
-        
+
         <div class="project-tech">
           <span>HTML</span>
           <span>CSS</span>
           <span>JavaScript</span>
         </div>
-        
+
         <div class="screenshot-container">
           <img src="assets/images/screenshots/overlay-collection.png" alt="Screenshot of a blue cube illusion background from the Overlay Collection." class="screenshot">
         </div>
@@ -117,7 +133,7 @@
       <article class="project">
         <h2 class="project-title">LIVE NOTIFY</h2>
         <p class="project-description">Notification system to alert when you go live on Twitch, with Discord integration</p>
-        
+
         <div class="project-tech">
           <span>Python</span>
           <span>Twitch API</span>
@@ -135,33 +151,14 @@
     </section>
   </main>
 
-  <!-- Image Generator Section -->
-  <section class="image-generator-section">
-    <div id="image-generator-container" class="container">
-      <h2>Gemini AI Image Generator</h2>
-      <p>Create custom images using Google's Gemini 2.0 model</p>
-      
-      <div class="prompt-container">
-        <textarea id="image-prompt" placeholder="Describe the image you want to generate..."></textarea>
-        <button id="generate-image-button">Generate Image</button>
-      </div>
-      
-      <div id="loading-indicator" style="display: none;">Generating your image... This may take a moment...</div>
-      
-      <div id="generated-image-container"></div>
-      
-      <div id="text-response-container"></div>
-    </div>
-  </section>
-  
   <footer>
     <p>Polar Bear Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank">RUNNERBEAN36</a></p>
-    <p>&copy; 2025 Henry Manes | <a href="https://github.com/detekoi" target="_blank">GITHUB</a></p>
+    <p>© 2025 Henry Manes | <a href="https://github.com/detekoi" target="_blank">GITHUB</a></p>
   </footer>
-  
+
   <script src="scripts/theme.js"></script>
   <script src="scripts/lightbox.js"></script>
   <script src="scripts/static-background.js"></script>
-  <script src="scripts/gemini-mascot.js"></script>
+  <script src="scripts/gemini-mascot.js"></script> <!-- We will update this -->
 </body>
 </html>

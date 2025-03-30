@@ -25,7 +25,12 @@ document.addEventListener('DOMContentLoaded', () => {
         lightIntensityMax: 200, // Wider range for better visibility
 
         // Optional Frame Rate Limiting (uncomment interval logic below if needed)
-         frameInterval: 45 // Milliseconds between frames (~20fps). Lower = faster.
+        frameInterval: 45, // Milliseconds between frames (~20fps). Lower = faster.
+        
+        // Magic effect parameters
+        magicMode: false,   // Flag to enable magic effect
+        magicDensity: 1.3,  // Increased density for magic effect
+        magicColor: [180, 130, 255] // Purple-ish magic color
     };
     // -----------------------------
 
@@ -50,26 +55,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // Adjust density based on magic mode
+        const effectiveDensity = config.magicMode ? config.magicDensity : config.density;
+        
         // Optimized calculation for number of dots 
         // Using a more efficient density calculation for better performance
-        const numDots = Math.floor((canvas.width * canvas.height) / 50 * config.density);
+        const numDots = Math.floor((canvas.width * canvas.height) / 50 * effectiveDensity);
 
         for (let i = 0; i < numDots; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
 
-            let intensity;
-            // Use the isDarkMode flag determined by the media query
-            if (isDarkMode) {
-                intensity = config.darkIntensityMin + Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
+            let r, g, b, alpha;
+            
+            if (config.magicMode) {
+                // Use magic color with some variation
+                r = config.magicColor[0] + (Math.random() * 50 - 25);
+                g = config.magicColor[1] + (Math.random() * 50 - 25);
+                b = config.magicColor[2] + (Math.random() * 50 - 25);
+                alpha = config.baseAlpha + (Math.random() - 0.3) * config.alphaVariance;
+                
+                // Add some white sparkles
+                if (Math.random() > 0.95) {
+                    r = g = b = 255;
+                    alpha = Math.random() * 0.9 + 0.1;
+                }
             } else {
-                intensity = config.lightIntensityMin + Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
+                // Regular static mode
+                let intensity;
+                // Use the isDarkMode flag determined by the media query
+                if (isDarkMode) {
+                    intensity = config.darkIntensityMin + Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
+                } else {
+                    intensity = config.lightIntensityMin + Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
+                }
+                intensity = Math.floor(intensity);
+                r = g = b = intensity;
+                alpha = config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance;
             }
-            intensity = Math.floor(intensity);
+            
+            // Ensure values are in valid range
+            r = Math.min(255, Math.max(0, Math.floor(r)));
+            g = Math.min(255, Math.max(0, Math.floor(g)));
+            b = Math.min(255, Math.max(0, Math.floor(b)));
 
-            const alpha = config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance;
-
-            ctx.fillStyle = `rgba(${intensity}, ${intensity}, ${intensity}, ${alpha})`;
+            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
             ctx.fillRect(x, y, config.pixelSize, config.pixelSize);
         }
 
@@ -81,9 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateMode(event) {
         isDarkMode = event.matches;
         // No need to redraw immediately, the animation loop will pick it up.
-        // If your theme.js adds/removes a class like 'dark-mode' to the body,
-        // you could potentially sync using that instead of or in addition to the media query.
-        // For now, relying on the media query directly is cleanest as your CSS uses it.
+    }
+    
+    // Function to enable magic effect mode
+    function enableMagicMode() {
+        config.magicMode = true;
+        // The animation loop will pick it up
+    }
+    
+    // Function to disable magic effect mode
+    function disableMagicMode() {
+        config.magicMode = false;
+        // The animation loop will pick it up
     }
 
     // Initial Setup
@@ -93,9 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeCanvas);
 
     // Start the animation
-    // Use performance.now() if using frameInterval: drawStatic(performance.now());
-    // Otherwise, just start it:
     animationFrameId = requestAnimationFrame(drawStatic);
+    
+    // Expose functions to window for other scripts to use
+    window.staticBackground = {
+        enableMagicMode,
+        disableMagicMode
+    };
 
     // Listen for system theme changes
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -110,9 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
             cancelAnimationFrame(animationFrameId);
         } else {
             // Restart the animation loop
-            // if (using frame interval) lastFrameTime = performance.now();
             animationFrameId = requestAnimationFrame(drawStatic);
         }
     });
+    
+    // Note: Magic mode is now explicitly controlled by gemini-mascot.js
+    // so we've removed the automatic observer to avoid conflicts
 
 }); // End DOMContentLoaded
