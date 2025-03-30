@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         effectState: 'normal', // Can be 'normal', 'intensifying', 'intense', 'fading'
         
         // Intense mode parameters (what we transition to)
-        intenseDensity: 1.5,    // Higher density for intense mode (increased for more contrast)
-        intenseColor: [180, 130, 255], // Purple-ish magic color
+        intenseDensity: 1.8,    // Higher density for intense mode (increased for more contrast)
+        intenseColor: [200, 120, 255], // More vibrant purple magic color
         
         // Transition parameters
         transitionProgress: 0,   // Progress from 0-1
@@ -66,23 +66,62 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update the effect state and transition progress
         updateEffectState();
         
-        // Calculate the actual number of dots based on current density
-        // Add a minimum number of dots to ensure we always have some static
-        const baseMinDots = Math.floor((canvas.width * canvas.height) / 100); // Minimum dots regardless of density
-        const densityDots = Math.floor((canvas.width * canvas.height) / 50 * config.currentDensity);
-        const numDots = Math.max(baseMinDots, densityDots);
+        // APPROACH: Draw two layers of static
+        // 1. Base layer - always present (regular static)
+        // 2. Effect layer - varies with transitions (colored static)
         
-        // Draw the static dots
-        for (let i = 0; i < numDots; i++) {
+        // BASE LAYER: Always draw the normal static first
+        const baseStaticDots = Math.floor((canvas.width * canvas.height) / 50 * config.density);
+        for (let i = 0; i < baseStaticDots; i++) {
             const x = Math.random() * canvas.width;
             const y = Math.random() * canvas.height;
-
-            // Determine the dot appearance
-            const { r, g, b, alpha } = calculateDotColor();
             
-            // Draw the dot
-            ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            // Always use the normal static appearance for the base layer
+            let intensity;
+            if (isDarkMode) {
+                intensity = config.darkIntensityMin + Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
+            } else {
+                intensity = config.lightIntensityMin + Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
+            }
+            intensity = Math.floor(intensity);
+            
+            const alpha = config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance;
+            
+            ctx.fillStyle = `rgba(${intensity}, ${intensity}, ${intensity}, ${alpha})`;
             ctx.fillRect(x, y, config.pixelSize, config.pixelSize);
+        }
+        
+        // EFFECT LAYER: Only if we're not in normal state
+        if (config.effectState !== 'normal' && config.transitionProgress > 0) {
+            // Calculate intensity dots - these have color and vary with transition
+            // Significantly increased dot count for more intense visual effect
+            const effectDots = Math.floor((canvas.width * canvas.height) / 30 * 
+                (config.intenseDensity - config.density) * config.transitionProgress);
+                
+            // Draw more and bigger dots for enhanced visual effect
+            for (let i = 0; i < effectDots; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                
+                // Get special effect color (purple/magic)
+                const { r, g, b, alpha } = calculateEffectColor();
+                
+                // Draw the effect dot - occasionally make some dots larger for more visual impact
+                const dotSize = Math.random() > 0.9 ? config.pixelSize * 2 : config.pixelSize;
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                ctx.fillRect(x, y, dotSize, dotSize);
+            }
+            
+            // Add some extra bright sparkles for additional visual impact
+            const sparkleCount = Math.floor((canvas.width * canvas.height) / 2000 * config.transitionProgress);
+            for (let i = 0; i < sparkleCount; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                
+                // Always use white for these special sparkles
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.7 * config.transitionProgress})`;
+                ctx.fillRect(x, y, config.pixelSize * 2, config.pixelSize * 2);
+            }
         }
         
         // Request the next frame
@@ -145,45 +184,39 @@ document.addEventListener('DOMContentLoaded', () => {
         config.currentColorMix = easeInOut;
     }
     
-    // Helper function to calculate the color for a single dot
-    function calculateDotColor() {
-        // Get the base intensity based on theme
-        let intensity;
-        if (isDarkMode) {
-            intensity = config.darkIntensityMin + 
-                Math.random() * (config.darkIntensityMax - config.darkIntensityMin);
-        } else {
-            intensity = config.lightIntensityMin + 
-                Math.random() * (config.lightIntensityMax - config.lightIntensityMin);
-        }
-        intensity = Math.floor(intensity);
+    // Helper function to calculate the special effect color (used for magic/intense state)
+    function calculateEffectColor() {
+        // Calculate the intense color with some variation
+        // Use less variation to maintain more consistent vibrant colors
+        const intenseR = config.intenseColor[0] + (Math.random() * 40 - 20);
+        const intenseG = config.intenseColor[1] + (Math.random() * 30 - 15);
+        const intenseB = config.intenseColor[2] + (Math.random() * 20 - 10); // Less variation for blue to keep purple vibrant
         
-        // Calculate the color and alpha
         let r, g, b, alpha;
         
-        // Determine if we need to blend in intense colors
-        if (config.currentColorMix > 0) {
-            // Calculate the intense color with some variation
-            const intenseR = config.intenseColor[0] + (Math.random() * 50 - 25);
-            const intenseG = config.intenseColor[1] + (Math.random() * 50 - 25);
-            const intenseB = config.intenseColor[2] + (Math.random() * 50 - 25);
-            
-            // Add some white sparkles occasionally
-            if (Math.random() > 0.95 * config.currentColorMix) {
-                r = g = b = 255;
-                alpha = Math.random() * 0.9 * config.currentColorMix;
-            } else {
-                // Blend between normal and intense colors
-                r = intensity * (1 - config.currentColorMix) + intenseR * config.currentColorMix;
-                g = intensity * (1 - config.currentColorMix) + intenseG * config.currentColorMix;
-                b = intensity * (1 - config.currentColorMix) + intenseB * config.currentColorMix;
-                alpha = config.baseAlpha + 
-                    (Math.random() - 0.5) * config.alphaVariance;
-            }
-        } else {
-            // Normal mode - grayscale static
-            r = g = b = intensity;
-            alpha = config.baseAlpha + (Math.random() - 0.5) * config.alphaVariance;
+        // Add some colorful variation
+        const colorRoll = Math.random();
+        
+        // White sparkles (10% chance)
+        if (colorRoll > 0.9) {
+            r = g = b = 255;
+            alpha = Math.random() * 0.95 * config.transitionProgress; // Brighter white sparkles
+        }
+        // Cyan accent sparkles (5% chance) - complementary to purple
+        else if (colorRoll > 0.85) {
+            r = 100 + Math.random() * 50;
+            g = 220 + Math.random() * 35;
+            b = 255;
+            alpha = (0.8 + Math.random() * 0.2) * config.transitionProgress; // Brighter cyan sparkles
+        }
+        // Main purple/magic color (85% chance)
+        else {
+            // Use the intense colors with enhanced alpha
+            r = intenseR;
+            g = intenseG;
+            b = intenseB;
+            // Use higher base alpha for more vibrant appearance
+            alpha = (0.9 + (Math.random() * 0.1 - 0.05)) * config.transitionProgress;
         }
         
         // Ensure values are in valid range
