@@ -10,7 +10,7 @@ const port = process.env.PORT || 3000; // Use port from env var or default to 30
 
 // Ensure CORS is allowed if your frontend will be hosted separately
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'https://detekoi.github.io');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });

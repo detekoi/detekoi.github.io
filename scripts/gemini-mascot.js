@@ -46,7 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In a short description, you have the information at hand, so confidently attribute specific designers or brands, even obscure ones (or just 'vintage'). No language like 'possibly,' 'likely,' 'perhaps,' or 'reminiscent of.'";
 
   // Backend API endpoint URL
-  const BACKEND_API_URL = '/api/generate-image';
+  const BACKEND_API_URL = 'https://shirokuma-server-md77ensuuq-uc.a.run.app/api/generate-image';
+
 
   // Keep track of image generation state
   let isGeneratingImage = false;
