@@ -24,10 +24,10 @@
         
         // 1. Animate slide out with shadow transition matching portfolio aesthetic
         $firstCard.animate({
-            top: '-=50px', // Move up
+            top: '-=70px', // Move up more gradually
             opacity: 0, // Fade out while sliding
             boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)' // Remove shadow during transition
-        }, 400, 'linear', function() {
+        }, 600, 'swing', function() {
             // Animation complete for slide-out
 
             // 2. Move to end, set initial position for slide-in from above
@@ -35,9 +35,9 @@
                 .appendTo('.container')
                 .css({
                     'left': '-15px', // Target left for 5th card
-                    'top': '-90px',  // Start above the final position
+                    'top': '-60px',  // Start closer to the final position for smoother transition
                     'z-index': 5,    // Lower z-index initially
-                    'opacity': 0,    // Keep hidden initially
+                    'opacity': 0.1,  // Start slightly visible for smoother fade-in
                     'box-shadow': '0px 0px 0px rgba(0, 0, 0, 0)' // Start with no shadow
                 })
                 // 3. Animate slide-in to the 5th card position with shadow
@@ -48,7 +48,7 @@
                     boxShadow: isDarkMode() ?
                               '8px 8px 0 rgba(255, 255, 255, 0.33)' : // Dark mode sharp shadow
                               '8px 8px 0 #333333'                      // Light mode sharp shadow
-                }, 400, 'linear', function() {
+                }, 500, 'swing', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(5) CSS rule applies the sharp shadow correctly
                     $(this).removeAttr('style');
