@@ -106,7 +106,7 @@
                     boxShadow: isDarkMode() ?
                               '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
                               '8px 8px 1px rgba(0, 0, 0, 0.8)'        // Light mode updated shadow
-                }, 250, 'swing', function() {
+                }, 180, 'swing', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(1) CSS rule applies the updated shadow correctly
                     $(this).removeAttr('style');
