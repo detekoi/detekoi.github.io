@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', adjustContainerHeight);
 
   // Prompt for the Gemini API
-  const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In a short description, you have the information at hand, so confidently attribute specific designers or brands, even obscure ones (or just 'vintage'). No language like 'possibly,' 'likely,' 'perhaps,' or 'reminiscent of.'";
+  const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In a short 140 characters max description, you have the information at hand, so confidently attribute specific designers or brands, even obscure ones (or just 'vintage'). No language like 'possibly,' 'likely,' 'perhaps,' or 'reminiscent of.'";
 
   // Backend API endpoint URL
   const BACKEND_API_URL = 'api/generate-image';

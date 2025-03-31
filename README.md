@@ -5,11 +5,11 @@ This repository contains the code for my personal portfolio website.
 ## Table of Contents
 - [Features](#features)
 - [Setup and Installation](#setup-and-installation)
-- [Customization](#customization)
-  - [Mascot](#customizing-the-mascot)
 - [Technology Stack](#technology-stack)
 - [Deployment](#deployment)
-- [Static Background Customization](#static-background-customization)
+- [Customization](#customization)
+  - [Mascot](#customizing-the-mascot)
+  - [Static Background](#static-background-customization)
 
 ## Features
 
@@ -40,84 +40,6 @@ To test the mascot image generation functionality:
 ```bash
 node scripts/test-image-generation.js
 ```
-
-## Customizing the Mascot
-
-### Changing the Prompt
-To customize how the AI generates mascot outfits, modify the prompt in `scripts/gemini-mascot.js`. Look for the `prompt` constant:
-
-```javascript
-const prompt = "Your custom prompt here";
-```
-
-The prompt should describe:
-- The mascot's base appearance
-- Desired outfit style changes
-- Any specific fashion elements or aesthetics
-- How to handle existing elements (like accessories)
-
-### Using Your Own Mascot Images
-To use your own mascot, you'll need to update several files:
-
-1. Prepare your mascot images:
-   - Main display image (e.g., with background/scene)
-   - Transparent version for AI generation (clean, full-body view)
-   - Use clear, high-quality images
-   - Recommended size: at least 512x512 pixels
-   - Format: PNG or JPEG (transparent PNG required for AI generation)
-   
-2. Place your images in the `assets/images` directory:
-   - Save your main display image (e.g., `YourMascot.jpg`)
-   - Save your transparent version as `PolarBearTransparent4K.png` (or update the path in the files below)
-
-3. Update the image paths in these files:
-   - `index.html`: Update the main display image
-     ```html
-     <img src="assets/images/YourMascot.jpg" alt="Your Mascot Description" class="mascot">
-     ```
-   - `server.js`: Update the AI generation image path (around line 50)
-     ```javascript
-     const imagePath = 'assets/images/PolarBearTransparent4K.png';
-     ```
-   - `scripts/test-image-generation.js`: Update the test script image path
-     ```javascript
-     const imagePath = 'assets/images/PolarBearTransparent4K.png';
-     ```
-
-4. Adjust the prompt to match your mascot's characteristics
-
-5. Test the image generation using the test script:
-   ```
-   node scripts/test-image-generation.js
-   ```
-
-### Gemini API Performance
-
-1. **Image Size Considerations**
-   - Keep mascot images at recommended size (512x512px)
-   - Larger images increase API response time and costs
-   - Smaller images may reduce generation quality
-
-2. **Rate Limiting**
-   - Default cooldown period between generations
-   - Prevents API abuse and manages costs
-   - Adjust in `server.js` if needed:
-     ```javascript
-     const RATE_LIMIT_MS = 5000; // 5 seconds between generations
-     ```
-
-3. **Caching Strategy**
-   - Generated outfits are cached server-side
-   - Reduces API calls and improves response times
-   - Configure cache size in `server.js`:
-     ```javascript
-     const CACHE_SIZE = 10; // Number of recent generations to keep
-     ```
-
-4. **Error Handling**
-   - Graceful fallbacks when API is unavailable
-   - Automatic retries for failed generations
-   - User feedback through UI state changes
 
 ## Technology Stack
 
@@ -228,7 +150,86 @@ The repository includes two GitHub Actions workflows:
 
 This deployment setup provides a production-ready environment that's both scalable and maintainable. The separation of frontend and backend deployments allows for independent scaling and updates while maintaining a cohesive system through automated workflows.
 
-## Static Background Customization
+## Customization
+
+### Customizing the Mascot
+
+### Changing the Prompt
+To customize how the AI generates mascot outfits, modify the prompt in `scripts/gemini-mascot.js`. Look for the `prompt` constant:
+
+```javascript
+const prompt = "Your custom prompt here";
+```
+
+The prompt should describe:
+- The mascot's base appearance
+- Desired outfit style changes
+- Any specific fashion elements or aesthetics
+- How to handle existing elements (like accessories)
+
+### Using Your Own Mascot Images
+To use your own mascot, you'll need to update several files:
+
+1. Prepare your mascot images:
+   - Main display image (e.g., with background/scene)
+   - Use clear, high-quality images
+   - Recommended size: at least 512x512 pixels
+   - Format: PNG or JPEG
+   
+2. Place your images in the `assets/images` directory:
+   - Save your main display image (e.g., `YourMascot.jpg`)
+   - Save your transparent version as `PolarBearTransparent4K.png` (or update the path in the files below)
+
+3. Update the image paths in these files:
+   - `index.html`: Update the main display image
+     ```html
+     <img src="assets/images/YourMascot.jpg" alt="Your Mascot Description" class="mascot">
+     ```
+   - `server.js`: Update the AI generation image path (around line 50)
+     ```javascript
+     const imagePath = 'assets/images/PolarBearTransparent4K.png';
+     ```
+   - `scripts/test-image-generation.js`: Update the test script image path
+     ```javascript
+     const imagePath = 'assets/images/PolarBearTransparent4K.png';
+     ```
+
+4. Adjust the prompt to match your mascot's characteristics
+
+5. Test the image generation using the test script:
+   ```
+   node scripts/test-image-generation.js
+   ```
+
+### Gemini API Performance
+
+1. **Image Size Considerations**
+   - Keep mascot images at recommended size (512x512px)
+   - Larger images increase API response time and costs
+   - Smaller images may reduce generation quality
+
+2. **Rate Limiting**
+   - Default cooldown period between generations
+   - Prevents API abuse and manages costs
+   - Adjust in `server.js` if needed:
+     ```javascript
+     const RATE_LIMIT_MS = 5000; // 5 seconds between generations
+     ```
+
+3. **Caching Strategy**
+   - Generated outfits are cached server-side
+   - Reduces API calls and improves response times
+   - Configure cache size in `server.js`:
+     ```javascript
+     const CACHE_SIZE = 10; // Number of recent generations to keep
+     ```
+
+4. **Error Handling**
+   - Graceful fallbacks when API is unavailable
+   - Automatic retries for failed generations
+   - User feedback through UI state changes
+
+### Static Background Customization
 
 The website features a dynamic static noise background effect that can be customized by modifying parameters in `scripts/static-background.js`. The effect includes both a normal state and an enhanced "magic mode" that activates during certain interactions.
 
