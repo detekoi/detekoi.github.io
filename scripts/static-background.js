@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         autoChangeTimeout = setTimeout(() => {
             // Start fading back to normal
             disableMagicMode();
-        }, 4000); // Keep intense for 4 seconds before starting to fade
+        }, 5000); // Keep intense for 4 seconds before starting to fade
     }
     
     // Function to start fading back to normal

@@ -46,6 +46,7 @@
 :root {
   /* Typography */
   --font-primary: 'Atkinson Hyperlegible', sans-serif;
+  --font-mascot: 'Cabin Condensed', sans-serif;
   
   /* Colors - Light Mode Default */
   --color-background: #ffffff;

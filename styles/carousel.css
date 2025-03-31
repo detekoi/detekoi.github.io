@@ -109,6 +109,7 @@
   padding: var(--spacing-small);
   background-color: var(--color-card-bg);
   border-top: 2px solid var(--color-border);
+  font-family: var(--font-mascot); /* Using CSS variable for consistency */
   font-size: var(--font-size-small);
   height: 80px; /* Fixed height for caption area */
   overflow-y: auto; /* Enable vertical scrolling */
@@ -134,7 +135,9 @@
 .card .detail p {
   margin: 0;
   padding: 0;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-size: 14px;
+  letter-spacing: 0.01em;
 }
 
 /* Error card styling */
