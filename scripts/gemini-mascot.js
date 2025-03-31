@@ -386,8 +386,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Set initial container height adjustment function
   function adjustContainerHeight() {
-    const firstMascotImg = document.querySelector('.card:first-child .mascot');
     const firstCard = document.querySelector('.card:first-child'); // Get the card element
+    
+    // Special handling for original mascot card
+    if (firstCard && firstCard.classList.contains('original-mascot')) {
+      // For the original mascot, we want to maintain the exact aspect ratio
+      // CSS will handle this with aspect-ratio, so no height adjustment needed
+      return;
+    }
+    
+    // For AI-generated images, we adjust based on actual dimensions
+    const firstMascotImg = document.querySelector('.card:first-child .mascot');
     
     // Ensure we have the card, the image, and the image's natural dimensions
     if (!firstCard || !firstMascotImg || !firstMascotImg.naturalWidth || !firstMascotImg.naturalHeight) {
@@ -426,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Also adjust the image container to match the image's aspect ratio
     const imageContainer = firstCard.querySelector('.image');
-    if (imageContainer) {
+    if (imageContainer && !firstCard.classList.contains('original-mascot')) {
       imageContainer.style.height = `${imageHeight}px`;
     }
   }
