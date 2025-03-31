@@ -438,9 +438,12 @@ document.addEventListener('DOMContentLoaded', () => {
     mascotContainer.style.height = `${calculatedHeight}px`;
     
     // Also adjust the image container to match the image's aspect ratio
-    const imageContainer = firstCard.querySelector('.image');
-    if (imageContainer && !firstCard.classList.contains('original-mascot')) {
-      imageContainer.style.height = `${imageHeight}px`;
+    // Only for the front card (first-child), to avoid affecting stacked cards
+    if (firstCard === document.querySelector('.card:first-child')) {
+      const imageContainer = firstCard.querySelector('.image');
+      if (imageContainer && !firstCard.classList.contains('original-mascot')) {
+        imageContainer.style.height = `${imageHeight}px`;
+      }
     }
   }
 

@@ -23,7 +23,7 @@
         
         // 1. Smooth fade-out animation with gradual movement
         $firstCard.css({
-            'transition': 'all 0.3s ease-in-out',
+            'transition': 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out',
             'transform': 'translateY(-50px)',
             'opacity': '0'
         });
@@ -66,7 +66,7 @@
             
             // 3. Re-enable transitions for the second part of the animation
             $firstCard.css({
-                'transition': 'all 0.3s ease-out',
+                'transition': 'top 0.3s ease-out, opacity 0.3s ease-out',
                 'top': '-40px',     // Target top for last card
                 'opacity': '0.5'    // Target opacity for last card
             });
@@ -74,7 +74,16 @@
             // Use setTimeout to wait for the CSS transition to complete
             setTimeout(function() {
                 // 4. Animation complete: remove inline styles so CSS takes over
-                $firstCard.removeAttr('style');
+                // Use .css('transition', '') instead of removeAttr to keep other styles intact
+                $firstCard.css({
+                    'transform': '',
+                    'top': '',
+                    'left': '',
+                    'z-index': '',
+                    'opacity': '',
+                    'box-shadow': '',
+                    'transition': ''
+                });
                 $firstCard.removeClass('animating'); // Remove animation marker
                 
                 // Ensure all cards are properly positioned
@@ -147,7 +156,7 @@
             
             // 3. Re-enable transitions for the second part of the animation
             $lastCard.css({
-                'transition': 'all 0.3s ease-out',
+                'transition': 'top 0.3s ease-out, opacity 0.3s ease-out',
                 'top': '0px',       // Target top for 1st card
                 'opacity': '1'      // Target opacity for 1st card
             });
@@ -155,7 +164,16 @@
             // Use setTimeout to wait for the CSS transition to complete
             setTimeout(function() {
                 // 4. Animation complete: remove inline styles so CSS takes over
-                $lastCard.removeAttr('style');
+                // Use .css('property', '') instead of removeAttr to keep other styles intact
+                $lastCard.css({
+                    'transform': '',
+                    'top': '',
+                    'left': '',
+                    'z-index': '',
+                    'opacity': '',
+                    'box-shadow': '',
+                    'transition': ''
+                });
                 $lastCard.removeClass('animating'); // Remove animation marker
                 
                 // Ensure all cards are properly positioned
@@ -171,22 +189,18 @@
         const isMobile = window.innerWidth <= 768;
         const isSmallMobile = window.innerWidth <= 575;
         
-        // Clear any inline styles that might be messing with the positions
+        // Reset card positions without using removeAttr (which can cause hover issues)
         $('.card').each(function(index) {
             const $card = $(this);
             
-            // Important: DO NOT remove or manipulate styles on the detail elements
-            // Just remember the card positioning properties we want to manage
-            const cardPosition = {
-                top: $card.css('top'),
-                left: $card.css('left'),
-                zIndex: $card.css('z-index'),
-                opacity: $card.css('opacity'),
-                boxShadow: $card.css('box-shadow')
-            };
-            
-            // Only remove the card's style attribute, not any of its children
-            $card.removeAttr('style');
+            // Reset only positioning properties, leaving others intact
+            // This preserves any hover effects only on the first card
+            $card.css({
+                'top': '',
+                'left': '',
+                'z-index': '',
+                'opacity': ''
+            });
 
             // Determine positions based on screen size
             let leftPositions = [50, 40, 30, 20, 10]; // Desktop default

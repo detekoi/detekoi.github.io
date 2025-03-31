@@ -81,7 +81,6 @@
   font-size: var(--font-size-regular);
   overflow: hidden;
   transform-origin: center;
-  transition: 0.3s ease;
   display: flex;
   flex-direction: column;
   
@@ -247,7 +246,6 @@
   opacity: 1;
   /* Updated shadow for the top card to match aesthetic */
   box-shadow: var(--shadow-size-card) var(--shadow-size-card) 1px rgba(0, 0, 0, 0.8);
-  transition: all 0.3s ease; /* Smooth transition for all properties */
 }
 
 .container .card:nth-child(2) {
@@ -255,7 +253,6 @@
   top: -10px;
   left: 40px;
   opacity: 0.9;
-  transition: all 0.3s ease;
 }
 
 .container .card:nth-child(3) {
@@ -263,7 +260,6 @@
   top: -20px;
   left: 30px;
   opacity: 0.8;
-  transition: all 0.3s ease;
 }
 
 .container .card:nth-child(4) {
@@ -271,7 +267,6 @@
   top: -30px;
   left: 20px;
   opacity: 0.7;
-  transition: all 0.3s ease;
 }
 
 .container .card:nth-child(5), .container .card:nth-child(n+5) {
@@ -279,19 +274,9 @@
   top: -40px;
   left: 10px;
   opacity: 0.5;
-  transition: all 0.3s ease;
 }
 
-.container .card:first-child:hover {
-  transform: var(--hover-transform);
-  box-shadow: var(--shadow-size-hover) var(--shadow-size-hover) 1px rgba(0, 0, 0, var(--shadow-opacity-light));
-}
-
-.container .card:first-child:active {
-  transform: var(--active-transform);
-  box-shadow: 1px 1px 0 var(--color-border);
-  background-color: var(--color-active-light);
-}
+/* No hover/active states for mascot carousel cards */
 
 /* Dark Mode Adjustments */
 @media (prefers-color-scheme: dark) {
@@ -321,18 +306,7 @@
      box-shadow: var(--shadow-size-card) var(--shadow-size-card) 1px rgba(255, 255, 255, 0.33); /* Using main.css value */
   }
   
-  .container .card:first-child:hover {
-     /* Enhanced shadow on hover in dark mode */
-    box-shadow: var(--shadow-size-hover) var(--shadow-size-hover) 1px rgba(255, 255, 255, 0.1);
-    transform: var(--hover-transform);
-  }
-  
-  .container .card:first-child:active {
-     /* Sharp shadow on active in dark mode, matching .project:active */
-    box-shadow: 1px 1px 0 var(--shadow-color);
-    background-color: var(--color-active-dark);
-    transform: var(--active-transform);
-  }
+    /* No hover/active states for dark mode */
   
   /* Dark mode styling for the mascot description */
   .mascot-ai-description {
@@ -342,17 +316,7 @@
     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color);
   }
   
-  /* Dark mode hover/active for description - Apply only when visible */
-  .mascot-ai-description.visible:hover {
-    transform: var(--hover-transform); /* Using transform variable */
-    box-shadow: var(--shadow-size-hover) var(--shadow-size-hover) 1px rgba(255, 255, 255, 0.1); /* Dark mode enhanced shadow */
-  }
-  
-  .mascot-ai-description.visible:active {
-    transform: var(--active-transform); /* Using transform variable */
-    box-shadow: 1px 1px 0 var(--shadow-color); /* Dark mode reduced shadow */
-    background-color: var(--color-active-dark); /* Using active color variable */
-  }
+  /* No hover/active for description in dark mode */
 }
 
 /* Styling for the mascot loading indicator */
@@ -429,18 +393,6 @@
     top: 0px;
     left: 30px; /* Adjusted for tablet/mobile but still to the right of cards behind it */
     opacity: 1;
-  }
-  
-  /* Adjust hover states for mobile */
-  .container .card:first-child:hover {
-    transform: var(--hover-transform);
-    box-shadow: var(--shadow-size-hover) var(--shadow-size-hover) 1px rgba(0, 0, 0, var(--shadow-opacity-light));
-  }
-  
-  .container .card:first-child:active {
-    transform: var(--active-transform);
-    box-shadow: 1px 1px 0 var(--color-border);
-    background-color: var(--color-active-light);
   }
   
   .container .card:nth-child(2) {
