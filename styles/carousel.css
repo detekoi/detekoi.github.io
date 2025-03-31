@@ -249,13 +249,15 @@
 /* Restore Control buttons styling */
 .carousel-controls {
   display: flex;
-  flex-direction: column; 
+  flex-direction: row; /* Changed from column */
   justify-content: center;
-  margin-right: var(--spacing-medium);
-  position: relative;
-  left: -30px;
-  z-index: 11;
-  /* order: -1; /* Keep ordering if needed? Check visual layout */
+  width: 100%; /* Span the width */
+  margin-top: var(--spacing-medium); /* Spacing above buttons */
+  order: 2; /* Place below container by default */
+  z-index: 11; /* Keep above cards if overlap occurs */
+  position: relative; /* Reset positioning context */
+  left: 0; /* Reset left offset */
+  margin-right: 0; /* Reset margin */
 }
 
 .prev-btn, .next-btn {
@@ -271,7 +273,7 @@
   font-size: 18px;
   font-weight: normal; /* Restore default weight */
   cursor: pointer;
-  margin: var(--spacing-unit) 0; 
+  margin: 0 var(--spacing-unit); /* Horizontal margin for row layout */
   box-shadow: var(--shadow-size-default) var(--shadow-size-default) 0 var(--color-border);
   transition: all 0.2s ease; /* Restore previous transition */
 }
@@ -345,8 +347,9 @@
   }
 }
 
-/* Restore Responsive Adjustments (keeping EXAMPLE'S nth-child positioning) */
-@media (max-width: 768px) {
+/* Responsive Adjustments */
+/* Tablet/Mobile (Default styles cover this now, but adjust container/card sizes) */
+@media (max-width: 768px) { 
   /* Keep layout changes from previous */
   .carousel-wrapper {
     flex-direction: column;
@@ -354,16 +357,6 @@
     padding-left: 0; 
     padding-top: 50px;
     max-width: 100%; 
-  }
-  .carousel-controls {
-    flex-direction: row;
-    margin-right: 0;
-    margin-top: var(--spacing-medium); 
-    order: 2; 
-    left: 0; 
-  }
-  .prev-btn, .next-btn {
-    margin: 0 var(--spacing-unit); 
   }
   .container.mascot-container {
     width: 300px; /* Keep previous size adjustment */
@@ -427,6 +420,50 @@
   }
   .card.mascot-card .detail {
     height: 120px; 
+  }
+}
+
+/* Desktop and Larger Screens */
+@media (min-width: 769px) {
+  .carousel-wrapper {
+    /* Ensure relative positioning for absolute child */
+    position: relative; 
+    /* Add padding to prevent buttons overlapping cards */
+    padding-left: 55px; 
+    padding-right: 55px; 
+    /* Keep alignment from default */
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+  }
+
+  .carousel-controls {
+    position: absolute; /* Position relative to wrapper */
+    top: 50%;
+    left: 0;
+    right: 0;
+    width: auto; /* Auto width to fit buttons */
+    transform: translateY(-50%); /* Vertically center */
+    display: flex;
+    justify-content: space-between; /* Push buttons to sides */
+    z-index: 11; /* Keep above cards */
+    pointer-events: none; /* Allow clicks through container */
+    margin: 0; /* Reset margins */
+    padding: 0 var(--spacing-unit); /* Padding from edges */
+    order: 0; /* Reset order */
+  }
+
+  .prev-btn, .next-btn {
+    pointer-events: auto; /* Make buttons clickable */
+    margin: 0; /* Reset button margin */
+  }
+
+  .container.mascot-container {
+    /* Reset mobile-specific overrides if any */
+    width: 400px; 
+    order: 0; /* Reset order */
+    margin: 0 auto; /* Center container within padded wrapper */
+    margin-bottom: var(--spacing-medium); /* Keep bottom margin */
   }
 }
 
