@@ -80,7 +80,7 @@
   font-size: var(--font-size-regular);
   overflow: hidden;
   transform-origin: center;
-  transition: 0.4s ease;
+  transition: 0.3s ease;
   display: flex;
   flex-direction: column;
   
@@ -229,6 +229,7 @@
   opacity: 1;
   /* Updated shadow for the top card to match aesthetic */
   box-shadow: 8px 8px 1px rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease; /* Smooth transition for all properties */
 }
 
 .container .card:nth-child(2) {
@@ -236,6 +237,7 @@
   top: -10px;
   left: 40px;
   opacity: 0.9;
+  transition: all 0.3s ease;
 }
 
 .container .card:nth-child(3) {
@@ -243,6 +245,7 @@
   top: -20px;
   left: 30px;
   opacity: 0.8;
+  transition: all 0.3s ease;
 }
 
 .container .card:nth-child(4) {
@@ -250,28 +253,28 @@
   top: -30px;
   left: 20px;
   opacity: 0.7;
+  transition: all 0.3s ease;
 }
 
-.container .card:nth-child(5) {
+.container .card:nth-child(5), .container .card:nth-child(n+5) {
   z-index: 6;
   top: -40px;
   left: 10px;
   opacity: 0.5;
+  transition: all 0.3s ease;
 }
 
 .container .card:first-child:hover {
-  transform: translate(-2px, -2px) scale(1.02);
+  transform: translateY(-5px) scale(1.02); /* Simplified transform for hover */
   /* Enhanced shadow on hover */
   box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
-  left: 48px; /* Adjusted hover position for new 50px left */
 }
 
 .container .card:first-child:active {
-  transform: translate(2px, 2px);
+  transform: translateY(2px); /* Simpler transform for active state */
   /* Sharp shadow on active, matching .project:active */
   box-shadow: 2px 2px 0 var(--color-border);
   background-color: var(--color-secondary);
-  left: 52px; /* Adjusted active position for new 50px left */
 }
 
 /* Dark Mode Adjustments */
@@ -305,14 +308,14 @@
   .container .card:first-child:hover {
      /* Enhanced shadow on hover in dark mode */
     box-shadow: 11px 11px 1px rgba(255, 255, 255, 0.1);
-    left: 38px; /* Adjusted hover position */
+    transform: translateY(-5px) scale(1.02); /* Simplified transform for hover */
   }
   
   .container .card:first-child:active {
      /* Sharp shadow on active in dark mode, matching .project:active */
     box-shadow: 2px 2px 0 var(--shadow-color);
     background-color: #333333;
-    left: 42px; /* Adjusted active position */
+    transform: translateY(2px); /* Simpler transform for active state */
   }
   
   /* Dark mode styling for the mascot description */

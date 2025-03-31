@@ -1,13 +1,7 @@
-// Make rotate functions globally accessible while maintaining the original functionality
 (function() {
     // Helper function to detect dark mode
     function isDarkMode() {
         return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    
-    // Helper function to check if jQuery UI is loaded
-    function isJQueryUILoaded() {
-        return (typeof $.ui !== 'undefined' && typeof $.ui.version === 'string');
     }
     
     // Define rotate function to move card from front to back
@@ -18,45 +12,62 @@
             return;
         }
 
-        // Move the first card to the end with a slide-out animation
+        // Move the first card to the end with a smooth slide-out animation
         var $firstCard = $('.card:first-child');
         $firstCard.addClass('animating'); // Mark as animating
         
-        // 1. Animate slide out with shadow transition matching portfolio aesthetic
-        $firstCard.animate({
-            top: '-=120px', // Move up higher like prev-btn's starting position
-            opacity: 0.3, // Fade to partial transparency, not completely invisible
-            boxShadow: isDarkMode() ?
-                      '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
-                      '11px 11px 1px rgba(0, 0, 0, 0.6)'        // Light mode hover shadow
-        }, 300, 'swing', function() {
-            // Animation complete for slide-out
-
+        // Get current position values for smoother transition
+        var currentTop = parseInt($firstCard.css('top')) || 0;
+        var currentLeft = parseInt($firstCard.css('left')) || 50;
+        var currentOpacity = parseFloat($firstCard.css('opacity')) || 1;
+        
+        // 1. Smooth fade-out animation with gradual movement
+        $firstCard.css({
+            'transition': 'all 0.3s ease-in-out',
+            'transform': 'translateY(-50px)',
+            'opacity': '0'
+        });
+        
+        // Use setTimeout to wait for the CSS transition to complete
+        setTimeout(function() {
+            // Remove transition to avoid interfering with next steps
+            $firstCard.css('transition', 'none');
+            
             // 2. Move to end, set initial position for slide-in from above
-            $(this)
+            $firstCard
                 .appendTo('.container')
                 .css({
-                    'left': '-15px', // Target left for 5th card
-                    'top': '-40px',  // Match the final position directly
-                    'z-index': 5,    // Lower z-index initially
-                    'opacity': 0,    // Start completely invisible (will appear suddenly)
+                    'transform': 'none', // Reset transform
+                    'left': '10px',      // Target left for last card
+                    'top': '-90px',      // Start above the final position
+                    'z-index': '5',      // Lower z-index initially
+                    'opacity': '0',      // Keep hidden initially
                     'box-shadow': isDarkMode() ?
-                              '8px 8px 0 rgba(255, 255, 255, 0.33)' : // Dark mode sharp shadow
-                              '8px 8px 0 #333333'                      // Light mode sharp shadow
-                })
-                // 3. Animate appearing suddenly at the 5th card position
-                .animate({
-                    opacity: 0.5,    // Appear suddenly at target opacity
-                }, 50, 'linear', function() {
-                    // 4. Animation complete: remove inline styles so CSS takes over
-                    // This ensures the :nth-child(5) CSS rule applies the sharp shadow correctly
-                    $(this).removeAttr('style');
-                    $(this).removeClass('animating'); // Remove animation marker
-                    
-                    // Properly reapply position styles to ALL cards based on their new positions
-                    resetCardPositions();
+                                  '8px 8px 0 rgba(255, 255, 255, 0.3)' : // Dark mode shadow
+                                  '8px 8px 0 var(--color-border)'         // Light mode shadow
                 });
-        });
+            
+            // Force a repaint before starting the next animation
+            $firstCard[0].offsetHeight;
+            
+            // 3. Re-enable transitions for the second part of the animation
+            $firstCard.css({
+                'transition': 'all 0.3s ease-out',
+                'top': '-40px',     // Target top for last card
+                'opacity': '0.5'    // Target opacity for last card
+            });
+            
+            // Use setTimeout to wait for the CSS transition to complete
+            setTimeout(function() {
+                // 4. Animation complete: remove inline styles so CSS takes over
+                $firstCard.removeAttr('style');
+                $firstCard.removeClass('animating'); // Remove animation marker
+                
+                // Ensure all cards are properly positioned
+                resetCardPositions();
+            }, 300); // Match the CSS transition duration
+            
+        }, 300); // Match the CSS transition duration
     }
 
     // Define rotatePrev function to move card from back to front
@@ -77,45 +88,53 @@
 
         $lastCard.addClass('animating'); // Mark as animating
         
-        // 1. Animate slide out upwards - FASTER with SHORTER distance
-        $lastCard.animate({
-            top: '-=30px', // REDUCED: Move up less distance
-            opacity: 0.2,  // INCREASED: Don't fade completely out for faster transition
-            boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)' // Remove shadow during transition
-        }, 180, 'swing', function() {
-            // Animation complete for slide-out
-
+        // 1. Smooth fade-out animation with gradual movement
+        $lastCard.css({
+            'transition': 'all 0.3s ease-in-out',
+            'transform': 'translateY(-50px)',
+            'opacity': '0'
+        });
+        
+        // Use setTimeout to wait for the CSS transition to complete
+        setTimeout(function() {
+            // Remove transition to avoid interfering with next steps
+            $lastCard.css('transition', 'none');
+            
             // 2. Move to beginning, set initial position for slide-in from top
-            $(this)
+            $lastCard
                 .prependTo('.container')
                 .css({
-                    'left': '50px',   // Target left for 1st card (moved right)
-                    'top': '-80px',   // REDUCED: Start closer for faster slam down effect
-                    'z-index': 11,    // Higher z-index initially
-                    'opacity': 0.9,   // INCREASED: Start more visible for faster fade-in
-                    // Start with the hover-like shadow
+                    'transform': 'none', // Reset transform
+                    'left': '50px',      // Target left for 1st card
+                    'top': '-50px',      // Start above the final position
+                    'z-index': '11',     // Higher z-index initially
+                    'opacity': '0',      // Start invisible for better fade in
                     'box-shadow': isDarkMode() ?
-                                  '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
-                                  '11px 11px 1px rgba(0, 0, 0, 0.6)'        // Light mode hover shadow
-                })
-                // 3. Animate slam-down to the 1st card position (animating shadow to final state)
-                .animate({
-                    top: '0px',      // Target top for 1st card
-                    opacity: 1,      // Subtle fade-in to full opacity
-                    // Apply the UPDATED shadow when animating to the 1st position
-                    boxShadow: isDarkMode() ?
-                              '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
-                              '8px 8px 1px rgba(0, 0, 0, 0.8)'        // Light mode updated shadow
-                }, 140, 'swing', function() {
-                    // 4. Animation complete: remove inline styles so CSS takes over
-                    // This ensures the :nth-child(1) CSS rule applies the updated shadow correctly
-                    $(this).removeAttr('style');
-                    $(this).removeClass('animating'); // Remove animation marker
-                    
-                    // Properly reapply position styles to ALL cards based on their new positions
-                    resetCardPositions();
+                                  '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode shadow
+                                  '8px 8px 1px rgba(0, 0, 0, 0.8)'         // Light mode shadow
                 });
-        });
+            
+            // Force a repaint before starting the next animation
+            $lastCard[0].offsetHeight;
+            
+            // 3. Re-enable transitions for the second part of the animation
+            $lastCard.css({
+                'transition': 'all 0.3s ease-out',
+                'top': '0px',       // Target top for 1st card
+                'opacity': '1'      // Target opacity for 1st card
+            });
+            
+            // Use setTimeout to wait for the CSS transition to complete
+            setTimeout(function() {
+                // 4. Animation complete: remove inline styles so CSS takes over
+                $lastCard.removeAttr('style');
+                $lastCard.removeClass('animating'); // Remove animation marker
+                
+                // Ensure all cards are properly positioned
+                resetCardPositions();
+            }, 300); // Match the CSS transition duration
+            
+        }, 300); // Match the CSS transition duration
     }
 
     // Function to reset card positions based on their current order
@@ -124,9 +143,19 @@
         $('.card').each(function(index) {
             const $card = $(this);
             
-            // First remove any inline styles
-            $card.removeAttr('style');
+            // Important: DO NOT remove or manipulate styles on the detail elements
+            // Just remember the card positioning properties we want to manage
+            const cardPosition = {
+                top: $card.css('top'),
+                left: $card.css('left'),
+                zIndex: $card.css('z-index'),
+                opacity: $card.css('opacity'),
+                boxShadow: $card.css('box-shadow')
+            };
             
+            // Only remove the card's style attribute, not any of its children
+            $card.removeAttr('style');
+
             // Then apply the appropriate position based on current index
             if (index === 0) {
                 // First card (front)
@@ -163,8 +192,8 @@
                     'left': '20px',
                     'opacity': '0.7'
                 });
-            } else if (index === 4) {
-                // Fifth card
+            } else if (index >= 4) {
+                // Fifth card and beyond
                 $card.css({
                     'z-index': '6',
                     'top': '-40px',
@@ -189,10 +218,15 @@
     window.rotate = rotate;
     window.rotatePrev = rotatePrev;
     window.updateCarouselControls = updateCarouselControls;
+    window.resetCardPositions = resetCardPositions;
 
     // Call initially to set up controls visibility
     $(document).ready(function() {
+        // Set up carousel controls
         updateCarouselControls();
+        
+        // Initial positioning of cards
+        resetCardPositions();
     });
 
     // Listen for dark mode changes
@@ -206,62 +240,28 @@
                 $(this).removeAttr('style');
             }
         });
+        
+        // Reset positions for all cards
+        resetCardPositions();
     });
 
     // Button event listeners
     $('.next-btn').click(function() {
         rotate();
-        
-        // Update the description to match the first card after rotation
-        updateDescriptionFromFirstCard();
-        
         return false; // Prevent default action
     });
 
     $('.prev-btn').click(function() {
         rotatePrev();
-        
-        // Update the description to match the first card after rotation
-        updateDescriptionFromFirstCard();
-        
         return false; // Prevent default action
     });
-    
-    // Function to update description from the first card
-    // Now that descriptions are in the cards, we don't need to do anything
-    function updateDescriptionFromFirstCard() {
-        // No longer necessary as the description is part of the card
-        // and rotates with it automatically
-    }
-    
-    // Extract description from alt text
-    function extractDescriptionFromAlt(altText) {
-        if (!altText) return '';
-        
-        // If it's the format "AI-generated polar bear mascot: [description]..."
-        if (altText.indexOf(': ') !== -1) {
-            const parts = altText.split(': ');
-            if (parts.length >= 2) {
-                // Remove trailing ellipsis if present
-                let desc = parts.slice(1).join(': ');
-                if (desc.endsWith('...')) {
-                    desc = desc.slice(0, -3);
-                }
-                return desc;
-            }
-        }
-        
-        return altText;
-    }
 
     // Optional: Add keyboard navigation
     $(document).keydown(function(e) {
         if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
             rotatePrev();
-            updateDescriptionFromFirstCard();
         } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
             rotate();
-            updateDescriptionFromFirstCard();
         }
     });
 
