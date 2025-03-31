@@ -214,7 +214,7 @@ header {
 
 /* Style inspiration link */
 #style-inspiration-link {
-  position: relative;
+  position: absolute;
   overflow: hidden;
   transform: translateY(0);
   display: block; /* Ensure it's displayed when visible class is added */
