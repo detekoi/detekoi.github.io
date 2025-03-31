@@ -134,7 +134,7 @@ header {
   border-bottom: 4px solid var(--color-border);
   padding-bottom: var(--spacing-large);
   display: grid;
-  grid-template-columns: 1fr 470px; /* Even more width for mascot area */
+  grid-template-columns: 1fr 560px; /* Increased from 520px */
   grid-template-areas:
     "content mascot-area"; /* Renamed mascot to mascot-area */
   gap: var(--spacing-medium); /* Reduced gap slightly */
@@ -152,7 +152,7 @@ header {
   flex-direction: column; /* Stack container and description */
   align-items: flex-start; /* Align to the left */
   gap: var(--spacing-unit); /* Gap between image and description */
-  width: 470px; /* Significantly increased width for the area */
+  width: 560px; /* Increased from 520px to match grid */
 }
 
 .mascot-container {

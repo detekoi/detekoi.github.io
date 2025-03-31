@@ -430,7 +430,10 @@
     position: relative; 
     /* Add padding to prevent buttons overlapping cards */
     padding-left: 55px; 
-    padding-right: 55px; 
+    padding-right: 75px; /* Increased from 55px */
+    /* Make wrapper fill the available grid space */
+    width: 100%; 
+    max-width: none; /* Override default max-width */
     /* Keep alignment from default */
     display: flex;
     align-items: center; 
