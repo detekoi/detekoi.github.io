@@ -24,10 +24,12 @@
         
         // 1. Animate slide out with shadow transition matching portfolio aesthetic
         $firstCard.animate({
-            top: '-=70px', // Move up more gradually
-            opacity: 0, // Fade out while sliding
-            boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)' // Remove shadow during transition
-        }, 600, 'swing', function() {
+            top: '-=120px', // Move up higher like prev-btn's starting position
+            opacity: 0.3, // Fade to partial transparency, not completely invisible
+            boxShadow: isDarkMode() ?
+                      '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
+                      '11px 11px 1px rgba(0, 0, 0, 0.6)'        // Light mode hover shadow
+        }, 300, 'swing', function() {
             // Animation complete for slide-out
 
             // 2. Move to end, set initial position for slide-in from above
@@ -35,20 +37,17 @@
                 .appendTo('.container')
                 .css({
                     'left': '-15px', // Target left for 5th card
-                    'top': '-60px',  // Start closer to the final position for smoother transition
+                    'top': '-40px',  // Match the final position directly
                     'z-index': 5,    // Lower z-index initially
-                    'opacity': 0.1,  // Start slightly visible for smoother fade-in
-                    'box-shadow': '0px 0px 0px rgba(0, 0, 0, 0)' // Start with no shadow
-                })
-                // 3. Animate slide-in to the 5th card position with shadow
-                .animate({
-                    top: '-40px',    // Target top for 5th card
-                    opacity: 0.5,    // Target opacity for 5th card
-                    // Apply the SHARP shadow when animating to the 5th position
-                    boxShadow: isDarkMode() ?
+                    'opacity': 0,    // Start completely invisible (will appear suddenly)
+                    'box-shadow': isDarkMode() ?
                               '8px 8px 0 rgba(255, 255, 255, 0.33)' : // Dark mode sharp shadow
                               '8px 8px 0 #333333'                      // Light mode sharp shadow
-                }, 500, 'swing', function() {
+                })
+                // 3. Animate appearing suddenly at the 5th card position
+                .animate({
+                    opacity: 0.5,    // Appear suddenly at target opacity
+                }, 50, 'linear', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(5) CSS rule applies the sharp shadow correctly
                     $(this).removeAttr('style');
@@ -83,7 +82,7 @@
             top: '-=50px', // Move up
             opacity: 0,    // Fade out
             boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)' // Remove shadow during transition
-        }, 400, 'linear', function() {
+        }, 250, 'swing', function() {
             // Animation complete for slide-out
 
             // 2. Move to beginning, set initial position for slide-in from top
@@ -93,7 +92,7 @@
                     'left': '50px',   // Target left for 1st card (moved right)
                     'top': '-120px',  // Start much higher for "slam down" effect
                     'z-index': 11,    // Higher z-index initially
-                    'opacity': 1,     // Start fully visible for slam effect
+                    'opacity': 1,     // Start fully visible with no fade-in
                     // Start with the hover-like shadow
                     'box-shadow': isDarkMode() ?
                                   '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
@@ -102,11 +101,12 @@
                 // 3. Animate slam-down to the 1st card position (animating shadow to final state)
                 .animate({
                     top: '0px',      // Target top for 1st card
+                    // No opacity animation, remain fully visible
                     // Apply the UPDATED shadow when animating to the 1st position
                     boxShadow: isDarkMode() ?
                               '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
                               '8px 8px 1px rgba(0, 0, 0, 0.8)'        // Light mode updated shadow
-                }, 250, 'linear', function() {
+                }, 250, 'swing', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(1) CSS rule applies the updated shadow correctly
                     $(this).removeAttr('style');
