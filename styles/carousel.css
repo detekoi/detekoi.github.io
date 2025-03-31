@@ -501,21 +501,23 @@
 
 /* Loading animation styles */
 .mascot-loading {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(255, 255, 255, 0.9);
-  z-index: 5;
-  display: none;
+  position: fixed; /* Changed from absolute */
+  /* Removed width: 100%; and height: 100%; */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust centering */
+  background-color: rgba(255, 255, 255, 0.95); /* Slightly more opaque */
+  z-index: 100; /* Increased z-index */
+  display: none; /* Keep initial state */
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  /* Removed height: 100%; */ /* Redundant */
   text-align: center;
-  padding: 20px;
+  padding: 30px; /* Increased padding */
   box-sizing: border-box;
+  border-radius: 10px; /* Added border-radius */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Added a subtle shadow */
 }
 
 .mascot-loading p {
@@ -551,7 +553,8 @@
 /* Dark Mode Adjustments */
 @media (prefers-color-scheme: dark) {
   .mascot-loading {
-     background-color: rgba(30, 30, 30, 0.9);
+     background-color: rgba(40, 40, 40, 0.95); /* Adjusted dark background */
+     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Adjusted dark shadow */
   }
 
   .mascot-loading p {
