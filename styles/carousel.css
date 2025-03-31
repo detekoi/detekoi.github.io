@@ -156,8 +156,17 @@
   border: 2px solid var(--color-card-bg);
 }
 
-.card .detail p {
-  margin: 0;
+/* Styling for all text elements in the card detail */
+.card .detail p,
+.card .detail h1,
+.card .detail h2,
+.card .detail h3,
+.card .detail h4,
+.card .detail ul,
+.card .detail ol,
+.card .detail li,
+.card .detail blockquote {
+  margin: 0 0 0.5em 0;
   padding: 0;
   line-height: 1.5;
   font-size: 14px;
@@ -165,6 +174,39 @@
   text-align: center; /* Ensure text is centered */
   width: 100%; /* Full width for proper centering */
   max-width: 280px; /* Limit width for readability */
+  font-family: var(--font-mascot); /* Maintain font consistency */
+}
+
+/* Special markdown element styling */
+.card .detail h1 { font-size: 18px; font-weight: bold; }
+.card .detail h2 { font-size: 16px; font-weight: bold; }
+.card .detail h3 { font-size: 15px; font-weight: bold; }
+.card .detail strong { font-weight: bold; }
+.card .detail em { font-style: italic; }
+.card .detail code { 
+  font-family: monospace; 
+  background: rgba(0,0,0,0.05);
+  padding: 0 3px;
+  border-radius: 3px;
+}
+
+.card .detail ul, 
+.card .detail ol {
+  display: inline-block;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.card .detail blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: 8px;
+  margin-left: 8px;
+  color: #777;
+}
+
+/* Last child should not have bottom margin */
+.card .detail > *:last-child {
+  margin-bottom: 0;
 }
 
 /* Error card styling */

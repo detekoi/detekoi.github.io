@@ -36,13 +36,31 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.classList.add('card', 'mascot-card');
     newCard.dataset.card = ($('.card').length + 1).toString();
     
+    // Attempt to parse description as markdown if it contains markdown syntax
+    let formattedDescription = description;
+    try {
+      // Check if the text has markdown-like syntax
+      if (description && 
+          (description.includes('*') || 
+           description.includes('#') || 
+           description.includes('_') || 
+           description.includes('`') ||
+           description.includes('[') ||
+           description.includes('>'))) {
+        formattedDescription = marked.parse(description);
+      }
+    } catch (e) {
+      console.log('Error parsing markdown, using plain text', e);
+      formattedDescription = description;
+    }
+    
     // Structure the card with both image and description components
     newCard.innerHTML = `
       <div class="image">
         <img src="${imageDataUri}" alt="AI-generated polar bear mascot: ${description}" class="mascot">
       </div>
       <div class="detail">
-        <p>${description}</p>
+        ${formattedDescription}
       </div>
     `;
     
@@ -169,13 +187,31 @@ document.addEventListener('DOMContentLoaded', () => {
         storedCard.classList.add('card', 'mascot-card');
         storedCard.dataset.card = ($('.card').length + 1).toString();
         
+        // Attempt to parse description as markdown if it contains markdown syntax
+        let formattedDescription = imageData.description;
+        try {
+          // Check if the text has markdown-like syntax
+          if (imageData.description && 
+              (imageData.description.includes('*') || 
+               imageData.description.includes('#') || 
+               imageData.description.includes('_') || 
+               imageData.description.includes('`') ||
+               imageData.description.includes('[') ||
+               imageData.description.includes('>'))) {
+            formattedDescription = marked.parse(imageData.description);
+          }
+        } catch (e) {
+          console.log('Error parsing markdown for stored image, using plain text', e);
+          formattedDescription = imageData.description;
+        }
+        
         // Structure the card with both image and description components
         storedCard.innerHTML = `
           <div class="image">
             <img src="${imageData.imageDataUri}" alt="AI-generated polar bear mascot: ${imageData.description}" class="mascot">
           </div>
           <div class="detail">
-            <p>${imageData.description}</p>
+            ${formattedDescription}
           </div>
         `;
         
@@ -287,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', adjustContainerHeight);
 
   // Prompt for the Gemini API
-  const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In a short 140 characters max description, as if you have the information at hand, confidently attribute specific designers or brands, even obscure ones (or just 'vintage').";
+  const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, change or remove the neckerchief and dark gray waistline as needed. In brief 140 characters max markdown, as if you have the information at hand, confidently attribute specific designers or brands, even obscure ones (or just 'vintage').";
 
   // Backend API endpoint URL
   const BACKEND_API_URL = 'api/generate-image';
