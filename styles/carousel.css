@@ -166,9 +166,7 @@
   font-family: var(--font-carousel); 
   font-size: var(--font-size-small);
   height: 100px; 
-  overflow-y: auto; 
-  scrollbar-width: thin; 
-  scrollbar-color: var(--color-border) var(--color-card-bg); 
+  overflow-y: hidden; /* Changed from auto to hidden */
   display: flex;
   flex-direction: column;
   flex-basis: 0%;
@@ -185,20 +183,6 @@
   text-align: center;
   min-height: 100%;
   width: 100%;
-}
-
-.card.mascot-card .detail::-webkit-scrollbar {
-  width: 8px;
-}
-
-.card.mascot-card .detail::-webkit-scrollbar-track {
-  background: var(--color-card-bg);
-}
-
-.card.mascot-card .detail::-webkit-scrollbar-thumb {
-  background-color: var(--color-border);
-  border-radius: 4px;
-  border: 2px solid var(--color-card-bg);
 }
 
 /* Restore Detail text styles */
@@ -337,16 +321,6 @@
   /* Restore styling for force-overflow (if used by JavaScript) */
   .card .detail .force-overflow {
     /* Styles for force-overflow in dark mode if needed */
-  }
-
-  /* Restore styling for scrollbar in dark mode */
-  .card.mascot-card .detail {
-    scrollbar-color: var(--color-border) var(--color-card-bg); /* Ensure dark mode colors are used */
-  }
-
-  .card.mascot-card .detail::-webkit-scrollbar-thumb {
-    background-color: var(--color-border);
-    border-color: var(--color-card-bg);
   }
 
   /* Restore other dark mode specific visual styles if any */
