@@ -797,17 +797,7 @@ footer a:active {
     border-top: 5px solid #ffffff;
   }
   
-  /* Apply dark mode hover/active directly */
-  .mascot-container:hover {
-    transform: translate(-3px, -3px);
-    box-shadow: 6px 6px 1px rgb(255, 255, 255, 0.1);
-  }
-  
-  .mascot-container:active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 var(--shadow-color);
-    background-color: #333; /* Darker active state */
-  }
+  /* No hover/active effects for mascot container */
 
   /* Gemini button dark mode adjustments */
   #gemini-button {
