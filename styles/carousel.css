@@ -1,25 +1,264 @@
-/* Card Carousel - Adapted to match portfolio aesthetic */
+/* Carousel styles: Merged visual styles from previous version with functional CSS from example (Attempt 2) */
 
 .carousel-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: center; 
+  justify-content: flex-start; /* Restored from previous */
+  position: relative; 
   margin: 0;
-  position: relative;
   width: 100%;
   padding-left: 0;
-  /* Use max-width to ensure it fills the available space - Reduced for smaller desktop size */
   max-width: 420px; 
 }
 
-.carousel-controls {
+/* Container for the cards - Keep perspective, adjust size based on old card size */
+.container.mascot-container {
+  position: relative;
+  width: 400px; /* From previous version */
+  min-height: 320px; /* From previous version */
+  height: auto; /* From previous version */
+  perspective: 1000px; 
+  margin: 0; 
+  margin-bottom: var(--spacing-medium); /* From previous */
+  background: none; /* From previous */
+  border: none; /* From previous */
+  box-shadow: none; /* From previous */
+}
+
+/* Individual card styling - Restore visual styles */
+.card.mascot-card {
+  position: absolute;
+  /* top/left/opacity/transform/z-index set by nth-child */
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+  width: 320px; /* From previous */
+  height: auto; /* From previous */
+  border-radius: 0; /* From previous */
+  border: 3px solid var(--color-border);
+  /* Default shadow set by nth-child or hover */
+  font-family: var(--font-primary);
+  font-size: var(--font-size-regular);
+  overflow: hidden;
+  transform-origin: center;
+  display: flex; /* From previous */
+  flex-direction: column; /* From previous */
+  max-height: 550px; /* From previous */
+
+  /* USE EXAMPLE'S TRANSITION */
+  transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, transform 0.4s ease, z-index 0.4s ease;
+}
+
+/* Stacking styles using nth-child - USE EXAMPLE'S POSITIONING LOGIC */
+.card.mascot-card:nth-child(1) {
+  /* Keep original shadow/hover/active */
+  box-shadow: 8px 8px 0 var(--color-border);
+  /* Example's position */
+  z-index: 10;
+  top: 0px; 
+  left: 25px;
+  opacity: 1;
+  transform: scale(1); 
+}
+
+/* Restore hover/active from previous */
+.card.mascot-card:nth-child(1):hover {
+  transform: translate(-2px, -2px); /* Keep previous hover transform */
+  box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6); /* Keep previous hover shadow */
+  z-index: 11; /* Ensure hover card is on top */
+}
+
+.card.mascot-card:nth-child(1):active {
+  transform: translate(2px, 2px); /* Keep previous active transform */
+  box-shadow: 2px 2px 0 var(--color-border); /* Keep previous active shadow */
+  background-color: #eaeaea; /* Keep previous active bg */
+}
+
+.card.mascot-card:nth-child(2) {
+  /* Keep original visual shadow */
+  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Example's position */
+  z-index: 9;
+  top: -10px; 
+  left: 15px; 
+  opacity: 0.9; 
+  transform: scale(0.95); 
+}
+
+.card.mascot-card:nth-child(3) {
+  /* Keep original visual shadow */
+  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Example's position */
+  z-index: 8;
+  top: -20px; 
+  left: 5px;  
+  opacity: 0.8; 
+  transform: scale(0.9); 
+}
+
+.card.mascot-card:nth-child(4) {
+  /* Keep original visual shadow */
+  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Example's position */
+  z-index: 7;
+  top: -30px; 
+  left: -5px; 
+  opacity: 0.7; 
+  transform: scale(0.85); 
+}
+
+/* Subsequent cards (5+) */
+.card.mascot-card:nth-child(n+5) {
+  /* Keep original visual shadow */
+  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Example's position */
+  z-index: 6;
+  top: -40px; 
+  left: -15px;
+  opacity: 0; /* Example hides 5+ */
+  transform: scale(0.8); 
+}
+
+/* --- Keep all other visual styles below --- */
+
+/* Restore Original Mascot styles */
+.card.mascot-card.original-mascot .detail {
+  display: none !important; 
+}
+
+/* Restore Image container styles */
+.card.mascot-card .image {
+  width: 100%;
+  height: auto; 
+  flex: 1; 
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; 
+  min-height: 300px; 
+}
+
+.card.mascot-card .image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain; 
+  max-height: 500px; 
+  display: block; 
+}
+
+/* Restore Special case for original mascot image */
+.card.mascot-card.original-mascot .image {
+  aspect-ratio: 1500/2121; 
+}
+
+.card.mascot-card.original-mascot .image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  max-height: none; 
+}
+
+/* Restore Detail section styles */
+.card.mascot-card .detail {
+  padding: var(--spacing-small);
+  background-color: var(--color-card-bg);
+  border-top: 2px solid var(--color-border);
+  font-family: var(--font-carousel); 
+  font-size: var(--font-size-small);
+  height: 100px; 
+  overflow-y: auto; 
+  scrollbar-width: thin; 
+  scrollbar-color: var(--color-border) var(--color-card-bg); 
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-right: var(--spacing-medium); /* Using spacing variable instead of 20px */
+  align-items: center;
+  text-align: center;
+}
+
+.card.mascot-card .detail .force-overflow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100%;
+  width: 100%;
+}
+
+.card.mascot-card .detail::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card.mascot-card .detail::-webkit-scrollbar-track {
+  background: var(--color-card-bg);
+}
+
+.card.mascot-card .detail::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 4px;
+  border: 2px solid var(--color-card-bg);
+}
+
+/* Restore Detail text styles */
+.card.mascot-card .detail p,
+.card.mascot-card .detail h1,
+.card.mascot-card .detail h2,
+.card.mascot-card .detail h3,
+.card.mascot-card .detail h4,
+.card.mascot-card .detail ul,
+.card.mascot-card .detail ol,
+.card.mascot-card .detail li,
+.card.mascot-card .detail blockquote {
+  margin: 0 0 0.5em 0;
+  padding: 0;
+  line-height: 1.5;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  text-align: center; 
+  width: 100%; 
+  max-width: 280px; 
+  font-family: var(--font-carousel); 
+}
+
+.card.mascot-card .detail > *:last-child {
+  margin-bottom: 0;
+}
+
+.card.mascot-card .detail h1 { font-size: 18px; font-weight: bold; }
+.card.mascot-card .detail h2 { font-size: 16px; font-weight: bold; }
+.card.mascot-card .detail h3 { font-size: 15px; font-weight: bold; }
+.card.mascot-card .detail strong { font-weight: bold; }
+.card.mascot-card .detail em { font-style: italic; }
+.card.mascot-card .detail code { 
+  font-family: monospace; 
+  background: rgba(0,0,0,0.05);
+  padding: 0 3px;
+  border-radius: 3px;
+}
+.card.mascot-card .detail ul, 
+.card.mascot-card .detail ol {
+  display: inline-block;
+  text-align: left;
+  padding-left: var(--spacing-medium); 
+}
+.card.mascot-card .detail blockquote {
+  border-left: 3px solid var(--color-border);
+  padding-left: var(--spacing-unit); 
+  margin-left: var(--spacing-unit); 
+  color: #777;
+}
+
+/* Restore Control buttons styling */
+.carousel-controls {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  margin-right: var(--spacing-medium);
   position: relative;
-  left: -30px; /* Move controls even further left to compensate */
-  z-index: 11; /* Ensure controls are above cards */
+  left: -30px;
+  z-index: 11;
+  /* order: -1; /* Keep ordering if needed? Check visual layout */
 }
 
 .prev-btn, .next-btn {
@@ -33,10 +272,11 @@
   justify-content: center;
   align-items: center;
   font-size: 18px;
+  font-weight: normal; /* Restore default weight */
   cursor: pointer;
-  margin: var(--spacing-unit) 0; /* Using spacing variable instead of 10px */
+  margin: var(--spacing-unit) 0; 
   box-shadow: var(--shadow-size-default) var(--shadow-size-default) 0 var(--color-border);
-  transition: all 0.2s ease;
+  transition: all 0.2s ease; /* Restore previous transition */
 }
 
 .prev-btn:hover, .next-btn:hover {
@@ -50,250 +290,7 @@
   background-color: var(--color-secondary);
 }
 
-.carousel-wrapper .container {
-  position: relative;
-  width: 400px; /* Further increased width to maximize card display area */
-  height: auto; /* Allow dynamic height based on content */
-  margin-bottom: 0;
-}
-
-/* Specific styling for mascot carousel container */
-.container.mascot-container {
-  min-height: 320px; /* Minimum height for the mascot container */
-  background: none;
-  border: none;
-  box-shadow: none;
-  margin-bottom: var(--spacing-medium); /* Using spacing variable instead of 20px */
-}
-
-.container .card {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: var(--color-card-bg);
-  width: 320px; /* Width compatible with the original image's aspect ratio */
-  height: auto;
-  border-radius: 0; /* Remove border radius to match portfolio style */
-  border: 3px solid var(--color-border);
-  /* Default sharp shadow for cards lower in the stack */
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
-  font-family: var(--font-primary);
-  font-size: var(--font-size-regular);
-  overflow: hidden;
-  transform-origin: center;
-  display: flex;
-  flex-direction: column;
-  
-  /* Add smooth transition for position changes - this will make all cards glide */
-  transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, box-shadow 0.4s ease;
-  
-  /* Ensure image takes precedence while maintaining text visibility */
-  max-height: 550px; /* Maximum total card height */
-}
-
-/* Add specific styles for the original mascot card */
-.container .card.original-mascot .detail {
-  display: none !important; /* Ensure the caption stays hidden for the original mascot */
-}
-
-.image {
-  width: 100%;
-  height: auto; /* Allow height to be determined by content */
-  flex: 1; /* Let image container take available space */
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative; /* Enable position context for aspect ratio handling */
-  min-height: 300px; /* Minimum height to ensure enough space for pillarboxed images */
-}
-
-.image img {
-  width: 100%;
-  height: auto;
-  object-fit: contain; /* Preserve aspect ratio while fitting within container */
-  max-height: 500px; /* Increased height to better accommodate pillarboxed images */
-  display: block; /* Remove any extra spacing around image */
-}
-
-/* Special case for the original mascot image - exact aspect ratio */
-.card.original-mascot .image {
-  aspect-ratio: 1500/2121; /* Match exact aspect ratio of original image */
-}
-
-.card.original-mascot .image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Fill the container perfectly */
-  max-height: none; /* Remove max-height constraint for original image */
-}
-
-/* Mobile-specific image height will be in the media query section below */
-
-/* Styling for the description detail inside cards */
-.card .detail {
-  padding: var(--spacing-small);
-  background-color: var(--color-card-bg);
-  border-top: 2px solid var(--color-border);
-  font-family: var(--font-carousel); /* Using new carousel font variable */
-  font-size: var(--font-size-small);
-  height: 100px; /* INCREASED: More height for caption area */
-  overflow-y: auto; /* Enable vertical scrolling */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: var(--color-border) var(--color-card-bg); /* Firefox */
-  
-  /* Center content both vertically and horizontally */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* Styling for force-overflow (if used by JavaScript) */
-.card .detail .force-overflow {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100%;
-  width: 100%;
-}
-
-/* Webkit scrollbar styling */
-.card .detail::-webkit-scrollbar {
-  width: 8px;
-}
-
-.card .detail::-webkit-scrollbar-track {
-  background: var(--color-card-bg);
-}
-
-.card .detail::-webkit-scrollbar-thumb {
-  background-color: var(--color-border);
-  border-radius: 4px;
-  border: 2px solid var(--color-card-bg);
-}
-
-/* Styling for all text elements in the card detail */
-.card .detail p,
-.card .detail h1,
-.card .detail h2,
-.card .detail h3,
-.card .detail h4,
-.card .detail ul,
-.card .detail ol,
-.card .detail li,
-.card .detail blockquote {
-  margin: 0 0 0.5em 0;
-  padding: 0;
-  line-height: 1.5;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  text-align: center; /* Ensure text is centered */
-  width: 100%; /* Full width for proper centering */
-  max-width: 280px; /* Limit width for readability */
-  font-family: var(--font-carousel); /* Using new carousel font variable */
-}
-
-/* Special markdown element styling */
-.card .detail h1 { font-size: 18px; font-weight: bold; }
-.card .detail h2 { font-size: 16px; font-weight: bold; }
-.card .detail h3 { font-size: 15px; font-weight: bold; }
-.card .detail strong { font-weight: bold; }
-.card .detail em { font-style: italic; }
-.card .detail code { 
-  font-family: monospace; 
-  background: rgba(0,0,0,0.05);
-  padding: 0 3px;
-  border-radius: 3px;
-}
-
-.card .detail ul, 
-.card .detail ol {
-  display: inline-block;
-  text-align: left;
-  padding-left: var(--spacing-medium); /* Using spacing variable instead of 20px */
-}
-
-.card .detail blockquote {
-  border-left: 3px solid var(--color-border);
-  padding-left: var(--spacing-unit); /* Using spacing variable instead of 8px */
-  margin-left: var(--spacing-unit); /* Using spacing variable instead of 8px */
-  color: #777;
-}
-
-/* Last child should not have bottom margin */
-.card .detail > *:last-child {
-  margin-bottom: 0;
-}
-
-/* Error card styling */
-.card.error-card .error-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-  background-color: rgba(255, 0, 0, 0.1);
-}
-
-.card.error-card .error-icon {
-  font-size: 3rem;
-}
-
-.container .card:nth-child(1) {
-  z-index: 10;
-  top: 0px;
-  left: 50px; /* Adjusted position for smaller card - now at 50px */
-  opacity: 1;
-  /* Updated shadow to match project style */
-  box-shadow: 8px 8px 0 var(--color-border);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.container .card:nth-child(1):hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
-}
-
-.container .card:nth-child(1):active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--color-border);
-  background-color: #eaeaea;
-}
-
-.container .card:nth-child(2) {
-  z-index: 9;
-  top: -10px;
-  left: 40px;
-  opacity: 0.9;
-}
-
-.container .card:nth-child(3) {
-  z-index: 8;
-  top: -20px;
-  left: 30px;
-  opacity: 0.8;
-}
-
-.container .card:nth-child(4) {
-  z-index: 7;
-  top: -30px;
-  left: 20px;
-  opacity: 0.7;
-}
-
-.container .card:nth-child(5), .container .card:nth-child(n+5) {
-  z-index: 6;
-  top: -40px;
-  left: 10px;
-  opacity: 0.5;
-}
-
-/* No hover/active states for mascot carousel cards */
-
-/* Dark Mode Adjustments */
+/* Restore Dark Mode Adjustments */
 @media (prefers-color-scheme: dark) {
   .prev-btn, .next-btn {
     background-color: var(--color-background);
@@ -311,286 +308,194 @@
     background-color: var(--color-active-dark);
   }
   
-  .container .card {
-    /* Default sharp shadow for dark mode */
-    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color);
+  .card.mascot-card {
+    /* Default sharp shadow for dark mode (applied in nth-child rules now) */
+    /* box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color); */
   }
 
-  .container .card:nth-child(1) {
+  .card.mascot-card:nth-child(1) {
      /* Updated shadow to match project style in dark mode */
      box-shadow: 8px 8px 0 var(--shadow-color);
   }
-  
-  .container .card:nth-child(1):hover {
+  .card.mascot-card:nth-child(n+2) {
+     /* Apply default dark shadow to other cards */
+     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color);
+  }
+
+  .card.mascot-card:nth-child(1):hover {
     transform: translate(-2px, -2px);
     box-shadow: 11px 11px 1px rgb(255, 255, 255, 0.1);
   }
   
-  .container .card:nth-child(1):active {
+  .card.mascot-card:nth-child(1):active {
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 var(--shadow-color);
     background-color: #333333;
   }
   
-  /* Dark mode styling for the mascot description */
-  .mascot-ai-description {
-    background-color: var(--color-card-bg);
-    border-color: var(--color-border);
-    color: var(--color-text);
-    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color);
+  /* Restore styling for force-overflow (if used by JavaScript) */
+  .card .detail .force-overflow {
+    /* Styles for force-overflow in dark mode if needed */
   }
-  
-  /* No hover/active for description in dark mode */
+
+  /* Restore styling for scrollbar in dark mode */
+  .card.mascot-card .detail {
+    scrollbar-color: var(--color-border) var(--color-card-bg); /* Ensure dark mode colors are used */
+  }
+
+  .card.mascot-card .detail::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-color: var(--color-card-bg);
+  }
+
+  /* Restore other dark mode specific visual styles if any */
+  .card.mascot-card .detail code {
+     background: rgba(255,255,255,0.1);
+  }
+  .card.mascot-card .detail blockquote {
+    border-left-color: var(--color-border);
+    color: #aaa;
+  }
 }
 
-/* Styling for the mascot loading indicator */
-.header-mascot-area .mascot-loading {
-  position: absolute;
-  top: 120px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 20;
-  background-color: var(--color-background);
-  border: 3px solid var(--color-border);
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
-  padding: var(--spacing-medium);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 200px;
-}
-
-.mascot-loading-spinner {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: var(--spacing-medium);
-}
-
-.mascot-loading-spinner::before {
-  content: '';
-  position: absolute;
-  width: 50px;
-  height: 47px;
-  background-color: var(--color-border);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* We've removed the standalone mascot-ai-description element, 
-   descriptions are now inside the cards with overflow scrolling */
-
-/* Responsive Adjustments */
+/* Restore Responsive Adjustments (keeping EXAMPLE's nth-child positioning) */
 @media (max-width: 768px) {
+  /* Keep layout changes from previous */
   .carousel-wrapper {
     flex-direction: column;
     align-items: center;
-    padding-left: 0; /* Reset padding for mobile */
+    padding-left: 0; 
     padding-top: 50px;
-    max-width: 100%; /* Allow full width in mobile */
+    max-width: 100%; 
   }
-
   .carousel-controls {
     flex-direction: row;
     margin-right: 0;
-    /* Position controls below container - reduced the space */
-    margin-top: var(--spacing-medium); /* Using spacing variable instead of 20px */
-    order: 2; /* Display controls after the container */
-    left: 0; /* Reset left positioning for mobile */
+    margin-top: var(--spacing-medium); 
+    order: 2; 
+    left: 0; 
   }
   .prev-btn, .next-btn {
-    margin: 0 var(--spacing-unit); /* Using spacing variable instead of 10px */
+    margin: 0 var(--spacing-unit); 
   }
-  .carousel-wrapper .container {
-    width: 300px; /* Wider container on mobile */
-    order: 1; /* Display container before the controls */
-    margin-left: auto; /* Center the container */
-    margin-right: auto; /* Center the container */
+  .container.mascot-container {
+    width: 300px; /* Keep previous size adjustment */
+    order: 1; 
+    margin-left: auto; 
+    margin-right: auto; 
   }
-  .container .card {
-    width: 280px; /* Adjust card width for mobile */
-    left: 10px;
-  }
-
-  /* Card positioning for tablet/mobile - maintaining stacking order */
-  .container .card:nth-child(1) {
-    z-index: 10;
-    top: 0px;
-    left: 30px; /* Adjusted for tablet/mobile but still to the right of cards behind it */
-    opacity: 1;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 8px 8px 0 var(--color-border);
-  }
-  
-  .container .card:nth-child(1):hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
-  }
-  
-  .container .card:nth-child(1):active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 var(--color-border);
-    background-color: #eaeaea;
-  }
-  
-  .container .card:nth-child(2) {
-    z-index: 9;
-    top: -10px;
-    left: 20px;
-    opacity: 0.9;
-  }
-  
-  .container .card:nth-child(3) {
-    z-index: 8;
-    top: -20px;
-    left: 10px;
-    opacity: 0.8;
-  }
-  
-  .container .card:nth-child(4) {
-    z-index: 7;
-    top: -30px;
-    left: 0px;
-    opacity: 0.7;
-  }
-  
-  .container .card:nth-child(5), .container .card:nth-child(n+5) {
-    z-index: 6;
-    top: -40px;
-    left: -10px;
-    opacity: 0.5;
+  .card.mascot-card {
+    width: 280px; /* Keep previous size adjustment */
   }
 
-  /* Ensure image container adjusts height based on image aspect ratio - will be set via JS */
-  .container .card .image {
-    aspect-ratio: auto; /* Override fixed aspect ratio */
-    /* Height will be set dynamically by JavaScript based on image dimensions */
-    overflow: hidden;   /* Ensure content doesn't overflow */
+  /* Card positioning for tablet/mobile - USE EXAMPLE'S OFFSETS */
+  /* Note: These values might need tweaking if the card size changes don't match the example's assumptions */
+  .card.mascot-card:nth-child(1) {
+     left: 25px; /* Example offset for 300px container / 250px card? */
+     /* Keep previous visual shadow */
+     box-shadow: 8px 8px 0 var(--color-border);
   }
+  
+  .card.mascot-card:nth-child(2) {
+     left: 18px; 
+     /* Keep previous visual shadow */
+     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  }
+  
+  .card.mascot-card:nth-child(3) {
+     left: 11px; 
+     /* Keep previous visual shadow */
+     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  }
+  
+  .card.mascot-card:nth-child(4) {
+     left: 4px;  
+     /* Keep previous visual shadow */
+     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  }
+  
+  .card.mascot-card:nth-child(n+5) {
+     left: -3px; 
+     /* Keep previous visual shadow */
+     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  }
+  /* Top/Opacity/Transform/Z-index should still come from the main nth-child rules */
 
-  /* Ensure image scales correctly within the adjusted container */
-  .container .card .image img {
-    width: 100%;        /* Full width of container */
-    height: auto;       /* Height adjusts based on width and aspect ratio */
-    object-fit: contain; /* Preserve aspect ratio while fitting within container */
-    max-height: 420px;  /* Added ~15% more height for pillarboxed images on tablet/mobile */
-    display: block;     /* Remove any extra spacing */
+  /* Restore image/detail adjustments */
+  .card.mascot-card .image {
+    aspect-ratio: auto; 
+    min-height: 280px;
   }
-  
-  /* Extra space for image container to accommodate pillarboxed images */
-  .container .card .image {
-    min-height: 280px; /* Ensure enough vertical space even for small images */
+  .card.mascot-card .image img {
+    max-height: 420px; 
   }
-  
-  .header-mascot-area .mascot-loading {
-    width: 180px;
-    height: 180px;
-    top: 100px;
-  }
-  /* Adjust detail height for mobile - reduced from previous value */
-  .card .detail {
-    height: 120px; /* More balanced height for mobile */
+  .card.mascot-card .detail {
+    height: 120px; 
   }
 }
 
 @media (max-width: 575px) {
-  .carousel-wrapper .container {
+  /* Keep layout changes from previous */
+  .container.mascot-container {
     width: 280px;
   }
-  
-  .container .card {
+  .card.mascot-card {
     width: 260px;
   }
   
-  /* Card positioning for smallest screens - maintaining stacking order */
-  .container .card:nth-child(1) {
-    left: 25px; /* Slightly adjusted for smallest screens */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Card positioning for smallest screens - USE EXAMPLE'S OFFSETS */
+  /* Note: These values might need tweaking */
+  .card.mascot-card:nth-child(1) {
+    left: 20px; 
+    /* Keep previous visual shadow */
     box-shadow: 8px 8px 0 var(--color-border);
   }
-  
-  .container .card:nth-child(1):hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
+  .card.mascot-card:nth-child(2) {
+    left: 15px; 
+    /* Keep previous visual shadow */
+    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
   }
-  
-  .container .card:nth-child(1):active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 var(--color-border);
-    background-color: #eaeaea;
+  .card.mascot-card:nth-child(3) {
+    left: 10px; 
+    /* Keep previous visual shadow */
+    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
   }
-  
-  .container .card:nth-child(2) {
-    left: 15px;
+  .card.mascot-card:nth-child(4) {
+    left: 5px; 
+    /* Keep previous visual shadow */
+    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
   }
-  
-  .container .card:nth-child(3) {
-    left: 5px;
+  .card.mascot-card:nth-child(n+5) {
+    left: 0px; 
+    /* Keep previous visual shadow */
+    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
   }
-  
-  .container .card:nth-child(4) {
-    left: -5px;
+  /* Top/Opacity/Transform/Z-index should still come from the main nth-child rules */
+
+  /* Restore image/detail adjustments */
+  .card.mascot-card .image {
+     min-height: 250px;
   }
-  
-  .container .card:nth-child(5), .container .card:nth-child(n+5) {
-    left: -15px;
+  .card.mascot-card .image img {
+    max-height: 380px; 
   }
-  
-  /* Ensure image container and image properly adjust on smallest screens */
-  .container .card .image {
-    /* Height will be dynamically set by JavaScript based on aspect ratio */
-    overflow: hidden;
+  .card.mascot-card.original-mascot .image {
+    aspect-ratio: 1500/2121; 
+    height: auto !important; 
   }
-  
-  .container .card .image img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    max-height: 380px; /* Added ~15% more height for pillarboxed images on smallest screens */
-    display: block;
-  }
-  
-  /* Ensure enough vertical space for mobile portrait images */
-  .container .card .image {
-    min-height: 250px; /* Ensure sufficient vertical space for small images */
-  }
-  
-  /* Maintain aspect ratio for original mascot even on smallest screens */
-  .container .card.original-mascot .image {
-    aspect-ratio: 1500/2121; /* Keep exact aspect ratio of original image */
-    height: auto !important; /* Ensure JS doesn't override */
-  }
-  
-  .container .card.original-mascot .image img {
+  .card.mascot-card.original-mascot .image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     max-height: none;
   }
-  
-  /* More balanced detail height for smallest screens */
-  .card .detail {
-    height: 100px; /* Reduced height for smallest screens */
-  }
-  
-  .header-mascot-area .mascot-loading {
-    width: 160px;
-    height: 160px;
-    top: 80px;
+  .card.mascot-card .detail {
+    height: 100px; 
   }
 }
 
 /* Rule to disable transitions during resize */
-.container.no-transition .card {
+.container.no-transition .card.mascot-card {
   transition: none !important;
 }
   

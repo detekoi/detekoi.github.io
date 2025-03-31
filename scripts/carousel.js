@@ -1,239 +1,130 @@
+// Adapted from 3D-Card-Carousel-master/main.js
+// Note: This uses jQuery, similar to previous attempts, not a pure CSS 3D transform.
+
 (function() {
-    // Helper function to detect dark mode
-    function isDarkMode() {
-        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    
-    // Helper function to get calculated positions/styles for a card index
-    function getCardStyle(index) {
-        const isMobile = window.innerWidth <= 768;
-        const isSmallMobile = window.innerWidth <= 575;
-
-        let leftPositions = [50, 40, 30, 20, 10]; // Desktop default
-        let topPositions = [0, -10, -20, -30, -40]; // Top positions
-        let opacities = [1, 0.9, 0.8, 0.7, 0.5]; // Opacity values
-        
-        if (isMobile) {
-            leftPositions = [30, 20, 10, 0, -10]; // Tablet/Mobile
-        }
-        
-        if (isSmallMobile) {
-            leftPositions = [25, 15, 5, -5, -15]; // Small Mobile
-        }
-
-        const posIndex = Math.min(index, 4); // Cap at 4 (5th position)
-        const zIndex = 10 - Math.min(index, 4);
-        
-        const boxShadow = index === 0 ? 
-            'none' // Let CSS handle front card shadow for hover/active
-            : (isDarkMode() ? 
-               '8px 8px 0 var(--shadow-color)' : // Dark mode shadow for other cards
-               '8px 8px 0 var(--color-border)'); // Light mode shadow for other cards
-
-        return {
-            'z-index': zIndex,
-            'top': topPositions[posIndex] + 'px',
-            'left': leftPositions[posIndex] + 'px',
-            'opacity': opacities[posIndex],
-            'box-shadow': boxShadow
-        };
-    }
-
-    // Define rotate function to move card from front to back
-    function rotate() {
-        if ($('.card.animating').length > 0) {
-            console.log('Animation in progress, skipping rotation');
-            return;
-        }
-
-        var $firstCard = $('.card:first-child');
-        if ($firstCard.length === 0) return; // No card to rotate
-        $firstCard.addClass('animating'); 
-        
-        const isMobile = window.innerWidth <= 768;
-        const isSmallMobile = window.innerWidth <= 575;
-        
-        let targetLeft = '10px'; 
-        let targetTopInit = '-90px'; 
-        let targetTopFinal = '-40px'; 
-        
-        if (isMobile) targetLeft = '-10px'; 
-        if (isSmallMobile) targetLeft = '-15px'; 
-
-        $firstCard.animate({
-            top: '-=50px', 
-            opacity: 0     
-        }, 400, 'swing', function() {
-            const $cardToAnimate = $(this); // Store reference
-
-            $cardToAnimate
-                .appendTo('.container')
-                .css({
-                    'left': targetLeft, 
-                    'top': targetTopInit,
-                    'z-index': '5',     
-                    'opacity': '0'       
-                });
-
-            // Update stack styles for background cards NOW
-            updateStackStyles(); 
-
-            // Animate the moved card into its final position
-            $cardToAnimate.animate({
-                top: targetTopFinal, 
-                opacity: 0.5        
-            }, 400, 'swing', function() {
-                // Animation complete
-                $(this).removeAttr('style').removeClass('animating'); 
-                // Final style update to ensure consistency
-                updateStackStyles();
-            });
-        });
-    }
-
-    // Define rotatePrev function to move card from back to front
-    function rotatePrev() {
-        if ($('.card.animating').length > 0) {
-            console.log('Animation in progress, skipping rotation');
-            return;
-        }
-        
-        var $lastCard = $('.card:last-child');
-        if ($lastCard.length === 0 || $('.card').length <= 1) {
-             console.log('Not enough cards or no last card found');
-             return;
-        }
-        $lastCard.addClass('animating');
-        
-        const isMobile = window.innerWidth <= 768;
-        const isSmallMobile = window.innerWidth <= 575;
-        
-        let targetLeft = '50px'; 
-        let targetTopInit = '-50px'; 
-        
-        if (isMobile) targetLeft = '30px';
-        if (isSmallMobile) targetLeft = '25px'; 
-        
-        // Get final style for the *new* front card position before animating out
-        const finalFrontStyle = getCardStyle(0); 
-
-        // Animate slide out upwards
-        $lastCard.animate({
-            top: '-=' + (50 + Math.abs(parseInt($lastCard.css('top') || '0'))) + 'px',
-            opacity: 0     
-        }, 400, 'swing', function() {
-            const $cardToAnimate = $(this); // Store reference to the card
-            
-            // Move to beginning, set initial position for slide-in
-            $cardToAnimate
-                .prependTo('.container')
-                .css({
-                    'left': targetLeft,  
-                    'top': targetTopInit,
-                    'z-index': '11',
-                    'opacity': '0'      
-                });
-
-            // Update positions for the rest of the stack NOW
-            updateStackStyles();
-
-            // Animate slide-in to the first card position (NO DELAY)
-            $cardToAnimate.animate({
-                top: finalFrontStyle.top,
-                opacity: finalFrontStyle.opacity
-            }, 400, 'swing', function() {
-                // Animation complete: remove inline styles and animating class
-                $(this).removeAttr('style').removeClass('animating'); 
-                
-                // Re-apply final styles after animation
-                updateStackStyles();
-            });
-        });
-    }
-
-    // Function to apply calculated styles to the current card stack
-    function updateStackStyles() {
-        $('.card:not(.animating)').each(function(index) {
-            const style = getCardStyle(index);
-            $(this).css(style);
-        });
-    }
-
-    // Function to reset card positions (used on load, resize, theme change)
+    // Helper function to set initial positions based on CSS
+    // This function is NOT part of the original example, but needed
+    // because the example relied purely on CSS for initial state.
     function resetCardPositions() {
-        $('.card').removeClass('animating'); // Ensure no lingering animating class
-        updateStackStyles(); // Apply styles based on current order
-    }
-    
-    // Function to hide/show carousel controls based on number of cards
-    function updateCarouselControls() {
-        var cardCount = $('.card').length;
-        if (cardCount <= 1) {
-            $('.carousel-controls').hide();
-        } else {
-            $('.carousel-controls').show();
-        }
+        // Remove any inline styles from previous animations
+        $('.container.mascot-container .card.mascot-card').removeAttr('style');
+        // The CSS :nth-child rules will now apply automatically.
     }
 
-    // Expose functions globally
-    window.rotate = rotate;
-    window.rotatePrev = rotatePrev;
-    window.updateCarouselControls = updateCarouselControls;
-    window.resetCardPositions = resetCardPositions; // Keep exposed for resize/theme changes etc.
-
-    // Call initially to set up controls visibility and positions
-    $(document).ready(function() {
-        updateCarouselControls();
-        resetCardPositions(); // Use reset for initial full setup
+    // Rotate forward (Next button)
+    function rotate() {
+        var $firstCard = $('.container.mascot-container .card.mascot-card:first-child');
+        var $container = $('.container.mascot-container');
         
-        // Add resize listener to reposition cards
-        let resizeTimer;
-        $(window).on('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                // Temporarily remove transition for instant repositioning on resize
-                $('.container').addClass('no-transition'); 
-                resetCardPositions();
-                // Restore transition after a short delay
-                setTimeout(() => $('.container').removeClass('no-transition'), 50); 
-            }, 250); // Debounce resize event
-        });
-    });
+        // Get target CSS values for the *last* visible position (e.g., 5th)
+        // These need to match the CSS :nth-child(5) rule or highest visible number
+        const targetTop = '-40px'; 
+        const targetLeft = '-15px';
+        const targetOpacity = 0.5; // Example opacity, adjust if CSS is different
+        const targetZIndex = 6;    // Example z-index, adjust if CSS is different
 
-    // Listen for dark mode changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        // Clear any inline styles that might conflict with theme change
-        $('.card').each(function() {
-            if ($(this).attr('style')) {
-                $(this).removeAttr('style');
-            }
+        // 1. Animate slide out upwards (adjust values as needed)
+        $firstCard.animate({
+            top: '-=50px',
+            opacity: 0
+        }, 400, 'swing', function() {
+            // 2. Move to end, set initial position for slide-in from above
+            $(this)
+                .appendTo($container) // Ensure it's appended to the correct container
+                .css({
+                    // Start above the final position
+                    'top': (parseInt(targetTop) - 50) + 'px', 
+                    'left': targetLeft,
+                    'z-index': targetZIndex -1, // Start behind final z-index
+                    'opacity': 0
+                })
+                // 3. Animate slide-in to the last visible position
+                .animate({
+                    top: targetTop,
+                    opacity: targetOpacity
+                }, 400, 'swing', function() {
+                    // 4. Animation complete: remove inline styles so CSS takes over
+                    $(this).removeAttr('style');
+                    // Optional: A final reset might be needed if CSS transitions interfere
+                    // resetCardPositions(); 
+                });
+            
+            // Update the positions of the remaining cards using CSS transitions
+            // by briefly removing and re-adding a class, or triggering reflow.
+            // Simplest: Remove inline styles, let CSS :nth-child re-apply.
+            $('.container.mascot-container .card.mascot-card:not(:last-child)').removeAttr('style');
         });
-        // Re-apply positions based on the new theme
-        resetCardPositions(); 
+    }
+
+    // Rotate backward (Prev button)
+    function rotatePrev() {
+        var $lastCard = $('.container.mascot-container .card.mascot-card:last-child');
+        var $container = $('.container.mascot-container');
+
+        // Get target CSS values for the *first* position (from :nth-child(1))
+        const targetTop = '0px';
+        const targetLeft = '25px';
+        const targetOpacity = 1;
+        const targetZIndex = 10;
+
+        // 1. Prepare the last card: Set its z-index high and initial position
+        // Move instantly to a starting position slightly above and behind final left
+        $lastCard.css({
+            'top': '-50px',
+            'left': (parseInt(targetLeft) - 10) + 'px',
+            'z-index': targetZIndex + 1, // Ensure it's above others during move
+            'opacity': 0
+        });
+
+        // 2. Move to beginning of DOM order
+        $lastCard.prependTo($container);
+
+        // 3. Update styles of other cards so they transition back
+        // Remove inline styles, let CSS :nth-child re-apply.
+        $('.container.mascot-container .card.mascot-card:not(:first-child)').removeAttr('style');
+
+        // 4. Animate the new first card into place
+        $lastCard.animate({
+            top: targetTop,
+            left: targetLeft,
+            opacity: targetOpacity
+        }, 400, 'swing', function() {
+            // 5. Animation complete: remove inline styles so CSS takes over
+            $(this).removeAttr('style');
+            // Optional: Final reset
+            // resetCardPositions();
+        });
+    }
+
+    // Initial setup
+    $(document).ready(function() {
+        resetCardPositions(); // Apply initial CSS positions
+        // You might need to update controls visibility based on card count here
     });
 
     // Button event listeners
-    $('.next-btn').click(function() {
+    $('.next-btn').click(function(e) {
+        e.preventDefault(); // Prevent default link behavior
         rotate();
-        return false; 
     });
 
-    $('.prev-btn').click(function() {
+    $('.prev-btn').click(function(e) {
+        e.preventDefault(); // Prevent default link behavior
         rotatePrev();
-        return false;
     });
 
-    // Optional: Add keyboard navigation
-    $(document).keydown(function(e) {
-        if ($('.card').length > 1 && !$('.card.animating').length) { // Only if multiple cards and not animating
-             if (e.key === 'ArrowRight') { 
-                 rotate();
-                 e.preventDefault(); // Prevent page scroll
-             } else if (e.key === 'ArrowLeft') {
-                 rotatePrev();
-                 e.preventDefault(); // Prevent page scroll
-             }
-         }
+    // Add resize handling if necessary (using resetCardPositions)
+    let resizeTimer;
+    $(window).on('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            // Temporarily disable transitions for instant repositioning
+            $('.container.mascot-container').addClass('no-transition'); 
+            resetCardPositions();
+            // Restore transitions after a short delay
+            // Use a slightly longer delay to ensure styles are applied
+            setTimeout(() => $('.container.mascot-container').removeClass('no-transition'), 100); 
+        }, 250); // Debounce resize event
     });
 
 })();
