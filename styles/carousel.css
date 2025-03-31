@@ -32,7 +32,7 @@
   background-color: var(--color-card-bg);
   color: var(--color-text);
   width: 320px; /* From previous */
-  height: auto; /* From previous */
+  height: 450px; /* MODIFIED: Fixed height */
   border-radius: 0; /* From previous */
   border: 3px solid var(--color-border);
   /* Default shadow set by nth-child or hover */
@@ -42,7 +42,7 @@
   transform-origin: center;
   display: flex; /* From previous */
   flex-direction: column; /* From previous */
-  max-height: 550px; /* From previous */
+  /* max-height: 550px; /* REMOVED */
 
   /* USE EXAMPLE'S TRANSITION */
   transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, transform 0.4s ease, z-index 0.4s ease;
@@ -132,55 +132,61 @@
 
 /* --- Keep all other visual styles below --- */
 
-/* Restore Original Mascot styles */
-.card.mascot-card.original-mascot .detail {
-  display: none !important; 
-}
+/* REMOVED Original Mascot specific detail hiding rule, JS handles this */
+/* .card.mascot-card.original-mascot .detail { */
+/*  display: none !important;  */
+/* } */
 
 /* Restore Image container styles */
 .card.mascot-card .image {
   width: 100%;
-  height: auto; 
-  flex: 1; 
+  /* height: auto; /* REMOVED */
+  flex-grow: 1; /* ADDED: Allow image area to grow */
+  flex-shrink: 1; /* ADDED: Allow image area to shrink */
+  flex-basis: 0; /* ADDED: Base size before growing/shrinking */
   overflow: hidden;
   display: flex;
   justify-content: center;
-  position: relative; 
-  min-height: 300px; 
+  align-items: center; /* ADDED: Vertically center image */
+  position: relative;
+  /* min-height: 300px; /* REMOVED */
+  background-color: black; /* ADDED */
 }
 
 .card.mascot-card .image img {
   width: 100%;
-  height: auto;
-  object-fit: contain; 
-  max-height: 525px; 
-  display: block; 
+  height: 100%; /* MODIFIED: Fill container */
+  object-fit: contain;
+  /* max-height: 525px; /* REMOVED */
+  display: block;
 }
 
-/* Restore Special case for original mascot image */
-.card.mascot-card.original-mascot .image {
-  aspect-ratio: 1500/2121; 
-}
+/* REMOVED Special case for original mascot image styling */
+/* .card.mascot-card.original-mascot .image { */
+/*   aspect-ratio: 1500/2121; */
+/* } */
 
-.card.mascot-card.original-mascot .image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; 
-  max-height: none; 
-}
+/* .card.mascot-card.original-mascot .image img { */
+/*   width: 100%; */
+/*   height: 100%; */
+/*   object-fit: cover; */
+/*   max-height: none; */
+/* } */
 
 /* Restore Detail section styles */
 .card.mascot-card .detail {
   padding: var(--spacing-small);
   background-color: var(--color-card-bg);
   border-top: 2px solid var(--color-border);
-  font-family: var(--font-carousel); 
+  font-family: var(--font-carousel);
   font-size: var(--font-size-small);
-  height: 100px; 
+  height: 100px;
   overflow-y: hidden; /* Changed from auto to hidden */
   display: flex;
   flex-direction: column;
-  flex-basis: 0%;
+  /* flex-basis: 0%; REMOVED */
+  flex-grow: 0; /* ADDED: Don't grow */
+  flex-shrink: 0; /* ADDED: Don't shrink */
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -365,6 +371,7 @@
   }
   .card.mascot-card {
     width: 280px; /* Keep previous size adjustment */
+    height: 400px; /* ADDED: Fixed height for tablet */
   }
 
   /* Card positioning for tablet/mobile - USE EXAMPLE'S OFFSETS */
@@ -411,14 +418,17 @@
 
   /* Restore image/detail adjustments */
   .card.mascot-card .image {
-    aspect-ratio: auto; 
-    min-height: 280px;
+    /* aspect-ratio: auto; /* REMOVED */
+    /* min-height: 280px; /* REMOVED */
+    /* Image height now handled by flexbox */
   }
   .card.mascot-card .image img {
-    max-height: 420px; 
+    /* max-height: 420px; /* REMOVED */
+    /* Image height now handled by flexbox */
   }
   .card.mascot-card .detail {
-    height: 120px; 
+    height: 120px; /* Keep adjusted height for tablet */
+    /* Flex properties already set */
   }
 }
 
@@ -476,6 +486,7 @@
   }
   .card.mascot-card {
     width: 260px;
+    height: 360px; /* ADDED: Fixed height for mobile */
   }
   
   /* Card positioning for smallest screens - USE EXAMPLE'S OFFSETS */
@@ -518,23 +529,27 @@
 
   /* Restore image/detail adjustments */
   .card.mascot-card .image {
-     min-height: 250px;
+     /* min-height: 250px; /* REMOVED */
+     /* Image height now handled by flexbox */
   }
   .card.mascot-card .image img {
-    max-height: 380px; 
+    /* max-height: 380px; /* REMOVED */
+    /* Image height now handled by flexbox */
   }
-  .card.mascot-card.original-mascot .image {
-    aspect-ratio: 1500/2121; 
-    height: auto !important; 
-  }
-  .card.mascot-card.original-mascot .image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    max-height: none;
-  }
+  /* REMOVED: Original mascot overrides */
+  /* .card.mascot-card.original-mascot .image { */
+  /*   aspect-ratio: 1500/2121; */
+  /*   height: auto !important; */
+  /* } */
+  /* .card.mascot-card.original-mascot .image img { */
+  /*   width: 100%; */
+  /*   height: 100%; */
+  /*   object-fit: cover; */
+  /*   max-height: none; */
+  /* } */
   .card.mascot-card .detail {
-    height: 100px; 
+    height: 100px; /* Keep adjusted height for mobile */
+    /* Flex properties already set */
   }
 }
 
