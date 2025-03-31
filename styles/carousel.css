@@ -85,7 +85,7 @@
   flex-direction: column;
   
   /* Add smooth transition for position changes - this will make all cards glide */
-  transition: left 0.4s ease, top 0.4s ease, opacity 0.4s ease, z-index 0.01s;
+  transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, box-shadow 0.4s ease;
   
   /* Ensure image takes precedence while maintaining text visibility */
   max-height: 550px; /* Maximum total card height */
@@ -242,8 +242,7 @@
   font-size: 3rem;
 }
 
-.container .card:nth-child(1), 
-.container .card.front-card {
+.container .card:nth-child(1) {
   z-index: 10;
   top: 0px;
   left: 50px; /* Adjusted position for smaller card - now at 50px */
@@ -253,14 +252,12 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.container .card:nth-child(1):hover, 
-.container .card.front-card:hover {
+.container .card:nth-child(1):hover {
   transform: translate(-2px, -2px);
   box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
 }
 
-.container .card:nth-child(1):active, 
-.container .card.front-card:active {
+.container .card:nth-child(1):active {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--color-border);
   background-color: #eaeaea;
@@ -319,20 +316,17 @@
     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color);
   }
 
-  .container .card:nth-child(1),
-  .container .card.front-card {
+  .container .card:nth-child(1) {
      /* Updated shadow to match project style in dark mode */
      box-shadow: 8px 8px 0 var(--shadow-color);
   }
   
-  .container .card:nth-child(1):hover,
-  .container .card.front-card:hover {
+  .container .card:nth-child(1):hover {
     transform: translate(-2px, -2px);
     box-shadow: 11px 11px 1px rgb(255, 255, 255, 0.1);
   }
   
-  .container .card:nth-child(1):active,
-  .container .card.front-card:active {
+  .container .card:nth-child(1):active {
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 var(--shadow-color);
     background-color: #333333;
@@ -428,8 +422,7 @@
   }
 
   /* Card positioning for tablet/mobile - maintaining stacking order */
-  .container .card:nth-child(1),
-  .container .card.front-card {
+  .container .card:nth-child(1) {
     z-index: 10;
     top: 0px;
     left: 30px; /* Adjusted for tablet/mobile but still to the right of cards behind it */
@@ -438,14 +431,12 @@
     box-shadow: 8px 8px 0 var(--color-border);
   }
   
-  .container .card:nth-child(1):hover,
-  .container .card.front-card:hover {
+  .container .card:nth-child(1):hover {
     transform: translate(-2px, -2px);
     box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
   }
   
-  .container .card:nth-child(1):active,
-  .container .card.front-card:active {
+  .container .card:nth-child(1):active {
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 var(--color-border);
     background-color: #eaeaea;
@@ -521,21 +512,18 @@
   }
   
   /* Card positioning for smallest screens - maintaining stacking order */
-  .container .card:nth-child(1),
-  .container .card.front-card {
+  .container .card:nth-child(1) {
     left: 25px; /* Slightly adjusted for smallest screens */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 8px 8px 0 var(--color-border);
   }
   
-  .container .card:nth-child(1):hover,
-  .container .card.front-card:hover {
+  .container .card:nth-child(1):hover {
     transform: translate(-2px, -2px);
     box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
   }
   
-  .container .card:nth-child(1):active,
-  .container .card.front-card:active {
+  .container .card:nth-child(1):active {
     transform: translate(2px, 2px);
     box-shadow: 2px 2px 0 var(--color-border);
     background-color: #eaeaea;
@@ -599,4 +587,10 @@
     height: 160px;
     top: 80px;
   }
+}
+
+/* Rule to disable transitions during resize */
+.container.no-transition .card {
+  transition: none !important;
+}
   
