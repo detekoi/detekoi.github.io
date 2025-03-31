@@ -84,6 +84,9 @@
   display: flex;
   flex-direction: column;
   
+  /* Add smooth transition for position changes - this will make all cards glide */
+  transition: left 0.4s ease, top 0.4s ease, opacity 0.4s ease, z-index 0.01s;
+  
   /* Ensure image takes precedence while maintaining text visibility */
   max-height: 550px; /* Maximum total card height */
 }

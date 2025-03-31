@@ -12,85 +12,56 @@
             return;
         }
 
-        // Move the first card to the end with a smooth slide-out animation
+        // Get the first card
         var $firstCard = $('.card:first-child');
         $firstCard.addClass('animating'); // Mark as animating
         
-        // Get current position values for smoother transition
-        var currentTop = parseInt($firstCard.css('top')) || 0;
-        var currentLeft = parseInt($firstCard.css('left')) || 50;
-        var currentOpacity = parseFloat($firstCard.css('opacity')) || 1;
+        // Get appropriate position based on screen size
+        const isMobile = window.innerWidth <= 768;
+        const isSmallMobile = window.innerWidth <= 575;
         
-        // 1. Smooth fade-out animation with gradual movement
-        $firstCard.css({
-            'transition': 'transform 0.3s ease-in-out, opacity 0.3s ease-in-out',
-            'transform': 'translateY(-50px)',
-            'opacity': '0'
-        });
+        // Define target positions
+        let targetLeft = '10px';  // Default desktop for last card
+        let targetTopInit = '-90px';  // Initial top position
+        let targetTopFinal = '-40px'; // Final top position
         
-        // Use setTimeout to wait for the CSS transition to complete
-        setTimeout(function() {
-            // Remove transition to avoid interfering with next steps
-            $firstCard.css('transition', 'none');
+        if (isMobile) {
+            targetLeft = '-10px'; // Tablet/mobile
+        }
+        
+        if (isSmallMobile) {
+            targetLeft = '-15px'; // Small mobile
+        }
+        
+        // 1. Animate slide out upwards - exactly like the example
+        $firstCard.animate({
+            top: '-=50px', // Move up
+            opacity: 0     // Fade out while sliding
+        }, 400, 'swing', function() {
+            // Animation complete for slide-out
             
             // 2. Move to end, set initial position for slide-in from above
-            // Get appropriate position based on screen size
-            const isMobile = window.innerWidth <= 768;
-            const isSmallMobile = window.innerWidth <= 575;
-            
-            let targetLeft = '10px';  // Default desktop
-            
-            if (isMobile) {
-                targetLeft = '-10px'; // Tablet/mobile
-            }
-            
-            if (isSmallMobile) {
-                targetLeft = '-15px'; // Small mobile
-            }
-            
-            $firstCard
+            $(this)
                 .appendTo('.container')
                 .css({
-                    'transform': 'none', // Reset transform
-                    'left': targetLeft,   // Target left for last card based on device
-                    'top': '-90px',      // Start above the final position
+                    'left': targetLeft,  // Target left for last card position
+                    'top': targetTopInit, // Start above the final position
                     'z-index': '5',      // Lower z-index initially
-                    'opacity': '0',      // Keep hidden initially
-                    'box-shadow': isDarkMode() ?
-                                  '8px 8px 0 rgba(255, 255, 255, 0.3)' : // Dark mode shadow
-                                  '8px 8px 0 var(--color-border)'         // Light mode shadow
+                    'opacity': '0'       // Keep hidden initially
+                })
+                // 3. Animate slide-in to the last card position
+                .animate({
+                    top: targetTopFinal, // Target top for last card
+                    opacity: 0.5        // Target opacity for last card
+                }, 400, 'swing', function() {
+                    // 4. Animation complete: remove inline styles so CSS takes over
+                    $(this).removeAttr('style');
+                    $(this).removeClass('animating'); // Remove animation marker
+                    
+                    // Ensure all cards are properly positioned
+                    resetCardPositions();
                 });
-            
-            // Force a repaint before starting the next animation
-            $firstCard[0].offsetHeight;
-            
-            // 3. Re-enable transitions for the second part of the animation
-            $firstCard.css({
-                'transition': 'top 0.3s ease-out, opacity 0.3s ease-out',
-                'top': '-40px',     // Target top for last card
-                'opacity': '0.5'    // Target opacity for last card
-            });
-            
-            // Use setTimeout to wait for the CSS transition to complete
-            setTimeout(function() {
-                // 4. Animation complete: remove inline styles so CSS takes over
-                // Use .css('transition', '') instead of removeAttr to keep other styles intact
-                $firstCard.css({
-                    'transform': '',
-                    'top': '',
-                    'left': '',
-                    'z-index': '',
-                    'opacity': '',
-                    'box-shadow': '',
-                    'transition': ''
-                });
-                $firstCard.removeClass('animating'); // Remove animation marker
-                
-                // Ensure all cards are properly positioned
-                resetCardPositions();
-            }, 300); // Match the CSS transition duration
-            
-        }, 300); // Match the CSS transition duration
+        });
     }
 
     // Define rotatePrev function to move card from back to front
@@ -101,86 +72,61 @@
             return;
         }
         
-        var $lastCard = $('.card:last-child');
-
         // Avoid animation if there's only one card
         if ($('.card').length <= 1) {
             console.log('Only one card present, no rotation needed');
             return;
         }
 
+        // Get the last card
+        var $lastCard = $('.card:last-child');
         $lastCard.addClass('animating'); // Mark as animating
         
-        // 1. Smooth fade-out animation with gradual movement
-        $lastCard.css({
-            'transition': 'all 0.3s ease-in-out',
-            'transform': 'translateY(-50px)',
-            'opacity': '0'
-        });
+        // Get appropriate position based on screen size
+        const isMobile = window.innerWidth <= 768;
+        const isSmallMobile = window.innerWidth <= 575;
         
-        // Use setTimeout to wait for the CSS transition to complete
-        setTimeout(function() {
-            // Remove transition to avoid interfering with next steps
-            $lastCard.css('transition', 'none');
+        // Define target positions
+        let targetLeft = '50px';  // Default desktop for front card
+        let targetTopInit = '-50px';  // Initial top position
+        
+        if (isMobile) {
+            targetLeft = '30px'; // Tablet/mobile
+        }
+        
+        if (isSmallMobile) {
+            targetLeft = '25px'; // Small mobile
+        }
+        
+        // 1. Animate slide out upwards - exactly like the example
+        $lastCard.animate({
+            top: '-=50px', // Move up
+            opacity: 0     // Fade out
+        }, 400, 'swing', function() {
+            // Animation complete for slide-out
             
             // 2. Move to beginning, set initial position for slide-in from top
-            // Get appropriate position based on screen size
-            const isMobile = window.innerWidth <= 768;
-            const isSmallMobile = window.innerWidth <= 575;
-            
-            let targetLeft = '50px';  // Default desktop
-            
-            if (isMobile) {
-                targetLeft = '30px'; // Tablet/mobile
-            }
-            
-            if (isSmallMobile) {
-                targetLeft = '25px'; // Small mobile
-            }
-            
-            $lastCard
+            $(this)
                 .prependTo('.container')
                 .css({
-                    'transform': 'none', // Reset transform
-                    'left': targetLeft,   // Target left for 1st card based on device
-                    'top': '-50px',      // Start above the final position
+                    'left': targetLeft,  // Target left for first card position
+                    'top': targetTopInit, // Start above the final position
                     'z-index': '11',     // Higher z-index initially
-                    'opacity': '0',      // Start invisible for better fade in
-                    'box-shadow': isDarkMode() ?
-                                  '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode shadow
-                                  '8px 8px 1px rgba(0, 0, 0, 0.8)'         // Light mode shadow
+                    'opacity': '0'       // Keep hidden initially
+                })
+                // 3. Animate slide-in to the first card position
+                .animate({
+                    top: '0px',   // Target top for first card
+                    opacity: 1    // Target opacity for first card
+                }, 400, 'swing', function() {
+                    // 4. Animation complete: remove inline styles so CSS takes over
+                    $(this).removeAttr('style');
+                    $(this).removeClass('animating'); // Remove animation marker
+                    
+                    // Ensure all cards are properly positioned
+                    resetCardPositions();
                 });
-            
-            // Force a repaint before starting the next animation
-            $lastCard[0].offsetHeight;
-            
-            // 3. Re-enable transitions for the second part of the animation
-            $lastCard.css({
-                'transition': 'top 0.3s ease-out, opacity 0.3s ease-out',
-                'top': '0px',       // Target top for 1st card
-                'opacity': '1'      // Target opacity for 1st card
-            });
-            
-            // Use setTimeout to wait for the CSS transition to complete
-            setTimeout(function() {
-                // 4. Animation complete: remove inline styles so CSS takes over
-                // Use .css('property', '') instead of removeAttr to keep other styles intact
-                $lastCard.css({
-                    'transform': '',
-                    'top': '',
-                    'left': '',
-                    'z-index': '',
-                    'opacity': '',
-                    'box-shadow': '',
-                    'transition': ''
-                });
-                $lastCard.removeClass('animating'); // Remove animation marker
-                
-                // Ensure all cards are properly positioned
-                resetCardPositions();
-            }, 300); // Match the CSS transition duration
-            
-        }, 300); // Match the CSS transition duration
+        });
     }
 
     // Function to reset card positions based on their current order
@@ -189,75 +135,50 @@
         const isMobile = window.innerWidth <= 768;
         const isSmallMobile = window.innerWidth <= 575;
         
-        // Reset card positions without using removeAttr (which can cause hover issues)
+        // Remove the animating class from all cards
+        $('.card').removeClass('animating');
+        
+        // Determine positions based on screen size
+        let leftPositions = [50, 40, 30, 20, 10]; // Desktop default
+        let topPositions = [0, -10, -20, -30, -40]; // Top positions
+        let opacities = [1, 0.9, 0.8, 0.7, 0.5]; // Opacity values
+        
+        if (isMobile) {
+            leftPositions = [30, 20, 10, 0, -10]; // Tablet/Mobile
+        }
+        
+        if (isSmallMobile) {
+            leftPositions = [25, 15, 5, -5, -15]; // Small Mobile
+        }
+        
+        // Apply positions to all cards in a single batch to make them transition together
         $('.card').each(function(index) {
             const $card = $(this);
             
-            // Reset only positioning properties, leaving others intact
-            // This preserves any hover effects only on the first card
+            // Get position values based on card position in stack
+            const posIndex = Math.min(index, 4); // Cap at 4 (5th position)
+            
+            // Apply the z-index for proper stacking (10 for front card, down to 6)
+            const zIndex = 10 - Math.min(index, 4);
+            
+            // Set shadow based on whether it's the front card
+            const boxShadow = index === 0 ?
+                (isDarkMode() ?
+                    '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode shadow for front card
+                    '8px 8px 1px rgba(0, 0, 0, 0.8)')        // Light mode shadow for front card
+                :
+                (isDarkMode() ?
+                    '8px 8px 0 var(--shadow-color)' :        // Dark mode shadow for other cards
+                    '8px 8px 0 var(--color-border)');        // Light mode shadow for other cards
+            
+            // Apply the new position (this will trigger CSS transitions)
             $card.css({
-                'top': '',
-                'left': '',
-                'z-index': '',
-                'opacity': ''
+                'z-index': zIndex,
+                'top': topPositions[posIndex] + 'px',
+                'left': leftPositions[posIndex] + 'px',
+                'opacity': opacities[posIndex],
+                'box-shadow': boxShadow
             });
-
-            // Determine positions based on screen size
-            let leftPositions = [50, 40, 30, 20, 10]; // Desktop default
-            
-            if (isMobile) {
-                leftPositions = [30, 20, 10, 0, -10]; // Tablet/Mobile
-            }
-            
-            if (isSmallMobile) {
-                leftPositions = [25, 15, 5, -5, -15]; // Small Mobile
-            }
-
-            // Then apply the appropriate position based on current index
-            if (index === 0) {
-                // First card (front)
-                $card.css({
-                    'z-index': '10',
-                    'top': '0px',
-                    'left': leftPositions[0] + 'px',
-                    'opacity': '1',
-                    'box-shadow': isDarkMode() ?
-                                  '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode shadow
-                                  '8px 8px 1px rgba(0, 0, 0, 0.8)'         // Light mode shadow
-                });
-            } else if (index === 1) {
-                // Second card
-                $card.css({
-                    'z-index': '9',
-                    'top': '-10px',
-                    'left': leftPositions[1] + 'px',
-                    'opacity': '0.9'
-                });
-            } else if (index === 2) {
-                // Third card
-                $card.css({
-                    'z-index': '8',
-                    'top': '-20px',
-                    'left': leftPositions[2] + 'px',
-                    'opacity': '0.8'
-                });
-            } else if (index === 3) {
-                // Fourth card
-                $card.css({
-                    'z-index': '7',
-                    'top': '-30px',
-                    'left': leftPositions[3] + 'px',
-                    'opacity': '0.7'
-                });
-            } else if (index >= 4) {
-                // Fifth card and beyond
-                $card.css({
-                    'z-index': '6',
-                    'top': '-40px',
-                    'left': leftPositions[4] + 'px',
-                    'opacity': '0.5'
-                });
-            }
         });
     }
     
