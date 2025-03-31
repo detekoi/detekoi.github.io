@@ -342,11 +342,11 @@
 }
 
 .mascot-loading-spinner {
-  width: 47px;  /* User specified width */
-  height: 50px; /* User specified height */
+  width: 47px;
+  height: 50px; 
   border: 5px solid var(--color-border);
   border-top-color: var(--color-accent);
-  border-radius: 50%; /* Creates a subtle ellipse */
+  border-radius: 50%;
   animation: spin 1s linear infinite;
   margin-bottom: var(--spacing-medium);
 }
@@ -453,6 +453,12 @@
     top: 100px;
   }
   
+  /* Spinner remains the same oval shape in all media queries */
+  .mascot-loading-spinner {
+    width: 47px;
+    height: 50px;
+  }
+  
   /* Adjust detail height for mobile - reduced from previous value */
   .card .detail {
     height: 120px; /* More balanced height for mobile */
@@ -530,5 +536,11 @@
     width: 160px;
     height: 160px;
     top: 80px;
+  }
+  
+  /* Maintain consistent spinner shape */
+  .mascot-loading-spinner {
+    width: 47px;
+    height: 50px;
   }
 }
