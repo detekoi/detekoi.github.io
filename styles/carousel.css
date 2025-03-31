@@ -342,13 +342,25 @@
 }
 
 .mascot-loading-spinner {
-  width: 47px;
-  height: 50px; 
-  border: 5px solid var(--color-border);
-  border-top-color: var(--color-accent);
-  border-radius: 50%;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   animation: spin 1s linear infinite;
   margin-bottom: var(--spacing-medium);
+}
+
+.mascot-loading-spinner::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  background-color: var(--color-border);
+  border-radius: 50%;
+  top: 0;
+  transform-origin: center 30px;
 }
 
 @keyframes spin {
@@ -455,8 +467,13 @@
   
   /* Spinner remains the same oval shape in all media queries */
   .mascot-loading-spinner {
-    width: 47px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .mascot-loading-spinner::before {
+    width: 20px;
+    height: 30px;
   }
   
   /* Adjust detail height for mobile - reduced from previous value */
@@ -540,7 +557,12 @@
   
   /* Maintain consistent spinner shape */
   .mascot-loading-spinner {
-    width: 47px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .mascot-loading-spinner::before {
+    width: 20px;
+    height: 30px;
   }
 }
