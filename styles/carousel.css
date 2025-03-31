@@ -109,7 +109,7 @@
   width: 100%;
   height: auto;
   object-fit: contain; /* Preserve aspect ratio while fitting within container */
-  max-height: 451px; /* Calculated for 320px width card to match 1500x2121 aspect ratio */
+  max-height: 500px; /* Increased height to better accommodate pillarboxed images */
   display: block; /* Remove any extra spacing around image */
 }
 
@@ -481,7 +481,7 @@
     width: 100%;        /* Full width of container */
     height: auto;       /* Height adjusts based on width and aspect ratio */
     object-fit: contain; /* Preserve aspect ratio while fitting within container */
-    max-height: 350px;  /* Increased maximum height on tablet/mobile */
+    max-height: 380px;  /* Further increased maximum height on tablet/mobile */
     display: block;     /* Remove any extra spacing */
   }
   
@@ -537,7 +537,7 @@
     width: 100%;
     height: auto;
     object-fit: contain;
-    max-height: 300px; /* Increased maximum height constraint for smallest screens */
+    max-height: 330px; /* Further increased maximum height for smallest screens */
     display: block;
   }
   

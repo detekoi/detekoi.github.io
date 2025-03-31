@@ -409,7 +409,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculate height based on the image's natural aspect ratio and the card's current width
     const aspectRatio = firstMascotImg.naturalHeight / firstMascotImg.naturalWidth;
-    const imageHeight = Math.round(currentCardWidth * aspectRatio);
+    
+    // Add extra height for pillarboxed images (common in Gemini API results)
+    // If the image is taller than it is wide (portrait), give it more height
+    const heightMultiplier = aspectRatio > 1 ? 1.15 : 1; // 15% extra height for portrait images
+    const imageHeight = Math.round(currentCardWidth * aspectRatio * heightMultiplier);
 
     // Apply minimum height constraint for the container
     const minContainerHeight = 150;
