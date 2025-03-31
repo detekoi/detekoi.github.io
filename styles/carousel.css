@@ -348,19 +348,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: spin 1s linear infinite;
   margin-bottom: var(--spacing-medium);
 }
 
 .mascot-loading-spinner::before {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 30px;
+  width: 30px;
+  height: 15px;
   background-color: var(--color-border);
   border-radius: 50%;
-  top: 0;
-  transform-origin: center 30px;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -472,8 +470,8 @@
   }
   
   .mascot-loading-spinner::before {
-    width: 20px;
-    height: 30px;
+    width: 30px;
+    height: 15px;
   }
   
   /* Adjust detail height for mobile - reduced from previous value */
@@ -562,7 +560,7 @@
   }
   
   .mascot-loading-spinner::before {
-    width: 20px;
-    height: 30px;
+    width: 30px;
+    height: 15px;
   }
 }

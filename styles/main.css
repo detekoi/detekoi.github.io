@@ -228,18 +228,16 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: spin 1.5s linear infinite;
 }
 
 .mascot-loading-spinner::before {
   content: '';
   position: absolute;
-  width: 20px;
-  height: 30px;
+  width: 30px;
+  height: 15px;
   background-color: var(--color-text);
   border-radius: 50%;
-  top: 0;
-  transform-origin: center 30px;
+  animation: spin 1.5s linear infinite;
 }
 
 @keyframes spin {
