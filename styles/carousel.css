@@ -63,6 +63,7 @@
   background: none;
   border: none;
   box-shadow: none;
+  margin-bottom: 100px; /* Add space below for controls on all devices */
 }
 
 .container .card {
@@ -107,8 +108,10 @@
   width: 100%;
   height: auto;
   object-fit: contain; /* Better image handling that preserves aspect ratio */
-  max-height: 450px; /* Slightly reduced maximum height to accommodate larger text area */
+  max-height: 400px; /* Further reduced maximum height to accommodate larger text area */
 }
+
+/* Mobile-specific image height will be in the media query section below */
 
 /* Styling for the description detail inside cards */
 .card .detail {
@@ -381,14 +384,15 @@
     flex-direction: column;
     align-items: center;
     padding-left: 0; /* Reset padding for mobile */
+    padding-top: 50px;
     max-width: 100%; /* Allow full width in mobile */
   }
 
   .carousel-controls {
     flex-direction: row;
     margin-right: 0;
-    /* Increase top margin to add space between container and controls */
-    margin-top: 20px; /* Increased from 5px */
+    /* Position controls far below container to avoid overlap */
+    margin-top: 50px; /* Significantly increased to prevent overlap with detail */
     order: 2; /* Display controls after the container */
     left: 0; /* Reset left positioning for mobile */
   }
@@ -421,7 +425,7 @@
   /* Ensure image scales correctly within the adjusted container */
   .container .card .image img {
     height: auto;       /* Height adjusts based on width and aspect ratio */
-    max-height: none;   /* Remove max-height constraint on image itself */
+    max-height: 320px;  /* Shorter images on tablet/mobile to balance with larger text area */
   }
   
   .header-mascot-area .mascot-loading {
@@ -430,9 +434,9 @@
     top: 100px;
   }
   
-  /* Adjust card detail height for mobile */
+  /* Increase detail height for mobile */
   .card .detail {
-    height: 80px; /* Keep more space for text even on mobile */
+    height: 150px; /* Significantly increased height for mobile */
   }
 }
 
@@ -446,9 +450,14 @@
     left: 10px;
   }
   
-  /* Maintain reasonable detail height even for small screens */
+  /* Adjust image height for smallest screens */
+  .container .card .image img {
+    max-height: 260px; /* Even smaller images on smallest screens */
+  }
+  
+  /* Maintain generous detail height even for smallest screens */
   .card .detail {
-    height: 70px; /* Slightly reduced but still spacious */
+    height: 180px; /* Even more height for smallest screens */
   }
   
   .header-mascot-area .mascot-loading {
