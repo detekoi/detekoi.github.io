@@ -358,7 +358,7 @@
   }
 }
 
-/* Restore Responsive Adjustments (keeping EXAMPLE's nth-child positioning) */
+/* Restore Responsive Adjustments (keeping EXAMPLE'S nth-child positioning) */
 @media (max-width: 768px) {
   /* Keep layout changes from previous */
   .carousel-wrapper {
@@ -497,5 +497,70 @@
 /* Rule to disable transitions during resize */
 .container.no-transition .card.mascot-card {
   transition: none !important;
+}
+
+/* Loading animation styles */
+.mascot-loading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.mascot-loading p {
+  margin-top: 15px;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.mascot-loading-spinner {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mascot-loading-spinner::before {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 46px;
+  background-color: var(--color-text);
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark Mode Adjustments */
+@media (prefers-color-scheme: dark) {
+  .mascot-loading {
+     background-color: rgba(30, 30, 30, 0.9);
+  }
+
+  .mascot-loading p {
+    color: #ffffff;
+  }
+  
+  .mascot-loading-spinner {
+    border: 5px solid #333333;
+    border-top: 5px solid #ffffff;
+  }
 }
   
