@@ -216,6 +216,8 @@ header {
 #style-inspiration-link {
   position: relative;
   overflow: hidden;
+  transform: translateY(0);
+  display: block; /* Ensure it's displayed when visible class is added */
 }
 
 /* Style for the Gemini Button */
@@ -316,6 +318,8 @@ header .tagline {
   .mascot-ai-description {
     margin-left: auto;
     margin-right: auto;
+    background: none;
+    color: #999999;
   }
 }
 
@@ -707,6 +711,7 @@ footer a:active {
     --color-card-bg: #1e1e1e;
     --color-border: #ffffff;
     --shadow-color: rgba(255, 255, 255, 0.33);
+    background-color: #444444;
   }
   
   /* Override button styles for dark mode */
@@ -869,3 +874,14 @@ footer a:active {
     max-width: 100%;
   }
 }
+
+/* --- Global Scrollbar Styles --- */
+/* Firefox */
+
+/* Chrome, Edge, and Safari */
+
+/* --- End Global Scrollbar Styles --- */
+
+/* --- Dark Mode Global Scrollbar Override --- */
+
+/* --- End Dark Mode Global Scrollbar Override --- */
