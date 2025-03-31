@@ -233,8 +233,8 @@ header {
 .mascot-loading-spinner::before {
   content: '';
   position: absolute;
-  width: 30px;
-  height: 15px;
+  width: 50px;
+  height: 46px;
   background-color: var(--color-text);
   border-radius: 50%;
   animation: spin 1.5s linear infinite;
