@@ -83,6 +83,9 @@
   transition: 0.4s ease;
   display: flex;
   flex-direction: column;
+  
+  /* Ensure image takes precedence while maintaining text visibility */
+  max-height: 550px; /* Maximum total card height */
 }
 
 /* Add specific styles for the original mascot card */
@@ -93,15 +96,18 @@
 .image {
   width: 100%;
   height: auto; /* Allow height to be determined by content */
+  flex: 1; /* Let image container take available space */
   overflow: hidden;
-  /* Removed fixed aspect-ratio and max-height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .image img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: contain; /* Better image handling that preserves aspect ratio */
-  max-height: 500px; /* Maximum height for images */
+  max-height: 450px; /* Slightly reduced maximum height to accommodate larger text area */
 }
 
 /* Styling for the description detail inside cards */
@@ -111,7 +117,7 @@
   border-top: 2px solid var(--color-border);
   font-family: var(--font-mascot); /* Using CSS variable for consistency */
   font-size: var(--font-size-small);
-  height: 80px; /* Fixed height for caption area */
+  height: 100px; /* INCREASED: More height for caption area */
   overflow-y: auto; /* Enable vertical scrolling */
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: var(--color-border) var(--color-card-bg); /* Firefox */
@@ -381,7 +387,7 @@
   
   /* Adjust card detail height for mobile */
   .card .detail {
-    height: 60px;
+    height: 80px; /* Keep more space for text even on mobile */
   }
 }
 
@@ -395,9 +401,9 @@
     left: 10px;
   }
   
-  /* Even smaller detail height for very small screens */
+  /* Maintain reasonable detail height even for small screens */
   .card .detail {
-    height: 50px;
+    height: 70px; /* Slightly reduced but still spacious */
   }
   
   .header-mascot-area .mascot-loading {
