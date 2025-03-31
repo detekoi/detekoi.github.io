@@ -115,6 +115,24 @@
   overflow-y: auto; /* Enable vertical scrolling */
   scrollbar-width: thin; /* Firefox */
   scrollbar-color: var(--color-border) var(--color-card-bg); /* Firefox */
+  
+  /* Center content both vertically and horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Styling for force-overflow (if used by JavaScript) */
+.card .detail .force-overflow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100%;
+  width: 100%;
 }
 
 /* Webkit scrollbar styling */
@@ -138,6 +156,9 @@
   line-height: 1.5;
   font-size: 14px;
   letter-spacing: 0.01em;
+  text-align: center; /* Ensure text is centered */
+  width: 100%; /* Full width for proper centering */
+  max-width: 280px; /* Limit width for readability */
 }
 
 /* Error card styling */
