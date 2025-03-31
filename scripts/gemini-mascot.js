@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const styleInspirationLink = document.getElementById('style-inspiration-link');
   const mascotContainer = document.querySelector('.mascot-container');
   const mascotLoading = document.querySelector('.mascot-loading');
-  const mascotAiDescription = document.getElementById('mascot-ai-description');
 
   // Maximum number of AI-generated images to keep
   const MAX_AI_IMAGES = 5;
@@ -10,10 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Storage key for carousel images
   const STORAGE_KEY = 'mascot_carousel_images';
 
-  if (!styleInspirationLink || !mascotContainer || !mascotLoading || !mascotAiDescription) {
+  if (!styleInspirationLink || !mascotContainer || !mascotLoading) {
     console.error('Required mascot elements not found.');
     return;
   }
+  
+  // We no longer need the mascotAiDescription element
 
   // Initialize the local storage for carousel images if it doesn't exist
   let carouselImages = [];
@@ -35,10 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
     newCard.classList.add('card', 'mascot-card');
     newCard.dataset.card = ($('.card').length + 1).toString();
     
-    // Structure the card with just the image component
+    // Structure the card with both image and description components
     newCard.innerHTML = `
       <div class="image">
         <img src="${imageDataUri}" alt="AI-generated polar bear mascot: ${description}" class="mascot">
+      </div>
+      <div class="detail">
+        <p>${description}</p>
       </div>
     `;
     
@@ -94,8 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mascotContainer.appendChild(newCard);
       }
       
-      // Update description immediately to match the first card
-      mascotAiDescription.textContent = description;
+      // No need to update separate description element anymore as it's in the card
     } else {
       // Add at the end
       mascotContainer.appendChild(newCard);
@@ -153,12 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Sort images by timestamp (newest first)
       carouselImages.sort((a, b) => b.timestamp - a.timestamp);
       
-      // Update description with the newest image description
-      if (carouselImages[0] && carouselImages[0].description) {
-        mascotAiDescription.textContent = carouselImages[0].description;
-        mascotAiDescription.style.display = 'block';
-        mascotAiDescription.classList.add('visible');
-      }
+      // No need to update standalone description anymore since descriptions will be in cards
       
       // Add images with a small delay between each one to improve performance
       const addImageWithDelay = (index) => {
@@ -171,10 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
         storedCard.classList.add('card', 'mascot-card');
         storedCard.dataset.card = ($('.card').length + 1).toString();
         
-        // Structure the card with just the image component
+        // Structure the card with both image and description components
         storedCard.innerHTML = `
           <div class="image">
             <img src="${imageData.imageDataUri}" alt="AI-generated polar bear mascot: ${imageData.description}" class="mascot">
+          </div>
+          <div class="detail">
+            <p>${imageData.description}</p>
           </div>
         `;
         
@@ -301,8 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Start Loading State ---
     styleInspirationLink.style.pointerEvents = 'none'; // Disable further clicks
     styleInspirationLink.style.opacity = '0.7'; // Visual feedback
-    mascotAiDescription.classList.remove('visible'); // Hide previous description
-    mascotAiDescription.style.display = 'none'; // Ensure it's hidden
     mascotLoading.style.display = 'flex'; // Show loading indicator
 
     // Activate magical background effect if available
@@ -363,26 +362,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 50);
               }
               
-              // Then update the description text
+              // No need to update separate description since it's in the card
               setTimeout(() => {
-                // Update the description text below the container
-                mascotAiDescription.textContent = newDescription;
-                mascotAiDescription.style.display = 'block';
-                
                 // Hide loading indicator
                 mascotLoading.style.display = 'none';
                 
-                // Finally, add the visible class and reset state
+                // Reset state after animation finishes
                 setTimeout(() => {
-                  mascotAiDescription.classList.add('visible');
-                  
-                  // Reset state after animation likely finishes
-                  setTimeout(() => {
-                    isGeneratingImage = false;
-                    styleInspirationLink.style.pointerEvents = 'auto';
-                    styleInspirationLink.style.opacity = '1';
-                  }, 300);
-                }, 50);
+                  isGeneratingImage = false;
+                  styleInspirationLink.style.pointerEvents = 'auto';
+                  styleInspirationLink.style.opacity = '1';
+                }, 300);
               }, 200);
             }, 100);
           }, 0);
@@ -410,12 +400,35 @@ document.addEventListener('DOMContentLoaded', () => {
     // Hide loading indicator
     mascotLoading.style.display = 'none';
 
-    // Display error message in the description area
-    mascotAiDescription.textContent = `Failed to generate style: ${error.message}`;
-    mascotAiDescription.style.display = 'block';
-    setTimeout(() => {
-      mascotAiDescription.classList.add('visible');
-    }, 10);
+    // Create an error card instead of using the separate description area
+    const errorCard = document.createElement('div');
+    errorCard.classList.add('card', 'mascot-card', 'error-card');
+    errorCard.dataset.card = "error";
+    
+    // Use a warning/error icon or placeholder image
+    errorCard.innerHTML = `
+      <div class="image error-image">
+        <div class="error-icon">⚠️</div>
+      </div>
+      <div class="detail error-detail">
+        <p>Failed to generate style: ${error.message}</p>
+      </div>
+    `;
+    
+    // Add the error card to the front if no cards exist
+    if (mascotContainer.children.length === 0) {
+      mascotContainer.appendChild(errorCard);
+    } else {
+      // Add as the first child
+      mascotContainer.insertBefore(errorCard, mascotContainer.firstChild);
+      
+      // Remove after 5 seconds if there are other cards
+      setTimeout(() => {
+        if (errorCard.parentNode === mascotContainer) {
+          errorCard.remove();
+        }
+      }, 5000);
+    }
 
     // Reset state after animation
     setTimeout(() => {

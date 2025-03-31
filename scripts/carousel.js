@@ -144,20 +144,10 @@
     });
     
     // Function to update description from the first card
+    // Now that descriptions are in the cards, we don't need to do anything
     function updateDescriptionFromFirstCard() {
-        setTimeout(() => {
-            const firstImg = $('.card:first-child .mascot');
-            if (firstImg.length > 0) {
-                const altText = firstImg.attr('alt') || '';
-                const description = extractDescriptionFromAlt(altText);
-                const descriptionEl = document.getElementById('mascot-ai-description');
-                if (descriptionEl) {
-                    descriptionEl.textContent = description;
-                    descriptionEl.style.display = 'block';
-                    descriptionEl.classList.add('visible');
-                }
-            }
-        }, 500); // Wait for rotation animation to complete
+        // No longer necessary as the description is part of the card
+        // and rotates with it automatically
     }
     
     // Extract description from alt text

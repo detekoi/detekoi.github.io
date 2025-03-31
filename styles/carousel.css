@@ -81,6 +81,8 @@
   overflow: hidden;
   transform-origin: center;
   transition: 0.4s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .image {
@@ -95,6 +97,52 @@
   height: 100%;
   object-fit: contain; /* Better image handling that preserves aspect ratio */
   max-height: 500px; /* Maximum height for images */
+}
+
+/* Styling for the description detail inside cards */
+.card .detail {
+  padding: var(--spacing-small);
+  background-color: var(--color-card-bg);
+  border-top: 2px solid var(--color-border);
+  font-size: var(--font-size-small);
+  height: 80px; /* Fixed height for caption area */
+  overflow-y: auto; /* Enable vertical scrolling */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--color-border) var(--color-card-bg); /* Firefox */
+}
+
+/* Webkit scrollbar styling */
+.card .detail::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card .detail::-webkit-scrollbar-track {
+  background: var(--color-card-bg);
+}
+
+.card .detail::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: 4px;
+  border: 2px solid var(--color-card-bg);
+}
+
+.card .detail p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+/* Error card styling */
+.card.error-card .error-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.card.error-card .error-icon {
+  font-size: 3rem;
 }
 
 .container .card:nth-child(1) {
@@ -244,41 +292,8 @@
   to { transform: rotate(360deg); }
 }
 
-.mascot-ai-description {
-  margin-top: var(--spacing-medium);
-  padding: var(--spacing-medium);
-  width: 320px; /* Match the reduced card width */
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  text-align: left;
-  font-size: var(--font-size-small);
-  background-color: var(--color-card-bg);
-  border: 3px solid var(--color-border);
-  box-shadow: 8px 8px 0 var(--color-border);
-  position: relative; /* Needed for z-index */
-  z-index: 11; /* Ensure description is above cards */
-  transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease, background-color 0.2s ease; /* Added transitions for hover/active */
-}
-
-/* Hover effect similar to buttons/cards - Apply only when visible */
-.mascot-ai-description.visible:hover {
-  transform: translate(-2px, -2px); /* Apply hover transform */
-  box-shadow: 10px 10px 1px rgba(0, 0, 0, 0.6); /* Enhanced shadow */
-}
-
-/* Active effect similar to buttons/cards - Apply only when visible */
-.mascot-ai-description.visible:active {
-  transform: translate(2px, 2px); /* Apply active transform */
-  box-shadow: 2px 2px 0 var(--color-border); /* Reduced shadow */
-  background-color: var(--color-secondary); /* Background change on click */
-}
-
-
-.mascot-ai-description.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* We've removed the standalone mascot-ai-description element, 
+   descriptions are now inside the cards with overflow scrolling */
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
@@ -311,6 +326,11 @@
     left: 10px;
   }
 
+  /* Reset card positions for mobile to center them */
+  .container .card:nth-child(1) {
+    left: 10px;
+  }
+
   /* Ensure image container adjusts height based on image aspect ratio */
   .container .card .image {
     aspect-ratio: auto; /* Override fixed aspect ratio */
@@ -330,10 +350,9 @@
     top: 100px;
   }
   
-  .mascot-ai-description {
-    max-width: 250px;
-    margin-left: auto;
-    margin-right: auto;
+  /* Adjust card detail height for mobile */
+  .card .detail {
+    height: 60px;
   }
 }
 
@@ -347,8 +366,9 @@
     left: 10px;
   }
   
-  .mascot-ai-description {
-    width: 260px;
+  /* Even smaller detail height for very small screens */
+  .card .detail {
+    height: 50px;
   }
   
   .header-mascot-area .mascot-loading {
