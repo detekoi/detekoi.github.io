@@ -64,6 +64,22 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
     
+    // Set up image onload handler to adjust height based on actual image dimensions
+    const img = newCard.querySelector('.mascot');
+    if (img) {
+      img.onload = () => {
+        // Calculate height based on the image's aspect ratio
+        const aspectRatio = img.naturalHeight / img.naturalWidth;
+        const imageHeight = Math.round(newCard.offsetWidth * aspectRatio);
+        
+        // Set the height on the image container
+        const imageContainer = newCard.querySelector('.image');
+        if (imageContainer) {
+          imageContainer.style.height = `${imageHeight}px`;
+        }
+      };
+    }
+    
     // Add the new card to the container (either at front or end)
     if (addAsFront) {
       // Add as the first child
@@ -289,6 +305,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.showLightbox(img.src, img.alt, imageData.description);
               });
             }
+            
+            // Adjust the height of the image container based on image aspect ratio
+            img.onload = () => {
+              // Calculate height based on the image's aspect ratio
+              const aspectRatio = img.naturalHeight / img.naturalWidth;
+              const imageHeight = Math.round(firstCard.offsetWidth * aspectRatio);
+              
+              // Set the height on the image container
+              const imageContainer = firstCard.querySelector('.image');
+              if (imageContainer) {
+                imageContainer.style.height = `${imageHeight}px`;
+              }
+              
+              // Also adjust the overall container height
+              adjustContainerHeight();
+            };
           }
         } else {
           // For subsequent images, add new cards
@@ -310,6 +342,19 @@ document.addEventListener('DOMContentLoaded', () => {
               window.showLightbox(img.src, img.alt, imageData.description);
             });
           }
+          
+          // Adjust the height of the image container based on image aspect ratio when loaded
+          img.onload = () => {
+            // Calculate height based on the image's aspect ratio
+            const aspectRatio = img.naturalHeight / img.naturalWidth;
+            const imageHeight = Math.round(storedCard.offsetWidth * aspectRatio);
+            
+            // Set the height on the image container
+            const imageContainer = storedCard.querySelector('.image');
+            if (imageContainer) {
+              imageContainer.style.height = `${imageHeight}px`;
+            }
+          };
         }
         
         // Schedule the next image to be added
@@ -332,7 +377,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof window.resetCardPositions === 'function') {
           window.resetCardPositions();
         }
-      }, 100);
+        
+        // Adjust container height after all images are loaded
+        adjustContainerHeight();
+      }, 200); // Increased timeout to ensure images are loaded
     }
   }
 
@@ -352,17 +400,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculate height based on the image's natural aspect ratio and the card's current width
     const aspectRatio = firstMascotImg.naturalHeight / firstMascotImg.naturalWidth;
-    const newHeight = Math.round(currentCardWidth * aspectRatio);
+    const imageHeight = Math.round(currentCardWidth * aspectRatio);
 
-    // Apply minimum height constraint
-    const minHeight = 150; // Further reduced minimum height
-    // Removed maxHeight constraint to allow natural aspect ratio scaling
+    // Apply minimum height constraint for the container
+    const minContainerHeight = 150;
     
-    // Calculate the final height, respecting only the minimum constraint
-    const calculatedHeight = Math.max(newHeight, minHeight);
+    // Get detail height - account for mobile vs desktop
+    let detailHeight = 100; // Default
+    const detailElement = firstCard.querySelector('.detail');
+    if (detailElement) {
+      // Get the actual computed height including padding
+      detailHeight = detailElement.offsetHeight;
+      
+      // For mobile devices, keep detail height more compact
+      if (window.innerWidth <= 768) {
+        detailHeight = Math.min(detailHeight, 120); // Cap at 120px on mobile
+      }
+    }
+    
+    // Calculate the final container height: image height + detail height
+    const calculatedHeight = Math.max(imageHeight + detailHeight, minContainerHeight);
     
     // Set the inline style for the container
-    mascotContainer.style.height = `${calculatedHeight}px`; 
+    mascotContainer.style.height = `${calculatedHeight}px`;
+    
+    // Also adjust the image container to match the image's aspect ratio
+    const imageContainer = firstCard.querySelector('.image');
+    if (imageContainer) {
+      imageContainer.style.height = `${imageHeight}px`;
+    }
   }
 
   // Store the original container height after initialization (optional, might not be needed anymore)
@@ -467,6 +533,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('.card:first-child').css('opacity', '0.99');
                 setTimeout(() => {
                   $('.card:first-child').css('opacity', '1');
+                  
+                  // Run the height adjustment after the image is fully rendered
+                  adjustContainerHeight();
                 }, 50);
               }
               

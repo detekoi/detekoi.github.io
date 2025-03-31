@@ -63,7 +63,7 @@
   background: none;
   border: none;
   box-shadow: none;
-  margin-bottom: 100px; /* Add space below for controls on all devices */
+  margin-bottom: 20px; /* Reduced space below for controls */
 }
 
 .container .card {
@@ -102,13 +102,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* Enable position context for aspect ratio handling */
 }
 
 .image img {
   width: 100%;
   height: auto;
-  object-fit: contain; /* Better image handling that preserves aspect ratio */
-  max-height: 400px; /* Further reduced maximum height to accommodate larger text area */
+  object-fit: contain; /* Preserve aspect ratio while fitting within container */
+  max-height: 400px; /* Maximum height on desktop */
+  display: block; /* Remove any extra spacing around image */
 }
 
 /* Mobile-specific image height will be in the media query section below */
@@ -391,8 +393,8 @@
   .carousel-controls {
     flex-direction: row;
     margin-right: 0;
-    /* Position controls far below container to avoid overlap */
-    margin-top: 50px; /* Significantly increased to prevent overlap with detail */
+    /* Position controls below container - reduced the space */
+    margin-top: 20px; /* Reduced spacing between cards and controls */
     order: 2; /* Display controls after the container */
     left: 0; /* Reset left positioning for mobile */
   }
@@ -455,17 +457,20 @@
     opacity: 0.5;
   }
 
-  /* Ensure image container adjusts height based on image aspect ratio */
+  /* Ensure image container adjusts height based on image aspect ratio - will be set via JS */
   .container .card .image {
     aspect-ratio: auto; /* Override fixed aspect ratio */
-    height: auto;       /* Allow height to adjust based on content */
-    /* Consider adjusting or removing max-height if it causes issues */
+    /* Height will be set dynamically by JavaScript based on image dimensions */
+    overflow: hidden;   /* Ensure content doesn't overflow */
   }
 
   /* Ensure image scales correctly within the adjusted container */
   .container .card .image img {
+    width: 100%;        /* Full width of container */
     height: auto;       /* Height adjusts based on width and aspect ratio */
-    max-height: 320px;  /* Shorter images on tablet/mobile to balance with larger text area */
+    object-fit: contain; /* Preserve aspect ratio while fitting within container */
+    max-height: 350px;  /* Increased maximum height on tablet/mobile */
+    display: block;     /* Remove any extra spacing */
   }
   
   .header-mascot-area .mascot-loading {
@@ -474,9 +479,9 @@
     top: 100px;
   }
   
-  /* Increase detail height for mobile */
+  /* Adjust detail height for mobile - reduced from previous value */
   .card .detail {
-    height: 150px; /* Significantly increased height for mobile */
+    height: 120px; /* More balanced height for mobile */
   }
 }
 
@@ -510,14 +515,23 @@
     left: -15px;
   }
   
-  /* Adjust image height for smallest screens */
-  .container .card .image img {
-    max-height: 260px; /* Even smaller images on smallest screens */
+  /* Ensure image container and image properly adjust on smallest screens */
+  .container .card .image {
+    /* Height will be dynamically set by JavaScript based on aspect ratio */
+    overflow: hidden;
   }
   
-  /* Maintain generous detail height even for smallest screens */
+  .container .card .image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: 300px; /* Increased maximum height constraint for smallest screens */
+    display: block;
+  }
+  
+  /* More balanced detail height for smallest screens */
   .card .detail {
-    height: 180px; /* Even more height for smallest screens */
+    height: 100px; /* Reduced height for smallest screens */
   }
   
   .header-mascot-area .mascot-loading {
