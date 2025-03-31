@@ -47,6 +47,7 @@
   /* Typography */
   --font-primary: 'Atkinson Hyperlegible', sans-serif;
   --font-mascot: 'Cabin Condensed', sans-serif;
+  --font-carousel: var(--font-mascot); /* Add specific font variable for carousel */
   
   /* Colors - Light Mode Default */
   --color-background: #ffffff;
@@ -54,9 +55,12 @@
   --color-secondary: #eeeeee;
   --color-border: #333333;
   --color-card-bg: #f5f5f5;
+  --color-active-light: #eaeaea; /* Active state background - light mode */
+  --color-active-dark: #333333; /* Active state background - dark mode */
   
   /* Spacing */
   --spacing-unit: 8px;
+  --spacing-small: var(--spacing-unit); /* Added small spacing */
   --spacing-medium: calc(var(--spacing-unit) * 3);
   --spacing-large: calc(var(--spacing-unit) * 8);
   
@@ -66,6 +70,14 @@
   --font-size-medium: 1.5rem;
   --font-size-regular: 1rem;
   --font-size-small: 0.875rem;
+  
+  /* Shadow and Transform Variables */
+  --shadow-size-default: 4px;
+  --shadow-size-hover: 6px;
+  --shadow-size-card: 8px;
+  --shadow-opacity-light: 0.6;
+  --hover-transform: translate(-2px, -2px);
+  --active-transform: translate(2px, 2px);
 }
 
 /* Base Styles */
@@ -735,7 +747,7 @@ footer a:active {
     --color-secondary: #333333;
     --color-card-bg: #1e1e1e;
     --color-border: #ffffff;
-    --shadow-color: rgb(255, 255, 255, 0.33);
+    --shadow-color: rgba(255, 255, 255, 0.33);
   }
   
   /* Override button styles for dark mode */
