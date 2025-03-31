@@ -410,9 +410,49 @@
     left: 10px;
   }
 
-  /* Reset card positions for mobile to center them */
+  /* Card positioning for tablet/mobile - maintaining stacking order */
   .container .card:nth-child(1) {
+    z-index: 10;
+    top: 0px;
+    left: 30px; /* Adjusted for tablet/mobile but still to the right of cards behind it */
+    opacity: 1;
+  }
+  
+  /* Adjust hover states for mobile */
+  .container .card:first-child:hover {
+    transform: translateY(-5px) scale(1.01); /* Slightly reduced scale for mobile */
+  }
+  
+  .container .card:first-child:active {
+    transform: translateY(2px); /* Same active state */
+  }
+  
+  .container .card:nth-child(2) {
+    z-index: 9;
+    top: -10px;
+    left: 20px;
+    opacity: 0.9;
+  }
+  
+  .container .card:nth-child(3) {
+    z-index: 8;
+    top: -20px;
     left: 10px;
+    opacity: 0.8;
+  }
+  
+  .container .card:nth-child(4) {
+    z-index: 7;
+    top: -30px;
+    left: 0px;
+    opacity: 0.7;
+  }
+  
+  .container .card:nth-child(5), .container .card:nth-child(n+5) {
+    z-index: 6;
+    top: -40px;
+    left: -10px;
+    opacity: 0.5;
   }
 
   /* Ensure image container adjusts height based on image aspect ratio */
@@ -447,7 +487,27 @@
   
   .container .card {
     width: 260px;
-    left: 10px;
+  }
+  
+  /* Card positioning for smallest screens - maintaining stacking order */
+  .container .card:nth-child(1) {
+    left: 25px; /* Slightly adjusted for smallest screens */
+  }
+  
+  .container .card:nth-child(2) {
+    left: 15px;
+  }
+  
+  .container .card:nth-child(3) {
+    left: 5px;
+  }
+  
+  .container .card:nth-child(4) {
+    left: -5px;
+  }
+  
+  .container .card:nth-child(5), .container .card:nth-child(n+5) {
+    left: -15px;
   }
   
   /* Adjust image height for smallest screens */

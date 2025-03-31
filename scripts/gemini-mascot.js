@@ -70,50 +70,105 @@ document.addEventListener('DOMContentLoaded', () => {
       if (mascotContainer.firstChild) {
         // First, shift all existing cards back one position
         const existingCards = $('.card').toArray();
+        
+        // Determine appropriate positions based on screen size
+        const mobileCheck = window.innerWidth <= 768;
+        const smallMobileCheck = window.innerWidth <= 575;
+        
+        // Define position sets for different screen sizes
+        let positions = [
+          { z: 9, top: -10, left: 40, opacity: 0.9 }, // Second card
+          { z: 8, top: -20, left: 30, opacity: 0.8 }, // Third card
+          { z: 7, top: -30, left: 20, opacity: 0.7 }, // Fourth card
+          { z: 6, top: -40, left: 10, opacity: 0.5 }  // Fifth card
+        ];
+        
+        // Override positions for tablet/mobile
+        if (mobileCheck) {
+          positions = [
+            { z: 9, top: -10, left: 20, opacity: 0.9 }, // Second card
+            { z: 8, top: -20, left: 10, opacity: 0.8 }, // Third card
+            { z: 7, top: -30, left: 0, opacity: 0.7 },  // Fourth card
+            { z: 6, top: -40, left: -10, opacity: 0.5 } // Fifth card
+          ];
+        }
+        
+        // Override positions for small mobile
+        if (smallMobileCheck) {
+          positions = [
+            { z: 9, top: -10, left: 15, opacity: 0.9 }, // Second card
+            { z: 8, top: -20, left: 5, opacity: 0.8 },  // Third card
+            { z: 7, top: -30, left: -5, opacity: 0.7 }, // Fourth card
+            { z: 6, top: -40, left: -15, opacity: 0.5 } // Fifth card
+          ];
+        }
+        
+        // Apply the correct positions to each card
         existingCards.forEach((card, index) => {
-          // Update position of each card to match the nth-child positions in CSS
-          // This ensures cards maintain the cascading effect
+          // Update position of each card to match the positions array
+          // This ensures cards maintain the cascading effect on all devices
           const $card = $(card);
           
-          // Apply inline styles that match the CSS nth-child rules but shifted by one
-          if (index === 0) {
-            // First existing card becomes second
+          if (index < positions.length) {
+            const pos = positions[index];
             $card.css({
-              'z-index': '9',
-              'top': '-10px', 
-              'left': '40px',
-              'opacity': '0.9'
-            });
-          } else if (index === 1) {
-            // Second existing card becomes third
-            $card.css({
-              'z-index': '8',
-              'top': '-20px',
-              'left': '30px', 
-              'opacity': '0.8'
-            });
-          } else if (index === 2) {
-            // Third existing card becomes fourth
-            $card.css({
-              'z-index': '7',
-              'top': '-30px',
-              'left': '20px',
-              'opacity': '0.7'
-            });
-          } else if (index === 3) {
-            // Fourth existing card becomes fifth
-            $card.css({
-              'z-index': '6',
-              'top': '-40px',
-              'left': '10px',
-              'opacity': '0.5'
+              'z-index': pos.z.toString(),
+              'top': pos.top + 'px',
+              'left': pos.left + 'px',
+              'opacity': pos.opacity.toString()
             });
           }
         });
         
+        // Insert the new card at the front
         mascotContainer.insertBefore(newCard, mascotContainer.firstChild);
+        
+        // Use the screen size variables defined above
+        
+        let frontCardLeft = '50px'; // Desktop
+        
+        if (mobileCheck) {
+          frontCardLeft = '30px'; // Tablet/mobile
+        }
+        
+        if (smallMobileCheck) {
+          frontCardLeft = '25px'; // Small mobile
+        }
+        
+        // Apply the correct position to the new front card
+        $(newCard).css({
+          'z-index': '10',
+          'top': '0px',
+          'left': frontCardLeft,
+          'opacity': '1',
+          'box-shadow': window.matchMedia('(prefers-color-scheme: dark)').matches ?
+            '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode
+            '8px 8px 1px rgba(0, 0, 0, 0.8)'         // Light mode
+        });
       } else {
         mascotContainer.appendChild(newCard);
+        
+        // If this is the only card, still position it correctly
+        const mobileCheck = window.innerWidth <= 768;
+        const smallMobileCheck = window.innerWidth <= 575;
+        
+        let frontCardLeft = '50px'; // Desktop
+        
+        if (mobileCheck) {
+          frontCardLeft = '30px'; // Tablet/mobile
+        }
+        
+        if (smallMobileCheck) {
+          frontCardLeft = '25px'; // Small mobile
+        }
+        
+        // Apply the correct position
+        $(newCard).css({
+          'z-index': '10',
+          'top': '0px',
+          'left': frontCardLeft,
+          'opacity': '1'
+        });
       }
       
       // No need to update separate description element anymore as it's in the card
@@ -239,6 +294,14 @@ document.addEventListener('DOMContentLoaded', () => {
           // For subsequent images, add new cards
           mascotContainer.insertBefore(storedCard, mascotContainer.firstChild);
           
+          // Position each card correctly based on its order
+          // Call resetCardPositions after all cards are added to ensure correct positioning
+          setTimeout(() => {
+            if (typeof window.resetCardPositions === 'function') {
+              window.resetCardPositions();
+            }
+          }, 50);
+          
           // Add click listener for lightbox if available
           const img = storedCard.querySelector('.mascot');
           if (img && window.showLightbox) {
@@ -258,10 +321,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // Start the sequential process
       addImageWithDelay(0);
       
-      // Update carousel controls after loading all images
+      // Update carousel controls and positions after loading all images
       setTimeout(() => {
+        // Show/hide controls based on card count
         if (typeof window.updateCarouselControls === 'function') {
           window.updateCarouselControls();
+        }
+        
+        // Ensure all cards have proper positioning
+        if (typeof window.resetCardPositions === 'function') {
+          window.resetCardPositions();
         }
       }, 100);
     }

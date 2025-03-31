@@ -34,11 +34,25 @@
             $firstCard.css('transition', 'none');
             
             // 2. Move to end, set initial position for slide-in from above
+            // Get appropriate position based on screen size
+            const isMobile = window.innerWidth <= 768;
+            const isSmallMobile = window.innerWidth <= 575;
+            
+            let targetLeft = '10px';  // Default desktop
+            
+            if (isMobile) {
+                targetLeft = '-10px'; // Tablet/mobile
+            }
+            
+            if (isSmallMobile) {
+                targetLeft = '-15px'; // Small mobile
+            }
+            
             $firstCard
                 .appendTo('.container')
                 .css({
                     'transform': 'none', // Reset transform
-                    'left': '10px',      // Target left for last card
+                    'left': targetLeft,   // Target left for last card based on device
                     'top': '-90px',      // Start above the final position
                     'z-index': '5',      // Lower z-index initially
                     'opacity': '0',      // Keep hidden initially
@@ -101,11 +115,25 @@
             $lastCard.css('transition', 'none');
             
             // 2. Move to beginning, set initial position for slide-in from top
+            // Get appropriate position based on screen size
+            const isMobile = window.innerWidth <= 768;
+            const isSmallMobile = window.innerWidth <= 575;
+            
+            let targetLeft = '50px';  // Default desktop
+            
+            if (isMobile) {
+                targetLeft = '30px'; // Tablet/mobile
+            }
+            
+            if (isSmallMobile) {
+                targetLeft = '25px'; // Small mobile
+            }
+            
             $lastCard
                 .prependTo('.container')
                 .css({
                     'transform': 'none', // Reset transform
-                    'left': '50px',      // Target left for 1st card
+                    'left': targetLeft,   // Target left for 1st card based on device
                     'top': '-50px',      // Start above the final position
                     'z-index': '11',     // Higher z-index initially
                     'opacity': '0',      // Start invisible for better fade in
@@ -139,6 +167,10 @@
 
     // Function to reset card positions based on their current order
     function resetCardPositions() {
+        // Get screen width for responsive adjustments
+        const isMobile = window.innerWidth <= 768;
+        const isSmallMobile = window.innerWidth <= 575;
+        
         // Clear any inline styles that might be messing with the positions
         $('.card').each(function(index) {
             const $card = $(this);
@@ -156,13 +188,24 @@
             // Only remove the card's style attribute, not any of its children
             $card.removeAttr('style');
 
+            // Determine positions based on screen size
+            let leftPositions = [50, 40, 30, 20, 10]; // Desktop default
+            
+            if (isMobile) {
+                leftPositions = [30, 20, 10, 0, -10]; // Tablet/Mobile
+            }
+            
+            if (isSmallMobile) {
+                leftPositions = [25, 15, 5, -5, -15]; // Small Mobile
+            }
+
             // Then apply the appropriate position based on current index
             if (index === 0) {
                 // First card (front)
                 $card.css({
                     'z-index': '10',
                     'top': '0px',
-                    'left': '50px',
+                    'left': leftPositions[0] + 'px',
                     'opacity': '1',
                     'box-shadow': isDarkMode() ?
                                   '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode shadow
@@ -173,7 +216,7 @@
                 $card.css({
                     'z-index': '9',
                     'top': '-10px',
-                    'left': '40px',
+                    'left': leftPositions[1] + 'px',
                     'opacity': '0.9'
                 });
             } else if (index === 2) {
@@ -181,7 +224,7 @@
                 $card.css({
                     'z-index': '8',
                     'top': '-20px',
-                    'left': '30px',
+                    'left': leftPositions[2] + 'px',
                     'opacity': '0.8'
                 });
             } else if (index === 3) {
@@ -189,7 +232,7 @@
                 $card.css({
                     'z-index': '7',
                     'top': '-30px',
-                    'left': '20px',
+                    'left': leftPositions[3] + 'px',
                     'opacity': '0.7'
                 });
             } else if (index >= 4) {
@@ -197,7 +240,7 @@
                 $card.css({
                     'z-index': '6',
                     'top': '-40px',
-                    'left': '10px',
+                    'left': leftPositions[4] + 'px',
                     'opacity': '0.5'
                 });
             }
