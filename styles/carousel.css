@@ -242,13 +242,28 @@
   font-size: 3rem;
 }
 
-.container .card:nth-child(1) {
+.container .card:nth-child(1), 
+.container .card.front-card {
   z-index: 10;
   top: 0px;
   left: 50px; /* Adjusted position for smaller card - now at 50px */
   opacity: 1;
-  /* Updated shadow for the top card to match aesthetic */
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 1px rgba(0, 0, 0, 0.8);
+  /* Updated shadow to match project style */
+  box-shadow: 8px 8px 0 var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.container .card:nth-child(1):hover, 
+.container .card.front-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
+}
+
+.container .card:nth-child(1):active, 
+.container .card.front-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-border);
+  background-color: #eaeaea;
 }
 
 .container .card:nth-child(2) {
@@ -304,12 +319,24 @@
     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color);
   }
 
-  .container .card:nth-child(1) {
-     /* Updated shadow for the top card in dark mode */
-     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 1px rgba(255, 255, 255, 0.33); /* Using main.css value */
+  .container .card:nth-child(1),
+  .container .card.front-card {
+     /* Updated shadow to match project style in dark mode */
+     box-shadow: 8px 8px 0 var(--shadow-color);
   }
   
-    /* No hover/active states for dark mode */
+  .container .card:nth-child(1):hover,
+  .container .card.front-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 11px 11px 1px rgb(255, 255, 255, 0.1);
+  }
+  
+  .container .card:nth-child(1):active,
+  .container .card.front-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--shadow-color);
+    background-color: #333333;
+  }
   
   /* Dark mode styling for the mascot description */
   .mascot-ai-description {
@@ -401,11 +428,27 @@
   }
 
   /* Card positioning for tablet/mobile - maintaining stacking order */
-  .container .card:nth-child(1) {
+  .container .card:nth-child(1),
+  .container .card.front-card {
     z-index: 10;
     top: 0px;
     left: 30px; /* Adjusted for tablet/mobile but still to the right of cards behind it */
     opacity: 1;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 8px 8px 0 var(--color-border);
+  }
+  
+  .container .card:nth-child(1):hover,
+  .container .card.front-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
+  }
+  
+  .container .card:nth-child(1):active,
+  .container .card.front-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-border);
+    background-color: #eaeaea;
   }
   
   .container .card:nth-child(2) {
@@ -478,8 +521,24 @@
   }
   
   /* Card positioning for smallest screens - maintaining stacking order */
-  .container .card:nth-child(1) {
+  .container .card:nth-child(1),
+  .container .card.front-card {
     left: 25px; /* Slightly adjusted for smallest screens */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 8px 8px 0 var(--color-border);
+  }
+  
+  .container .card:nth-child(1):hover,
+  .container .card.front-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6);
+  }
+  
+  .container .card:nth-child(1):active,
+  .container .card.front-card:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--color-border);
+    background-color: #eaeaea;
   }
   
   .container .card:nth-child(2) {

@@ -123,6 +123,9 @@
                     $(this).removeAttr('style');
                     $(this).removeClass('animating'); // Remove animation marker
                     
+                    // Apply class to denote this is the front card
+                    $(this).addClass('front-card').siblings().removeClass('front-card');
+                    
                     // Ensure all cards are properly positioned
                     resetCardPositions();
                 });
@@ -137,6 +140,9 @@
         
         // Remove the animating class from all cards
         $('.card').removeClass('animating');
+        
+        // Ensure the first card has the front-card class
+        $('.card:first-child').addClass('front-card').siblings().removeClass('front-card');
         
         // Determine positions based on screen size
         let leftPositions = [50, 40, 30, 20, 10]; // Desktop default
@@ -171,14 +177,25 @@
                     '8px 8px 0 var(--shadow-color)' :        // Dark mode shadow for other cards
                     '8px 8px 0 var(--color-border)');        // Light mode shadow for other cards
             
-            // Apply the new position (this will trigger CSS transitions)
-            $card.css({
-                'z-index': zIndex,
-                'top': topPositions[posIndex] + 'px',
-                'left': leftPositions[posIndex] + 'px',
-                'opacity': opacities[posIndex],
-                'box-shadow': boxShadow
-            });
+            // First card should retain the ability to get hover/active styles
+            if (index === 0) {
+                // Apply position but without box-shadow - let CSS handle it
+                $card.css({
+                    'z-index': zIndex,
+                    'top': topPositions[posIndex] + 'px',
+                    'left': leftPositions[posIndex] + 'px',
+                    'opacity': opacities[posIndex]
+                });
+            } else {
+                // Apply all styles for other cards
+                $card.css({
+                    'z-index': zIndex,
+                    'top': topPositions[posIndex] + 'px',
+                    'left': leftPositions[posIndex] + 'px',
+                    'opacity': opacities[posIndex],
+                    'box-shadow': boxShadow
+                });
+            }
         });
     }
     
