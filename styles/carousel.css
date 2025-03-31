@@ -85,6 +85,11 @@
   flex-direction: column;
 }
 
+/* Add specific styles for the original mascot card */
+.container .card.original-mascot .detail {
+  display: none !important; /* Ensure the caption stays hidden for the original mascot */
+}
+
 .image {
   width: 100%;
   height: auto; /* Allow height to be determined by content */

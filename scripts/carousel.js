@@ -5,10 +5,22 @@
         return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     
+    // Helper function to check if jQuery UI is loaded
+    function isJQueryUILoaded() {
+        return (typeof $.ui !== 'undefined' && typeof $.ui.version === 'string');
+    }
+    
     // Define rotate function to move card from front to back
     function rotate() {
+        // Prevent rotation if animation is in progress
+        if ($('.card.animating').length > 0) {
+            console.log('Animation in progress, skipping rotation');
+            return;
+        }
+
         // Move the first card to the end with a slide-out animation
         var $firstCard = $('.card:first-child');
+        $firstCard.addClass('animating'); // Mark as animating
         
         // 1. Animate slide out with shadow transition matching portfolio aesthetic
         $firstCard.animate({
@@ -40,12 +52,22 @@
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(5) CSS rule applies the sharp shadow correctly
                     $(this).removeAttr('style');
+                    $(this).removeClass('animating'); // Remove animation marker
+                    
+                    // Properly reapply position styles to ALL cards based on their new positions
+                    resetCardPositions();
                 });
         });
     }
 
     // Define rotatePrev function to move card from back to front
     function rotatePrev() {
+        // Prevent rotation if animation is in progress
+        if ($('.card.animating').length > 0) {
+            console.log('Animation in progress, skipping rotation');
+            return;
+        }
+        
         var $lastCard = $('.card:last-child');
 
         // Avoid animation if there's only one card
@@ -54,6 +76,8 @@
             return;
         }
 
+        $lastCard.addClass('animating'); // Mark as animating
+        
         // 1. Animate slide out upwards
         $lastCard.animate({
             top: '-=50px', // Move up
@@ -66,31 +90,91 @@
             $(this)
                 .prependTo('.container')
                 .css({
-                    'left': '50px',  // Target left for 1st card (moved right)
-                    'top': '-50px',  // Start above the final position
-                    'z-index': 11,   // Higher z-index initially
-                    'opacity': 0,    // Keep hidden initially
+                    'left': '50px',   // Target left for 1st card (moved right)
+                    'top': '-120px',  // Start much higher for "slam down" effect
+                    'z-index': 11,    // Higher z-index initially
+                    'opacity': 1,     // Start fully visible for slam effect
                     // Start with the hover-like shadow
                     'box-shadow': isDarkMode() ?
                                   '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
                                   '11px 11px 1px rgba(0, 0, 0, 0.6)'        // Light mode hover shadow
                 })
-                // 3. Animate slide-in to the 1st card position (animating shadow to final state)
+                // 3. Animate slam-down to the 1st card position (animating shadow to final state)
                 .animate({
                     top: '0px',      // Target top for 1st card
-                    opacity: 1,      // Target opacity for 1st card
                     // Apply the UPDATED shadow when animating to the 1st position
                     boxShadow: isDarkMode() ?
                               '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
                               '8px 8px 1px rgba(0, 0, 0, 0.8)'        // Light mode updated shadow
-                }, 400, 'linear', function() {
+                }, 250, 'linear', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(1) CSS rule applies the updated shadow correctly
                     $(this).removeAttr('style');
+                    $(this).removeClass('animating'); // Remove animation marker
+                    
+                    // Properly reapply position styles to ALL cards based on their new positions
+                    resetCardPositions();
                 });
         });
     }
 
+    // Function to reset card positions based on their current order
+    function resetCardPositions() {
+        // Clear any inline styles that might be messing with the positions
+        $('.card').each(function(index) {
+            const $card = $(this);
+            
+            // First remove any inline styles
+            $card.removeAttr('style');
+            
+            // Then apply the appropriate position based on current index
+            if (index === 0) {
+                // First card (front)
+                $card.css({
+                    'z-index': '10',
+                    'top': '0px',
+                    'left': '50px',
+                    'opacity': '1',
+                    'box-shadow': isDarkMode() ?
+                                  '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode shadow
+                                  '8px 8px 1px rgba(0, 0, 0, 0.8)'         // Light mode shadow
+                });
+            } else if (index === 1) {
+                // Second card
+                $card.css({
+                    'z-index': '9',
+                    'top': '-10px',
+                    'left': '40px',
+                    'opacity': '0.9'
+                });
+            } else if (index === 2) {
+                // Third card
+                $card.css({
+                    'z-index': '8',
+                    'top': '-20px',
+                    'left': '30px',
+                    'opacity': '0.8'
+                });
+            } else if (index === 3) {
+                // Fourth card
+                $card.css({
+                    'z-index': '7',
+                    'top': '-30px',
+                    'left': '20px',
+                    'opacity': '0.7'
+                });
+            } else if (index === 4) {
+                // Fifth card
+                $card.css({
+                    'z-index': '6',
+                    'top': '-40px',
+                    'left': '10px',
+                    'opacity': '0.5'
+                });
+            }
+        });
+    }
+    
     // Function to hide/show carousel controls based on number of cards
     function updateCarouselControls() {
         var cardCount = $('.card').length;

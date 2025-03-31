@@ -185,6 +185,9 @@ document.addEventListener('DOMContentLoaded', () => {
           // Replace the first card rather than adding a new one
           const firstCard = $('.card:first-child')[0];
           if (firstCard) {
+            // Remove the original-mascot class if it exists
+            firstCard.classList.remove('original-mascot');
+            
             firstCard.innerHTML = storedCard.innerHTML;
             
             // Add click listener for lightbox if available
