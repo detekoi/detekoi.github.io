@@ -153,6 +153,7 @@ header {
   align-items: flex-start; /* Align to the left */
   gap: var(--spacing-unit); /* Gap between image and description */
   width: 560px; /* Increased from 520px to match grid */
+  margin-top: var(--spacing-small); /* Add space above the mascot area */
 }
 
 .mascot-container {
