@@ -92,7 +92,7 @@
                     'left': '50px',   // Target left for 1st card (moved right)
                     'top': '-120px',  // Start much higher for "slam down" effect
                     'z-index': 11,    // Higher z-index initially
-                    'opacity': 1,     // Start fully visible with no fade-in
+                    'opacity': 0.8,   // Start slightly transparent for subtle fade-in
                     // Start with the hover-like shadow
                     'box-shadow': isDarkMode() ?
                                   '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
@@ -101,7 +101,7 @@
                 // 3. Animate slam-down to the 1st card position (animating shadow to final state)
                 .animate({
                     top: '0px',      // Target top for 1st card
-                    // No opacity animation, remain fully visible
+                    opacity: 1,      // Subtle fade-in to full opacity
                     // Apply the UPDATED shadow when animating to the 1st position
                     boxShadow: isDarkMode() ?
                               '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
