@@ -77,12 +77,12 @@
 
         $lastCard.addClass('animating'); // Mark as animating
         
-        // 1. Animate slide out upwards
+        // 1. Animate slide out upwards - FASTER with SHORTER distance
         $lastCard.animate({
-            top: '-=50px', // Move up
-            opacity: 0,    // Fade out
+            top: '-=30px', // REDUCED: Move up less distance
+            opacity: 0.2,  // INCREASED: Don't fade completely out for faster transition
             boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)' // Remove shadow during transition
-        }, 250, 'swing', function() {
+        }, 180, 'swing', function() {
             // Animation complete for slide-out
 
             // 2. Move to beginning, set initial position for slide-in from top
@@ -90,9 +90,9 @@
                 .prependTo('.container')
                 .css({
                     'left': '50px',   // Target left for 1st card (moved right)
-                    'top': '-120px',  // Start much higher for "slam down" effect
+                    'top': '-80px',   // REDUCED: Start closer for faster slam down effect
                     'z-index': 11,    // Higher z-index initially
-                    'opacity': 0.8,   // Start slightly transparent for subtle fade-in
+                    'opacity': 0.9,   // INCREASED: Start more visible for faster fade-in
                     // Start with the hover-like shadow
                     'box-shadow': isDarkMode() ?
                                   '11px 11px 1px rgba(255, 255, 255, 0.1)' : // Dark mode hover shadow
@@ -106,7 +106,7 @@
                     boxShadow: isDarkMode() ?
                               '8px 8px 1px rgba(255, 255, 255, 0.3)' : // Dark mode updated shadow
                               '8px 8px 1px rgba(0, 0, 0, 0.8)'        // Light mode updated shadow
-                }, 180, 'swing', function() {
+                }, 140, 'swing', function() {
                     // 4. Animation complete: remove inline styles so CSS takes over
                     // This ensures the :nth-child(1) CSS rule applies the updated shadow correctly
                     $(this).removeAttr('style');
