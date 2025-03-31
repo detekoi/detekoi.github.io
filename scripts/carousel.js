@@ -19,10 +19,10 @@
         // to avoid conflicting with the jQuery animation.
         $firstCard.addClass('no-transition');
 
-        // 1. Animate the first card out (e.g., slightly up/left and fade)
+        // 1. Animate the first card out (e.g., slide left/up and fade)
         $firstCard.animate({
-            top: '-=20px',
-            left: '-=20px',
+            top: '-=10px',
+            left: '-=80px',
             opacity: 0
         }, 400, 'swing', function() {
             // Animation complete callback:
@@ -45,11 +45,11 @@
         // Disable transitions temporarily on the card being animated out.
         $lastCard.addClass('no-transition');
 
-        // 1. Animate the last card out (e.g., slightly down/right and fade)
+        // 1. Animate the last card out (e.g., slide right/down and fade)
         //    This assumes it's coming from the back-right position.
         $lastCard.animate({
-            top: '+=20px', 
-            left: '+=20px',
+            top: '+=10px',
+            left: '+=80px',
             opacity: 0
         }, 400, 'swing', function() {
             // Animation complete callback:
