@@ -25,13 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
         lightIntensityMax: 200, // Wider range for better visibility
         
         // Frame timing
-        frameInterval: 45, // Milliseconds between frames (~20fps)
+        frameInterval: 55, // Milliseconds between frames (~18fps) - Increased interval to reduce redraw frequency
         
         // Effect state tracking
         effectState: 'normal', // Can be 'normal', 'intensifying', 'intense', 'fading'
         
         // Intense mode parameters (what we transition to)
-        intenseDensity: 1.8,    // Higher density for intense mode (increased for more contrast)
+        intenseDensity: 1.5,    // Lowered density for intense mode to reduce load
         intenseColor: [200, 120, 255], // More vibrant purple magic color
         
         // Transition parameters
@@ -95,10 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (config.effectState !== 'normal' && config.transitionProgress > 0) {
             // Calculate intensity dots - these have color and vary with transition
             // Adjust density based on dark mode - less intense in dark mode
-            const densityMultiplier = isDarkMode ? 40 : 30; // Higher divisor = fewer dots in dark mode
-            const effectDots = Math.floor((canvas.width * canvas.height) / densityMultiplier * 
+            // Increased divisor to reduce number of effect dots
+            const densityMultiplier = isDarkMode ? 50 : 40; // Higher divisor = fewer dots
+            const effectDots = Math.floor((canvas.width * canvas.height) / densityMultiplier *
                 (config.intenseDensity - config.density) * config.transitionProgress);
-                
+
             // Draw dots with adjusted size for dark mode
             for (let i = 0; i < effectDots; i++) {
                 const x = Math.random() * canvas.width;
@@ -119,7 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             // Add some extra bright sparkles for additional visual impact - fewer in dark mode
-            const sparkleMultiplier = isDarkMode ? 3000 : 2000; // Higher divisor = fewer sparkles
+            // Increased divisor significantly to reduce sparkle count
+            const sparkleMultiplier = isDarkMode ? 4000 : 3000; // Higher divisor = fewer sparkles
             const sparkleCount = Math.floor((canvas.width * canvas.height) / sparkleMultiplier * config.transitionProgress);
             
             for (let i = 0; i < sparkleCount; i++) {
