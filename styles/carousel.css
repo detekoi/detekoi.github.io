@@ -177,19 +177,15 @@
 .card.mascot-card .detail {
   padding: var(--spacing-small);
   background-color: var(--color-card-bg);
-  border-top: 2px solid var(--color-border);
   font-family: var(--font-carousel);
   font-size: var(--font-size-small);
   height: 100px;
-  overflow-y: hidden; /* Changed from auto to hidden */
+  overflow-y: auto; /* Changed from auto to hidden */
   display: flex;
   flex-direction: column;
   /* flex-basis: 0%; REMOVED */
   flex-grow: 0; /* ADDED: Don't grow */
   flex-shrink: 0; /* ADDED: Don't shrink */
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 }
 
 .card.mascot-card .detail .force-overflow {
@@ -214,10 +210,10 @@
 .card.mascot-card .detail blockquote {
   margin: 0 0 0.5em 0;
   padding: 0;
-  line-height: 1.5;
+  line-height: 1.25;
   font-size: 14px;
   letter-spacing: 0.01em;
-  text-align: center; 
+  text-align: left; 
   width: 100%; 
   max-width: 280px; 
   font-family: var(--font-carousel); 
