@@ -66,12 +66,11 @@
         const targetOpacity = 1;
         const targetScale = 'scale(1)';
         const targetZIndex = 10; // z-index for 1st card
-        const frontZIndexDuring = 11; // Slightly higher z-index during transition
+        const frontZIndexDuring = 11; // Slightly higher z-index during slide-in transition
         const slideUpOffset = 50; // How much to slide up (px)
 
-        // 1. Animate slide out upwards and fade
-        // We need to temporarily give it a higher z-index so it slides OUT over others
-        $lastCard.css('z-index', frontZIndexDuring).animate({
+        // 1. Animate slide out upwards and fade (using its CURRENT z-index)
+        $lastCard.animate({
             top: `-=${slideUpOffset}px`, // Move up
             opacity: 0
         }, 400, 'swing', function() {
@@ -84,7 +83,7 @@
                     'left': targetLeft,
                     'top': `${parseInt(targetTop) - slideUpOffset}px`, // Start above target
                     'transform': targetScale,
-                    'z-index': frontZIndexDuring, // Keep high z-index
+                    'z-index': frontZIndexDuring, // Set high z-index NOW for slide-in
                     'opacity': 0 // Keep hidden initially
                 })
                 // 3. Animate slide-in to the target (1st card) position
