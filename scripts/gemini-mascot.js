@@ -31,6 +31,168 @@ document.addEventListener('DOMContentLoaded', () => {
     // Continue with empty array if there's an error
   }
 
+  // --- Loading Card Static Effect ---
+  let loadingStaticAnimationId = null;
+  const loadingStaticConfig = {
+      pixelSize: 1,
+      density: 0.5,       // Lower density for card
+      baseAlpha: 0.6,     // Lower alpha
+      alphaVariance: 0.15,
+      darkIntensityMin: 40,
+      darkIntensityMax: 110,
+      lightIntensityMin: 140,
+      lightIntensityMax: 210,
+      frameInterval: 70, // Slower frame rate (~14fps)
+  };
+  let lastLoadingFrameTime = 0;
+  let drawLogCounter = 0; // Add a counter
+
+  function drawLoadingStatic(ctx, canvas, isDarkMode) {
+      const now = performance.now();
+      // Frame rate limiting
+      if (now - lastLoadingFrameTime < loadingStaticConfig.frameInterval) {
+          loadingStaticAnimationId = requestAnimationFrame(() => drawLoadingStatic(ctx, canvas, isDarkMode));
+          return;
+      }
+      lastLoadingFrameTime = now;
+      if (drawLogCounter % 60 === 0) { // Log roughly once per second
+          // console.log(`[drawLoadingStatic] Loop running... Canvas internal: ${canvas.width}x${canvas.height}, Client: ${canvas.clientWidth}x${canvas.clientHeight}`);
+      }
+      drawLogCounter++;
+
+      // --- Check and Sync Canvas Dimensions ---
+      const displayWidth = canvas.clientWidth;
+      const displayHeight = canvas.clientHeight;
+
+      // Check if the internal size matches the display size.
+      // Also check if display size is valid (> 0)
+      if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
+          if (displayWidth > 0 && displayHeight > 0) {
+              canvas.width = displayWidth;
+              canvas.height = displayHeight;
+              console.log(`[drawLoadingStatic] Synced canvas internal size to: ${canvas.width}x${canvas.height}`);
+          } else {
+              // Still no valid display size, skip drawing this frame
+              // console.warn(`[drawLoadingStatic] Invalid display dimensions (${displayWidth}x${displayHeight}), skipping frame.`);
+              loadingStaticAnimationId = requestAnimationFrame(() => drawLoadingStatic(ctx, canvas, isDarkMode));
+              return;
+          }
+      }
+      // If dimensions are still 0 after sync attempt, skip.
+      if (canvas.width === 0 || canvas.height === 0) {
+         // console.warn(`[drawLoadingStatic] Zero dimensions after sync check, skipping frame.`);
+         loadingStaticAnimationId = requestAnimationFrame(() => drawLoadingStatic(ctx, canvas, isDarkMode));
+         return;
+      }
+      // ---------------------------------------
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Simplified static drawing - only base layer needed
+      // Adjusted divisor for smaller area
+      const baseStaticDots = Math.floor((canvas.width * canvas.height) / 80 * loadingStaticConfig.density);
+
+      for (let i = 0; i < baseStaticDots; i++) {
+          const x = Math.random() * canvas.width;
+          const y = Math.random() * canvas.height;
+
+          let intensity;
+          if (isDarkMode) {
+              intensity = loadingStaticConfig.darkIntensityMin + Math.random() * (loadingStaticConfig.darkIntensityMax - loadingStaticConfig.darkIntensityMin);
+          } else {
+              intensity = loadingStaticConfig.lightIntensityMin + Math.random() * (loadingStaticConfig.lightIntensityMax - loadingStaticConfig.lightIntensityMin);
+          }
+          intensity = Math.floor(intensity);
+
+          const alpha = loadingStaticConfig.baseAlpha + (Math.random() - 0.5) * loadingStaticConfig.alphaVariance;
+
+          ctx.fillStyle = `rgba(${intensity}, ${intensity}, ${intensity}, ${alpha})`;
+           // Ensure drawing happens *within* the canvas bounds
+           if (x >= 0 && x < canvas.width && y >= 0 && y < canvas.height) {
+              ctx.fillRect(x, y, loadingStaticConfig.pixelSize, loadingStaticConfig.pixelSize);
+           }
+      }
+
+      loadingStaticAnimationId = requestAnimationFrame(() => drawLoadingStatic(ctx, canvas, isDarkMode));
+  }
+
+  function startLoadingStatic(canvasElement) {
+      if (!canvasElement) {
+          console.error("Loading static canvas element not found.");
+          return () => {}; // Return dummy stop function
+      }
+      console.log('[startLoadingStatic] Found canvas element:', canvasElement);
+      // Don't set initial size here, rely on CSS and update in draw loop
+      console.log(`[startLoadingStatic] Initial offset dimensions: ${canvasElement.offsetWidth}x${canvasElement.offsetHeight}`);
+
+      // Delay getting context slightly to ensure dimensions might be available
+      setTimeout(() => {
+          let ctx;
+          try { // Add try-catch as canvas might be gone by now
+              ctx = canvasElement.getContext('2d');
+          } catch (e) {
+              console.error("Could not get 2D context for loading static canvas (maybe removed?).", e);
+              return;
+          }
+
+          if (!ctx) {
+             console.error("Could not get 2D context for loading static canvas.");
+             return;
+          }
+          console.log('[startLoadingStatic] Got 2D context (inside timeout).');
+
+          const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+          let isDarkMode = darkModeMediaQuery.matches;
+
+          const updateMode = (event) => {
+              isDarkMode = event.matches;
+          };
+          darkModeMediaQuery.addEventListener('change', updateMode);
+
+          // Clear any previous animation frame
+          if (loadingStaticAnimationId) {
+              cancelAnimationFrame(loadingStaticAnimationId);
+          }
+
+          // Start the drawing loop
+          lastLoadingFrameTime = 0; // Reset frame timer
+          loadingStaticAnimationId = requestAnimationFrame(() => drawLoadingStatic(ctx, canvasElement, isDarkMode));
+          console.log('[startLoadingStatic] requestAnimationFrame scheduled (inside timeout).');
+
+          // Store cleanup logic associated with this canvas instance
+          canvasElement.stopAnimation = () => {
+              console.log('[stopLoadingStatic] Running stopAnimation for canvas:', canvasElement); // Add log
+              if (loadingStaticAnimationId) {
+                  cancelAnimationFrame(loadingStaticAnimationId);
+                  loadingStaticAnimationId = null;
+              }
+              darkModeMediaQuery.removeEventListener('change', updateMode);
+               // Clear the canvas when stopped
+               if(ctx && canvasElement && canvasElement.width > 0 && canvasElement.height > 0) {
+                   try { // Add try-catch as canvas might be gone
+                       ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+                   } catch (e) {
+                       console.warn("Could not clear loading canvas, possibly already removed.");
+                   }
+               }
+          };
+      }, 50); // Reinstate 50ms delay
+  }
+
+  function stopLoadingStatic(canvasElement) {
+       if (canvasElement && typeof canvasElement.stopAnimation === 'function') {
+           canvasElement.stopAnimation();
+       } else if (loadingStaticAnimationId) {
+           // Fallback if the specific stop function isn't found but an ID exists
+           cancelAnimationFrame(loadingStaticAnimationId);
+           loadingStaticAnimationId = null;
+           console.warn("Stopped loading static using fallback ID clear.");
+       } else {
+           // console.log("stopLoadingStatic called but no active animation or element found.");
+       }
+  }
+  // --- End Loading Card Static Effect ---
+
   // Function to add a new image to the carousel
   function addImageToCarousel(imageDataUri, description, addAsFront = false) {
     // Create a new card element
@@ -261,12 +423,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Start Loading State ---
     styleInspirationLink.style.pointerEvents = 'none'; // Disable further clicks
     styleInspirationLink.style.opacity = '0.7'; // Visual feedback
+    console.log('[Event Listener] Creating loading card HTML...');
 
-    // Create and prepend the loading card
+    // Create and prepend the loading card - UPDATED HTML
     const loadingCardHTML = `
       <div class="card mascot-card loading-card" data-card="loading">
         <div class="image loading-image-placeholder">
-          <div class="loading-spinner-inline"></div> 
+          <canvas class="loading-static-canvas"></canvas> <!-- Use canvas -->
         </div>
         <div class="detail loading-detail">
           <p>Creating style inspiration...</p>
@@ -274,7 +437,17 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
     mascotContainer.insertAdjacentHTML('afterbegin', loadingCardHTML);
-    loadingCardElement = mascotContainer.firstChild; // Store reference
+    loadingCardElement = mascotContainer.querySelector('.loading-card'); // Store reference using class
+    console.log('[Event Listener] Loading card added to DOM:', loadingCardElement);
+
+    // --- Start Static Effect ---
+    const loadingCanvas = loadingCardElement.querySelector('.loading-static-canvas');
+    if (loadingCanvas) {
+        startLoadingStatic(loadingCanvas);
+    } else {
+        console.error("Could not find loading canvas element after adding loading card.");
+    }
+    // -------------------------
 
     // Reset positions to show the loading card
     if (typeof window.resetCardPositions === 'function') {
@@ -345,7 +518,6 @@ document.addEventListener('DOMContentLoaded', () => {
               // Create a brand new card with final content
               const newCard = document.createElement('div');
               newCard.classList.add('card', 'mascot-card');
-              // Assign new card number 
               newCard.dataset.card = (mascotContainer.querySelectorAll('.card.mascot-card').length).toString();
               
               // Set the inner HTML directly
@@ -367,8 +539,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
               }
               
-              // Replace the loading card with the new card
+              // Find the loading card *before* trying to stop its animation or replace it
               const currentLoadingCard = mascotContainer.querySelector('.card.mascot-card.loading-card'); // Find it now
+
+              // --- Stop Static Effect ---
+              const canvasToStop = currentLoadingCard ? currentLoadingCard.querySelector('.loading-static-canvas') : null;
+              if (canvasToStop) {
+                  stopLoadingStatic(canvasToStop);
+              } else {
+                 // Fallback: try finding any loading canvas if the specific reference failed
+                 const fallbackCanvas = mascotContainer.querySelector('.loading-card .loading-static-canvas');
+                 if (fallbackCanvas) stopLoadingStatic(fallbackCanvas);
+                 else console.warn('Could not find loading canvas to stop before replacement.');
+              }
+              // -------------------------
+
+              // Replace the loading card with the new card
               if (currentLoadingCard) { // Check if we found it
                 console.log('Replacing found loading card element with new card', currentLoadingCard);
                 mascotContainer.replaceChild(newCard, currentLoadingCard);
@@ -464,6 +650,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper function to handle errors consistently
   function handleGenerationError(error) {
+    // --- Stop Static Effect ---
+    const canvasToStop = loadingCardElement ? loadingCardElement.querySelector('.loading-static-canvas') : null;
+     if (canvasToStop) {
+         stopLoadingStatic(canvasToStop);
+     } else {
+         // Fallback: try finding any loading canvas if the specific reference failed
+         const fallbackCanvas = mascotContainer.querySelector('.loading-card .loading-static-canvas');
+         if (fallbackCanvas) stopLoadingStatic(fallbackCanvas);
+         else console.warn('Could not find loading canvas to stop in error handler.');
+     }
+    // -------------------------
+
     // Remove the loading card if it exists
     if (loadingCardElement && loadingCardElement.parentNode === mascotContainer) {
       loadingCardElement.remove();

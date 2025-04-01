@@ -45,7 +45,7 @@
   /* max-height: 550px; /* REMOVED */
 
   /* USE EXAMPLE'S TRANSITION */
-  transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, transform 0.4s ease, z-index 0.4s ease;
+  transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, transform 0.4s ease, z-index 0.4s ease, box-shadow 0.4s ease;
   align-items: center; /* Center align in mobile */
   padding-left: 0;
   /* padding-top: 50px; /* REMOVED */
@@ -367,6 +367,7 @@
 .card.mascot-card.loading-card {
   /* Ensure it doesn't get hover/active effects meant for the front card */
   pointer-events: none; 
+  position: relative; /* Ensure context for absolute children */
 }
 
 .card.mascot-card.loading-card .image.loading-image-placeholder {
@@ -374,35 +375,64 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* Ensure placeholder fills image area */
+  position: absolute; /* Change to absolute */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 100px; /* Set bottom relative to detail height */
+  overflow: hidden; /* Hide parts of canvas outside */
+}
+
+/* Add styles for the new canvas */
+.loading-static-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block; /* Ensure it takes up space */
+  z-index: 1; /* Place above background color */
 }
 
 .loading-spinner-inline {
+  /* Hide the old spinner */
+  display: none;
+  /*
   position: relative;
-  width: 60px; /* Match old spinner size */
+  width: 60px;
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
+  */
 }
 
+/* Keep the spinner styles commented out or remove if definitely not needed */
+/*
 .loading-spinner-inline::before {
   content: '';
   position: absolute;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 5px solid rgba(0, 0, 0, 0.1); /* Lighter border */
-  border-top-color: var(--color-border); /* Use border color for spinner top */
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-top-color: var(--color-border);
   animation: spin 1s linear infinite;
 }
+*/
 
 .card.mascot-card.loading-card .detail.loading-detail {
-  display: flex; /* Use flex to center */
+  /* display: flex; /* Keep flex for centering text */
   align-items: center;
   justify-content: center;
   text-align: center;
-  height: 100%; /* Ensure it fills the detail height */
+  height: 100px; /* Explicit height */
+  z-index: 2; /* Ensure text is above canvas */
+  position: absolute; /* Change to absolute */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: transparent; /* Make sure detail bg doesn't obscure canvas */
 }
 
 .card.mascot-card.loading-card .detail.loading-detail p {
@@ -417,19 +447,22 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Dark mode adjustments for loading card */
+/* Dark Mode Adjustments */
 @media (prefers-color-scheme: dark) {
   .card.mascot-card.loading-card .image.loading-image-placeholder {
     background-color: var(--color-secondary); /* Use dark secondary */
   }
 
+  /* Hide spinner in dark mode too */
+  /*
   .loading-spinner-inline::before {
-    border-color: rgba(255, 255, 255, 0.1); /* Lighter border in dark mode */
-    border-top-color: var(--color-border); /* Use dark border color */
+    border-color: rgba(255, 255, 255, 0.1);
+    border-top-color: var(--color-border);
   }
-  
+  */
+
   .card.mascot-card.loading-card .detail.loading-detail p {
-    color: var(--color-text); 
+    color: var(--color-text);
   }
 }
 
