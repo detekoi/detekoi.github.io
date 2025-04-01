@@ -257,7 +257,7 @@
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  margin-top: var(--spacing-unit); /* Reduced from var(--spacing-medium) */
+  margin-top: var(--spacing-medium); 
   order: 2;
   z-index: 11;
   position: relative;
@@ -445,10 +445,8 @@
     /* Ensure relative positioning for absolute child */
     position: relative; 
     /* Add padding to prevent buttons overlapping cards */
-    padding-left: 55px; 
-    padding-right: 75px; /* Increased from 55px */
-    /* Make wrapper fill the available grid space */
-    width: 100%; 
+    padding-left: 35px; 
+    width: 78%; 
     max-width: none; /* Override default max-width */
     /* Keep alignment from default */
     display: flex;
