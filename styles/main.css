@@ -712,7 +712,6 @@ footer a:active {
     --color-card-bg: #1e1e1e;
     --color-border: #ffffff;
     --shadow-color: rgba(255, 255, 255, 0.33);
-    background-color: #444444;
   }
   
   /* Override button styles for dark mode */
