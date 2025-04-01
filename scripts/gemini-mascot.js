@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const styleInspirationLink = document.getElementById('style-inspiration-link');
   const mascotContainer = document.querySelector('.mascot-container');
-  const mascotLoading = document.querySelector('.mascot-loading');
 
   // Maximum number of AI-generated images to keep
   const MAX_AI_IMAGES = 5;
@@ -9,7 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Storage key for carousel images
   const STORAGE_KEY = 'mascot_carousel_images';
 
-  if (!styleInspirationLink || !mascotContainer || !mascotLoading) {
+  // Store reference to the loading card if it exists
+  let loadingCardElement = null;
+
+  if (!styleInspirationLink || !mascotContainer) {
     console.error('Required mascot elements not found.');
     return;
   }
@@ -141,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create a new card for each stored image
         const storedCard = document.createElement('div');
         storedCard.classList.add('card', 'mascot-card');
-        storedCard.dataset.card = ($('.card').length + 1).toString();
+        storedCard.dataset.card = (mascotContainer.querySelectorAll('.card.mascot-card:not(.loading-card)').length + 1).toString();
         
         // Attempt to parse description as markdown if it contains markdown syntax
         let formattedDescription = imageData.description;
@@ -259,7 +261,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Start Loading State ---
     styleInspirationLink.style.pointerEvents = 'none'; // Disable further clicks
     styleInspirationLink.style.opacity = '0.7'; // Visual feedback
-    mascotLoading.style.display = 'flex'; // Show loading indicator
+
+    // Create and prepend the loading card
+    const loadingCardHTML = `
+      <div class="card mascot-card loading-card" data-card="loading">
+        <div class="image loading-image-placeholder">
+          <div class="loading-spinner-inline"></div> 
+        </div>
+        <div class="detail loading-detail">
+          <p>Creating style inspiration...</p>
+        </div>
+      </div>
+    `;
+    mascotContainer.insertAdjacentHTML('afterbegin', loadingCardHTML);
+    loadingCardElement = mascotContainer.firstChild; // Store reference
+
+    // Reset positions to show the loading card
+    if (typeof window.resetCardPositions === 'function') {
+      window.resetCardPositions();
+    }
 
     // Activate magical background effect if available
     if (window.staticBackground && typeof window.staticBackground.enableMagicMode === 'function') {
@@ -293,6 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (data.imageDataUri) {
         console.log('Received new image data URI. Preparing display...');
+        // Add detailed logging of the received data
+        console.log('Data received:', data);
 
         // --- Process New Image and Text ---
         const newImageSrc = data.imageDataUri;
@@ -303,46 +325,127 @@ document.addEventListener('DOMContentLoaded', () => {
         tempImg.onload = () => {
           console.log(`New image loaded: ${tempImg.width}x${tempImg.height}`);
           
-          // Use a series of timeouts to space out the DOM operations
-          // First, add the new image to the carousel - adding as the first child
-          setTimeout(() => {
-            addImageToCarousel(newImageSrc, newDescription, true);
-            
-            // No need to rotate when adding as first child
-            // But we'll force a repaint in case needed
-            setTimeout(() => {
-              // Force a repaint
-              if ($('.card').length > 0) {
-                $('.card:first-child').css('opacity', '0.99');
-                setTimeout(() => {
-                  $('.card:first-child').css('opacity', '1');
-                  
-                  // Position cards correctly
-                  if (typeof window.resetCardPositions === 'function') {
-                    window.resetCardPositions();
-                  }
-                }, 50);
+          // Ensure loading card still exists before trying to replace it
+          if (loadingCardElement && loadingCardElement.parentNode === mascotContainer) {
+            console.log('Loading card found. Replacing content...'); // Added log
+            // Format description
+            let formattedDescription = newDescription;
+            try {
+              if (newDescription && (newDescription.includes('*') || newDescription.includes('#') || newDescription.includes('_') || newDescription.includes('`') || newDescription.includes('[') || newDescription.includes('>'))) {
+                formattedDescription = marked.parse(newDescription);
+              }
+            } catch (e) {
+              console.log('Error parsing markdown for new image, using plain text', e);
+            }
+
+            // ---- COMPLETELY REWRITTEN CARD REPLACEMENT APPROACH ----
+            try { 
+              console.log('Using new approach: Creating a completely new card');
+              
+              // Create a brand new card with final content
+              const newCard = document.createElement('div');
+              newCard.classList.add('card', 'mascot-card');
+              // Assign new card number 
+              newCard.dataset.card = (mascotContainer.querySelectorAll('.card.mascot-card').length).toString();
+              
+              // Set the inner HTML directly
+              newCard.innerHTML = `
+                <div class="image">
+                  <img src="${newImageSrc}" alt="AI-generated polar bear mascot: ${newDescription}" class="mascot">
+                </div>
+                <div class="detail">
+                  ${formattedDescription}
+                </div>
+              `;
+              
+              // Add click listener for lightbox
+              const newImg = newCard.querySelector('.mascot');
+              if (newImg && window.showLightbox) {
+                newImg.style.cursor = 'pointer';
+                newImg.addEventListener('click', () => {
+                  window.showLightbox(newImg.src, newImg.alt, newDescription);
+                });
               }
               
-              // No need to update separate description since it's in the card
-              setTimeout(() => {
-                // Hide loading indicator
-                mascotLoading.style.display = 'none';
-                
-                // Reset state after animation finishes
+              // Replace the loading card with the new card
+              if (loadingCardElement && loadingCardElement.parentNode === mascotContainer) {
+                console.log('Replacing entire loading card element with new card');
+                mascotContainer.replaceChild(newCard, loadingCardElement);
+              } else {
+                // Fallback: Just add the new card to the front
+                console.log('Loading card not found, prepending new card');
+                mascotContainer.insertBefore(newCard, mascotContainer.firstChild);
+              }
+              
+              loadingCardElement = null; // Clear the reference
+              console.log('Card replacement complete');
+            
+              // Store the image data
+              carouselImages.unshift({
+                imageDataUri: newImageSrc,
+                description: newDescription,
+                timestamp: Date.now()
+              });
+              
+              // Trim data array
+              while (carouselImages.length > MAX_AI_IMAGES) {
+                carouselImages.pop();
+              }
+              
+              // Save to localStorage
+              try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(carouselImages));
+              } catch (error) {
+                console.error('Error saving AI images to localStorage:', error);
+              }
+              
+              // Update controls
+              if (typeof window.updateCarouselControls === 'function') {
+                window.updateCarouselControls();
+              }
+              
+              // Reset card positions with a safe timeout
+              if (typeof window.resetCardPositions === 'function') {
+                console.log('Scheduling resetCardPositions with 150ms timeout');
                 setTimeout(() => {
-                  isGeneratingImage = false;
-                  styleInspirationLink.style.pointerEvents = 'auto';
-                  styleInspirationLink.style.opacity = '1';
-                }, 300);
-              }, 200);
-            }, 100);
-          }, 0);
+                  try {
+                    console.log('Calling resetCardPositions');
+                    window.resetCardPositions();
+                    console.log('resetCardPositions completed');
+                  } catch (e) {
+                    console.error('Error in resetCardPositions:', e);
+                  }
+                }, 150);
+              }
+              
+              // Reset button state
+              isGeneratingImage = false;
+              styleInspirationLink.style.pointerEvents = 'auto';
+              styleInspirationLink.style.opacity = '1';
+              
+            } catch (error) {
+              console.error('Error during card replacement:', error);
+              // Even if card replacement fails, at least reset UI state
+              isGeneratingImage = false;
+              styleInspirationLink.style.pointerEvents = 'auto';
+              styleInspirationLink.style.opacity = '1';
+            }
+            // ---- END COMPLETELY REWRITTEN CARD REPLACEMENT APPROACH ----
+
+          } else {
+            // Loading card was removed or doesn't exist - maybe handle differently?
+            console.warn("Loading card not found when trying to replace content.");
+            // For now, just reset state
+            isGeneratingImage = false;
+            styleInspirationLink.style.pointerEvents = 'auto';
+            styleInspirationLink.style.opacity = '1';
+          }
         };
 
         tempImg.onerror = () => {
-          console.error('Failed to load the received image data URI.');
-          handleGenerationError(new Error('Failed to load generated image.'));
+          console.error('Failed to load the received image data URI:', newImageSrc); // Log the problematic URI
+          // Pass a more specific error message
+          handleGenerationError(new Error('Failed to preload generated image.'));
         }
 
         tempImg.src = newImageSrc; // Start loading the image
@@ -359,8 +462,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Helper function to handle errors consistently
   function handleGenerationError(error) {
-    // Hide loading indicator
-    mascotLoading.style.display = 'none';
+    // Remove the loading card if it exists
+    if (loadingCardElement && loadingCardElement.parentNode === mascotContainer) {
+      loadingCardElement.remove();
+      loadingCardElement = null; // Clear reference
+      // Reset positions after removing card
+      if (typeof window.resetCardPositions === 'function') {
+        window.resetCardPositions();
+      }
+    }
 
     // Create an error card instead of using the separate description area
     const errorCard = document.createElement('div');
@@ -388,6 +498,10 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         if (errorCard.parentNode === mascotContainer) {
           errorCard.remove();
+          // Reset positions after removing error card
+          if (typeof window.resetCardPositions === 'function') {
+             window.resetCardPositions();
+          }
         }
       }, 5000);
     }

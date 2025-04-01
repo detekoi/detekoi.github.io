@@ -363,6 +363,76 @@
   }
 }
 
+/* --- Loading Card Styles --- */
+.card.mascot-card.loading-card {
+  /* Ensure it doesn't get hover/active effects meant for the front card */
+  pointer-events: none; 
+}
+
+.card.mascot-card.loading-card .image.loading-image-placeholder {
+  background-color: var(--color-secondary); /* Use secondary background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%; /* Ensure placeholder fills image area */
+}
+
+.loading-spinner-inline {
+  position: relative;
+  width: 60px; /* Match old spinner size */
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-spinner-inline::before {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px solid rgba(0, 0, 0, 0.1); /* Lighter border */
+  border-top-color: var(--color-border); /* Use border color for spinner top */
+  animation: spin 1s linear infinite;
+}
+
+.card.mascot-card.loading-card .detail.loading-detail {
+  display: flex; /* Use flex to center */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%; /* Ensure it fills the detail height */
+}
+
+.card.mascot-card.loading-card .detail.loading-detail p {
+  margin: 0;
+  font-weight: bold;
+  font-size: var(--font-size-small);
+  color: var(--color-text);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark mode adjustments for loading card */
+@media (prefers-color-scheme: dark) {
+  .card.mascot-card.loading-card .image.loading-image-placeholder {
+    background-color: var(--color-secondary); /* Use dark secondary */
+  }
+
+  .loading-spinner-inline::before {
+    border-color: rgba(255, 255, 255, 0.1); /* Lighter border in dark mode */
+    border-top-color: var(--color-border); /* Use dark border color */
+  }
+  
+  .card.mascot-card.loading-card .detail.loading-detail p {
+    color: var(--color-text); 
+  }
+}
+
 /* Responsive Adjustments */
 /* Tablet/Mobile (Default styles cover this now, but adjust container/card sizes) */
 @media (max-width: 768px) { 
