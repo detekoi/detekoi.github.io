@@ -521,11 +521,6 @@
   }
 }
 
-/* Rule to disable transitions during resize */
-.container.no-transition .card.mascot-card {
-  transition: none !important;
-}
-
 /* Loading animation styles */
 .mascot-loading {
   position: fixed; /* Changed from absolute */

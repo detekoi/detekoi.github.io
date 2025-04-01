@@ -11,74 +11,90 @@
     }
 
     // Rotate forward (Next button - brings next card to front)
+    // Adapted from 3D-Card-Carousel-master/main.js logic
     function rotate() {
         var $firstCard = $('.container.mascot-container .card.mascot-card:first-child');
         var $container = $('.container.mascot-container');
 
-        // Add no-transition class to container BEFORE animation starts
-        $container.addClass('no-transition');
+        // Target CSS values for the 5th card (resting place for the card moving back)
+        const targetLeft = '105px';
+        const targetTop = '10px';
+        const targetOpacity = 0.6;
+        const targetScale = 'scale(0.8)';
+        const targetZIndex = 6; // z-index for 5th card
+        const slideUpOffset = 50; // How much to slide up (px)
 
-        // Disable transitions temporarily on the card being animated out
-        // to avoid conflicting with the jQuery animation.
-        $firstCard.addClass('no-transition'); // Keep this for the specific card animation
-
-        // 1. Animate the first card out (e.g., slide left/up and fade)
+        // 1. Animate slide out upwards and fade
         $firstCard.animate({
-            top: '-=10px',
-            left: '-=80px',
+            top: `-=${slideUpOffset}px`, // Move up
             opacity: 0
         }, 400, 'swing', function() {
-            // Animation complete callback:
-            // 2. Move the card to the end of the container in the DOM
-            $(this).appendTo($container);
+            // Animation complete for slide-out
 
-            // 3. Remove all inline styles from ALL cards. This allows CSS
-            //    :nth-child rules and transitions to take over for repositioning.
-            $('.container.mascot-container .card.mascot-card').removeAttr('style');
-            // Re-enable transitions on the card that just moved (now last)
-            // $(this) still refers to the moved card
-            $(this).removeClass('no-transition');
-
-            // Use setTimeout to remove container's no-transition AFTER styles are applied
-            setTimeout(() => {
-                $container.removeClass('no-transition');
-            }, 50); // Small delay to ensure CSS applies first
+            // 2. Move to end, set initial position for slide-in from above
+            $(this)
+                .appendTo($container)
+                .css({
+                    'left': targetLeft,
+                    'top': `${parseInt(targetTop) - slideUpOffset}px`, // Start above target
+                    'transform': targetScale,
+                    'z-index': targetZIndex, // Set z-index immediately
+                    'opacity': 0 // Keep hidden initially
+                })
+                // 3. Animate slide-in to the target (5th card) position
+                .animate({
+                    top: targetTop,
+                    opacity: targetOpacity
+                }, 400, 'swing', function() {
+                    // 4. Animation complete: remove inline styles so CSS takes over
+                    // This allows other cards to transition smoothly via CSS rules
+                    $('.container.mascot-container .card.mascot-card').removeAttr('style');
+                    // Note: Removing styles from ALL cards ensures CSS :nth-child takes priority
+                });
         });
     }
 
     // Rotate backward (Prev button - brings previous card to front)
+    // Adapted from 3D-Card-Carousel-master/main.js logic
     function rotatePrev() {
         var $lastCard = $('.container.mascot-container .card.mascot-card:last-child');
         var $container = $('.container.mascot-container');
 
-        // Add no-transition class to container BEFORE animation starts
-        $container.addClass('no-transition');
+        // Target CSS values for the 1st card (resting place for the card moving front)
+        const targetLeft = '25px';
+        const targetTop = '0px';
+        const targetOpacity = 1;
+        const targetScale = 'scale(1)';
+        const targetZIndex = 10; // z-index for 1st card
+        const frontZIndexDuring = 11; // Slightly higher z-index during transition
+        const slideUpOffset = 50; // How much to slide up (px)
 
-        // Disable transitions temporarily on the card being animated out.
-        $lastCard.addClass('no-transition'); // Keep this for the specific card animation
-
-        // 1. Animate the last card out (e.g., slide right/down and fade)
-        //    This assumes it's coming from the back-right position.
-        $lastCard.animate({
-            top: '+=10px',
-            left: '+=80px',
+        // 1. Animate slide out upwards and fade
+        // We need to temporarily give it a higher z-index so it slides OUT over others
+        $lastCard.css('z-index', frontZIndexDuring).animate({
+            top: `-=${slideUpOffset}px`, // Move up
             opacity: 0
         }, 400, 'swing', function() {
-            // Animation complete callback:
-            // 2. Move the card to the beginning of the container in the DOM
-            $(this).prependTo($container);
+            // Animation complete for slide-out
 
-            // 3. Remove all inline styles from ALL cards. CSS :nth-child rules
-            //    and transitions will handle repositioning.
-            $('.container.mascot-container .card.mascot-card').removeAttr('style');
-             // Re-enable transitions on the card that just moved (now first)
-             // $(this) still refers to the moved card
-            $(this).removeClass('no-transition');
-
-            // Use setTimeout to remove container's no-transition AFTER styles are applied
-            setTimeout(() => {
-                $container.removeClass('no-transition');
-            }, 50); // Small delay to ensure CSS applies first
+            // 2. Move to beginning, set initial position for slide-in from top
+            $(this)
+                .prependTo($container)
+                .css({
+                    'left': targetLeft,
+                    'top': `${parseInt(targetTop) - slideUpOffset}px`, // Start above target
+                    'transform': targetScale,
+                    'z-index': frontZIndexDuring, // Keep high z-index
+                    'opacity': 0 // Keep hidden initially
+                })
+                // 3. Animate slide-in to the target (1st card) position
+                .animate({
+                    top: targetTop,
+                    opacity: targetOpacity
+                }, 400, 'swing', function() {
+                    // 4. Animation complete: remove inline styles so CSS takes over
+                    $('.container.mascot-container .card.mascot-card').removeAttr('style');
+                });
         });
     }
 
@@ -108,13 +124,8 @@
     let resizeTimer;
     $(window).on('resize', function() {
         clearTimeout(resizeTimer);
-        // Add no-transition class immediately to prevent flicker during resize
-        $('.container.mascot-container').addClass('no-transition');
         resizeTimer = setTimeout(function() {
             resetCardPositions(); 
-            // Remove the class after a short delay to re-enable transitions
-            // Use a slightly longer delay to ensure styles are applied
-            setTimeout(() => $('.container.mascot-container').removeClass('no-transition'), 100); 
         }, 250); // Debounce resize event
     });
 
