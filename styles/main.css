@@ -213,14 +213,6 @@ header {
   transform: translateY(10px); /* Slide in effect */
 }
 
-/* Style inspiration link */
-#style-inspiration-link {
-  position: absolute;
-  overflow: hidden;
-  transform: translateY(0);
-  display: block; /* Ensure it's displayed when visible class is added */
-}
-
 /* Style for the Gemini Button */
 #gemini-button {
   position: absolute;
