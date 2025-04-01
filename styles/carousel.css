@@ -2,12 +2,12 @@
 
 .carousel-wrapper {
   display: flex;
-  align-items: center; 
-  justify-content: flex-start; /* Restored from previous */
+  flex-direction: column; /* Changed to column layout for all screen sizes */
+  align-items: center; /* Center align for all screen sizes */
+  justify-content: center; /* Center for all screen sizes */
   position: relative; 
   margin: 0;
   width: 100%;
-  padding-left: 0;
   max-width: 420px; 
 }
 
@@ -21,6 +21,7 @@
   background: none; /* Reverted: Keep container transparent */
   border: none; /* From previous */
   box-shadow: none; /* From previous */
+  order: 1; /* Place above controls for all sizes */
 }
 
 /* Individual card styling - Restore visual styles */
@@ -251,18 +252,16 @@
   color: #777;
 }
 
-/* Restore Control buttons styling */
+/* Carousel controls for all screen sizes */
 .carousel-controls {
   display: flex;
   flex-direction: row;
   justify-content: center;
   width: 100%;
-  margin-top: var(--spacing-medium); 
-  order: 2;
+  margin-top: var(--spacing-medium);
+  order: 2; /* Place below container for all sizes */
   z-index: 11;
-  position: relative;
-  left: 0;
-  margin-right: 0;
+  position: relative; /* Non-absolute for all sizes */
 }
 
 .prev-btn, .next-btn {
@@ -278,7 +277,7 @@
   font-size: 18px;
   font-weight: normal; /* Restore default weight */
   cursor: pointer;
-  margin: 0 var(--spacing-unit); /* Horizontal margin for row layout */
+  margin: 0 var(--spacing-unit); /* Consistent spacing for all sizes */
   box-shadow: var(--shadow-size-default) var(--shadow-size-default) 0 var(--color-border);
   transition: all 0.2s ease; /* Restore previous transition */
 }
@@ -367,21 +366,20 @@
 /* Responsive Adjustments */
 /* Tablet/Mobile (Default styles cover this now, but adjust container/card sizes) */
 @media (max-width: 768px) { 
-  /* Keep layout changes from previous */
+  /* Keep only necessary size/positioning changes */
   .carousel-wrapper {
-    flex-direction: column;
-    align-items: center;
     padding-left: 0; 
     padding-top: 20px;  /* Reduced from 50px */
     max-width: 100%; 
   }
+  
   .container.mascot-container {
     width: 300px; /* Keep previous size adjustment */
     height: 396px; /* MODIFIED: Match calculated tablet card height */
-    order: 1;
     margin-left: auto;
     margin-right: auto;
   }
+  
   .card.mascot-card {
     width: 280px; /* Keep previous size adjustment */
     height: 396px; /* MODIFIED: Calculated height for 1:1.414 ratio */
@@ -442,67 +440,30 @@
 /* Desktop and Larger Screens */
 @media (min-width: 769px) {
   .carousel-wrapper {
-    /* Ensure relative positioning for absolute child */
-    position: relative; 
-    /* Add padding to prevent buttons overlapping cards */
     padding-left: 35px; 
     width: 78%; 
     max-width: none; /* Override default max-width */
-    /* Keep alignment from default */
-    display: flex;
-    flex-direction: column; /* Changed from row to column */
-    align-items: center; /* Center horizontally */
-    justify-content: center; /* Center vertically */
-  }
-
-  .carousel-controls {
-    /* Remove absolute positioning */
-    position: relative; 
-    /* Remove transformation */
-    transform: none;
-    /* Match mobile/tablet styling */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-    margin-top: var(--spacing-medium);
-    order: 2; /* Place below container */
-    z-index: 11;
-    /* Remove positioning properties */
-    left: auto;
-    right: auto;
-    top: auto;
-    /* Reset margins */
-    margin: var(--spacing-medium) 0 0 0;
-    padding: 0;
-    pointer-events: auto;
-  }
-
-  .prev-btn, .next-btn {
-    margin: 0 var(--spacing-unit); /* Add horizontal spacing between buttons */
   }
 
   .container.mascot-container {
-    /* Reset mobile-specific overrides if any */
     width: 400px; 
-    order: 1; /* Place above controls */
     margin: 0 auto; /* Center container */
-    margin-bottom: 0; /* Remove bottom margin */
   }
 }
 
 @media (max-width: 575px) {
-  /* Keep layout changes from previous */
+  /* Keep only size changes, no need to repeat flex/order properties */
   .container.mascot-container {
     width: 280px;
     height: 368px; /* MODIFIED: Match calculated mobile card height */
   }
+  
   .card.mascot-card {
     width: 260px;
     height: 368px; /* MODIFIED: Calculated height for 1:1.414 ratio */
   }
   
-  /* Card positioning for smallest screens - USE EXAMPLE'S OFFSETS */
+  /* Card positioning for smallest screens */
   /* Note: These values might need tweaking */
   .card.mascot-card:nth-child(1) {
     left: 15px; /* Adjusted base offset slightly */

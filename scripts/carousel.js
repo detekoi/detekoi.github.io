@@ -15,9 +15,12 @@
         var $firstCard = $('.container.mascot-container .card.mascot-card:first-child');
         var $container = $('.container.mascot-container');
 
+        // Add no-transition class to container BEFORE animation starts
+        $container.addClass('no-transition');
+
         // Disable transitions temporarily on the card being animated out
         // to avoid conflicting with the jQuery animation.
-        $firstCard.addClass('no-transition');
+        $firstCard.addClass('no-transition'); // Keep this for the specific card animation
 
         // 1. Animate the first card out (e.g., slide left/up and fade)
         $firstCard.animate({
@@ -33,7 +36,13 @@
             //    :nth-child rules and transitions to take over for repositioning.
             $('.container.mascot-container .card.mascot-card').removeAttr('style');
             // Re-enable transitions on the card that just moved (now last)
-            $container.find('.card.mascot-card:last-child').removeClass('no-transition');
+            // $(this) still refers to the moved card
+            $(this).removeClass('no-transition');
+
+            // Use setTimeout to remove container's no-transition AFTER styles are applied
+            setTimeout(() => {
+                $container.removeClass('no-transition');
+            }, 50); // Small delay to ensure CSS applies first
         });
     }
 
@@ -42,8 +51,11 @@
         var $lastCard = $('.container.mascot-container .card.mascot-card:last-child');
         var $container = $('.container.mascot-container');
 
+        // Add no-transition class to container BEFORE animation starts
+        $container.addClass('no-transition');
+
         // Disable transitions temporarily on the card being animated out.
-        $lastCard.addClass('no-transition');
+        $lastCard.addClass('no-transition'); // Keep this for the specific card animation
 
         // 1. Animate the last card out (e.g., slide right/down and fade)
         //    This assumes it's coming from the back-right position.
@@ -60,7 +72,13 @@
             //    and transitions will handle repositioning.
             $('.container.mascot-container .card.mascot-card').removeAttr('style');
              // Re-enable transitions on the card that just moved (now first)
-            $container.find('.card.mascot-card:first-child').removeClass('no-transition');
+             // $(this) still refers to the moved card
+            $(this).removeClass('no-transition');
+
+            // Use setTimeout to remove container's no-transition AFTER styles are applied
+            setTimeout(() => {
+                $container.removeClass('no-transition');
+            }, 50); // Small delay to ensure CSS applies first
         });
     }
 
