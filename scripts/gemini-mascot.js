@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (displayWidth > 0 && displayHeight > 0) {
               canvas.width = displayWidth;
               canvas.height = displayHeight;
-              console.log(`[drawLoadingStatic] Synced canvas internal size to: ${canvas.width}x${canvas.height}`);
+              // console.log(`[drawLoadingStatic] Synced canvas internal size to: ${canvas.width}x${canvas.height}`);
           } else {
               // Still no valid display size, skip drawing this frame
               // console.warn(`[drawLoadingStatic] Invalid display dimensions (${displayWidth}x${displayHeight}), skipping frame.`);
@@ -118,12 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startLoadingStatic(canvasElement) {
       if (!canvasElement) {
-          console.error("Loading static canvas element not found.");
-          return () => {}; // Return dummy stop function
+          // console.error("[startLoadingStatic] No canvas element provided.");
+          return;
       }
-      console.log('[startLoadingStatic] Found canvas element:', canvasElement);
-      // Don't set initial size here, rely on CSS and update in draw loop
-      console.log(`[startLoadingStatic] Initial offset dimensions: ${canvasElement.offsetWidth}x${canvasElement.offsetHeight}`);
+      // console.log('[startLoadingStatic] Found canvas element:', canvasElement);
+      // console.log(`[startLoadingStatic] Initial offset dimensions: ${canvasElement.offsetWidth}x${canvasElement.offsetHeight}`);
 
       // Delay getting context slightly to ensure dimensions might be available
       setTimeout(() => {
@@ -136,10 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           if (!ctx) {
-             console.error("Could not get 2D context for loading static canvas.");
+             // console.error("Could not get 2D context for loading static canvas.");
              return;
           }
-          console.log('[startLoadingStatic] Got 2D context (inside timeout).');
+          // console.log('[startLoadingStatic] Got 2D context (inside timeout).');
 
           const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
           let isDarkMode = darkModeMediaQuery.matches;
@@ -157,11 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
           // Start the drawing loop
           lastLoadingFrameTime = 0; // Reset frame timer
           loadingStaticAnimationId = requestAnimationFrame(() => drawLoadingStatic(ctx, canvasElement, isDarkMode));
-          console.log('[startLoadingStatic] requestAnimationFrame scheduled (inside timeout).');
+          // console.log('[startLoadingStatic] requestAnimationFrame scheduled (inside timeout).');
 
           // Store cleanup logic associated with this canvas instance
           canvasElement.stopAnimation = () => {
-              console.log('[stopLoadingStatic] Running stopAnimation for canvas:', canvasElement); // Add log
+              // console.log('[stopLoadingStatic] Running stopAnimation for canvas:', canvasElement); // Add log
               if (loadingStaticAnimationId) {
                   cancelAnimationFrame(loadingStaticAnimationId);
                   loadingStaticAnimationId = null;

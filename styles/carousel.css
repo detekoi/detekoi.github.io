@@ -394,33 +394,6 @@
   z-index: 1; /* Place above background color */
 }
 
-.loading-spinner-inline {
-  /* Hide the old spinner */
-  display: none;
-  /*
-  position: relative;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  */
-}
-
-/* Keep the spinner styles commented out or remove if definitely not needed */
-/*
-.loading-spinner-inline::before {
-  content: '';
-  position: absolute;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 5px solid rgba(0, 0, 0, 0.1);
-  border-top-color: var(--color-border);
-  animation: spin 1s linear infinite;
-}
-*/
-
 .card.mascot-card.loading-card .detail.loading-detail {
   /* display: flex; /* Keep flex for centering text */
   align-items: center;
@@ -452,14 +425,6 @@
   .card.mascot-card.loading-card .image.loading-image-placeholder {
     background-color: var(--color-secondary); /* Use dark secondary */
   }
-
-  /* Hide spinner in dark mode too */
-  /*
-  .loading-spinner-inline::before {
-    border-color: rgba(255, 255, 255, 0.1);
-    border-top-color: var(--color-border);
-  }
-  */
 
   .card.mascot-card.loading-card .detail.loading-detail p {
     color: var(--color-text);
