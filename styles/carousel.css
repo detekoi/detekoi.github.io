@@ -53,8 +53,8 @@
 
 /* Stacking styles using nth-child - USE EXAMPLE'S POSITIONING LOGIC */
 .card.mascot-card:nth-child(1) {
-  /* Keep original shadow/hover/active */
-  box-shadow: 8px 8px 0 var(--color-border);
+  /* Frontmost card: Largest blur */
+  box-shadow: 8px 8px 5px var(--color-border); /* Added 5px blur */
   /* Example's position */
   z-index: 10;
   top: 0px;
@@ -63,22 +63,22 @@
   transform: scale(1);
 }
 
-/* Restore hover/active from previous */
+/* Restore hover/active from previous, adding blur */
 .card.mascot-card:nth-child(1):hover {
   transform: translate(-2px, -2px); /* Keep previous hover transform */
-  box-shadow: 11px 11px 1px rgba(0, 0, 0, 0.6); /* Keep previous hover shadow */
+  box-shadow: 11px 11px 6px rgba(0, 0, 0, 0.6); /* Increased offset, added 6px blur */
   z-index: 11; /* Ensure hover card is on top */
 }
 
 .card.mascot-card:nth-child(1):active {
   transform: translate(2px, 2px); /* Keep previous active transform */
-  box-shadow: 2px 2px 0 var(--color-border); /* Keep previous active shadow */
+  box-shadow: 4px 4px 3px var(--color-border); /* Reduced offset, added 3px blur */
   background-color: #eaeaea; /* Keep previous active bg */
 }
 
 .card.mascot-card:nth-child(2) {
-  /* Keep original visual shadow */
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Second card: Medium blur */
+  box-shadow: 6px 6px 3px var(--color-border); /* Added 3px blur */
   /* Example's position - Increased left, slightly less top offset */
   z-index: 9;
   top: -5px; /* Was -10px */
@@ -88,8 +88,8 @@
 }
 
 .card.mascot-card:nth-child(3) {
-  /* Keep original visual shadow */
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Third card: Small blur */
+  box-shadow: 5px 5px 2px var(--color-border); /* Added 2px blur */
   /* Example's position - Increased left, zero top offset */
   z-index: 8;
   top: 0px; /* Was -20px */
@@ -99,8 +99,8 @@
 }
 
 .card.mascot-card:nth-child(4) {
-  /* Keep original visual shadow */
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Fourth card: Minimal blur */
+  box-shadow: 4px 4px 1px var(--color-border); /* Added 1px blur */
   /* Example's position - Increased left, positive top offset */
   z-index: 7;
   top: 5px; /* Was -30px */
@@ -109,10 +109,10 @@
   transform: scale(0.85);
 }
 
-/* Subsequent cards (5) - Now slightly visible */
+/* Subsequent cards (5) - Sharp shadow */
 .card.mascot-card:nth-child(5) {
-  /* Keep original visual shadow */
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Fifth card: Sharp shadow */
+  box-shadow: 3px 3px 0 var(--color-border); /* Sharp shadow */
   /* Example's position - Visible, increased left, positive top offset */
   z-index: 6;
   top: 10px; /* Was -40px */
@@ -121,10 +121,10 @@
   transform: scale(0.8);
 }
 
-/* Subsequent cards (6+) - Hidden */
+/* Subsequent cards (6+) - Hidden, sharp shadow */
 .card.mascot-card:nth-child(n+6) {
-  /* Keep original visual shadow */
-  box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+  /* Sixth+ card: Sharp shadow */
+  box-shadow: 3px 3px 0 var(--color-border); /* Sharp shadow */
   /* Example's position - Hidden further back */
   z-index: 5;
   top: 15px; /* Offset slightly more */
@@ -318,22 +318,34 @@
   }
 
   .card.mascot-card:nth-child(1) {
-     /* Updated shadow to match project style in dark mode */
-     box-shadow: 8px 8px 0 var(--shadow-color);
+     /* Dark mode: Frontmost card: Largest blur */
+     box-shadow: 8px 8px 5px var(--shadow-color); /* Added 5px blur */
   }
-  .card.mascot-card:nth-child(n+2) {
-     /* Apply default dark shadow to other cards */
-     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color);
+  .card.mascot-card:nth-child(2) {
+     /* Dark mode: Second card: Medium blur */
+     box-shadow: 6px 6px 3px var(--shadow-color); /* Added 3px blur */
+  }
+  .card.mascot-card:nth-child(3) {
+     /* Dark mode: Third card: Small blur */
+     box-shadow: 5px 5px 2px var(--shadow-color); /* Added 2px blur */
+  }
+  .card.mascot-card:nth-child(4) {
+     /* Dark mode: Fourth card: Minimal blur */
+     box-shadow: 4px 4px 1px var(--shadow-color); /* Added 1px blur */
+  }
+  .card.mascot-card:nth-child(n+5) {
+     /* Dark mode: Fifth+ cards: Sharp shadow */
+     box-shadow: 3px 3px 0 var(--shadow-color); /* Sharp shadow */
   }
 
   .card.mascot-card:nth-child(1):hover {
     transform: translate(-2px, -2px);
-    box-shadow: 11px 11px 1px rgb(255, 255, 255, 0.1);
+    box-shadow: 11px 11px 6px rgba(255, 255, 255, 0.1); /* Increased offset, added 6px blur */
   }
   
   .card.mascot-card:nth-child(1):active {
     transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 var(--shadow-color);
+    box-shadow: 4px 4px 3px var(--shadow-color); /* Reduced offset, added 3px blur */
     background-color: #333333;
   }
   
@@ -379,41 +391,35 @@
   /* Note: These values might need tweaking if the card size changes don't match the example's assumptions */
   .card.mascot-card:nth-child(1) {
      left: 20px; /* Adjusted base offset slightly */
-     /* Keep previous visual shadow */
-     box-shadow: 8px 8px 0 var(--color-border);
+     /* Shadow already defined above with blur */
   }
   
   .card.mascot-card:nth-child(2) {
      left: 35px; /* Was 18px */
-     /* Keep previous visual shadow */
-     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+     /* Shadow already defined above with blur */
   }
   
   .card.mascot-card:nth-child(3) {
      left: 50px; /* Was 11px */
-     /* Keep previous visual shadow */
-     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+     /* Shadow already defined above with blur */
   }
   
   .card.mascot-card:nth-child(4) {
      left: 65px; /* Was 4px */
-     /* Keep previous visual shadow */
-     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+     /* Shadow already defined above with blur */
   }
   
   .card.mascot-card:nth-child(5) {
      left: 80px; /* Was -3px */
      opacity: 0.6; /* Make visible */
-     /* Keep previous visual shadow */
-     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+     /* Shadow already defined above (sharp) */
   }
   
   /* Subsequent cards (6+) - Hidden */
   .card.mascot-card:nth-child(n+6) {
      left: 95px; /* Was covered by n+5 rule before */
      opacity: 0; /* Keep hidden */
-     /* Keep previous visual shadow */
-     box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+     /* Shadow already defined above (sharp) */
   }
   /* Top/Opacity/Transform/Z-index should still come from the main nth-child rules */
 
@@ -495,37 +501,31 @@
   /* Note: These values might need tweaking */
   .card.mascot-card:nth-child(1) {
     left: 15px; /* Adjusted base offset slightly */
-    /* Keep previous visual shadow */
-    box-shadow: 8px 8px 0 var(--color-border);
+    /* Shadow already defined above with blur */
   }
   .card.mascot-card:nth-child(2) {
     left: 28px; /* Was 15px */
-    /* Keep previous visual shadow */
-    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+    /* Shadow already defined above with blur */
   }
   .card.mascot-card:nth-child(3) {
     left: 41px; /* Was 10px */
-    /* Keep previous visual shadow */
-    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+    /* Shadow already defined above with blur */
   }
   .card.mascot-card:nth-child(4) {
     left: 54px; /* Was 5px */
-    /* Keep previous visual shadow */
-    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+    /* Shadow already defined above with blur */
   }
   .card.mascot-card:nth-child(5) {
     left: 67px; /* Was 0px */
     opacity: 0.6; /* Make visible */
-    /* Keep previous visual shadow */
-    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+    /* Shadow already defined above (sharp) */
   }
   
   /* Subsequent cards (6+) - Hidden */
   .card.mascot-card:nth-child(n+6) {
     left: 80px; /* Was covered by n+5 rule before */
     opacity: 0; /* Keep hidden */
-    /* Keep previous visual shadow */
-    box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--color-border);
+    /* Shadow already defined above (sharp) */
   }
   /* Top/Opacity/Transform/Z-index should still come from the main nth-child rules */
 
