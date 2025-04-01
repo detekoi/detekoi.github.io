@@ -450,37 +450,44 @@
     max-width: none; /* Override default max-width */
     /* Keep alignment from default */
     display: flex;
-    align-items: center; 
-    justify-content: flex-start;
+    flex-direction: column; /* Changed from row to column */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
   }
 
   .carousel-controls {
-    position: absolute; /* Position relative to wrapper */
-    top: 50%;
-    left: 0;
-    right: 0;
-    width: auto; /* Auto width to fit buttons */
-    transform: translateY(-50%); /* Vertically center */
+    /* Remove absolute positioning */
+    position: relative; 
+    /* Remove transformation */
+    transform: none;
+    /* Match mobile/tablet styling */
     display: flex;
-    justify-content: space-between; /* Push buttons to sides */
-    z-index: 11; /* Keep above cards */
-    pointer-events: none; /* Allow clicks through container */
-    margin: 0; /* Reset margins */
-    padding: 0 var(--spacing-unit); /* Padding from edges */
-    order: 0; /* Reset order */
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    margin-top: var(--spacing-medium);
+    order: 2; /* Place below container */
+    z-index: 11;
+    /* Remove positioning properties */
+    left: auto;
+    right: auto;
+    top: auto;
+    /* Reset margins */
+    margin: var(--spacing-medium) 0 0 0;
+    padding: 0;
+    pointer-events: auto;
   }
 
   .prev-btn, .next-btn {
-    pointer-events: auto; /* Make buttons clickable */
-    margin: 0; /* Reset button margin */
+    margin: 0 var(--spacing-unit); /* Add horizontal spacing between buttons */
   }
 
   .container.mascot-container {
     /* Reset mobile-specific overrides if any */
     width: 400px; 
-    order: 0; /* Reset order */
-    margin: 0 auto; /* Center container within padded wrapper */
-    margin-bottom: var(--spacing-medium); /* Keep bottom margin */
+    order: 1; /* Place above controls */
+    margin: 0 auto; /* Center container */
+    margin-bottom: 0; /* Remove bottom margin */
   }
 }
 
