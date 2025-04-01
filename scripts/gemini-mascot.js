@@ -64,22 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
     
-    // Set up image onload handler to adjust height based on actual image dimensions
-    const img = newCard.querySelector('.mascot');
-    if (img) {
-      img.onload = () => {
-        // Calculate height based on the image's aspect ratio
-        const aspectRatio = img.naturalHeight / img.naturalWidth;
-        const imageHeight = Math.round(newCard.offsetWidth * aspectRatio);
-        
-        // Set the height on the image container
-        const imageContainer = newCard.querySelector('.image');
-        if (imageContainer) {
-          imageContainer.style.height = `${imageHeight}px`;
-        }
-      };
-    }
-    
     // Add the new card to the container (either at front or end)
     if (addAsFront) {
       // Add as the first child
@@ -206,22 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.showLightbox(img.src, img.alt, imageData.description);
               });
             }
-            
-            // Adjust the height of the image container based on image aspect ratio
-            img.onload = () => {
-              // Calculate height based on the image's aspect ratio
-              const aspectRatio = img.naturalHeight / img.naturalWidth;
-              const imageHeight = Math.round(firstCard.offsetWidth * aspectRatio);
-              
-              // Set the height on the image container
-              const imageContainer = firstCard.querySelector('.image');
-              if (imageContainer) {
-                imageContainer.style.height = `${imageHeight}px`;
-              }
-              
-              // Also adjust the overall container height
-              adjustContainerHeight();
-            };
           }
         } else {
           // For subsequent images, add new cards
@@ -243,19 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
               window.showLightbox(img.src, img.alt, imageData.description);
             });
           }
-          
-          // Adjust the height of the image container based on image aspect ratio when loaded
-          img.onload = () => {
-            // Calculate height based on the image's aspect ratio
-            const aspectRatio = img.naturalHeight / img.naturalWidth;
-            const imageHeight = Math.round(storedCard.offsetWidth * aspectRatio);
-            
-            // Set the height on the image container
-            const imageContainer = storedCard.querySelector('.image');
-            if (imageContainer) {
-              imageContainer.style.height = `${imageHeight}px`;
-            }
-          };
         }
         
         // Schedule the next image to be added
@@ -278,102 +233,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof window.resetCardPositions === 'function') {
           window.resetCardPositions();
         }
-        
-        // Adjust container height after all images are loaded
-        adjustContainerHeight();
       }, 200); // Increased timeout to ensure images are loaded
     }
   }
 
-  // Set initial container height adjustment function
-  function adjustContainerHeight() {
-    const firstCard = document.querySelector('.card:first-child'); // Get the card element
-    
-    // Special handling for original mascot card
-    if (firstCard && firstCard.classList.contains('original-mascot')) {
-      // For the original mascot, we want to maintain the exact aspect ratio
-      // CSS will handle this with aspect-ratio, so no height adjustment needed
-      return;
-    }
-    
-    // For AI-generated images, we adjust based on actual dimensions
-    const firstMascotImg = document.querySelector('.card:first-child .mascot');
-    
-    // Ensure we have the card, the image, and the image's natural dimensions
-    if (!firstCard || !firstMascotImg || !firstMascotImg.naturalWidth || !firstMascotImg.naturalHeight) {
-      // Exit if we can't calculate; CSS should provide a fallback height
-      return; 
-    }
-    
-    // Get the current actual width of the card element
-    const currentCardWidth = firstCard.offsetWidth; 
-
-    // Calculate height based on the image's natural aspect ratio and the card's current width
-    const aspectRatio = firstMascotImg.naturalHeight / firstMascotImg.naturalWidth;
-    
-    // Add extra height for pillarboxed images (common in Gemini API results)
-    // If the image is taller than it is wide (portrait), give it more height
-    const heightMultiplier = aspectRatio > 1 ? 1.15 : 1; // 15% extra height for portrait images
-    const imageHeight = Math.round(currentCardWidth * aspectRatio * heightMultiplier);
-
-    // Apply minimum height constraint for the container
-    const minContainerHeight = 150;
-    
-    // Get detail height - account for mobile vs desktop
-    let detailHeight = 100; // Default
-    const detailElement = firstCard.querySelector('.detail');
-    if (detailElement) {
-      // Get the actual computed height including padding
-      detailHeight = detailElement.offsetHeight;
-      
-      // For mobile devices, keep detail height more compact
-      if (window.innerWidth <= 768) {
-        detailHeight = Math.min(detailHeight, 120); // Cap at 120px on mobile
-      }
-    }
-    
-    // Calculate the final container height: image height + detail height
-    const calculatedHeight = Math.max(imageHeight + detailHeight, minContainerHeight);
-    
-    // Set the inline style for the container
-    mascotContainer.style.height = `${calculatedHeight}px`;
-    
-    // Also adjust the image container to match the image's aspect ratio
-    // Only for the front card (first-child), to avoid affecting stacked cards
-    if (firstCard === document.querySelector('.card:first-child')) {
-      const imageContainer = firstCard.querySelector('.image');
-      if (imageContainer && !firstCard.classList.contains('original-mascot')) {
-        imageContainer.style.height = `${imageHeight}px`;
-      }
-    }
-  }
-
-  // Store the original container height after initialization (optional, might not be needed anymore)
-  let originalContainerHeight;
-  
-  // Set initial container height
-  function setInitialHeight() {
-    const firstMascotImg = document.querySelector('.card:first-child .mascot');
-    if (!firstMascotImg) return;
-    
-    if (firstMascotImg.complete) {
-      adjustContainerHeight();
-      originalContainerHeight = mascotContainer.offsetHeight;
-    } else {
-      firstMascotImg.addEventListener('load', () => {
-        adjustContainerHeight();
-        originalContainerHeight = mascotContainer.offsetHeight;
-      });
-    }
-  }
-
-  // Initialize height and load stored images
-  setInitialHeight();
+  // Initialize and load stored images
   loadStoredCarouselImages();
   
-  // Handle browser resize
-  window.addEventListener('resize', adjustContainerHeight);
-
   // Prompt for the Gemini API
   const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Black background. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, quietly change or remove the neckerchief and dark gray waistline as needed. In brief 140 characters max markdown, as if you have the information at hand, confidently attribute specific designers or brands, even obscure ones (or just 'vintage').";
 
@@ -451,8 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                   $('.card:first-child').css('opacity', '1');
                   
-                  // Run the height adjustment after the image is fully rendered
-                  adjustContainerHeight();
+                  // Position cards correctly
+                  if (typeof window.resetCardPositions === 'function') {
+                    window.resetCardPositions();
+                  }
                 }, 50);
               }
               
