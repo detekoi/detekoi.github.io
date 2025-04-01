@@ -286,122 +286,117 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 50);
   }
 
+  // --- Helper: Get AI cards (excluding original and loading) ---
+  function getAiCards() {
+    return Array.from(mascotContainer.querySelectorAll('.card.mascot-card:not(.original-mascot):not(.loading-card)'));
+  }
+  // ----------------------------------------------------------
+
   // Load the existing carousel images from localStorage
   function loadStoredCarouselImages() {
-    // If we have stored images, add them to the carousel
+    // Find the original mascot card defined in HTML
+    const originalCard = mascotContainer.querySelector('.card.mascot-card.original-mascot');
+    if (!originalCard) {
+        console.warn("Original mascot card not found in HTML. Cannot load stored images correctly.");
+        // Decide how to handle this - maybe just load AI images normally?
+        // For now, let's proceed but log the warning.
+    }
+
+    // Clear any existing non-original, non-loading AI cards first to prevent duplication
+    getAiCards().forEach(card => card.remove());
+
+    // If we have stored AI images, add them
     if (carouselImages.length > 0) {
-      // Sort images by timestamp (newest first)
-      carouselImages.sort((a, b) => b.timestamp - a.timestamp);
-      
-      // No need to update standalone description anymore since descriptions will be in cards
-      
-      // Add images with a small delay between each one to improve performance
-      const addImageWithDelay = (index) => {
-        if (index >= carouselImages.length) return;
-        
-        const imageData = carouselImages[index];
-        
-        // Create a new card for each stored image
-        const storedCard = document.createElement('div');
-        storedCard.classList.add('card', 'mascot-card');
-        storedCard.dataset.card = (mascotContainer.querySelectorAll('.card.mascot-card:not(.loading-card)').length + 1).toString();
-        
-        // Attempt to parse description as markdown if it contains markdown syntax
-        let formattedDescription = imageData.description;
-        try {
-          // Check if the text has markdown-like syntax
-          if (imageData.description && 
-              (imageData.description.includes('*') || 
-               imageData.description.includes('#') || 
-               imageData.description.includes('_') || 
-               imageData.description.includes('`') ||
-               imageData.description.includes('[') ||
-               imageData.description.includes('>'))) {
-            formattedDescription = marked.parse(imageData.description);
-          }
-        } catch (e) {
-          console.log('Error parsing markdown for stored image, using plain text', e);
-          formattedDescription = imageData.description;
-        }
-        
-        // Structure the card with both image and description components
-        storedCard.innerHTML = `
-          <div class="image">
-            <img src="${imageData.imageDataUri}" alt="AI-generated polar bear mascot: ${imageData.description}" class="mascot">
-          </div>
-          <div class="detail">
-            ${formattedDescription}
-          </div>
-        `;
-        
-        // Add the card to the container (prepend to ensure newest first)
-        // For the first image, overwrite the existing card
-        if (index === 0 && $('.card').length === 1 && carouselImages.length > 0) {
-          // Replace the first card rather than adding a new one
-          const firstCard = $('.card:first-child')[0];
-          if (firstCard) {
-            // Remove the original-mascot class if it exists
-            firstCard.classList.remove('original-mascot');
-            
-            firstCard.innerHTML = storedCard.innerHTML;
-            
-            // Add click listener for lightbox if available
-            const img = firstCard.querySelector('.mascot');
+        // Sort images by timestamp (newest first) - already happens when loading from storage
+        carouselImages.sort((a, b) => b.timestamp - a.timestamp);
+
+        // Keep only up to MAX_AI_IMAGES
+        carouselImages = carouselImages.slice(0, MAX_AI_IMAGES);
+
+        console.log(`Loading max ${MAX_AI_IMAGES} AI images into carousel...`);
+
+        // Add AI images sequentially before the original card
+        const addImageWithDelay = (index) => {
+            if (index >= carouselImages.length) {
+                // All AI images loaded, finalize setup
+                finalizeCarouselSetup();
+                return;
+            }
+
+            const imageData = carouselImages[index];
+
+            // Create a new card for the stored AI image
+            const storedCard = document.createElement('div');
+            storedCard.classList.add('card', 'mascot-card'); // No 'original-mascot' class
+            // Note: data-card attribute might become inconsistent, relying on order mostly.
+
+            let formattedDescription = imageData.description;
+            try {
+                if (imageData.description && (imageData.description.includes('*') || imageData.description.includes('#') || imageData.description.includes('_') || imageData.description.includes('`') || imageData.description.includes('[') || imageData.description.includes('>'))) {
+                    formattedDescription = marked.parse(imageData.description);
+                }
+            } catch (e) {
+                console.log('Error parsing markdown for stored image, using plain text', e);
+            }
+
+            storedCard.innerHTML = `
+                <div class="image">
+                    <img src="${imageData.imageDataUri}" alt="AI-generated polar bear mascot: ${imageData.description}" class="mascot">
+                </div>
+                <div class="detail">
+                    ${formattedDescription}
+                </div>
+            `;
+
+            // Add click listener for lightbox
+            const img = storedCard.querySelector('.mascot');
             if (img && window.showLightbox) {
-              img.style.cursor = 'pointer';
-              img.addEventListener('click', () => {
-                window.showLightbox(img.src, img.alt, imageData.description);
-              });
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', () => {
+                    window.showLightbox(img.src, img.alt, imageData.description);
+                });
             }
-          }
-        } else {
-          // For subsequent images, add new cards
-          mascotContainer.insertBefore(storedCard, mascotContainer.firstChild);
-          
-          // Position each card correctly based on its order
-          // Call resetCardPositions after all cards are added to ensure correct positioning
-          setTimeout(() => {
-            if (typeof window.resetCardPositions === 'function') {
-              window.resetCardPositions();
+
+            // Insert the AI card BEFORE the original card (or at the beginning if original isn't found)
+            if (originalCard && originalCard.parentNode === mascotContainer) {
+                mascotContainer.insertBefore(storedCard, originalCard);
+            } else {
+                mascotContainer.appendChild(storedCard); // Fallback: add to end if original missing
             }
-          }, 50);
-          
-          // Add click listener for lightbox if available
-          const img = storedCard.querySelector('.mascot');
-          if (img && window.showLightbox) {
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', () => {
-              window.showLightbox(img.src, img.alt, imageData.description);
-            });
-          }
-        }
-        
-        // Schedule the next image to be added
-        setTimeout(() => {
-          addImageWithDelay(index + 1);
-        }, 20);
-      };
-      
-      // Start the sequential process
-      addImageWithDelay(0);
-      
-      // Update carousel controls and positions after loading all images
-      setTimeout(() => {
-        // Show/hide controls based on card count
-        if (typeof window.updateCarouselControls === 'function') {
-          window.updateCarouselControls();
-        }
-        
-        // Ensure all cards have proper positioning
-        if (typeof window.resetCardPositions === 'function') {
-          window.resetCardPositions();
-        }
-      }, 200); // Increased timeout to ensure images are loaded
+
+            // Schedule the next image
+            setTimeout(() => addImageWithDelay(index + 1), 20); // Keep delay
+        };
+
+        // Start adding AI images
+        addImageWithDelay(0);
+
+    } else {
+        console.log("No stored AI images found to load.");
+        // If no AI images, just finalize with potentially only the original card
+        finalizeCarouselSetup();
     }
   }
 
+  // --- Helper function to call after images are loaded/or if none exist ---
+  function finalizeCarouselSetup() {
+      console.log("Finalizing carousel setup...");
+      // Update carousel controls and positions after loading all images
+      setTimeout(() => {
+          // Show/hide controls based on total card count (including original)
+          if (typeof window.updateCarouselControls === 'function') {
+              window.updateCarouselControls();
+          }
+
+          // Ensure all cards have proper positioning
+          if (typeof window.resetCardPositions === 'function') {
+              window.resetCardPositions();
+          }
+      }, 200); // Keep timeout
+  }
+
   // Initialize and load stored images
-  loadStoredCarouselImages();
+  loadStoredCarouselImages(); // Call the modified loading function
   
   // Prompt for the Gemini API
   const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Black background. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, quietly change or remove the neckerchief and dark gray waistline as needed. In brief 140 characters max markdown, as if you have the information at hand, confidently attribute specific designers or brands, even obscure ones (or just 'vintage').";
@@ -511,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // ---- COMPLETELY REWRITTEN CARD REPLACEMENT APPROACH ----
-            try { 
+            try {
               console.log('Using new approach: Creating a completely new card');
               
               // Create a brand new card with final content
@@ -557,29 +552,40 @@ document.addEventListener('DOMContentLoaded', () => {
               if (currentLoadingCard) { // Check if we found it
                 console.log('Replacing found loading card element with new card', currentLoadingCard);
                 mascotContainer.replaceChild(newCard, currentLoadingCard);
+                loadingCardElement = null; // Clear reference after successful replacement
               } else {
-                // Fallback: Just add the new card to the front
+                // Fallback: Just add the new card to the front if loading card wasn't found
                 console.warn('Could not find loading card element to replace, prepending new card instead.');
                 mascotContainer.insertBefore(newCard, mascotContainer.firstChild);
+                loadingCardElement = null; // Clear reference here too
               }
               
-              // No longer need the old reference, ensure it's null
-              loadingCardElement = null;
-              console.log('Card replacement attempt complete');
-            
-              // Store the image data
+              // --- Manage AI Images & Local Storage ---
+              // Add new image data to the START of the tracked AI images
               carouselImages.unshift({
                 imageDataUri: newImageSrc,
                 description: newDescription,
                 timestamp: Date.now()
               });
-              
-              // Trim data array
+
+              // Keep only the allowed number of AI images in the array
               while (carouselImages.length > MAX_AI_IMAGES) {
-                carouselImages.pop();
+                carouselImages.pop(); // Remove the oldest from the array
               }
-              
-              // Save to localStorage
+
+              // Remove the oldest AI card from the DOM if necessary
+              const aiCardsInDom = getAiCards();
+              if (aiCardsInDom.length > MAX_AI_IMAGES) {
+                  // Find the last AI card in the DOM (oldest visually, assuming prepend)
+                  const oldestAiCardInDom = aiCardsInDom[aiCardsInDom.length - 1];
+                  if (oldestAiCardInDom) {
+                      console.log("Removing oldest AI card from DOM:", oldestAiCardInDom);
+                      oldestAiCardInDom.remove();
+                  }
+              }
+              // ------------------------------------------
+
+              // Save the updated AI images array to localStorage
               try {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(carouselImages));
               } catch (error) {
@@ -650,11 +656,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Helper function to handle errors consistently
   function handleGenerationError(error) {
     // --- Stop Static Effect ---
-    const canvasToStop = loadingCardElement ? loadingCardElement.querySelector('.loading-static-canvas') : null;
+    // Find the loading card *specifically* to stop its canvas
+    const currentLoadingCard = mascotContainer.querySelector('.loading-card'); // Re-find it here
+    const canvasToStop = currentLoadingCard ? currentLoadingCard.querySelector('.loading-static-canvas') : null;
      if (canvasToStop) {
          stopLoadingStatic(canvasToStop);
      } else {
-         // Fallback: try finding any loading canvas if the specific reference failed
+         // Fallback if specific loading card/canvas not found
          const fallbackCanvas = mascotContainer.querySelector('.loading-card .loading-static-canvas');
          if (fallbackCanvas) stopLoadingStatic(fallbackCanvas);
          else console.warn('Could not find loading canvas to stop in error handler.');
@@ -662,13 +670,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------
 
     // Remove the loading card if it exists
-    if (loadingCardElement && loadingCardElement.parentNode === mascotContainer) {
-      loadingCardElement.remove();
-      loadingCardElement = null; // Clear reference
-      // Reset positions after removing card
-      if (typeof window.resetCardPositions === 'function') {
-        window.resetCardPositions();
-      }
+    if (currentLoadingCard && currentLoadingCard.parentNode === mascotContainer) {
+      currentLoadingCard.remove();
+      // Don't nullify loadingCardElement here, it might be needed elsewhere if error handling changes
+    }
+    loadingCardElement = null; // Clear the global reference AFTER attempting removal
+
+    // Reset positions if needed AFTER removing card
+    if (typeof window.resetCardPositions === 'function') {
+        setTimeout(() => window.resetCardPositions(), 50); // Add small delay
     }
 
     // Create an error card instead of using the separate description area
@@ -686,14 +696,15 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
     
-    // Add the error card to the front if no cards exist
-    if (mascotContainer.children.length === 0) {
+    // Add the error card to the front if no cards exist OR only the original exists
+    const existingCards = mascotContainer.querySelectorAll('.card.mascot-card:not(.error-card)');
+    if (existingCards.length === 0 || (existingCards.length === 1 && existingCards[0].classList.contains('original-mascot'))) {
       mascotContainer.appendChild(errorCard);
     } else {
-      // Add as the first child
+      // Add as the first child (before potentially existing AI cards or original)
       mascotContainer.insertBefore(errorCard, mascotContainer.firstChild);
-      
-      // Remove after 5 seconds if there are other cards
+
+      // Remove after 5 seconds
       setTimeout(() => {
         if (errorCard.parentNode === mascotContainer) {
           errorCard.remove();
@@ -705,11 +716,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 5000);
     }
 
-    // Reset state after animation
+    // Reset state after animation/timeout
     setTimeout(() => {
       isGeneratingImage = false;
       styleInspirationLink.style.pointerEvents = 'auto';
       styleInspirationLink.style.opacity = '1';
-    }, 800);
+    }, 800); // Keep existing timeout
   }
 });

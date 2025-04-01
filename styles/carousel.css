@@ -122,16 +122,27 @@
   transform: scale(0.8);
 }
 
-/* Subsequent cards (6+) - Hidden, sharp shadow */
-.card.mascot-card:nth-child(n+6) {
-  /* Sixth+ card: Sharp shadow */
-  box-shadow: 3px 3px 0 var(--color-border); /* Sharp shadow */
-  /* Example's position - Hidden further back */
+/* ADDED: Sixth Card Styling */
+.card.mascot-card:nth-child(6) {
+  /* Sixth card: Sharp shadow */
+  box-shadow: 2px 2px 0 var(--color-border); /* Even smaller shadow */
   z-index: 5;
-  top: 15px; /* Offset slightly more */
-  left: 125px; /* Offset slightly more */
+  top: 15px; /* Slightly further down */
+  left: 125px; /* Slightly further right */
+  opacity: 0.5; /* Slightly less visible */
+  transform: scale(0.75); /* Slightly smaller */
+}
+
+/* Subsequent cards (7+) - Hidden, sharp shadow */
+.card.mascot-card:nth-child(n+7) { /* MODIFIED: Changed from n+6 to n+7 */
+  /* Seventh+ card: Sharp shadow */
+  box-shadow: 2px 2px 0 var(--color-border); /* Sharp shadow */
+  /* Example's position - Hidden further back */
+  z-index: 4; /* Decreased z-index */
+  top: 20px; /* Offset slightly more */
+  left: 145px; /* Offset slightly more */
   opacity: 0;
-  transform: scale(0.75); /* Scale down further */
+  transform: scale(0.7); /* Scale down further */
 }
 
 /* --- Keep all other visual styles below --- */
@@ -332,9 +343,21 @@
      /* Dark mode: Fourth card: Minimal blur */
      box-shadow: 4px 4px 1px var(--shadow-color); /* Added 1px blur */
   }
-  .card.mascot-card:nth-child(n+5) {
-     /* Dark mode: Fifth+ cards: Sharp shadow */
+  .card.mascot-card:nth-child(n+5):not(:nth-child(6)) { /* MODIFIED: Adjust dark mode shadow for 5th */
+     /* Dark mode: Fifth card: Sharp shadow */
      box-shadow: 3px 3px 0 var(--shadow-color); /* Sharp shadow */
+  }
+
+  /* ADDED: Dark mode for 6th card */
+  .card.mascot-card:nth-child(6) {
+     /* Dark mode: Sixth card: Sharp shadow */
+     box-shadow: 2px 2px 0 var(--shadow-color); /* Smaller sharp shadow */
+  }
+
+  /* MODIFIED: Dark mode for 7th+ card */
+  .card.mascot-card:nth-child(n+7) {
+     /* Dark mode: Seventh+ cards: Sharp shadow */
+     box-shadow: 2px 2px 0 var(--shadow-color); /* Sharp shadow */
   }
 
   .card.mascot-card:nth-child(1):hover {
@@ -481,9 +504,16 @@
      /* Shadow already defined above (sharp) */
   }
   
-  /* Subsequent cards (6+) - Hidden */
-  .card.mascot-card:nth-child(n+6) {
-     left: 95px; /* Was covered by n+5 rule before */
+  /* ADDED: Responsive positioning for 6th card */
+  .card.mascot-card:nth-child(6) {
+     left: 95px; /* Based on 5th card offset */
+     opacity: 0.5; /* Make visible */
+     /* Shadow already defined above (sharp) */
+  }
+  
+  /* Subsequent cards (7+) - Hidden */
+  .card.mascot-card:nth-child(n+7) { /* MODIFIED: n+7 */
+     left: 110px; /* Further offset */
      opacity: 0; /* Keep hidden */
      /* Shadow already defined above (sharp) */
   }
@@ -555,9 +585,16 @@
     /* Shadow already defined above (sharp) */
   }
   
-  /* Subsequent cards (6+) - Hidden */
-  .card.mascot-card:nth-child(n+6) {
-    left: 80px; /* Was covered by n+5 rule before */
+  /* ADDED: Smallest responsive positioning for 6th card */
+  .card.mascot-card:nth-child(6) {
+     left: 80px; /* Based on 5th card offset */
+     opacity: 0.5; /* Make visible */
+     /* Shadow already defined above (sharp) */
+  }
+  
+  /* Subsequent cards (7+) - Hidden */
+  .card.mascot-card:nth-child(n+7) { /* MODIFIED: n+7 */
+    left: 93px; /* Further offset */
     opacity: 0; /* Keep hidden */
     /* Shadow already defined above (sharp) */
   }
