@@ -34,15 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Loading Card Static Effect ---
   let loadingStaticAnimationId = null;
   const loadingStaticConfig = {
-      pixelSize: 1,
-      density: 0.5,       // Lower density for card
-      baseAlpha: 0.6,     // Lower alpha
+      pixelSize: 1,       // Larger pixels
+      density: 3,       // Increased density for card
+      baseAlpha: 1,     // Increased alpha
       alphaVariance: 0.15,
-      darkIntensityMin: 40,
+      darkIntensityMin: 50,
       darkIntensityMax: 110,
-      lightIntensityMin: 140,
+      lightIntensityMin: 120,
       lightIntensityMax: 210,
-      frameInterval: 70, // Slower frame rate (~14fps)
+      frameInterval: 35, // Faster frame rate (~28fps)
   };
   let lastLoadingFrameTime = 0;
   let drawLogCounter = 0; // Add a counter
