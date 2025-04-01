@@ -10,6 +10,7 @@ This repository contains the code for my personal portfolio website.
 - [Customization](#customization)
   - [Mascot](#customizing-the-mascot)
   - [Static Background](#static-background-customization)
+  - [Carousel Features](#carousel-features)
 
 ## Features
 
@@ -152,6 +153,44 @@ This deployment setup provides a production-ready environment that's both scalab
 
 ## Customization
 
+### Carousel Features
+
+The website features a 3D card carousel for displaying the mascot and AI-generated variations:
+
+1. **Card Management**:
+   - Maximum of 5 AI-generated images stored
+   - Automatic persistence using localStorage
+   - Newest images added to the front of the carousel
+   - Cards rotate with smooth 3D transitions
+
+2. **Loading and Generation**:
+   - Dedicated loading card with static noise effect
+   - Visual feedback during image generation
+   - The loading card appears at the front of the carousel
+   - Seamless replacement with the new image when ready
+   - Automatic error handling with visual feedback
+
+3. **Navigation and Interaction**:
+   - Previous/Next buttons for card rotation
+   - Cards slide up and fade during transitions
+   - Controls visibility based on card count
+   - Click-to-enlarge lightbox support
+   - Markdown formatting for descriptions
+
+4. **Visual Style**:
+   - Cards stack with visible depth effect
+   - Blur effects increasing with depth
+   - Dark mode support with adjusted shadows
+   - Responsive sizing across all device sizes
+   - Sharp shadow aesthetic matching site design
+
+5. **Performance Optimizations**:
+   - Optimized canvas rendering for loading effects
+   - Debounced resize handling
+   - Efficient DOM manipulation
+   - Animation frame management
+   - Lazy initialization of components
+
 ### Customizing the Mascot
 
 ### Changing the Prompt
@@ -272,18 +311,16 @@ const config = {
     intenseColor: [200, 120, 255], // Purple magic color [R,G,B]
     transitionSpeed: 0.012   // Speed of transition to/from magic mode
 };
-```
-
 ### Magic Mode and Gemini Integration
 
-The static background's Magic Mode is designed to enhance the user experience during Gemini AI image generation. When you click the Style Inspiration button to generate a new outfit for the mascot:
+The static loading effect is designed to enhance the user experience during Gemini AI image generation. When you click the Style Inspiration button to generate a new outfit for the mascot:
 
-1. Magic Mode automatically activates, creating a purple-tinted static effect
+1. A loading card appears with a purple-tinted static effect
 2. This visual feedback indicates that the AI is processing your request
-3. The effect persists for four seconds
-4. After four seconds, the effect smoothly fades back to normal
+3. The static effect continues until the new image is ready
+4. Once the new image loads, the loading card and static effect are smoothly replaced
 
-This creates a cohesive experience where the background responds to AI interactions, making the website feel more dynamic and interactive.
+This creates a cohesive experience where the loading state provides clear visual feedback during AI interactions, making the website feel more dynamic and responsive.
 
 ### Performance Settings
 
