@@ -15,12 +15,10 @@
 .container.mascot-container {
   position: relative;
   width: 400px; /* From previous version */
-  min-height: 320px; /* From previous version */
-  height: auto; /* From previous version */
-  perspective: 1000px; 
-  margin: 0; 
-  margin-bottom: var(--spacing-medium); /* From previous */
-  background: none; /* From previous */
+  height: 452px; /* MODIFIED: Set height to match calculated card height */
+  perspective: 1000px;
+  margin: 0;
+  background: none; /* Reverted: Keep container transparent */
   border: none; /* From previous */
   box-shadow: none; /* From previous */
 }
@@ -32,7 +30,7 @@
   background-color: var(--color-card-bg);
   color: var(--color-text);
   width: 320px; /* From previous */
-  height: 450px; /* MODIFIED: Fixed height */
+  height: 452px; /* MODIFIED: Calculated height for 1:1.414 ratio */
   border-radius: 0; /* From previous */
   border: 3px solid var(--color-border);
   /* Default shadow set by nth-child or hover */
@@ -42,10 +40,15 @@
   transform-origin: center;
   display: flex; /* From previous */
   flex-direction: column; /* From previous */
+  box-sizing: border-box; /* ADDED */
   /* max-height: 550px; /* REMOVED */
 
   /* USE EXAMPLE'S TRANSITION */
   transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, transform 0.4s ease, z-index 0.4s ease;
+  align-items: center; /* Center align in mobile */
+  padding-left: 0;
+  /* padding-top: 50px; /* REMOVED */
+  max-width: 100%;
 }
 
 /* Stacking styles using nth-child - USE EXAMPLE'S POSITIONING LOGIC */
@@ -151,6 +154,7 @@
   position: relative;
   /* min-height: 300px; /* REMOVED */
   background-color: black; /* ADDED */
+  /* aspect-ratio: 1 / 1.414; /* REMOVED */
 }
 
 .card.mascot-card .image img {
@@ -361,13 +365,14 @@
   }
   .container.mascot-container {
     width: 300px; /* Keep previous size adjustment */
-    order: 1; 
-    margin-left: auto; 
-    margin-right: auto; 
+    height: 396px; /* MODIFIED: Match calculated tablet card height */
+    order: 1;
+    margin-left: auto;
+    margin-right: auto;
   }
   .card.mascot-card {
     width: 280px; /* Keep previous size adjustment */
-    height: 400px; /* ADDED: Fixed height for tablet */
+    height: 396px; /* MODIFIED: Calculated height for 1:1.414 ratio */
   }
 
   /* Card positioning for tablet/mobile - USE EXAMPLE'S OFFSETS */
@@ -479,10 +484,11 @@
   /* Keep layout changes from previous */
   .container.mascot-container {
     width: 280px;
+    height: 368px; /* MODIFIED: Match calculated mobile card height */
   }
   .card.mascot-card {
     width: 260px;
-    height: 360px; /* ADDED: Fixed height for mobile */
+    height: 368px; /* MODIFIED: Calculated height for 1:1.414 ratio */
   }
   
   /* Card positioning for smallest screens - USE EXAMPLE'S OFFSETS */

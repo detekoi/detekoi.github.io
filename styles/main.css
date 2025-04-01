@@ -138,7 +138,7 @@ header {
   grid-template-areas:
     "content mascot-area"; /* Renamed mascot to mascot-area */
   gap: var(--spacing-medium); /* Reduced gap slightly */
-  align-items: start; /* Align items to the top */
+  align-items: center; /* Changed from start */
 }
 
 .header-content {
