@@ -249,47 +249,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update the mode based on the media query
     function updateMode(event) {
         isDarkMode = event.matches;
-        // No need to redraw immediately, the animation loop will pick it up.
+        // Optionally redraw immediately or wait for the next animation frame
+        // requestAnimationFrame(drawStatic); // Uncomment for immediate redraw on theme change
     }
     
     // Keep track of automatic state changes
     let autoChangeTimeout = null;
     
-    // Function to start enhancing the static (transition to intense)
+    // Function to trigger the intensifying effect (NEUTRALIZED FOR BACKGROUND)
     function enableMagicMode() {
-        // Clear any existing auto-timeout to avoid conflicts
-        if (autoChangeTimeout) {
-            clearTimeout(autoChangeTimeout);
-            autoChangeTimeout = null;
-        }
-        
-        // Set initial values for smooth starting transition
-        if (config.effectState === 'normal' || config.effectState === 'fading') {
-            config.transitionProgress = 0;
-            config.currentDensity = config.density;
-            config.currentColorMix = 0;
-        }
-        
-        // Change state to intensifying
-        config.effectState = 'intensifying';
-        
-        // Set a timeout to automatically start fading after reaching intense state
-        autoChangeTimeout = setTimeout(() => {
-            // Start fading back to normal
-            disableMagicMode();
-        }, 5000); // Keep intense for 4 seconds before starting to fade
+        // console.log("Background magic mode trigger received, but effect is disabled.");
+        // Keep the background in the normal state
+        config.effectState = 'normal';
+        config.transitionProgress = 0;
     }
     
-    // Function to start fading back to normal
+    // Function to trigger the fading effect (ENSURES BACKGROUND IS NORMAL)
     function disableMagicMode() {
-        // Clear any existing auto-timeout to avoid conflicts
-        if (autoChangeTimeout) {
-            clearTimeout(autoChangeTimeout);
-            autoChangeTimeout = null;
-        }
-        
-        // Set to fading state (the animation loop will handle the actual transition)
-        config.effectState = 'fading';
+        // console.log("Background magic mode disable trigger received.");
+        // Always ensure the background returns to/stays in the normal state
+        config.effectState = 'normal';
+        config.transitionProgress = 0;
     }
 
     // Initial Setup
