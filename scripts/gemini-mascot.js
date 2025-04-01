@@ -368,17 +368,19 @@ document.addEventListener('DOMContentLoaded', () => {
               }
               
               // Replace the loading card with the new card
-              if (loadingCardElement && loadingCardElement.parentNode === mascotContainer) {
-                console.log('Replacing entire loading card element with new card');
-                mascotContainer.replaceChild(newCard, loadingCardElement);
+              const currentLoadingCard = mascotContainer.querySelector('.card.mascot-card.loading-card'); // Find it now
+              if (currentLoadingCard) { // Check if we found it
+                console.log('Replacing found loading card element with new card', currentLoadingCard);
+                mascotContainer.replaceChild(newCard, currentLoadingCard);
               } else {
                 // Fallback: Just add the new card to the front
-                console.log('Loading card not found, prepending new card');
+                console.warn('Could not find loading card element to replace, prepending new card instead.');
                 mascotContainer.insertBefore(newCard, mascotContainer.firstChild);
               }
               
-              loadingCardElement = null; // Clear the reference
-              console.log('Card replacement complete');
+              // No longer need the old reference, ensure it's null
+              loadingCardElement = null;
+              console.log('Card replacement attempt complete');
             
               // Store the image data
               carouselImages.unshift({
