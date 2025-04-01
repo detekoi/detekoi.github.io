@@ -417,7 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Start Loading State ---
     styleInspirationLink.style.pointerEvents = 'none'; // Disable further clicks
     styleInspirationLink.style.opacity = '0.7'; // Visual feedback
-    console.log('[Event Listener] Creating loading card HTML...');
 
     // Create and prepend the loading card - UPDATED HTML
     const loadingCardHTML = `
@@ -432,7 +431,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     mascotContainer.insertAdjacentHTML('afterbegin', loadingCardHTML);
     loadingCardElement = mascotContainer.querySelector('.loading-card'); // Store reference using class
-    console.log('[Event Listener] Loading card added to DOM:', loadingCardElement);
 
     // --- Start Static Effect ---
     const loadingCanvas = loadingCardElement.querySelector('.loading-static-canvas');
@@ -490,11 +488,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Preload the new image to get its dimensions
         const tempImg = new Image();
         tempImg.onload = () => {
-          console.log(`New image loaded: ${tempImg.width}x${tempImg.height}`);
           
           // Ensure loading card still exists before trying to replace it
           if (loadingCardElement && loadingCardElement.parentNode === mascotContainer) {
-            console.log('Loading card found. Replacing content...'); // Added log
             // Format description
             let formattedDescription = newDescription;
             try {
@@ -507,8 +503,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // ---- COMPLETELY REWRITTEN CARD REPLACEMENT APPROACH ----
             try {
-              console.log('Using new approach: Creating a completely new card');
-              
               // Create a brand new card with final content
               const newCard = document.createElement('div');
               newCard.classList.add('card', 'mascot-card');
@@ -550,7 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
               // Replace the loading card with the new card
               if (currentLoadingCard) { // Check if we found it
-                console.log('Replacing found loading card element with new card', currentLoadingCard);
                 mascotContainer.replaceChild(newCard, currentLoadingCard);
                 loadingCardElement = null; // Clear reference after successful replacement
               } else {
@@ -599,12 +592,9 @@ document.addEventListener('DOMContentLoaded', () => {
               
               // Reset card positions with a safe timeout
               if (typeof window.resetCardPositions === 'function') {
-                console.log('Scheduling resetCardPositions with 150ms timeout');
                 setTimeout(() => {
                   try {
-                    console.log('Calling resetCardPositions');
                     window.resetCardPositions();
-                    console.log('resetCardPositions completed');
                   } catch (e) {
                     console.error('Error in resetCardPositions:', e);
                   }
