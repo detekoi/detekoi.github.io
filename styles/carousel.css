@@ -465,15 +465,15 @@
   }
   
   .container.mascot-container {
-    width: 300px; /* Keep previous size adjustment */
-    height: 396px; /* MODIFIED: Match calculated tablet card height */
+    width: 320px; /* Increased from 300px */
+    height: 424px; /* Increased from 396px */
     margin-left: auto;
     margin-right: auto;
   }
   
   .card.mascot-card {
-    width: 280px; /* Keep previous size adjustment */
-    height: 396px; /* MODIFIED: Calculated height for 1:1.414 ratio */
+    width: 300px; /* Increased from 280px */
+    height: 424px; /* Increased from 396px */
   }
 
   /* Card positioning for tablet/mobile - USE EXAMPLE'S OFFSETS */
