@@ -396,6 +396,7 @@ header .tagline {
   margin-top: var(--spacing-unit);
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--spacing-unit);
   width: 100%;
   flex: 1;
@@ -403,6 +404,7 @@ header .tagline {
 
 .screenshot {
   width: 100%;
+  max-width: 300px; /* Limit max width within the card */
   height: auto;
   margin-top: 0;
   transition: transform 0.3s ease;
