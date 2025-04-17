@@ -869,13 +869,33 @@ footer a:active {
   }
 }
 
-/* --- Global Scrollbar Styles --- */
-/* Firefox */
-
-/* Chrome, Edge, and Safari */
-
-/* --- End Global Scrollbar Styles --- */
-
-/* --- Dark Mode Global Scrollbar Override --- */
-
-/* --- End Dark Mode Global Scrollbar Override --- */
+/* Animated sheen effect for Style Inspiration button */
+#style-inspiration-link {
+  /* Clip the sheen animation within the button */
+  overflow: hidden;
+}
+#style-inspiration-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 50%;
+  height: 100%;
+  /* Light gradient to simulate a sheen */
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  /* Animate the sheen across the button */
+  animation: sheen 3s ease-in-out infinite;
+}
+@keyframes sheen {
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 150%;
+  }
+}
