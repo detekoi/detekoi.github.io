@@ -870,32 +870,33 @@ footer a:active {
 }
 
 /* Animated sheen effect for Style Inspiration button */
+/* Sharp, anime-style sheen effect for Style Inspiration button */
 #style-inspiration-link {
-  /* Clip the sheen animation within the button */
+  position: relative;
   overflow: hidden;
 }
 #style-inspiration-link::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: -50%;
-  width: 50%;
-  height: 100%;
-  /* Light gradient to simulate a sheen */
-  background: linear-gradient(120deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.7) 50%,
-    transparent 100%
-  );
+  /* extend beyond to cover full height when skewed */
+  top: -50%;
+  left: -25%;
+  width: 20%;
+  height: 200%;
+  /* Solid bright line */
+  background: rgba(255, 255, 255, 0.9);
   transform: skewX(-25deg);
-  /* Animate the sheen across the button */
-  animation: sheen 3s ease-in-out infinite;
+  /* Sheen animation over 1s, then pause for 5s */
+  animation: sharp-sheen 6s linear infinite; /* Updated duration to 6s */
 }
-@keyframes sheen {
+@keyframes sharp-sheen {
   0% {
-    left: -50%;
+    left: -25%; /* Start position */
   }
-  100% {
-    left: 150%;
+  16.67% { /* End position after 1 second (1/6th of 6s) */
+    left: 125%;
+  }
+  100% { /* Keep it off-screen for the remaining 5 seconds */
+    left: 125%;
   }
 }
