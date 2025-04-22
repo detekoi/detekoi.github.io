@@ -19,7 +19,7 @@
             width: 80%;
             margin: 2rem auto;
             border-collapse: collapse;
-            background-color: #ffffff; /* Change to opaque white */
+            background-color: var(--bg-color, #ffffff);
             color: var(--text-color); /* Use theme text color */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             border: 1px solid var(--color-border);
@@ -45,6 +45,20 @@
             color: var(--header-color); /* Use theme header color */
             font-weight: 700;
             font-size: 2.5rem;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            table {
+                background-color: var(--bg-color-dark, #2a2a2a);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            }
+            
+            code {
+                background-color: rgba(255, 255, 255, 0.1);
+                padding: 2px 6px;
+                border-radius: 4px;
+            }
         }
     </style>
 </head>
