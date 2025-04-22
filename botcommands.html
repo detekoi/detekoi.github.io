@@ -47,6 +47,15 @@
             font-size: 2.5rem;
         }
 
+        /* Code block styling */
+        code {
+            display: block;
+            margin: 4px 0;
+            background-color: rgba(0, 0, 0, 0.05); /* Light gray background for light mode */
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
         /* Dark mode support */
         @media (prefers-color-scheme: dark) {
             table {
@@ -58,6 +67,34 @@
                 background-color: rgba(255, 255, 255, 0.1);
                 padding: 2px 6px;
                 border-radius: 4px;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 450px) {
+            body {
+                padding: 1rem;
+            }
+            
+            table {
+                width: 100%;
+                margin: 1rem 0;
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            code {
+                padding: 2px 4px;
+                font-size: 0.85rem;
+                word-break: break-word;
             }
         }
     </style>
@@ -92,11 +129,6 @@
                 <td><code>!game</code></td>
             </tr>
             <tr>
-                <td>!ping</td>
-                <td>Checks if the bot is responsive. Responds with Pong!</td>
-                <td><code>!ping</code></td>
-            </tr>
-            <tr>
                 <td>!search</td>
                 <td>Searches the web for information on a topic.</td>
                 <td><code>!search &lt;your query&gt;</code></td>
@@ -104,7 +136,17 @@
             <tr>
                 <td>!translate</td>
                 <td>Manage automatic message translation for users.</td>
-                <td><code>!translate &lt;lang&gt; | !translate stop | !translate &lt;lang|stop&gt; [user] (mods) | !translate stop all (mods)</code></td>
+                <td>
+                    <code>!translate &lt;lang&gt;</code>
+                    <code>!translate stop</code>
+                    <code>!translate &lt;lang|stop&gt; [user] (mods)</code>
+                    <code>!translate stop all (mods)</code>
+                </td>
+            </tr>
+            <tr>
+                <td>!ping</td>
+                <td>Checks if the bot is responsive. Responds with Pong!</td>
+                <td><code>!ping</code></td>
             </tr>
         </tbody>
     </table>
