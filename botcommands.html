@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Commands</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@400;500;600;700&family=Itim&display=swap" rel="stylesheet">
+    <style>
+        /* Basic table styling to match the theme */
+        body {
+            padding: 2rem; /* Add some padding */
+        }
+        table {
+            width: 80%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            background-color: #ffffff; /* Change to opaque white */
+            color: var(--text-color); /* Use theme text color */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+        th {
+            background-color: rgba(var(--accent-color-rgb), 0.3); /* Slightly transparent accent */
+            font-weight: 600; /* Cabin Condensed Bold */
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--color-border); /* Thicker border after header */
+        }
+        /* Remove bottom border from last row */
+        tr:last-child td {
+            border-bottom: none;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--header-color); /* Use theme header color */
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="staticCanvas"></canvas>
+
+    <h1>Bot Commands</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Command</th>
+                <th>Description</th>
+                <th>Usage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Command rows will go here -->
+            <tr>
+                <td>!example</td>
+                <td>This is an example command.</td>
+                <td>!example [argument]</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+
+    <script src="scripts/static-background.js"></script>
+</body>
+</html>
