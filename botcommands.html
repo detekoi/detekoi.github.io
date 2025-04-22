@@ -16,7 +16,7 @@
             padding: 2rem; /* Add some padding */
         }
         table {
-            width: 80%;
+            width: 75%;
             margin: 2rem auto;
             border-collapse: collapse;
             background-color: var(--bg-color, #ffffff);
@@ -29,6 +29,10 @@
             text-align: left;
             border-bottom: 1px solid var(--color-border);
         }
+        /* Column width specifications */
+        th:nth-child(1), td:nth-child(1) { width: 20%; } /* Command column */
+        th:nth-child(2), td:nth-child(2) { width: 30%; } /* Description column */
+        th:nth-child(3), td:nth-child(3) { width: 50%; } /* Usage column */
         th {
             background-color: rgba(var(--accent-color-rgb), 0.3); /* Slightly transparent accent */
             font-weight: 600; /* Cabin Condensed Bold */
@@ -67,6 +71,13 @@
                 background-color: rgba(255, 255, 255, 0.1);
                 padding: 2px 6px;
                 border-radius: 4px;
+            }
+        }
+
+        /* Tablet responsiveness */
+        @media screen and (min-width: 451px) and (max-width: 1024px) {
+            table {
+                width: 80%;
             }
         }
 
