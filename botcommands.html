@@ -72,6 +72,43 @@
                 padding: 2px 6px;
                 border-radius: 4px;
             }
+            .mod-badge {
+                background: #b71c1c;
+                color: #fff;
+            }
+        }
+
+        /* Mod badge styling */
+        .mod-badge {
+            display: inline-block;
+            background: #e57373;
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-left: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+        }
+        .mod-command::before {
+            content: "Mod";
+            display: inline-block;
+            background: #e57373;
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-right: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+        }
+        @media (prefers-color-scheme: dark) {
+            .mod-command::before {
+                background: #b71c1c;
+                color: #fff;
+            }
         }
 
         /* Tablet responsiveness */
@@ -150,8 +187,25 @@
                 <td>
                     <code>!translate &lt;lang&gt;</code>
                     <code>!translate stop</code>
-                    <code>!translate &lt;lang|stop&gt; [user] (mods)</code>
-                    <code>!translate stop all (mods)</code>
+                    <code class="mod-command">!translate &lt;lang|stop&gt; [user]</code>
+                    <code class="mod-command">!translate stop all</code>
+                </td>
+            </tr>
+            <tr>
+                <td>!geo</td>
+                <td>Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.</td>
+                <td>
+                    <code>!geo</code> (start real-world game)
+                    <code>!geo game</code> (start game-world game using current stream's game)
+                    <code>!geo game [Game Title]</code> (start game-world game with specified game)
+                    <code class="mod-command">!geo stop</code>
+                    <code class="mod-command">!geo config difficulty &lt;easy|normal|hard&gt;</code>
+                    <code class="mod-command">!geo config interval &lt;seconds&gt;</code>
+                    <code class="mod-command">!geo config duration &lt;minutes&gt;</code>
+                    <code class="mod-command">!geo config region &lt;list&gt;</code>
+                    <code class="mod-command">!geo resetconfig</code>
+                    <code>!geo leaderboard</code>
+                    <code>!geo help</code>
                 </td>
             </tr>
             <tr>
