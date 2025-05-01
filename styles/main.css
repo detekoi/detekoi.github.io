@@ -102,6 +102,19 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+/* Header Links */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-medium);
+  margin-top: var(--spacing-medium);
+}
+
+.links a {
+  margin: 0;
+  white-space: nowrap;
+}
+
 /* 3D Skeuomorphic Button Style */
 a {
   background-color: white;
@@ -305,6 +318,7 @@ header .tagline {
     box-shadow: 4px 4px 0 var(--shadow-color);
     color: var(--color-text); /* Ensure text is light */
   }
+
 }
 
 @media (max-width: 575px) {
@@ -400,6 +414,14 @@ header .tagline {
   gap: var(--spacing-unit);
   width: 100%;
   flex: 1;
+}
+
+/* Remove the old pseudo-element fade-out styles */
+/* Add new fade-out class */
+.fade-out-bottom {
+  position: relative;
+  -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 90%);
+  mask-image: linear-gradient(to bottom, black 75%, transparent 90%);
 }
 
 .screenshot {

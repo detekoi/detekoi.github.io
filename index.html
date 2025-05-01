@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Software portfolio of Henry Manes, featuring OBS browser sources and streaming tools">
+  <meta name="description" content="Software portfolio of Henry Manes, featuring streaming tools and browser sources for OBS">
   
   <!-- Additional SEO Meta Tags -->
-  <meta name="keywords" content="OBS tools, streaming tools, Twitch overlay, chat overlay, browser sources, stream clock, stream notifications, Discord notifications, Apple Music widget">
+  <meta name="keywords" content="ChatSage, Twitch chatbot, AI chatbot, OBS tools, streaming tools, Twitch overlay, chat overlay, browser sources, stream clock, stream notifications, Discord notifications, Apple Music widget">
   <meta name="author" content="Henry Manes">
   <meta name="robots" content="index, follow">
   
@@ -22,7 +22,7 @@
   <meta name="twitter:title" content="HENRY MANES | OBS Tools">
   <meta name="twitter:description" content="Free and open source streaming tools for streamers">
   
-  <title>HENRY MANES | OBS Tools</title>
+  <title>HENRY MANES | Streaming Tools</title>
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="styles/carousel.css">
@@ -38,8 +38,11 @@
       <h1>HENRY MANES</h1>
       <p class="role">OBS BROWSER SOURCES & STREAMING TOOLS</p>
       <p class="tagline">Free and open source streaming tools designed for maximum customizability and platform independence.</p>
-      <p class="links"><a href="https://www.twitch.tv/parfaitfair" target="_blank">MY TWITCH</a></p>
-      <p class="links"><a href="#" id="style-inspiration-link">STYLE INSPIRATION</a></p>
+      <p class="links">
+        <a href="https://www.twitch.tv/parfaitfair" target="_blank">MY TWITCH</a>
+        <a href="https://github.com/detekoi" target="_blank">MY GITHUB</a>
+        <a href="#" id="style-inspiration-link">STYLE INSPIRATION</a>
+      </p>
     </div>
     <div class="header-mascot-area"> <!-- Added a wrapper -->
       <div class="carousel-wrapper">
@@ -63,6 +66,27 @@
 
   <main>
     <section class="project-grid">
+      <!-- ChatSage -->
+      <article class="project">
+        <h2 class="project-title">CHATSAGE</h2>
+        <p class="project-description">AI-powered chatbot for Twitch streams with real-time context awareness and natural language understanding</p>
+
+        <div class="project-tech">
+          <span>Node.js</span>
+          <span>Twitch API</span>
+          <span>Google Gemini</span>
+        </div>
+
+        <div class="screenshot-container fade-out-bottom">
+          <img src="assets/images/screenshots/botcommands.png" alt="Screenshot of ChatSage's command list interface displaying a table of bot commands. The table has three columns: Command, Description, and Usage. Featured commands include !ask/!sage for AI-powered questions, !game for game information, !search for web queries, !translate for message translation, !geo for geography games, and !ping for bot status. Each command row shows its syntax and usage examples, with some commands having moderator-specific options. The interface uses a clean, minimalist design with a dark background and white text." class="screenshot">
+        </div>
+
+        <div class="project-links">
+          <a href="botcommands.html" target="_blank">Commands</a>
+          <a href="https://github.com/detekoi/chatsage" target="_blank">GitHub</a>
+        </div>
+      </article>
+
       <!-- Chat Overlay -->
       <article class="project">
         <h2 class="project-title">CHAT OVERLAY</h2>
@@ -71,7 +95,7 @@
         <div class="project-tech">
           <span>JavaScript</span>
           <span>Twitch API</span>
-          <span>AI</span>
+          <span>Google Gemini</span>
         </div>
 
         <div class="screenshot-container">
