@@ -4,6 +4,22 @@ on:
   push:
     branches:
       - main  # or your default branch
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.MD'
+      - '**/*.markdown'
+      - '**/README*'
+      - 'docs/**'
+      - '**/*.css'
+      - '**/*.scss'
+      - '**/*.png'
+      - '**/*.jpg'
+      - '**/*.jpeg'
+      - '**/*.gif'
+      - '**/*.svg'
+      - '**/*.html'
+      - '**/*.htm'
+      # Add any other content/style-only paths here
 
 env:
   PROJECT_ID: shirokuma-fashion  # Use your actual project ID
