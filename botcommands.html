@@ -28,6 +28,7 @@
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid var(--color-border);
+            vertical-align: top;
         }
         /* Column width specifications */
         th:nth-child(1), td:nth-child(1) { width: 20%; } /* Command column */
@@ -192,16 +193,19 @@
     <table>
         <thead>
             <tr>
-                <th>Command</th>
-                <th>Description</th>
-                <th>Usage</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
                 <td>!ask / !sage</td>
                 <td>Ask Sage a question. Uses search intelligently.</td>
                 <td><code>!ask &lt;your question&gt;</code></td>
+            </tr>
+            <tr>
+                <td>!botlang</td>
+                <td>Configure the bot to speak in a specific language for the entire channel.</td>
+                <td>
+                    <code class="mod-command">!botlang &lt;language&gt;</code>
+                    <code class="mod-command">!botlang status</code> (check current language)
+                    <code class="mod-command">!botlang off</code> (reset to English)
+                    <code class="mod-command">!botlang default</code> (reset to English)
+                </td>
             </tr>
             <tr>
                 <td>!commands / !help</td>
@@ -216,6 +220,64 @@
                     <code>!game analyze</code> (analyzes stream visuals with AI)
                     <code>!game &lt;your question&gt;</code> (answers specific gameplay questions)
                     <code>!game analyze &lt;your question&gt;</code> (analyzes visuals + answers question)
+                </td>
+            </tr>
+            <tr>
+                <td>!geo</td>
+                <td>Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.</td>
+                <td>
+                    <code>!geo</code> (start global real-world game)
+                    <code>!geo &lt;region&gt;</code> (start region-specific real-world game, e.g. !geo Japan)
+                    <code>!geo game</code> (start game-world game using current stream's game)
+                    <code>!geo game [Game Title]</code> (start game-world game with specified game, e.g. !geo game "Metroid Prime")
+                    <code>!geo &lt;command&gt; N</code> (run any game command with N rounds, e.g. !geo Japan 3)
+                    <code>!geo leaderboard</code>
+                    <code>!geo stop</code> (game initiator, mods, or broadcaster can stop)
+                    <code class="mod-command">!geo config difficulty &lt;easy|normal|hard&gt;</code>
+                    <code class="mod-command">!geo config interval &lt;seconds&gt;</code> (30-300s between clues)
+                    <code class="mod-command">!geo config duration &lt;minutes&gt;</code> (3-20m per round)
+                    <code class="mod-command">!geo config region &lt;regions&gt;</code> (e.g. Europe,Asia or USA,Canada)
+                    <code class="mod-command">!geo config game &lt;titles&gt;</code> (preferred game titles, comma-separated)
+                    <code class="mod-command">!geo config pointsbase &lt;number&gt;</code> (1-100)
+                    <code class="mod-command">!geo config pointstimebonus &lt;true|false&gt;</code>
+                    <code class="mod-command">!geo config pointsdifficultymultiplier &lt;true|false&gt;</code>
+                    <code class="mod-command">!geo config scoretracking &lt;true|false&gt;</code>
+                    <code class="mod-command">!geo config maxrounds &lt;number&gt;</code> (e.g., 1-10)
+                    <code class="mod-command">!geo resetconfig</code>
+                    <code class="mod-command">!geo clearleaderboard</code> (or resetstats)
+                    <code>!geo report &lt;reason&gt;</code> (report problematic locations or clues)
+                    <code>!geo help</code>
+                </td>
+            </tr>
+            <tr>
+                <td>!ping</td>
+                <td>Checks if the bot is responsive. Responds with Pong!</td>
+                <td><code>!ping</code></td>
+            </tr>
+            <tr>
+                <td>!riddle</td>
+                <td>Starts or manages a Riddle game. Riddles can be general, about the current stream game, or a specific subject.</td>
+                <td>
+                    <code>!riddle</code> (starts a general riddle)
+                    <code>!riddle &lt;subject&gt;</code> (e.g., !riddle animals)
+                    <code>!riddle &lt;rounds&gt;</code> (e.g., !riddle 3 for 3 rounds)
+                    <code>!riddle &lt;subject&gt; &lt;rounds&gt;</code> (e.g., !riddle history 5)
+                    <code>!riddle game</code> (riddle about the current stream game)
+                    <code>!riddle game &lt;rounds&gt;</code>
+                    <code>!riddle leaderboard</code>
+                    <code>!riddle stop</code> (game initiator, mods, or broadcaster can stop)
+                    <code class="mod-command">!riddle config difficulty &lt;easy|normal|hard&gt;</code>
+                    <code class="mod-command">!riddle config questiontime &lt;seconds&gt;</code> (15-120s per riddle)
+                    <code class="mod-command">!riddle config pointsbase &lt;number&gt;</code> (1-100)
+                    <code class="mod-command">!riddle config pointstimebonus &lt;true|false&gt;</code>
+                    <code class="mod-command">!riddle config pointsdifficultymultiplier &lt;true|false&gt;</code>
+                    <code class="mod-command">!riddle config scoretracking &lt;true|false&gt;</code>
+                    <code class="mod-command">!riddle config maxrounds &lt;number&gt;</code> (e.g., 1-20)
+                    <code class="mod-command">!riddle config keywordslimit &lt;number&gt;</code> (recent keywords to exclude, e.g. 20-100)
+                    <code class="mod-command">!riddle config rounddelay &lt;milliseconds&gt;</code> (delay between rounds)
+                    <code class="mod-command">!riddle resetconfig</code>
+                    <code class="mod-command">!riddle clearleaderboard</code> (or cleardata)
+                    <code>!riddle help</code>
                 </td>
             </tr>
             <tr>
@@ -234,38 +296,6 @@
                 </td>
             </tr>
             <tr>
-                <td>!botlang</td>
-                <td>Configure the bot to speak in a specific language for the entire channel.</td>
-                <td>
-                    <code class="mod-command">!botlang &lt;language&gt;</code>
-                    <code class="mod-command">!botlang status</code> (check current language)
-                    <code class="mod-command">!botlang off</code> (reset to English)
-                    <code class="mod-command">!botlang default</code> (reset to English)
-                </td>
-            </tr>
-            <tr>
-                <td>!geo</td>
-                <td>Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.</td>
-                <td>
-                    <code>!geo</code> (start global real-world game)
-                    <code>!geo &lt;region&gt;</code> (start region-specific real-world game, e.g. !geo Japan)
-                    <code>!geo game</code> (start game-world game using current stream's game)
-                    <code>!geo game [Game Title]</code> (start game-world game with specified game, e.g. !geo game "Metroid Prime")
-                    <code>!geo &lt;command&gt; N</code> (run any game command with N rounds, e.g. !geo Japan 3)
-                    <code>!geo leaderboard</code>
-                    <code>!geo stop</code> (game initiator, mods, or broadcaster can stop)
-                    <code class="mod-command">!geo config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!geo config interval &lt;seconds between clues&gt;</code>
-                    <code class="mod-command">!geo config duration &lt;length of game in minutes&gt;</code>
-                    <code class="mod-command">!geo config region &lt;comma-separated regions&gt;</code> (e.g. Europe,Asia or USA,Canada,Mexico)
-                    <code class="mod-command">!geo resetconfig</code>
-                    <code class="mod-command">!geo clearleaderboard</code> 
-                    <code class="mod-command">!geo resetstats</code> (also clears leaderboard)
-                    <code>!geo report &lt;reason&gt;</code> (report problematic locations or clues)
-                    <code>!geo help</code>
-                </td>
-            </tr>
-            <tr>
                 <td>!trivia</td>
                 <td>Starts or manages Trivia games with factual questions on various topics, including the current stream game.</td>
                 <td>
@@ -278,21 +308,21 @@
                     <code>!trivia report &lt;reason&gt;</code> (report problematic questions)
                     <code>!trivia stop</code> (game initiator, mods, or broadcaster can stop)
                     <code class="mod-command">!trivia config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!trivia config time &lt;seconds&gt;</code> (time per question)
-                    <code class="mod-command">!trivia config points &lt;value&gt;</code> (base points per correct answer)
+                    <code class="mod-command">!trivia config time &lt;seconds&gt;</code> (10-120s per question)
+                    <code class="mod-command">!trivia config pointsbase &lt;number&gt;</code> (1-100)
+                    <code class="mod-command">!trivia config pointstimebonus &lt;true|false&gt;</code>
+                    <code class="mod-command">!trivia config pointsdifficultymultiplier &lt;true|false&gt;</code>
+                    <code class="mod-command">!trivia config scoretracking &lt;true|false&gt;</code>
+                    <code class="mod-command">!trivia config topic &lt;topics&gt;</code> (preferred topics, comma-separated)
+                    <code class="mod-command">!trivia config maxrounds &lt;number&gt;</code> (e.g., 1-10)
                     <code class="mod-command">!trivia resetconfig</code>
                     <code class="mod-command">!trivia clearleaderboard</code>
                     <code>!trivia help</code>
                 </td>
             </tr>
-            <tr>
-                <td>!ping</td>
-                <td>Checks if the bot is responsive. Responds with Pong!</td>
-                <td><code>!ping</code></td>
-            </tr>
         </tbody>
     </table>
-
+    
     <div id="last-updated" style="text-align:center; margin-top:2rem; color:var(--color-border, #888); font-size:0.95em;">
         Last updated: %%LAST_UPDATED%%
     </div>
