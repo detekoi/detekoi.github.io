@@ -7,13 +7,11 @@
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@400;500;600;700&family=Itim&display=swap" rel="stylesheet">
     <style>
         /* Basic table styling to match the theme */
         body {
             padding: 2rem; /* Add some padding */
+            font-family: var(--font-primary); /* Use Atkinson Hyperlegible from main.css */
         }
         table {
             width: 75%;
@@ -36,7 +34,7 @@
         th:nth-child(3), td:nth-child(3) { width: 50%; } /* Usage column */
         th {
             background-color: rgba(var(--accent-color-rgb), 0.3); /* Slightly transparent accent */
-            font-weight: 600; /* Cabin Condensed Bold */
+            font-weight: 700; /* Use Atkinson Hyperlegible Bold */
             text-transform: uppercase;
             border-bottom: 2px solid var(--color-border); /* Thicker border after header */
         }
@@ -59,6 +57,8 @@
             background-color: rgba(0, 0, 0, 0.05); /* Light gray background for light mode */
             padding: 2px 6px;
             border-radius: 4px;
+            font-family: monospace; /* Use monospace for command examples */
+            font-size: 1em;
         }
 
         /* Dark mode support */
@@ -146,6 +146,59 @@
                 word-break: break-word;
             }
         }
+
+        /* Add dropdown styles */
+        .dropdown-summary {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .dropdown-summary:hover {
+            background: rgba(var(--accent-color-rgb), 0.08);
+        }
+        .dropdown-toggle {
+            float: right;
+            font-size: 1.1em;
+            margin-left: 8px;
+            transition: transform 0.2s;
+        }
+        .dropdown-group.open .dropdown-toggle {
+            transform: rotate(180deg);
+        }
+
+        .expand-tip {
+            width: 75%;
+            margin: 0 auto 1rem auto;
+            padding: 0.75em 1em;
+            background: rgba(255,255,255,0.8);
+            border-left: 4px solid var(--color-border,#888);
+            border-radius: 6px;
+            font-size: 1.08em;
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+            color: var(--text-color,#222);
+        }
+        @media (prefers-color-scheme: dark) {
+            .expand-tip {
+                background: rgba(30,30,30,0.8);
+                color: var(--text-color,#eee);
+            }
+        }
+
+        .category-header {
+            background: rgba(var(--accent-color-rgb), 0.15);
+            font-size: 1.25em;
+            font-weight: 700;
+            text-align: left;
+            letter-spacing: 1px;
+            color: var(--header-color, #333);
+        }
+        @media (prefers-color-scheme: dark) {
+            .category-header {
+                background: rgba(var(--accent-color-rgb), 0.25);
+                color: var(--header-color, #fff);
+            }
+        }
     </style>
   <script>
     // 1. Array of SPAM DOMAINS to block
@@ -188,44 +241,127 @@
 <body>
     <canvas id="staticCanvas"></canvas>
 
-    <h1>StreamSage Bot Commands</h1>
+    <h1>ChatSage Bot Commands</h1>
+
+    <div class="expand-tip">
+      Click any command row below to expand and see usage details.
+    </div>
 
     <table>
         <thead>
             <tr>
-                <td>!ask / !sage</td>
-                <td>Ask Sage a question. Uses search intelligently.</td>
-                <td><code>!ask &lt;your question&gt;</code></td>
+                <th>Command</th>
+                <th>Description</th>
             </tr>
-            <tr>
-                <td>!botlang</td>
-                <td>Configure the bot to speak in a specific language for the entire channel.</td>
-                <td>
-                    <code class="mod-command">!botlang &lt;language&gt;</code>
-                    <code class="mod-command">!botlang status</code> (check current language)
-                    <code class="mod-command">!botlang off</code> (reset to English)
-                    <code class="mod-command">!botlang default</code> (reset to English)
+        </thead>
+        <tbody>
+            <tr class="category-header">
+                <td colspan="2">General</td>
+            </tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
+                <td>!ask / !sage</td>
+                <td>Ask Sage a question. Uses search intelligently.<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
+                    <code>!ask &lt;your question&gt;</code>
                 </td>
             </tr>
-            <tr>
-                <td>!commands / !help</td>
-                <td>Shows where to find the list of available commands.</td>
-                <td><code>!help or !commands</code></td>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
+                <td>!search</td>
+                <td>Searches the web for information on a topic.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
-            <tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
+                    <code>!search &lt;your query&gt;</code>
+                </td>
+            </tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
                 <td>!game</td>
-                <td>Provides researched information about the game currently being played. Add "analyze" to use AI image recognition on the stream (uses Twitch thumbnail that updates every 5 minutes).</td>
-                <td>
+                <td>Provides researched information about the game currently being played. Add "analyze" to use AI image recognition on the stream (uses Twitch thumbnail that updates every 5 minutes).<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
                     <code>!game</code>
                     <code>!game analyze</code> (analyzes stream visuals with AI)
                     <code>!game &lt;your question&gt;</code> (answers specific gameplay questions)
                     <code>!game analyze &lt;your question&gt;</code> (analyzes visuals + answers question)
                 </td>
             </tr>
-            <tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
+                <td>!translate</td>
+                <td>Manage automatic message translation for users.<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
+                    <code>!translate &lt;lang&gt;</code>
+                    <code>!translate stop</code>
+                    <code class="mod-command">!translate &lt;lang|stop&gt; [user]</code>
+                    <code class="mod-command">!translate stop all</code>
+                </td>
+            </tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
+                <td>!commands / !help</td>
+                <td>Shows where to find the list of available commands.<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
+                    <code>!help or !commands</code>
+                </td>
+            </tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
+                <td>!ping</td>
+                <td>Checks if the bot is responsive. Responds with Pong!<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
+                    <code>!ping</code>
+                </td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr class="category-header">
+                <td colspan="2">Config</td>
+            </tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
+                <td>!botlang</td>
+                <td>Configure the bot to speak in a specific language for the entire channel.<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
+                    <code class="mod-command">!botlang &lt;language&gt;</code>
+                    <code class="mod-command">!botlang status</code> (check current language)
+                    <code class="mod-command">!botlang off</code> (reset to English)
+                    <code class="mod-command">!botlang default</code> (reset to English)
+                </td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr class="category-header">
+                <td colspan="2">Games</td>
+            </tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
                 <td>!geo</td>
-                <td>Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.</td>
-                <td>
+                <td>Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
                     <code>!geo</code> (start global real-world game)
                     <code>!geo &lt;region&gt;</code> (start region-specific real-world game, e.g. !geo Japan)
                     <code>!geo game</code> (start game-world game using current stream's game)
@@ -249,15 +385,14 @@
                     <code>!geo help</code>
                 </td>
             </tr>
-            <tr>
-                <td>!ping</td>
-                <td>Checks if the bot is responsive. Responds with Pong!</td>
-                <td><code>!ping</code></td>
-            </tr>
-            <tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
                 <td>!riddle</td>
-                <td>Starts or manages a Riddle game. Riddles can be general, about the current stream game, or a specific subject.</td>
-                <td>
+                <td>Starts or manages a Riddle game. Riddles can be general, about the current stream game, or a specific subject.<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
                     <code>!riddle</code> (starts a general riddle)
                     <code>!riddle &lt;subject&gt;</code> (e.g., !riddle animals)
                     <code>!riddle &lt;rounds&gt;</code> (e.g., !riddle 3 for 3 rounds)
@@ -280,25 +415,14 @@
                     <code>!riddle help</code>
                 </td>
             </tr>
-            <tr>
-                <td>!search</td>
-                <td>Searches the web for information on a topic.</td>
-                <td><code>!search &lt;your query&gt;</code></td>
-            </tr>
-            <tr>
-                <td>!translate</td>
-                <td>Manage automatic message translation for users.</td>
-                <td>
-                    <code>!translate &lt;lang&gt;</code>
-                    <code>!translate stop</code>
-                    <code class="mod-command">!translate &lt;lang|stop&gt; [user]</code>
-                    <code class="mod-command">!translate stop all</code>
-                </td>
-            </tr>
-            <tr>
+        </tbody>
+        <tbody class="dropdown-group">
+            <tr class="dropdown-summary">
                 <td>!trivia</td>
-                <td>Starts or manages Trivia games with factual questions on various topics, including the current stream game.</td>
-                <td>
+                <td>Starts or manages Trivia games with factual questions on various topics, including the current stream game.<span class="dropdown-toggle">&#x25BC;</span></td>
+            </tr>
+            <tr class="dropdown-details" style="display:none;">
+                <td colspan="2">
                     <code>!trivia</code> (start general knowledge trivia)
                     <code>!trivia &lt;topic&gt;</code> (start topic-specific trivia, e.g. !trivia science)
                     <code>!trivia game</code> (start trivia about the current stream game)
@@ -334,6 +458,15 @@
         'Last updated: ' + new Date(document.lastModified).toLocaleDateString('en-US', {
           year: 'numeric', month: 'long', day: 'numeric'
         });
+
+      document.querySelectorAll('.dropdown-summary').forEach(row => {
+        row.addEventListener('click', function() {
+          const group = row.parentElement;
+          const details = group.querySelector('.dropdown-details');
+          const isOpen = group.classList.toggle('open');
+          details.style.display = isOpen ? '' : 'none';
+        });
+      });
     </script>
 </body>
 </html>
