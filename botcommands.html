@@ -300,9 +300,9 @@
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
                     <code>!game</code>
-                    <code>!game analyze</code> (analyzes stream visuals with AI)
-                    <code>!game &lt;your question&gt;</code> (answers specific gameplay questions)
-                    <code>!game analyze &lt;your question&gt;</code> (analyzes visuals + answers question)
+                    <code>!game analyze</code> Analyzes stream visuals with AI
+                    <code>!game &lt;your question&gt;</code> Answers specific gameplay questions
+                    <code>!game analyze &lt;your question&gt;</code> Analyzes visuals and answers question
                 </td>
             </tr>
         </tbody>
@@ -343,26 +343,26 @@
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!geo</code> (start global real-world game)
-                    <code>!geo &lt;region&gt;</code> (start region-specific real-world game, e.g. !geo Japan)
-                    <code>!geo game</code> (start game-world game using current stream's game)
-                    <code>!geo game [Game Title]</code> (start game-world game with specified game, e.g. !geo game "Metroid Prime")
-                    <code>!geo &lt;command&gt; N</code> (run any game command with N rounds, e.g. !geo Japan 3)
+                    <code>!geo</code> Starts a global real-world game
+                    <code>!geo &lt;region&gt;</code> Starts a region-specific real-world game, e.g. !geo Japan
+                    <code>!geo game</code> Starts a game-world game using current stream's game
+                    <code>!geo game [Game Title]</code> Starts a game-world game with specified game, e.g. !geo game "Metroid Prime"
+                    <code>!geo &lt;command&gt; N</code> Runs any game command with N rounds, e.g. !geo Japan 3
                     <code>!geo leaderboard</code>
-                    <code>!geo stop</code> (game initiator, mods, or broadcaster can stop)
+                    <code>!geo stop</code> Game initiator, mods, or broadcaster can stop
                     <code class="mod-command">!geo config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!geo config interval &lt;seconds&gt;</code> (30-300s between clues)
-                    <code class="mod-command">!geo config duration &lt;minutes&gt;</code> (3-20m per round)
-                    <code class="mod-command">!geo config region &lt;regions&gt;</code> (e.g. Europe,Asia or USA,Canada)
-                    <code class="mod-command">!geo config game &lt;titles&gt;</code> (preferred game titles, comma-separated)
-                    <code class="mod-command">!geo config pointsbase &lt;number&gt;</code> (1-100)
+                    <code class="mod-command">!geo config interval &lt;seconds&gt;</code> Sets time between clues to 30-300 seconds
+                    <code class="mod-command">!geo config duration &lt;minutes&gt;</code> Sets round duration to 3-20 minutes
+                    <code class="mod-command">!geo config region &lt;regions&gt;</code> Sets regions like Europe,Asia or USA,Canada
+                    <code class="mod-command">!geo config game &lt;titles&gt;</code> Sets preferred game titles, comma-separated
+                    <code class="mod-command">!geo config pointsbase &lt;number&gt;</code> Sets base points from 1-100
                     <code class="mod-command">!geo config pointstimebonus &lt;true|false&gt;</code>
                     <code class="mod-command">!geo config pointsdifficultymultiplier &lt;true|false&gt;</code>
                     <code class="mod-command">!geo config scoretracking &lt;true|false&gt;</code>
-                    <code class="mod-command">!geo config maxrounds &lt;number&gt;</code> (e.g., 1-10)
+                    <code class="mod-command">!geo config maxrounds &lt;number&gt;</code> Sets maximum rounds from 1-10
                     <code class="mod-command">!geo resetconfig</code>
-                    <code class="mod-command">!geo clearleaderboard</code> (or resetstats)
-                    <code>!geo report &lt;reason&gt;</code> (report problematic locations or clues)
+                    <code class="mod-command">!geo clearleaderboard</code> Or resetstats
+                    <code>!geo report &lt;reason&gt;</code> Reports problematic locations or clues
                     <code>!geo help</code>
                 </td>
             </tr>
@@ -374,26 +374,26 @@
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!riddle</code> (starts a general knowledge riddle)
-                    <code>!riddle &lt;subject&gt;</code> (e.g., !riddle animals)
-                    <code>!riddle &lt;rounds&gt;</code> (e.g., !riddle 3 for 3 general rounds)
-                    <code>!riddle &lt;subject&gt; &lt;rounds&gt;</code> (e.g., !riddle history 5)
-                    <code>!riddle game</code> (riddle about the current stream game)
+                    <code>!riddle</code> Starts a general knowledge riddle
+                    <code>!riddle &lt;subject&gt;</code> Example: !riddle animals
+                    <code>!riddle &lt;rounds&gt;</code> Example: !riddle 3 for 3 general rounds
+                    <code>!riddle &lt;subject&gt; &lt;rounds&gt;</code> Example: !riddle history 5
+                    <code>!riddle game</code> Riddle about the current stream game
                     <code>!riddle game &lt;rounds&gt;</code>
                     <code>!riddle leaderboard</code>
-                    <code>!riddle report &lt;reason...&gt;</code> (report problematic riddles)
-                    <code>!riddle stop</code> (game initiator, mods, or broadcaster can stop)
+                    <code>!riddle report &lt;reason...&gt;</code> Reports problematic riddles
+                    <code>!riddle stop</code> Game initiator, mods, or broadcaster can stop
                     <code class="mod-command">!riddle config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!riddle config questiontime &lt;seconds&gt;</code> (15-120s per riddle)
-                    <code class="mod-command">!riddle config pointsbase &lt;number&gt;</code> (1-100)
+                    <code class="mod-command">!riddle config questiontime &lt;seconds&gt;</code> Sets time per riddle to 15-120 seconds
+                    <code class="mod-command">!riddle config pointsbase &lt;number&gt;</code> Sets base points from 1-100
                     <code class="mod-command">!riddle config pointstimebonus &lt;true|false&gt;</code>
                     <code class="mod-command">!riddle config pointsdifficultymultiplier &lt;true|false&gt;</code>
                     <code class="mod-command">!riddle config scoretracking &lt;true|false&gt;</code>
-                    <code class="mod-command">!riddle config maxrounds &lt;number&gt;</code> (e.g., 1-20)
-                    <code class="mod-command">!riddle config keywordslimit &lt;number&gt;</code> (recent keywords to exclude, e.g. 20-100)
-                    <code class="mod-command">!riddle config rounddelay &lt;milliseconds&gt;</code> (delay between rounds)
+                    <code class="mod-command">!riddle config maxrounds &lt;number&gt;</code> Sets maximum rounds from 1-20
+                    <code class="mod-command">!riddle config keywordslimit &lt;number&gt;</code> Sets recent keywords to exclude, e.g. 20-100
+                    <code class="mod-command">!riddle config rounddelay &lt;milliseconds&gt;</code> Sets delay between rounds
                     <code class="mod-command">!riddle resetconfig</code>
-                    <code class="mod-command">!riddle clearleaderboard</code> (or cleardata)
+                    <code class="mod-command">!riddle clearleaderboard</code> Or cleardata
                     <code>!riddle help</code>
                 </td>
             </tr>
@@ -404,22 +404,22 @@
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!trivia</code> (start general knowledge trivia)
-                    <code>!trivia &lt;topic&gt;</code> (start topic-specific trivia, e.g. !trivia science)
-                    <code>!trivia game</code> (start trivia about the current stream game)
-                    <code>!trivia &lt;rounds&gt;</code> (specify number of rounds, e.g. !trivia 3)
-                    <code>!trivia &lt;topic&gt; &lt;rounds&gt;</code> (e.g. !trivia history 5)
+                    <code>!trivia</code> Starts general knowledge trivia
+                    <code>!trivia &lt;topic&gt;</code> Starts topic-specific trivia, e.g. !trivia science
+                    <code>!trivia game</code> Starts trivia about the current stream game
+                    <code>!trivia &lt;rounds&gt;</code> Specifies number of rounds, e.g. !trivia 3
+                    <code>!trivia &lt;topic&gt; &lt;rounds&gt;</code> Example: !trivia history 5
                     <code>!trivia leaderboard</code>
-                    <code>!trivia report &lt;reason&gt;</code> (report problematic questions)
-                    <code>!trivia stop</code> (game initiator, mods, or broadcaster can stop)
+                    <code>!trivia report &lt;reason&gt;</code> Reports problematic questions
+                    <code>!trivia stop</code> Game initiator, mods, or broadcaster can stop
                     <code class="mod-command">!trivia config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!trivia config time &lt;seconds&gt;</code> (10-120s per question)
-                    <code class="mod-command">!trivia config pointsbase &lt;number&gt;</code> (1-100)
+                    <code class="mod-command">!trivia config time &lt;seconds&gt;</code> Sets time per question to 10-120 seconds
+                    <code class="mod-command">!trivia config pointsbase &lt;number&gt;</code> Sets base points from 1-100
                     <code class="mod-command">!trivia config pointstimebonus &lt;true|false&gt;</code>
                     <code class="mod-command">!trivia config pointsdifficultymultiplier &lt;true|false&gt;</code>
                     <code class="mod-command">!trivia config scoretracking &lt;true|false&gt;</code>
-                    <code class="mod-command">!trivia config topic &lt;topics&gt;</code> (preferred topics, comma-separated)
-                    <code class="mod-command">!trivia config maxrounds &lt;number&gt;</code> (e.g., 1-10)
+                    <code class="mod-command">!trivia config topic &lt;topics&gt;</code> Sets preferred topics, comma-separated
+                    <code class="mod-command">!trivia config maxrounds &lt;number&gt;</code> Sets maximum rounds from 1-10
                     <code class="mod-command">!trivia resetconfig</code>
                     <code class="mod-command">!trivia clearleaderboard</code>
                     <code>!trivia help</code>
@@ -439,9 +439,9 @@
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
                     <code class="mod-command">!botlang &lt;language&gt;</code>
-                    <code class="mod-command">!botlang status</code> (check current language)
-                    <code class="mod-command">!botlang off</code> (reset to English)
-                    <code class="mod-command">!botlang default</code> (reset to English)
+                    <code class="mod-command">!botlang status</code> Checks current language
+                    <code class="mod-command">!botlang off</code> Resets to English
+                    <code class="mod-command">!botlang default</code> Resets to English
                 </td>
             </tr>
         </tbody>
