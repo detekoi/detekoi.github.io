@@ -283,12 +283,6 @@
             }
         }
 
-        @media screen and (max-width: 450px) {
-            .language-selector {
-                top: var(--spacing-medium);
-                right: var(--spacing-medium);
-            }
-        }
 
         /* RTL language support */
         html[lang="ar"], html[lang="he"], html[lang="fa"], html[lang="ps"], html[lang="ur"] {
