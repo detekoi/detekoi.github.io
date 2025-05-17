@@ -225,9 +225,10 @@
 
         /* Language selector styling */
         .language-selector {
-            width: 75%;
-            margin: 1rem auto;
-            text-align: right;
+            position: fixed;
+            top: var(--spacing-medium);
+            right: var(--spacing-medium);
+            z-index: 1000;
         }
 
         #language-select {
@@ -247,8 +248,8 @@
 
         @media screen and (max-width: 450px) {
             .language-selector {
-                width: 100%;
-                margin: 0.5rem 0;
+                top: var(--spacing-medium);
+                right: var(--spacing-medium);
             }
         }
 

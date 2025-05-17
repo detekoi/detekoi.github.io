@@ -12,6 +12,17 @@ const AVAILABLE_LANGUAGES = {
   'ru': 'Русский'
   // Add more languages as needed
 };
+// Short labels for language selector icons
+const LANGUAGE_ICONS = {
+  'en': 'en',
+  'es': 'es',
+  'fr': 'fr',
+  'de': 'de',
+  'it': 'it',
+  'pt': 'pt',
+  'ja': '日本',
+  'ru': 'ру'
+};
 
 // Default language
 const DEFAULT_LANGUAGE = 'en';
@@ -214,17 +225,13 @@ function createLanguageSelector() {
   const selector = document.createElement('div');
   selector.className = 'language-selector';
   
-  const labelEl = document.createElement('label');
-  labelEl.setAttribute('for', 'language-select');
-  labelEl.textContent = getTranslation('ui.languageSelector', 'Language') + ': ';
-  
   const languageList = document.createElement('select');
   languageList.id = 'language-select';
-  
-  for (const [code, name] of Object.entries(AVAILABLE_LANGUAGES)) {
+
+  for (const code of Object.keys(AVAILABLE_LANGUAGES)) {
     const option = document.createElement('option');
     option.value = code;
-    option.textContent = name;
+    option.textContent = LANGUAGE_ICONS[code] || code;
     languageList.appendChild(option);
   }
   
@@ -234,14 +241,11 @@ function createLanguageSelector() {
     translatePage();
   });
   
-  selector.appendChild(labelEl);
   selector.appendChild(languageList);
-  
-  // Add language selector to the page (before the table)
-  const table = document.querySelector('table');
-  if (table) {
-    table.parentNode.insertBefore(selector, table);
-  }
+
+  // Add language selector to the page header or body
+  const header = document.querySelector('header') || document.body;
+  header.appendChild(selector);
 }
 
 // Update language selector to reflect current language
@@ -251,11 +255,6 @@ function updateLanguageSelector(lang) {
     selector.value = lang;
   }
   
-  // Also update the label for the language selector
-  const label = document.querySelector('.language-selector label');
-  if (label) {
-    label.textContent = getTranslation('ui.languageSelector', 'Language') + ': ';
-  }
 }
 
 // Initialize when DOM is loaded
