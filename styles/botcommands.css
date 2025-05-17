@@ -1,0 +1,295 @@
+        /* CJK language support */
+        .cjk-language {
+            /* Adjust line-height for better readability with CJK characters */
+            line-height: 1.6;
+        }
+        
+        .cjk-language code {
+            /* Ensure monospace font works well with CJK */
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, sans-serif;
+        }
+
+        /* Character spacing adjustments for Japanese */
+        html[lang="ja"] {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        /* Russian may need slightly larger font for readability */
+        html[lang="ru"] {
+            font-size: 1.02em;
+        }
+
+        /* Basic table styling to match the theme */
+        body {
+            padding: 2rem; /* Add some padding */
+            font-family: var(--font-primary); /* Use Atkinson Hyperlegible from main.css */
+        }
+        table {
+            width: 75%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            background-color: var(--bg-color, #ffffff);
+            color: var(--text-color); /* Use theme text color */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--color-border);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border);
+        }
+        /* Column width specifications */
+        th:nth-child(1), td:nth-child(1) { width: 20%; } /* Command column */
+        th:nth-child(2), td:nth-child(2) { width: 30%; } /* Description column */
+        th:nth-child(3), td:nth-child(3) { width: 50%; } /* Usage column */
+        th {
+            background-color: rgba(var(--accent-color-rgb), 0.3); /* Slightly transparent accent */
+            font-weight: 700; /* Use Atkinson Hyperlegible Bold */
+            text-transform: uppercase;
+            border-bottom: 2px solid var(--color-border); /* Thicker border after header */
+        }
+        /* Remove bottom border from last row */
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--header-color); /* Use theme header color */
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+
+        /* Code block styling */
+        code {
+            display: block;
+            margin: 4px 0;
+            background-color: rgba(0, 0, 0, 0.05); /* Light gray background for light mode */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace; /* Use monospace for command examples */
+            font-size: 1em;
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            table {
+                background-color: var(--bg-color-dark, #2a2a2a);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            }
+            
+            code {
+                background-color: rgba(255, 255, 255, 0.1);
+                padding: 2px 6px;
+                border-radius: 4px;
+            }
+            .mod-badge {
+                background: #b71c1c;
+                color: #fff;
+            }
+        }
+
+        /* Mod badge styling */
+        .mod-badge {
+            display: inline-block;
+            background: #e57373;
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-left: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+        }
+        .mod-command::before {
+            content: "Mod";
+            display: inline-block;
+            background: #e57373;
+            color: #fff;
+            font-size: 0.75em;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-right: 6px;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+        }
+        @media (prefers-color-scheme: dark) {
+            .mod-command::before {
+                background: #b71c1c;
+                color: #fff;
+            }
+        }
+
+        /* Tablet responsiveness */
+        @media screen and (min-width: 451px) and (max-width: 1024px) {
+            table {
+                width: 80%;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 450px) {
+            body {
+                padding: 1rem;
+            }
+            
+            table {
+                width: 100%;
+                margin: 1rem 0;
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            code {
+                padding: 2px 4px;
+                font-size: 0.85rem;
+                word-break: break-word;
+            }
+        }
+
+        /* Add dropdown styles */
+        .dropdown-summary {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .dropdown-summary:hover {
+            background: rgba(var(--accent-color-rgb), 0.08);
+        }
+        .dropdown-toggle {
+            float: right;
+            font-size: 1.1em;
+            margin-left: 8px;
+            transition: transform 0.2s;
+        }
+        .dropdown-group.open .dropdown-toggle {
+            transform: rotate(180deg);
+        }
+
+        .expand-tip {
+            width: 75%;
+            margin: 0 auto 1rem auto;
+            padding: 0.75em 1em;
+            background: rgba(255,255,255,0.8);
+            border-left: 4px solid var(--color-border,#888);
+            border-radius: 6px;
+            font-size: 1.08em;
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+            color: var(--text-color,#222);
+        }
+        @media (prefers-color-scheme: dark) {
+            .expand-tip {
+                background: rgba(30,30,30,0.8);
+                color: var(--text-color,#eee);
+            }
+        }
+
+        .category-header {
+            background: rgba(var(--accent-color-rgb), 0.15);
+            font-size: 1.25em;
+            font-weight: 700;
+            text-align: left;
+            letter-spacing: 1px;
+            color: var(--header-color, #333);
+            text-decoration: underline;
+        }
+        @media (prefers-color-scheme: dark) {
+            .category-header {
+                background: rgba(var(--accent-color-rgb), 0.25);
+                color: var(--header-color, #fff);
+            }
+        }
+
+        /* Remove border between dropdown summary and details when open */
+        .dropdown-group.open .dropdown-summary td {
+            border-bottom: none;
+        }
+        /* Always show border under details row */
+        .dropdown-details td {
+            border-bottom: 1px solid var(--color-border);
+        }
+        /* Only remove border from last row if not a dropdown-details row */
+        tr:last-child:not(.dropdown-details) td {
+            border-bottom: none;
+        }
+
+        /* Language selector styling */
+        .language-selector {
+            width: 75%;
+            margin: 1rem auto;
+            text-align: right;
+        }
+
+        #language-select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+            background-color: var(--bg-color, #ffffff);
+            color: var(--text-color);
+            font-family: var(--font-primary);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            #language-select {
+                background-color: var(--bg-color-dark, #2a2a2a);
+            }
+        }
+
+        @media screen and (max-width: 450px) {
+            .language-selector {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+
+        /* RTL language support */
+        html[lang="ar"], html[lang="he"], html[lang="fa"], html[lang="ps"], html[lang="ur"] {
+            direction: rtl;
+        }
+
+        html[lang="ar"] th, html[lang="he"] th, html[lang="fa"] th, html[lang="ps"] th, html[lang="ur"] th,
+        html[lang="ar"] td, html[lang="he"] td, html[lang="fa"] td, html[lang="ps"] td, html[lang="ur"] td {
+            text-align: right;
+        }
+
+        html[lang="ar"] .dropdown-toggle, 
+        html[lang="he"] .dropdown-toggle,
+        html[lang="fa"] .dropdown-toggle,
+        html[lang="ps"] .dropdown-toggle,
+        html[lang="ur"] .dropdown-toggle {
+            float: left;
+            margin-right: 8px;
+            margin-left: 0;
+        }
+        
+        /* Russian may need slightly larger font for readability */
+        html[lang="ru"] {
+            font-size: 1.02em;
+        }
+        
+        /* CJK language support */
+        .cjk-language {
+            /* Adjust line-height for better readability with CJK characters */
+            line-height: 1.6;
+        }
+        
+        .cjk-language code {
+            /* Ensure monospace font works well with CJK */
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, sans-serif;
+        }
+
+        /* Character spacing adjustments for Japanese */
+        html[lang="ja"] {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
