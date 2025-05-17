@@ -225,23 +225,41 @@ function createLanguageSelector() {
   const selector = document.createElement('div');
   selector.className = 'language-selector';
   
-  const languageList = document.createElement('select');
-  languageList.id = 'language-select';
+  const currentBtn = document.createElement('button');
+  currentBtn.className = 'current-lang';
+  currentBtn.type = 'button';
+  currentBtn.textContent = LANGUAGE_ICONS[currentLanguage] || currentLanguage;
+  selector.appendChild(currentBtn);
+
+  const grid = document.createElement('div');
+  grid.className = 'language-grid';
 
   for (const code of Object.keys(AVAILABLE_LANGUAGES)) {
-    const option = document.createElement('option');
-    option.value = code;
-    option.textContent = LANGUAGE_ICONS[code] || code;
-    languageList.appendChild(option);
+    const btn = document.createElement('button');
+    btn.className = 'grid-item';
+    btn.type = 'button';
+    btn.dataset.lang = code;
+    btn.textContent = LANGUAGE_ICONS[code] || code;
+    btn.addEventListener('click', async () => {
+      selector.classList.remove('open');
+      await loadTranslations(code);
+      translatePage();
+      updateLanguageSelector(code);
+    });
+    grid.appendChild(btn);
   }
-  
-  languageList.addEventListener('change', async (e) => {
-    const newLang = e.target.value;
-    await loadTranslations(newLang);
-    translatePage();
+
+  selector.appendChild(grid);
+
+  currentBtn.addEventListener('click', () => {
+    selector.classList.toggle('open');
   });
-  
-  selector.appendChild(languageList);
+
+  document.addEventListener('click', (e) => {
+    if (!selector.contains(e.target)) {
+      selector.classList.remove('open');
+    }
+  });
 
   // Add language selector to the page header or body
   const header = document.querySelector('header') || document.body;
@@ -250,11 +268,13 @@ function createLanguageSelector() {
 
 // Update language selector to reflect current language
 function updateLanguageSelector(lang) {
-  const selector = document.getElementById('language-select');
+  const selector = document.querySelector('.language-selector');
   if (selector) {
-    selector.value = lang;
+    const currentBtn = selector.querySelector('.current-lang');
+    if (currentBtn) {
+      currentBtn.textContent = LANGUAGE_ICONS[lang] || lang;
+    }
   }
-  
 }
 
 // Initialize when DOM is loaded
