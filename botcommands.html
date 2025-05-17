@@ -1,9 +1,29 @@
-<!DOCTYPE html>
+        /* CJK language support */
+        .cjk-language {
+            /* Adjust line-height for better readability with CJK characters */
+            line-height: 1.6;
+        }
+        
+        .cjk-language code {
+            /* Ensure monospace font works well with CJK */
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, sans-serif;
+        }
+
+        /* Character spacing adjustments for Japanese */
+        html[lang="ja"] {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        /* Russian may need slightly larger font for readability */
+        html[lang="ru"] {
+            font-size: 1.02em;
+        }<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bot Commands</title>
+    <title data-i18n="meta.title">Bot Commands</title>
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -210,6 +230,77 @@
         tr:last-child:not(.dropdown-details) td {
             border-bottom: none;
         }
+
+        /* Language selector styling */
+        .language-selector {
+            width: 75%;
+            margin: 1rem auto;
+            text-align: right;
+        }
+
+        #language-select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid var(--color-border);
+            background-color: var(--bg-color, #ffffff);
+            color: var(--text-color);
+            font-family: var(--font-primary);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            #language-select {
+                background-color: var(--bg-color-dark, #2a2a2a);
+            }
+        }
+
+        @media screen and (max-width: 450px) {
+            .language-selector {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+        }
+
+        /* RTL language support */
+        html[lang="ar"], html[lang="he"], html[lang="fa"], html[lang="ps"], html[lang="ur"] {
+            direction: rtl;
+        }
+
+        html[lang="ar"] th, html[lang="he"] th, html[lang="fa"] th, html[lang="ps"] th, html[lang="ur"] th,
+        html[lang="ar"] td, html[lang="he"] td, html[lang="fa"] td, html[lang="ps"] td, html[lang="ur"] td {
+            text-align: right;
+        }
+
+        html[lang="ar"] .dropdown-toggle, 
+        html[lang="he"] .dropdown-toggle,
+        html[lang="fa"] .dropdown-toggle,
+        html[lang="ps"] .dropdown-toggle,
+        html[lang="ur"] .dropdown-toggle {
+            float: left;
+            margin-right: 8px;
+            margin-left: 0;
+        }
+        
+        /* Russian may need slightly larger font for readability */
+        html[lang="ru"] {
+            font-size: 1.02em;
+        }
+        
+        /* CJK language support */
+        .cjk-language {
+            /* Adjust line-height for better readability with CJK characters */
+            line-height: 1.6;
+        }
+        
+        .cjk-language code {
+            /* Ensure monospace font works well with CJK */
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, sans-serif;
+        }
+
+        /* Character spacing adjustments for Japanese */
+        html[lang="ja"] {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
     </style>
   <script>
     // 1. Array of SPAM DOMAINS to block
@@ -248,179 +339,180 @@
       console.warn("Spam referrer blocked:", referrer);
     }
   </script>
+  <script src="scripts/i18n.js"></script>
 </head>
 <body>
     <canvas id="staticCanvas"></canvas>
 
-    <h1>ChatSage Bot Commands</h1>
+    <h1 data-i18n="page.title">ChatSage Bot Commands</h1>
 
-    <div class="expand-tip">
+    <div class="expand-tip" data-i18n="page.expandTip">
       Click any command row below to expand and see usage details.
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Command</th>
-                <th>Description</th>
+                <th data-i18n="table.headers.command">Command</th>
+                <th data-i18n="table.headers.description">Description</th>
             </tr>
         </thead>
         <tbody>
             <tr class="category-header">
-                <td colspan="2">General</td>
+                <td colspan="2" data-i18n="table.categories.general">General</td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!ask / !sage</td>
-                <td>Ask Sage a question. Uses search intelligently.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.ask.name">!ask / !sage</td>
+                <td data-i18n-key="commands.ask.description">Ask Sage a question. Uses search intelligently.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!ask &lt;your question&gt;</code>
+                    <code data-i18n-cmd="commands.ask.usage.question">!ask &lt;your question&gt;</code>
                 </td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!search</td>
-                <td>Searches the web for information on a topic.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.search.name">!search</td>
+                <td data-i18n-key="commands.search.description">Searches the web for information on a topic.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!search &lt;your query&gt;</code>
+                    <code data-i18n-cmd="commands.search.usage.query">!search &lt;your query&gt;</code>
                 </td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!game</td>
-                <td>Provides researched information about the game currently being played. Add "analyze" to use AI image recognition on the stream (uses Twitch thumbnail that updates every 5 minutes).<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.game.name">!game</td>
+                <td data-i18n-key="commands.game.description">Provides researched information about the game currently being played. Add "analyze" to use AI image recognition on the stream (uses Twitch thumbnail that updates every 5 minutes).<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
                     <code>!game</code>
-                    <code>!game analyze</code> Analyzes stream visuals with AI
-                    <code>!game &lt;your question&gt;</code> Answers specific gameplay questions
-                    <code>!game analyze &lt;your question&gt;</code> Analyzes visuals and answers question
+                    <code>!game analyze</code> <span data-i18n="commands.game.usage.analyzeText">Analyzes stream visuals with AI</span>
+                    <code data-i18n-cmd="commands.game.usage.question">!game &lt;your question&gt;</code> <span data-i18n="commands.game.usage.questionText">Answers specific gameplay questions</span>
+                    <code data-i18n-cmd="commands.game.usage.analyzeQuestion">!game analyze &lt;your question&gt;</code> <span data-i18n="commands.game.usage.analyzeQuestionText">Analyzes visuals and answers question</span>
                 </td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!translate</td>
-                <td>Manage automatic message translation for users.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.translate.name">!translate</td>
+                <td data-i18n-key="commands.translate.description">Manage automatic message translation for users.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!translate &lt;lang&gt;</code>
+                    <code data-i18n-cmd="commands.translate.usage.lang">!translate &lt;lang&gt;</code>
                     <code>!translate stop</code>
-                    <code class="mod-command">!translate &lt;lang|stop&gt; [user]</code>
+                    <code class="mod-command" data-i18n-cmd="commands.translate.usage.modUser">!translate &lt;lang|stop&gt; [user]</code>
                     <code class="mod-command">!translate stop all</code>
                 </td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!commands / !help</td>
-                <td>Shows where to find the list of available commands.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.help.name">!commands / !help</td>
+                <td data-i18n-key="commands.help.description">Shows where to find the list of available commands.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!help or !commands</code>
+                    <code data-i18n-cmd="commands.help.usage.basic">!help or !commands</code>
                 </td>
             </tr>
         </tbody>
         <tbody>
             <tr class="category-header">
-                <td colspan="2">Games</td>
+                <td colspan="2" data-i18n="table.categories.games">Games</td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!geo</td>
-                <td>Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.geo.name">!geo</td>
+                <td data-i18n-key="commands.geo.description">Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!geo</code> Starts a global real-world game
-                    <code>!geo &lt;region&gt;</code> Starts a region-specific real-world game, e.g. !geo Japan
-                    <code>!geo game</code> Starts a game-world game using current stream's game
-                    <code>!geo game [Game Title]</code> Starts a game-world game with specified game, e.g. !geo game "Metroid Prime"
-                    <code>!geo &lt;command&gt; N</code> Runs any game command with N rounds, e.g. !geo Japan 3
+                    <code>!geo</code> <span data-i18n="commands.geo.usage.basic">Starts a global real-world game</span>
+                    <code data-i18n-cmd="commands.geo.usage.regionCmd">!geo &lt;region&gt;</code> <span data-i18n="commands.geo.usage.region">Starts a region-specific real-world game, e.g. !geo <span data-i18n="commands.geo.usage.japan">Japan</span></span>
+                    <code>!geo game</code> <span data-i18n="commands.geo.usage.game">Starts a game-world game using current stream's game</span>
+                    <code data-i18n-cmd="commands.geo.usage.gameTitleCmd">!geo game [Game Title]</code> <span data-i18n="commands.geo.usage.gameTitle">Starts a game-world game with specified game, e.g. !geo game "<span data-i18n="commands.geo.usage.metroidPrime">Metroid Prime</span>"</span>
+                    <code data-i18n-cmd="commands.geo.usage.commandRounds">!geo &lt;command&gt; N</code> <span data-i18n="commands.geo.usage.rounds">Runs any game command with N rounds, e.g. !geo <span data-i18n="commands.geo.usage.japan">Japan</span> 3</span>
                     <code>!geo leaderboard</code>
-                    <code>!geo stop</code> Game initiator, mods, or broadcaster can stop
-                    <code class="mod-command">!geo config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!geo config interval &lt;seconds&gt;</code> Sets time between clues to 30-300 seconds
-                    <code class="mod-command">!geo config duration &lt;minutes&gt;</code> Sets round duration to 3-20 minutes
-                    <code class="mod-command">!geo config region &lt;regions&gt;</code> Sets regions like Europe,Asia or USA,Canada
-                    <code class="mod-command">!geo config game &lt;titles&gt;</code> Sets preferred game titles, comma-separated
-                    <code class="mod-command">!geo config pointsbase &lt;number&gt;</code> Sets base points from 1-100
+                    <code>!geo stop</code> <span data-i18n="commands.geo.usage.stop">Game initiator, mods, or broadcaster can stop</span>
+                    <code class="mod-command" data-i18n-cmd="commands.geo.usage.configDifficultyCmd">!geo config difficulty &lt;easy|normal|hard&gt;</code>
+                    <code class="mod-command" data-i18n-cmd="commands.geo.usage.intervalCmd">!geo config interval &lt;seconds&gt;</code> <span data-i18n="commands.geo.usage.interval">Sets time between clues to 30-300 seconds</span>
+                    <code class="mod-command" data-i18n-cmd="commands.geo.usage.durationCmd">!geo config duration &lt;minutes&gt;</code> <span data-i18n="commands.geo.usage.duration">Sets round duration to 3-20 minutes</span>
+                    <code class="mod-command" data-i18n-cmd="commands.geo.usage.configRegionCmd">!geo config region &lt;regions&gt;</code> <span data-i18n="commands.geo.usage.configRegion">Sets regions like <span data-i18n="commands.geo.usage.europe">Europe</span>,<span data-i18n="commands.geo.usage.asia">Asia</span> or <span data-i18n="commands.geo.usage.usa">USA</span>,<span data-i18n="commands.geo.usage.canada">Canada</span></span>
+                    <code class="mod-command" data-i18n-cmd="commands.geo.usage.configGameCmd">!geo config game &lt;titles&gt;</code> <span data-i18n="commands.geo.usage.configGame">Sets preferred game titles, comma-separated</span>
+                    <code class="mod-command" data-i18n-cmd="commands.geo.usage.pointsBaseCmd">!geo config pointsbase &lt;number&gt;</code> <span data-i18n="commands.geo.usage.pointsBase">Sets base points from 1-100</span>
                     <code class="mod-command">!geo config pointstimebonus &lt;true|false&gt;</code>
                     <code class="mod-command">!geo config pointsdifficultymultiplier &lt;true|false&gt;</code>
                     <code class="mod-command">!geo config scoretracking &lt;true|false&gt;</code>
-                    <code class="mod-command">!geo config maxrounds &lt;number&gt;</code> Sets maximum rounds from 1-10
+                    <code class="mod-command" data-i18n-cmd="commands.geo.usage.maxRoundsCmd">!geo config maxrounds &lt;number&gt;</code> <span data-i18n="commands.geo.usage.maxRounds">Sets maximum rounds from 1-10</span>
                     <code class="mod-command">!geo resetconfig</code>
-                    <code class="mod-command">!geo clearleaderboard</code> Or resetstats
-                    <code>!geo report &lt;reason&gt;</code> Reports problematic locations or clues
+                    <code class="mod-command">!geo clearleaderboard</code> <span data-i18n="commands.geo.usage.clearLeaderboard">Or resetstats</span>
+                    <code data-i18n-cmd="commands.geo.usage.reportCmd">!geo report &lt;reason&gt;</code> <span data-i18n="commands.geo.usage.report">Reports problematic locations or clues</span>
                     <code>!geo help</code>
                 </td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!riddle</td>
-                <td>Starts or manages a Riddle game. Riddles can be general, about the current stream game, or a specific subject.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.riddle.name">!riddle</td>
+                <td data-i18n-key="commands.riddle.description">Starts or manages a Riddle game. Riddles can be general, about the current stream game, or a specific subject.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!riddle</code> Starts a general knowledge riddle
-                    <code>!riddle &lt;subject&gt;</code> Example: !riddle animals
-                    <code>!riddle &lt;rounds&gt;</code> Example: !riddle 3 for 3 general rounds
-                    <code>!riddle &lt;subject&gt; &lt;rounds&gt;</code> Example: !riddle history 5
-                    <code>!riddle game</code> Riddle about the current stream game
-                    <code>!riddle game &lt;rounds&gt;</code>
+                    <code>!riddle</code> <span data-i18n="commands.riddle.usage.basic">Starts a general knowledge riddle</span>
+                    <code data-i18n-cmd="commands.riddle.usage.subjectCmd">!riddle &lt;subject&gt;</code> <span data-i18n="commands.riddle.usage.subject">Example: !riddle <span data-i18n="commands.riddle.usage.animals">animals</span></span>
+                    <code data-i18n-cmd="commands.riddle.usage.roundsCmd">!riddle &lt;rounds&gt;</code> <span data-i18n="commands.riddle.usage.rounds">Example: !riddle 3 for 3 general rounds</span>
+                    <code data-i18n-cmd="commands.riddle.usage.subjectRoundsCmd">!riddle &lt;subject&gt; &lt;rounds&gt;</code> <span data-i18n="commands.riddle.usage.subjectRounds">Example: !riddle <span data-i18n="commands.riddle.usage.history">history</span> 5</span>
+                    <code>!riddle game</code> <span data-i18n="commands.riddle.usage.game">Riddle about the current stream game</span>
+                    <code data-i18n-cmd="commands.riddle.usage.gameRoundsCmd">!riddle game &lt;rounds&gt;</code>
                     <code>!riddle leaderboard</code>
-                    <code>!riddle report &lt;reason...&gt;</code> Reports problematic riddles
-                    <code>!riddle stop</code> Game initiator, mods, or broadcaster can stop
-                    <code class="mod-command">!riddle config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!riddle config questiontime &lt;seconds&gt;</code> Sets time per riddle to 15-120 seconds
-                    <code class="mod-command">!riddle config pointsbase &lt;number&gt;</code> Sets base points from 1-100
+                    <code data-i18n-cmd="commands.riddle.usage.reportCmd">!riddle report &lt;reason...&gt;</code> <span data-i18n="commands.riddle.usage.report">Reports problematic riddles</span>
+                    <code>!riddle stop</code> <span data-i18n="commands.riddle.usage.stop">Game initiator, mods, or broadcaster can stop</span>
+                    <code class="mod-command" data-i18n-cmd="commands.riddle.usage.configDifficultyCmd">!riddle config difficulty &lt;easy|normal|hard&gt;</code>
+                    <code class="mod-command" data-i18n-cmd="commands.riddle.usage.questionTimeCmd">!riddle config questiontime &lt;seconds&gt;</code> <span data-i18n="commands.riddle.usage.questionTime">Sets time per riddle to 15-120 seconds</span>
+                    <code class="mod-command" data-i18n-cmd="commands.riddle.usage.pointsBaseCmd">!riddle config pointsbase &lt;number&gt;</code> <span data-i18n="commands.riddle.usage.pointsBase">Sets base points from 1-100</span>
                     <code class="mod-command">!riddle config pointstimebonus &lt;true|false&gt;</code>
                     <code class="mod-command">!riddle config pointsdifficultymultiplier &lt;true|false&gt;</code>
                     <code class="mod-command">!riddle config scoretracking &lt;true|false&gt;</code>
-                    <code class="mod-command">!riddle config maxrounds &lt;number&gt;</code> Sets maximum rounds from 1-20
-                    <code class="mod-command">!riddle config keywordslimit &lt;number&gt;</code> Sets recent keywords to exclude, e.g. 20-100
-                    <code class="mod-command">!riddle config rounddelay &lt;milliseconds&gt;</code> Sets delay between rounds
+                    <code class="mod-command" data-i18n-cmd="commands.riddle.usage.maxRoundsCmd">!riddle config maxrounds &lt;number&gt;</code> <span data-i18n="commands.riddle.usage.maxRounds">Sets maximum rounds from 1-20</span>
+                    <code class="mod-command" data-i18n-cmd="commands.riddle.usage.keywordsLimitCmd">!riddle config keywordslimit &lt;number&gt;</code> <span data-i18n="commands.riddle.usage.keywordsLimit">Sets recent keywords to exclude, e.g. 20-100</span>
+                    <code class="mod-command" data-i18n-cmd="commands.riddle.usage.roundDelayCmd">!riddle config rounddelay &lt;milliseconds&gt;</code> <span data-i18n="commands.riddle.usage.roundDelay">Sets delay between rounds</span>
                     <code class="mod-command">!riddle resetconfig</code>
-                    <code class="mod-command">!riddle clearleaderboard</code> Or cleardata
+                    <code class="mod-command">!riddle clearleaderboard</code> <span data-i18n="commands.riddle.usage.clearLeaderboard">Or cleardata</span>
                     <code>!riddle help</code>
                 </td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!trivia</td>
-                <td>Starts or manages Trivia games with factual questions on various topics, including the current stream game.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.trivia.name">!trivia</td>
+                <td data-i18n-key="commands.trivia.description">Starts or manages Trivia games with factual questions on various topics, including the current stream game.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code>!trivia</code> Starts general knowledge trivia
-                    <code>!trivia &lt;topic&gt;</code> Starts topic-specific trivia, e.g. !trivia science
-                    <code>!trivia game</code> Starts trivia about the current stream game
-                    <code>!trivia &lt;rounds&gt;</code> Specifies number of rounds, e.g. !trivia 3
-                    <code>!trivia &lt;topic&gt; &lt;rounds&gt;</code> Example: !trivia history 5
+                    <code>!trivia</code> <span data-i18n="commands.trivia.usage.basic">Starts general knowledge trivia</span>
+                    <code data-i18n-cmd="commands.trivia.usage.topicCmd">!trivia &lt;topic&gt;</code> <span data-i18n="commands.trivia.usage.topic">Starts topic-specific trivia, e.g. !trivia <span data-i18n="commands.trivia.usage.science">science</span></span>
+                    <code>!trivia game</code> <span data-i18n="commands.trivia.usage.game">Starts trivia about the current stream game</span>
+                    <code data-i18n-cmd="commands.trivia.usage.roundsCmd">!trivia &lt;rounds&gt;</code> <span data-i18n="commands.trivia.usage.rounds">Specifies number of rounds, e.g. !trivia 3</span>
+                    <code data-i18n-cmd="commands.trivia.usage.topicRoundsCmd">!trivia &lt;topic&gt; &lt;rounds&gt;</code> <span data-i18n="commands.trivia.usage.topicRounds">Example: !trivia <span data-i18n="commands.trivia.usage.history">history</span> 5</span>
                     <code>!trivia leaderboard</code>
-                    <code>!trivia report &lt;reason&gt;</code> Reports problematic questions
-                    <code>!trivia stop</code> Game initiator, mods, or broadcaster can stop
-                    <code class="mod-command">!trivia config difficulty &lt;easy|normal|hard&gt;</code>
-                    <code class="mod-command">!trivia config time &lt;seconds&gt;</code> Sets time per question to 10-120 seconds
-                    <code class="mod-command">!trivia config pointsbase &lt;number&gt;</code> Sets base points from 1-100
+                    <code data-i18n-cmd="commands.trivia.usage.reportCmd">!trivia report &lt;reason&gt;</code> <span data-i18n="commands.trivia.usage.report">Reports problematic questions</span>
+                    <code>!trivia stop</code> <span data-i18n="commands.trivia.usage.stop">Game initiator, mods, or broadcaster can stop</span>
+                    <code class="mod-command" data-i18n-cmd="commands.trivia.usage.configDifficultyCmd">!trivia config difficulty &lt;easy|normal|hard&gt;</code>
+                    <code class="mod-command" data-i18n-cmd="commands.trivia.usage.timeCmd">!trivia config time &lt;seconds&gt;</code> <span data-i18n="commands.trivia.usage.time">Sets time per question to 10-120 seconds</span>
+                    <code class="mod-command" data-i18n-cmd="commands.trivia.usage.pointsBaseCmd">!trivia config pointsbase &lt;number&gt;</code> <span data-i18n="commands.trivia.usage.pointsBase">Sets base points from 1-100</span>
                     <code class="mod-command">!trivia config pointstimebonus &lt;true|false&gt;</code>
                     <code class="mod-command">!trivia config pointsdifficultymultiplier &lt;true|false&gt;</code>
                     <code class="mod-command">!trivia config scoretracking &lt;true|false&gt;</code>
-                    <code class="mod-command">!trivia config topic &lt;topics&gt;</code> Sets preferred topics, comma-separated
-                    <code class="mod-command">!trivia config maxrounds &lt;number&gt;</code> Sets maximum rounds from 1-10
+                    <code class="mod-command" data-i18n-cmd="commands.trivia.usage.configTopicCmd">!trivia config topic &lt;topics&gt;</code> <span data-i18n="commands.trivia.usage.configTopic">Sets preferred topics, comma-separated</span>
+                    <code class="mod-command" data-i18n-cmd="commands.trivia.usage.maxRoundsCmd">!trivia config maxrounds &lt;number&gt;</code> <span data-i18n="commands.trivia.usage.maxRounds">Sets maximum rounds from 1-10</span>
                     <code class="mod-command">!trivia resetconfig</code>
                     <code class="mod-command">!trivia clearleaderboard</code>
                     <code>!trivia help</code>
@@ -429,27 +521,27 @@
         </tbody>
         <tbody>
             <tr class="category-header">
-                <td colspan="2">Config</td>
+                <td colspan="2" data-i18n="table.categories.config">Config</td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!botlang</td>
-                <td>Configure the bot to speak in a specific language for the entire channel.<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.botlang.name">!botlang</td>
+                <td data-i18n-key="commands.botlang.description">Configure the bot to speak in a specific language for the entire channel.<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
-                    <code class="mod-command">!botlang &lt;language&gt;</code>
-                    <code class="mod-command">!botlang status</code> Checks current language
-                    <code class="mod-command">!botlang off</code> Resets to English
-                    <code class="mod-command">!botlang default</code> Resets to English
+                    <code class="mod-command" data-i18n-cmd="commands.botlang.usage.langCmd">!botlang &lt;language&gt;</code>
+                    <code class="mod-command">!botlang status</code> <span data-i18n="commands.botlang.usage.status">Checks current language</span>
+                    <code class="mod-command">!botlang off</code> <span data-i18n="commands.botlang.usage.off">Resets to English</span>
+                    <code class="mod-command">!botlang default</code> <span data-i18n="commands.botlang.usage.default">Resets to English</span>
                 </td>
             </tr>
         </tbody>
         <tbody class="dropdown-group">
             <tr class="dropdown-summary">
-                <td>!ping</td>
-                <td>Checks if the bot is responsive. Responds with Pong!<span class="dropdown-toggle">&#x25BC;</span></td>
+                <td data-i18n-key="commands.ping.name">!ping</td>
+                <td data-i18n-key="commands.ping.description">Checks if the bot is responsive. Responds with Pong!<span class="dropdown-toggle">&#x25BC;</span></td>
             </tr>
             <tr class="dropdown-details" style="display:none;">
                 <td colspan="2">
