@@ -483,7 +483,21 @@
                         </td>
                     </tr>
                 </tbody>
-                 <tbody class="dropdown-group">
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts voice &lt;voice_id|reset&gt;</td>
+                        <td>Allows a user to set their preferred voice for messages they trigger that are spoken by TTS. Use <span class="inline-code">reset</span> to revert to the channel's default voice. See <a href="#voices" class="default-link-style">available voices</a> for a list of voice IDs. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts voice Friendly_Person</code>
+                            <code>!tts voice reset</code>
+                            <code>!tts voice</code> <span>(displays current personal preference)</span>
+                            <p>Permission: Everyone (for their own preference)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts ignore</td>
                         <td>Manage TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
