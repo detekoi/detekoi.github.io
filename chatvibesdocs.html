@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatVibes TTS Bot Commands</title>
+    <link rel="stylesheet" href="styles/reset.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/botcommands.css">
+    <style>
+        /* Basic styles for layout if main.css doesn't cover it */
+        body {
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            color: #333;
+        }
+        #sidebar {
+            width: 200px;
+            background: #f4f4f4;
+            padding: 15px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+        }
+        #sidebar h2 {
+            margin-top: 0;
+        }
+        #sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+            padding: 8px 0;
+ padding-left: 15px;
+        }
+        
+        #content {
+            margin-left: 230px; /* Adjust based on sidebar width + padding */
+            padding: 20px;
+            width: calc(100% - 230px);
+        }
+        .section {
+            margin-bottom: 40px;
+        }
+        .section h2 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.9em;
+            display: block; /* Make each code block take its own line */
+            margin-bottom: 5px; /* Add some space between code blocks */
+        }
+        .mod-command code { /* Example: style moderator commands differently if needed */
+            border-left: 3px solid orange;
+        }
+         /* Styles from your example for dropdowns, adapt as needed */
+        .dropdown-summary { cursor: pointer; }
+        .dropdown-summary:hover { background-color: #f9f9f9; }
+        .dropdown-details { background-color: #fdfdfd; }
+        .dropdown-toggle { float: right; }
+        .category-header td {
+            background-color: #e9e9e9;
+            font-weight: bold;
+            padding: 10px 8px;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .expand-tip {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        .inline-code {
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+            }
+ .default-link-style {
+ border: none !important;
+ outline: none !important;
+ box-shadow: none !important;
+ background: none !important;
+ padding: 0 !important;
+ margin: 0 !important;
+ display: inline !important;
+ text-decoration: underline !important;
+ }
+    </style>
+</head>
+<body>
+    <canvas id="staticCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></canvas>
+    
+    <nav id="sidebar">
+        <h2>ChatVibes TTS</h2>
+        <ul>
+            <li><a href="#commands">Commands</a></li>
+            <li><a href="#voices">Voices</a></li>
+        </ul>
+    </nav>
+
+    <main id="content">
+        <h1>ChatVibes TTS Bot Documentation</h1>
+
+        <section id="commands" class="section">
+            <h2>Commands</h2>
+            <div class="expand-tip">
+              Click any command row below to expand and see usage details.
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="category-header"><td colspan="2">General</td></tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts status</td>
+                        <td>Gets the current status of the TTS application for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts status</code>
+                            <p>Permission: Everyone</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts voices</td>
+                        <td>Shows a summary of available voices. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts voices</code>
+                            <p>Permission: Everyone</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts commands</td>
+                        <td>Lists all available !tts subcommands. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts commands</code>
+                            <p>Permission: Everyone</p>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody>
+                    <tr class="category-header"><td colspan="2">Engine & Mode Control (Moderator Only)</td></tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts on / enable</td>
+                        <td>Enables the TTS engine. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts on</code>
+                            <code>!tts enable</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts off / disable</td>
+                        <td>Disables the TTS engine entirely. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts off</code>
+                            <code>!tts disable</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts mode</td>
+                        <td>Toggles TTS mode (all chat or command only). <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts mode all</code> <span>(Speak all chat messages & events)</span>
+                            <code>!tts mode command</code> <span>(Only speak on command or for events)</span>
+                            <code>!tts mode</code> <span>(Displays current mode)</span>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody>
+                    <tr class="category-header"><td colspan="2">Queue Management (Moderator Only)</td></tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts pause</td>
+                        <td>Pauses the TTS event queue. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts pause</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts resume</td>
+                        <td>Resumes the TTS event queue. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts resume</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts clear</td>
+                        <td>Clears all pending messages from the TTS queue. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts clear</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts stop</td>
+                        <td>Stops the currently playing audio. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts stop</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody>
+                    <tr class="category-header"><td colspan="2">User & Event Preferences</td></tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts emotion</td>
+                        <td>Set your preferred TTS emotion. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts emotion &lt;emotion_name&gt;</code> <span>(e.g., happy, sad, angry, auto)</span>
+                            <code>!tts emotion reset</code> <span>(Use channel default)</span>
+                            <code>!tts emotion</code> <span>(Displays current personal preference)</span>
+                            <p>Valid emotions: auto, neutral, happy, sad, angry, fearful, disgusted, surprised.</p>
+                            <p>Permission: Everyone (for their own preference)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                 <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts ignore</td>
+                        <td>Manage TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts ignore add &lt;username&gt;</code>
+                            <code class="mod-command">!tts ignore del &lt;username&gt;</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts ignored</td>
+                        <td>Lists users on the TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts ignored</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts events</td>
+                        <td>Toggles TTS for Twitch events (subs, cheers, etc.). <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts events on</code>
+                            <code class="mod-command">!tts events off</code>
+                            <code class="mod-command">!tts events</code> <span>(Displays current status)</span>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody>
+                    <tr class="category-header"><td colspan="2">Voice Configuration (Moderator Only)</td></tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts voice &lt;voice_id&gt;</td>
+                        <td>(Conceptual) Sets the default TTS voice for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts voice Friendly_Person</code>
+                            <p>Use a valid Voice ID from the list in the <a href="#voices">Voices section</a>.</p>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts speed &lt;0.5-2.0&gt;</td>
+                        <td>(Conceptual) Sets the default speech speed. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts speed 1.2</code> <span>(1.0 is normal)</span>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                 <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts pitch &lt;-12-12&gt;</td>
+                        <td>(Conceptual) Sets the default speech pitch. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts pitch 2</code> <span>(0 is normal)</span>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+
+                <tbody>
+                    <tr class="category-header"><td colspan="2">Direct TTS (Moderator Only)</td></tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts say &lt;message&gt;</td>
+                        <td>Enqueues the provided message for TTS. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts say Welcome everyone to the stream!</code>
+                            <p>Permission: Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="voices" class="section">
+            <h2>Voices</h2>
+            <p>The following voices are available from the Replicate <span class="inline-code">minimax/speech-02-turbo</span> model. The bot fetches this list periodically. The <span class="inline-code">voice_id</span> is used in commands like <span class="inline-code">!tts voice &lt;voice_id&gt;</span>.</p>
+            
+            <h3>Common Voice IDs</h3>
+            <p>Featured voices from the Replicate <span class="inline-code">minimax/speech-02-turbo</span> model.</p>
+            <ul>
+                <li>Wise_Woman</li>
+                <li>Friendly_Person</li>
+                <li>Inspirational_girl</li>
+                <li>Deep_Voice_Man</li>
+                <li>Calm_Woman</li>
+                <li>Casual_Guy</li>
+                <li>Lively_Girl</li>
+                <li>Patient_Man</li>
+                <li>Young_Knight</li>
+                <li>Determined_Man</li>
+                <li>Lovely_Girl</li>
+                <li>Decent_Boy</li>
+                <li>Imposing_Manner</li>
+                <li>Elegant_Man</li>
+                <li>Abbess</li>
+                <li>Sweet_Girl_2</li>
+                <li>Exuberant_Girl</li>
+                </ul>
+
+            <h3>Pre-trained Voice List (from <a href="https://replicate.com/minimax/speech-02-turbo/readme" target="_blank" class="default-link-style">minimax/speech-02-turbo README</a>)</h3>
+            <p>This is a more extensive list.</p>
+            <ul>
+                <li>English_Trustworth_Man</li>
+                <li>English_Aussie_Bloke</li>
+                <li>English_CalmWoman</li>
+                <li>English_UpsetGirl</li>
+                <li>English_Gentle-voiced_man</li>
+                <li>English_Whispering_girl</li>
+                <li>English_Diligent_Man</li>
+                <li>English_Graceful_Lady</li>
+                <li>English_ReservedYoungMan</li>
+                <li>English_PlayfulGirl</li>
+                <li>English_ManWithDeepVoice</li>
+                <li>English_MaturePartner</li>
+                <li>English_FriendlyPerson</li>
+                <li>English_MatureBoss</li>
+                <li>English_Debator</li>
+                <li>English_LovelyGirl</li>
+                <li>English_Steadymentor</li>
+                <li>English_Deep-VoicedGentleman</li>
+                <li>English_Wiselady</li>
+                <li>English_CaptivatingStoryteller</li>
+                <li>English_DecentYoungMan</li>
+                <li>English_SentimentalLady</li>
+                <li>English_ImposingManner</li>
+                <li>English_SadTeen</li>
+                <li>English_PassionateWarrior</li>
+                <li>English_WiseScholar</li>
+                <li>English_Soft-spokenGirl</li>
+                <li>English_SereneWoman</li>
+                <li>English_ConfidentWoman</li>
+                <li>English_PatientMan</li>
+                <li>English_Comedian</li>
+                <li>English_BossyLeader</li>
+                <li>English_Strong-WilledBoy</li>
+                <li>English_StressedLady</li>
+                <li>English_AssertiveQueen</li>
+                <li>English_AnimeCharacter</li>
+                <li>English_Jovialman</li>
+                <li>English_WhimsicalGirl</li>
+                <li>English_Kind-heartedGirl</li>
+                <li>Chinese (Mandarin)_Reliable_Executive</li>
+                <li>Chinese (Mandarin)_News_Anchor</li>
+                <li>Chinese (Mandarin)_Unrestrained_Young_Man</li>
+                <li>Chinese (Mandarin)_Mature_Woman</li>
+                <li>Arrogant_Miss</li>
+                <li>Robot_Armor</li>
+                <li>Chinese (Mandarin)_Kind-hearted_Antie</li>
+                <li>Chinese (Mandarin)_Refreshing_Young_Man</li>
+                <li>Chinese (Mandarin)_HK_Flight_Attendant</li>
+                <li>Chinese (Mandarin)_Humorous_Elder</li>
+                <li>Chinese (Mandarin)_Gentleman</li>
+                <li>Chinese (Mandarin)_Warm_Bestie</li>
+                <li>Chinese (Mandarin)_Stubborn_Friend</li>
+                <li>Chinese (Mandarin)_Sweet_Lady</li>
+                <li>Chinese (Mandarin)_Southern_Young_Man</li>
+                <li>Chinese (Mandarin)_Wise_Women</li>
+                <li>Chinese (Mandarin)_Gentle_Youth</li>
+                <li>Chinese (Mandarin)_Warm_Girl</li>
+                <li>Chinese (Mandarin)_Male_Announcer</li>
+                <li>Chinese (Mandarin)_Kind-hearted_Elder</li>
+                <li>Chinese (Mandarin)_Cute_Spirit</li>
+                <li>Chinese (Mandarin)_Radio_Host</li>
+                <li>Chinese (Mandarin)_Lyrical_Voice</li>
+                <li>Chinese (Mandarin)_Straightforward_Boy</li>
+                <li>Chinese (Mandarin)_Sincere_Adult</li>
+                <li>Chinese (Mandarin)_Gentle_Senior</li>
+                <li>Chinese (Mandarin)_Crisp_Girl</li>
+                <li>Chinese (Mandarin)_Pure-hearted_Boy</li>
+                <li>Chinese (Mandarin)_Soft_Girl</li>
+                <li>Chinese (Mandarin)_IntellectualGirl</li>
+                <li>Chinese (Mandarin)_Warm_HeartedGirl</li>
+                <li>Chinese (Mandarin)_Laid_BackGirl</li>
+                <li>Chinese (Mandarin)_ExplorativeGirl</li>
+                <li>Chinese (Mandarin)_Warm-HeartedAunt</li>
+                <li>Chinese (Mandarin)_BashfulGirl</li>
+                <li>Japanese_IntellectualSenior</li>
+                <li>Japanese_DecisivePrincess</li>
+                <li>Japanese_LoyalKnight</li>
+                <li>Japanese_DominantMan</li>
+                <li>Japanese_SeriousCommander</li>
+                <li>Japanese_ColdQueen</li>
+                <li>Japanese_DependableWoman</li>
+                <li>Japanese_GentleButler</li>
+                <li>Japanese_KindLady</li>
+                <li>Japanese_CalmLady</li>
+                <li>Japanese_OptimisticYouth</li>
+                <li>Japanese_GenerousIzakayaOwner</li>
+                <li>Japanese_SportyStudent</li>
+                <li>Japanese_InnocentBoy</li>
+                <li>Japanese_GracefulMaiden</li>
+                <li>Cantonese_ProfessionalHost（F)</li>
+                <li>Cantonese_GentleLady</li>
+                <li>Cantonese_ProfessionalHost（M)</li>
+                <li>Cantonese_PlayfulMan</li>
+                <li>Cantonese_CuteGirl</li>
+                <li>Cantonese_KindWoman</li>
+                <li>Korean_SweetGirl</li>
+                <li>Korean_CheerfulBoyfriend</li>
+                <li>Korean_EnchantingSister</li>
+                <li>Korean_ShyGirl</li>
+                <li>Korean_ReliableSister</li>
+                <li>Korean_StrictBoss</li>
+                <li>Korean_SassyGirl</li>
+                <li>Korean_ChildhoodFriendGirl</li>
+                <li>Korean_PlayboyCharmer</li>
+                <li>Korean_ElegantPrincess</li>
+                <li>Korean_BraveFemaleWarrior</li>
+                <li>Korean_BraveYouth</li>
+                <li>Korean_CalmLady</li>
+                <li>Korean_EnthusiasticTeen</li>
+                <li>Korean_SoothingLady</li>
+                <li>Korean_IntellectualSenior</li>
+                <li>Korean_LonelyWarrior</li>
+                <li>Korean_MatureLady</li>
+                <li>Korean_InnocentBoy</li>
+                <li>Korean_CharmingSister</li>
+                <li>Korean_AthleticStudent</li>
+                <li>Korean_BraveAdventurer</li>
+                <li>Korean_CalmGentleman</li>
+                <li>Korean_WiseElf</li>
+                <li>Korean_CheerfulCoolJunior</li>
+                <li>Korean_DecisiveQueen</li>
+                <li>Korean_ColdYoungMan</li>
+                <li>Korean_MysteriousGirl</li>
+                <li>Korean_QuirkyGirl</li>
+                <li>Korean_ConsiderateSenior</li>
+                <li>Korean_CheerfulLittleSister</li>
+                <li>Korean_DominantMan</li>
+                <li>Korean_AirheadedGirl</li>
+                <li>Korean_ReliableYouth</li>
+                <li>Korean_FriendlyBigSister</li>
+                <li>Korean_GentleBoss</li>
+                <li>Korean_ColdGirl</li>
+                <li>Korean_HaughtyLady</li>
+                <li>Korean_CharmingElderSister</li>
+                <li>Korean_IntellectualMan</li>
+                <li>Korean_CaringWoman</li>
+                <li>Korean_WiseTeacher</li>
+                <li>Korean_ConfidentBoss</li>
+                <li>Korean_AthleticGirl</li>
+                <li>Korean_PossessiveMan</li>
+                <li>Korean_GentleWoman</li>
+                <li>Korean_CockyGuy</li>
+                <li>Korean_ThoughtfulWoman</li>
+                <li>Korean_OptimisticYouth</li>
+                <li>Spanish_SereneWoman</li>
+                <li>Spanish_MaturePartner</li>
+                <li>Spanish_CaptivatingStoryteller</li>
+                <li>Spanish_Narrator</li>
+                <li>Spanish_WiseScholar</li>
+                <li>Spanish_Kind-heartedGirl</li>
+                <li>Spanish_DeterminedManager</li>
+                <li>Spanish_BossyLeader</li>
+                <li>Spanish_ReservedYoungMan</li>
+                <li>Spanish_ConfidentWoman</li>
+                <li>Spanish_ThoughtfulMan</li>
+                <li>Spanish_Strong-WilledBoy</li>
+                <li>Spanish_SophisticatedLady</li>
+                <li>Spanish_RationalMan</li>
+                <li>Spanish_AnimeCharacter</li>
+                <li>Spanish_Deep-tonedMan</li>
+                <li>Spanish_Fussyhostess</li>
+                <li>Spanish_SincereTeen</li>
+                <li>Spanish_FrankLady</li>
+                <li>Spanish_Comedian</li>
+                <li>Spanish_Debator</li>
+                <li>Spanish_ToughBoss</li>
+                <li>Spanish_Wiselady</li>
+                <li>Spanish_Steadymentor</li>
+                <li>Spanish_Jovialman</li>
+                <li>Spanish_SantaClaus</li>
+                <li>Spanish_Rudolph</li>
+                <li>Spanish_Intonategirl</li>
+                <li>Spanish_Arnold</li>
+                <li>Spanish_Ghost</li>
+                <li>Spanish_HumorousElder</li>
+                <li>Spanish_EnergeticBoy</li>
+                <li>Spanish_WhimsicalGirl</li>
+                <li>Spanish_StrictBoss</li>
+                <li>Spanish_ReliableMan</li>
+                <li>Spanish_SereneElder</li>
+                <li>Spanish_AngryMan</li>
+                <li>Spanish_AssertiveQueen</li>
+                <li>Spanish_CaringGirlfriend</li>
+                <li>Spanish_PowerfulSoldier</li>
+                <li>Spanish_PassionateWarrior</li>
+                <li>Spanish_ChattyGirl</li>
+                <li>Spanish_RomanticHusband</li>
+                <li>Spanish_CompellingGirl</li>
+                <li>Spanish_PowerfulVeteran</li>
+                <li>Spanish_SensibleManager</li>
+                <li>Spanish_ThoughtfulLady</li>
+                <li>Portuguese_SentimentalLady</li>
+                <li>Portuguese_BossyLeader</li>
+                <li>Portuguese_Wiselady</li>
+                <li>Portuguese_Strong-WilledBoy</li>
+                <li>Portuguese_Deep-VoicedGentleman</li>
+                <li>Portuguese_UpsetGirl</li>
+                <li>Portuguese_PassionateWarrior</li>
+                <li>Portuguese_AnimeCharacter</li>
+                <li>Portuguese_ConfidentWoman</li>
+                <li>Portuguese_AngryMan</li>
+                <li>Portuguese_CaptivatingStoryteller</li>
+                <li>Portuguese_Godfather</li>
+                <li>Portuguese_ReservedYoungMan</li>
+                <li>Portuguese_SmartYoungGirl</li>
+                <li>Portuguese_Kind-heartedGirl</li>
+                <li>Portuguese_Pompouslady</li>
+                <li>Portuguese_Grinch</li>
+                <li>Portuguese_Debator</li>
+                <li>Portuguese_SweetGirl</li>
+                <li>Portuguese_AttractiveGirl</li>
+                <li>Portuguese_ThoughtfulMan</li>
+                <li>Portuguese_PlayfulGirl</li>
+                <li>Portuguese_GorgeousLady</li>
+                <li>Portuguese_LovelyLady</li>
+                <li>Portuguese_SereneWoman</li>
+                <li>Portuguese_SadTeen</li>
+                <li>Portuguese_MaturePartner</li>
+                <li>Portuguese_Comedian</li>
+                <li>Portuguese_NaughtySchoolgirl</li>
+                <li>Portuguese_Narrator</li>
+                <li>Portuguese_ToughBoss</li>
+                <li>Portuguese_Fussyhostess</li>
+                <li>Portuguese_Dramatist</li>
+                <li>Portuguese_Steadymentor</li>
+                <li>Portuguese_Jovialman</li>
+                <li>Portuguese_CharmingQueen</li>
+                <li>Portuguese_SantaClaus</li>
+                <li>Portuguese_Rudolph</li>
+                <li>Portuguese_Arnold</li>
+                <li>Portuguese_CharmingSanta</li>
+                <li>Portuguese_CharmingLady</li>
+                <li>Portuguese_Ghost</li>
+                <li>Portuguese_HumorousElder</li>
+                <li>Portuguese_CalmLeader</li>
+                <li>Portuguese_GentleTeacher</li>
+                <li>Portuguese_EnergeticBoy</li>
+                <li>Portuguese_ReliableMan</li>
+                <li>Portuguese_SereneElder</li>
+                <li>Portuguese_GrimReaper</li>
+                <li>Portuguese_AssertiveQueen</li>
+                <li>Portuguese_WhimsicalGirl</li>
+                <li>Portuguese_StressedLady</li>
+                <li>Portuguese_FriendlyNeighbor</li>
+                <li>Portuguese_CaringGirlfriend</li>
+                <li>Portuguese_PowerfulSoldier</li>
+                <li>Portuguese_FascinatingBoy</li>
+                <li>Portuguese_RomanticHusband</li>
+                <li>Portuguese_StrictBoss</li>
+                <li>Portuguese_InspiringLady</li>
+                <li>Portuguese_PlayfulSpirit</li>
+                <li>Portuguese_ElegantGirl</li>
+                <li>Portuguese_CompellingGirl</li>
+                <li>Portuguese_PowerfulVeteran</li>
+                <li>Portuguese_SensibleManager</li>
+                <li>Portuguese_ThoughtfulLady</li>
+                <li>Portuguese_TheatricalActor</li>
+                <li>Portuguese_FragileBoy</li>
+                <li>Portuguese_ChattyGirl</li>
+                <li>Portuguese_Conscientiousinstructor</li>
+                <li>Portuguese_RationalMan</li>
+                <li>Portuguese_WiseScholar</li>
+                <li>Portuguese_FrankLady</li>
+                <li>Portuguese_DeterminedManager</li>
+                <li>French_Male_Speech_New</li>
+                <li>French_Female_News Anchor</li>
+                <li>French_CasualMan</li>
+                <li>French_MovieLeadFemale</li>
+                <li>French_FemaleAnchor</li>
+                <li>French_MaleNarrator</li>
+                <li>Indonesian_SweetGirl</li>
+                <li>Indonesian_ReservedYoungMan</li>
+                <li>Indonesian_CharmingGirl</li>
+                <li>Indonesian_CalmWoman</li>
+                <li>Indonesian_ConfidentWoman</li>
+                <li>Indonesian_CaringMan</li>
+                <li>Indonesian_BossyLeader</li>
+                <li>Indonesian_DeterminedBoy</li>
+                <li>Indonesian_GentleGirl</li>
+                <li>German_FriendlyMan</li>
+                <li>German_SweetLady</li>
+                <li>German_PlayfulMan</li>
+                <li>Russian_HandsomeChildhoodFriend</li>
+                <li>Russian_BrightHeroine</li>
+                <li>Russian_AmbitiousWoman</li>
+                <li>Russian_ReliableMan</li>
+                <li>Russian_CrazyQueen</li>
+                <li>Russian_PessimisticGirl</li>
+                <li>Russian_AttractiveGuy</li>
+                <li>Russian_Bad-temperedBoy</li>
+                <li>Italian_BraveHeroine</li>
+                <li>Italian_Narrator</li>
+                <li>Italian_WanderingSorcerer</li>
+                <li>Italian_DiligentLeader</li>
+                <li>Dutch_kindhearted_girl</li>
+                <li>Dutch_bossy_leader</li>
+                <li>Vietnamese_kindhearted_girl</li>
+                <li>Arabic_CalmWoman</li>
+                <li>Arabic_FriendlyGuy</li>
+                <li>Turkish_CalmWoman</li>
+                <li>Turkish_Trustworthyman</li>
+                <li>Ukrainian_CalmWoman</li>
+            </ul>
+            <p><em>Note: The full list of pre-trained voices is extensive. The <span class="inline-code">!tts voices</span> command in chat provides a summary. This documentation page aims to give an overview. For the most up-to-date list, refer to the source <span class="inline-code">llms.txt</span> file from Replicate or use the bot's capability to validate voices if a <span class="inline-code">!tts voice</span> command is implemented.</em></p>
+        </section>
+
+        <div id="last-updated" style="text-align:center; margin-top:2rem; color: #555; font-size:0.9em;">
+            Last updated:
+        </div>
+    </main>
+    <script src="scripts/static-background.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Populate "Last updated" date
+        const lastUpdatedElem = document.getElementById('last-updated');
+        if (lastUpdatedElem) {
+            lastUpdatedElem.textContent = 'Last updated: ' + new Date(document.lastModified).toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+
+        // Dropdown functionality for command table
+        document.querySelectorAll('.dropdown-summary').forEach(row => {
+            row.addEventListener('click', function() {
+                const group = this.closest('.dropdown-group');
+                if (group) {
+                    const details = group.querySelector('.dropdown-details');
+                    const toggle = this.querySelector('.dropdown-toggle');
+                    if (details) {
+                        const isOpen = group.classList.toggle('open');
+                        details.style.display = isOpen ? '' : 'none';
+                        if (toggle) {
+                            toggle.textContent = isOpen ? '\u25B2' : '\u25BC'; // Up/Down arrow
+                        }
+                    }
+                }
+            });
+        });
+      });
+    </script>
+</body>
+</html>
