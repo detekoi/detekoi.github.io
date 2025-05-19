@@ -145,7 +145,7 @@
             float: right;
             font-size: 1.1em;
             margin-left: 8px;
-            transition: transform 0.2s;
+            transition: transform 0.3s ease;
         }
         .dropdown-group.open .dropdown-toggle {
             transform: rotate(180deg);
@@ -940,13 +940,10 @@
                 const group = this.closest('.dropdown-group');
                 if (group) {
                     const details = group.querySelector('.dropdown-details');
-                    const toggle = this.querySelector('.dropdown-toggle');
                     if (details) {
                         const isOpen = group.classList.toggle('open');
                         details.style.display = isOpen ? '' : 'none';
-                        if (toggle) {
-                            toggle.textContent = isOpen ? '\u25B2' : '\u25BC'; // Up/Down arrow
-                        }
+                        // CSS handles the arrow rotation via transform on .dropdown-toggle
                     }
                 }
             });
