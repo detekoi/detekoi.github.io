@@ -241,7 +241,8 @@
             }
             
             #sidebar ul li a {
-                color: var(--text-color, #eee);
+                color: #ffffff !important; /* Darker gray text for links */
+                background-color: transparent !important;
             }
             
             #content {
@@ -489,7 +490,7 @@
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code class="mod-command">!tts voice Friendly_Person</code>
-                            <p>Use a valid Voice ID from the list in the <a href="#voices">Voices section</a>.</p>
+                            <p>Use a valid Voice ID from the list in the <a class="default-link-style" href="#voices">Voices section</a>.</p>
                             <p>Permission: Moderator</p>
                         </td>
                     </tr>
