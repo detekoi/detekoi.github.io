@@ -561,14 +561,17 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts voice &lt;voice_id&gt;</td>
-                        <td>(Conceptual) Sets the default TTS voice for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td class="mod-command">!tts defaultvoice &lt;voice_id|reset&gt;</td>
+                        <td>Sets the default TTS voice for the <em>channel</em>. Use <span class="inline-code">reset</span> to revert to the system default. Use <span class="inline-code">!tts voices</span> to see available types/get a link to IDs. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <code class="mod-command">!tts voice Friendly_Person</code>
-                            <p>Use a valid Voice ID from the list in the <a class="default-link-style" href="#voices">Voices section</a>.</p>
-                            <p>Permission: Moderator</p>
+                            <code class="mod-command">!tts defaultvoice Friendly_Person</code>
+                            <code class="mod-command">!tts defaultvoice reset</code>
+                            <p><strong>Description:</strong> Sets the default TTS voice for the <em>channel</em>. Use <span class="inline-code">reset</span> to revert to the system default. Use <span class="inline-code">!tts voices</span> to see available types/get a link to IDs.</p>
+                            <p><strong>Permission:</strong> Moderator</p>
+                            <p><strong>Usage:</strong> <span class="inline-code">!tts defaultvoice Friendly_Person</span> (Use a valid Voice ID from the <span class="inline-code">minimax/speech-02-turbo</span> model)</p>
+                            <p><strong>Note:</strong> This sets the <em>channel-wide</em> default voice. Individual users can still set their own preferred voice with <span class="inline-code">!tts voice &lt;voice_id&gt;</span>.</p>
                         </td>
                     </tr>
                 </tbody>
