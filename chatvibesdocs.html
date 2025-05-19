@@ -26,6 +26,36 @@
             position: fixed;
             overflow-y: auto;
             color: var(--text-color, #333);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        #sidebar.collapsed {
+            width: 60px;
+            padding: 15px 5px;
+        }
+        
+        #sidebar.collapsed h2,
+        #sidebar.collapsed ul {
+            display: none;
+        }
+        
+        #sidebar.collapsed .sidebar-header {
+            justify-content: center;
+            margin-bottom: 0;
+        }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        #sidenav-toggle {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            z-index: 100;
         }
         #sidebar h2 {
             margin-top: 0;
@@ -46,6 +76,12 @@
             margin-left: 230px; /* Adjust based on sidebar width + padding */
             padding: 20px;
             width: calc(100% - 230px);
+            transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+        }
+        
+        #content.expanded {
+            margin-left: 70px;
+            width: calc(100% - 70px);
         }
         .section {
             margin-bottom: 40px;
@@ -258,12 +294,20 @@
             }
         }
     </style>
+    <script
+    src="https://app.rybbit.io/api/script.js"
+    data-site-id="102"
+    defer
+></script>
 </head>
 <body>
     <canvas id="staticCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></canvas>
     
     <nav id="sidebar">
-        <h2>ChatVibes TTS</h2>
+        <div class="sidebar-header">
+            <h2>ChatVibes TTS</h2>
+            <img src="assets/images/sidenav-icon.png" id="sidenav-toggle" alt="Toggle Sidebar" title="Toggle Sidebar">
+        </div>
         <ul>
             <li><a href="#commands">Commands</a></li>
             <li><a href="#voices">Voices</a></li>
@@ -878,6 +922,7 @@
         </div>
     </main>
     <script src="scripts/static-background.js"></script>
+    <script src="scripts/sidenav.js"></script>
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
