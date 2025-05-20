@@ -26,12 +26,14 @@
             position: fixed;
             overflow-y: auto;
             color: var(--text-color, #333);
-            transition: transform 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
         }
         
         #sidebar.collapsed {
-            width: 60px;
-            padding: 15px 5px;
+            width: 50px;
+            padding: 15px 0;
+            background: transparent;
+            box-shadow: none;
         }
         
         #sidebar.collapsed h2,
@@ -42,6 +44,16 @@
         #sidebar.collapsed .sidebar-header {
             justify-content: center;
             margin-bottom: 0;
+        }
+        
+        #sidenav-toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
         }
         
         .sidebar-header {
@@ -56,6 +68,11 @@
             height: 24px;
             cursor: pointer;
             z-index: 100;
+        }
+        
+        .section, h1 {
+            width: 100%;
+            max-width: 1200px;
         }
         #sidebar h2 {
             margin-top: 0;
@@ -82,8 +99,11 @@
         }
         
         #content.expanded {
-            margin-left: 70px;
-            width: calc(100% - 70px);
+            margin-left: 50px;
+            width: calc(100% - 50px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .section {
             margin-bottom: 40px;
@@ -184,25 +204,14 @@
             text-transform: uppercase;
             border-bottom: 2px solid var(--color-border, #ddd); 
         }
-        .expand-tip {
-            width: 75%;
-            margin: 0 auto 1rem auto;
-            padding: 0.75em 1em;
-            background: rgba(255,255,255,0.8);
-            border-left: 4px solid var(--color-border,#888);
-            border-radius: 6px;
-            font-size: 1.08em;
-            display: flex;
-            align-items: center;
-            gap: 0.7em;
-            color: var(--text-color,#222);
-        }
+        /* Old expand-tip class is replaced by the new one defined above */
         .inline-code {
             font-family: monospace;
             background-color: rgba(0, 0, 0, 0.05);
             padding: 0.2em 0.4em;
             border-radius: 3px;
             font-size: 0.9em;
+            display: inline-block;
         }
         
         .default-link-style {
@@ -215,6 +224,33 @@
             display: inline !important;
             text-decoration: underline !important;
             color: var(--text-color, #333) !important;
+        }
+
+        /* Tip box styling */
+        .expand-tip {
+            width: 75%;
+            margin: 0 auto 1rem auto;
+            padding: 1.2rem 1.6rem;
+            background: rgba(var(--accent-color-rgb, 120, 120, 120), 0.08);
+            border-left: 4px solid var(--color-border, #888);
+            border-radius: 6px;
+            font-size: 1.08em;
+            color: var(--text-color, #222);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tip-text {
+            line-height: 1.6;
+            margin-bottom: 0.3rem;
+        }
+        
+        .tip-text:first-child {
+            font-weight: 500;
         }
 
         /* Dark mode support */
@@ -253,9 +289,11 @@
             }
 
             .expand-tip {
-                background: rgba(30,30,30,0.8);
-                color: var(--text-color,#eee);
+                background: rgba(var(--accent-color-rgb, 50, 50, 50), 0.15);
+                color: var(--text-color, #eee);
             }
+            
+            /* Dark mode tip styles handled by parent class */
 
             .category-header {
                 background: rgba(var(--accent-color-rgb, 120, 120, 120), 0.25);
@@ -276,6 +314,10 @@
             #sidebar {
                 background: var(--bg-color-dark, #222);
                 color: var(--text-color, #eee);
+            }
+            
+            #sidebar.collapsed #sidenav-toggle-container {
+                background-color: rgba(255, 255, 255, 0.15);
             }
             
             #sidebar ul li a {
@@ -325,7 +367,9 @@
     <nav id="sidebar">
         <div class="sidebar-header">
             <h2>ChatVibes TTS</h2>
-            <img src="assets/images/sidenav-icon.png" id="sidenav-toggle" alt="Toggle Sidebar" title="Toggle Sidebar">
+            <div id="sidenav-toggle-container">
+                <img src="assets/images/sidenav-icon.png" id="sidenav-toggle" alt="Toggle Sidebar" title="Toggle Sidebar">
+            </div>
         </div>
         <ul>
             <li><a href="#commands">Commands</a></li>
@@ -339,8 +383,11 @@
         <section id="commands" class="section">
             <h2>Commands</h2>
             <div class="expand-tip">
-              All TTS commands are prefixed with <span class="inline-code">!tts</span>. For example, <span class="inline-code">!tts status</span>.<br>
-              Click any command row below to expand and see usage details.
+              <div class="tip-content">
+                <div class="tip-text">All TTS commands are prefixed with <span class="inline-code">!tts</span></div>
+                <div class="tip-text">For example: <span class="inline-code">!tts status</span></div>
+                <div class="tip-text">Click any command row below to expand and see usage details.</div>
+              </div>
             </div>
             <table>
                 <thead>
