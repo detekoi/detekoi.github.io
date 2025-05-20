@@ -339,6 +339,7 @@
         <section id="commands" class="section">
             <h2>Commands</h2>
             <div class="expand-tip">
+              All TTS commands are prefixed with <span class="inline-code">!tts</span>. For example, <span class="inline-code">!tts status</span>.<br>
               Click any command row below to expand and see usage details.
             </div>
             <table>
@@ -354,7 +355,7 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td>!tts status</td>
-                        <td>Gets the current status of the TTS application for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Gets the current status of the TTS application for the channel, including whether the engine is enabled, the current mode, queue length, and default voice, pitch, speed, and emotion settings. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
@@ -366,7 +367,7 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td>!tts voices</td>
-                        <td>Shows a summary of available voices. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Provides a link to the documentation section for available TTS voices. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
@@ -377,12 +378,13 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts commands</td>
-                        <td>Lists all available !tts subcommands. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>!tts commands<br><span style="font-size:0.9em;">(Alias: !tts help)</span></td>
+                        <td>Provides a link to the full list of <span class="inline-code">!tts</span> subcommands. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts commands</code>
+                            <code>!tts help</code>
                             <p><strong>Permission:</strong> Everyone</p>
                         </td>
                     </tr>
@@ -393,8 +395,8 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts on / enable</td>
-                        <td>Enables the TTS engine. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td class="mod-command">!tts on<br><span style="font-size:0.9em;">(Alias: !tts enable)</span></td>
+                        <td>Enables the TTS engine. Messages and events may be spoken based on the current mode. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
@@ -406,8 +408,8 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts off / disable</td>
-                        <td>Disables the TTS engine entirely. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td class="mod-command">!tts off<br><span style="font-size:0.9em;">(Alias: !tts disable)</span></td>
+                        <td>Disables the TTS engine entirely. No messages or events will be spoken. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
@@ -419,14 +421,16 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts mode</td>
-                        <td>Toggles TTS mode (all chat or command only). <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td class="mod-command">!tts mode [all|command]</td>
+                        <td>Toggles the TTS mode. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts mode all</code> <span>(Speak all chat messages & events)</span>
                             <code>!tts mode command</code> <span>(Only speak on command or for events)</span>
                             <code>!tts mode</code> <span>(Displays current mode)</span>
+                            <p><strong>Notes:</strong> <span class="inline-code">all</span>: All chat messages (not from ignored users or commands) and enabled events will be spoken.<br>
+                            <span class="inline-code">command</span>: Only messages triggered by specific TTS commands (like <span class="inline-code">!tts say</span>) or enabled events will be spoken. Regular chat is ignored.</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -438,11 +442,12 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts pause</td>
-                        <td>Pauses the TTS event queue. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Pauses the processing of the TTS event queue. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts pause</code>
+                            <p><strong>Notes:</strong> New messages/events will still be added to the queue but won't be spoken until resumed.</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -450,7 +455,7 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts resume</td>
-                        <td>Resumes the TTS event queue. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Resumes processing of the TTS event queue if it was paused. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
@@ -462,11 +467,12 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts clear</td>
-                        <td>Clears all pending messages from the TTS queue. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Clears all pending messages and events from the TTS queue. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts clear</code>
+                            <p><strong>Notes:</strong> Does not stop audio currently playing.</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -474,11 +480,12 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts stop</td>
-                        <td>Stops the currently playing audio. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>If TTS is currently speaking an audio clip, this command will stop only that currently playing audio. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts stop</code>
+                            <p><strong>Notes:</strong> If TTS is currently speaking an audio clip, this command will stop only that currently playing audio. The queue will continue processing the next item if not paused.</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -489,42 +496,86 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts emotion</td>
-                        <td>Set your preferred TTS emotion. <span class="dropdown-toggle">&#x25BC;</span></td>
-                    </tr>
-                    <tr class="dropdown-details" style="display:none;">
-                        <td colspan="2">
-                            <code>!tts emotion &lt;emotion_name&gt;</code> <span>(e.g., happy, sad, angry, auto)</span>
-                            <code>!tts emotion reset</code> <span>(Use channel default)</span>
-                            <code>!tts emotion</code> <span>(Displays current personal preference)</span>
-                            <p>Valid emotions: auto, neutral, happy, sad, angry, fearful, disgusted, surprised.</p>
-                            <p><strong>Permission:</strong> Everyone (for their own preference)</p>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody class="dropdown-group">
-                    <tr class="dropdown-summary">
                         <td>!tts voice &lt;voice_id|reset&gt;</td>
-                        <td>Allows a user to set their preferred voice for messages they trigger that are spoken by TTS. Use <span class="inline-code">reset</span> to revert to the channel's default voice. See <a href="#voices" class="default-link-style">available voices</a> for a list of voice IDs. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Allows a user to set their preferred voice for messages they send. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts voice Friendly_Person</code>
                             <code>!tts voice reset</code>
                             <code>!tts voice</code> <span>(displays current personal preference)</span>
+                            <p><strong>Notes:</strong> Use <span class="inline-code">reset</span> to revert to the channel's default voice. Use <span class="inline-code">!tts voices</span> to get a link to available voice IDs.</p>
                             <p><strong>Permission:</strong> Everyone (for their own preference)</p>
                         </td>
                     </tr>
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts ignore</td>
-                        <td>Manage TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>!tts emotion &lt;emotion_name|reset|auto&gt;</td>
+                        <td>Allows a user to set their preferred emotion for their messages. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <code class="mod-command">!tts ignore add &lt;username&gt;</code>
-                            <code class="mod-command">!tts ignore del &lt;username&gt;</code>
+                            <code>!tts emotion happy</code>
+                            <code>!tts emotion reset</code>
+                            <code>!tts emotion</code> <span>(displays current personal preference)</span>
+                            <p><strong>Notes:</strong> Valid emotions: <span class="inline-code">auto</span>, <span class="inline-code">neutral</span>, <span class="inline-code">happy</span>, <span class="inline-code">sad</span>, <span class="inline-code">angry</span>, <span class="inline-code">fearful</span>, <span class="inline-code">disgusted</span>, <span class="inline-code">surprised</span>. Use <span class="inline-code">reset</span> or <span class="inline-code">auto</span> for the channel default.</p>
+                            <p><strong>Permission:</strong> Everyone (for their own preference)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts pitch &lt;value|reset&gt;</td>
+                        <td>Sets your personal TTS pitch. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts pitch 2</code>
+                            <code>!tts pitch -3</code>
+                            <code>!tts pitch reset</code>
+                            <code>!tts pitch</code> <span>(displays current personal preference)</span>
+                            <p><strong>Notes:</strong> Value must be an integer between -12 and 12 (0 is normal). Use <span class="inline-code">reset</span> for the channel default.</p>
+                            <p><strong>Permission:</strong> Everyone (for their own preference)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts speed &lt;value|reset&gt;</td>
+                        <td>Sets your personal TTS speed. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts speed 1.2</code>
+                            <code>!tts speed 0.8</code>
+                            <code>!tts speed reset</code>
+                            <code>!tts speed</code> <span>(displays current personal preference)</span>
+                            <p><strong>Notes:</strong> Value must be a number between 0.5 and 2.0 (1.0 is normal). Use <span class="inline-code">reset</span> for the channel default.</p>
+                            <p><strong>Permission:</strong> Everyone (for their own preference)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts ignore add &lt;username&gt;</td>
+                        <td>Adds the specified Twitch user to the TTS ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts ignore add SomeUser</code>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts ignore del &lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
+                        <td>Removes the specified Twitch user from the TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts ignore del SomeUser</code>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -532,7 +583,7 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts ignored</td>
-                        <td>Lists users on the TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Lists all users currently on the TTS ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
@@ -543,69 +594,90 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts events</td>
-                        <td>Toggles TTS for Twitch events (subs, cheers, etc.). <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td class="mod-command">!tts events [on|off]</td>
+                        <td>Toggles whether Twitch events (like subscriptions, cheers, raids, etc.) are announced by TTS. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code class="mod-command">!tts events on</code>
                             <code class="mod-command">!tts events off</code>
-                            <code class="mod-command">!tts events</code> <span>(Displays current status)</span>
+                            <code class="mod-command">!tts events</code> <span>(displays current event announcement status)</span>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
                 </tbody>
 
                 <tbody>
-                    <tr class="category-header"><td colspan="2">Voice Configuration (Moderator Only)</td></tr>
+                    <tr class="category-header"><td colspan="2">Channel-Wide Default Configuration (Moderator Only)</td></tr>
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts defaultvoice &lt;voice_id|reset&gt;</td>
-                        <td>Sets the default TTS voice for the <em>channel</em>. Use <span class="inline-code">reset</span> to revert to the system default. Use <span class="inline-code">!tts voices</span> to see available types/get a link to IDs. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Sets the default TTS voice for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code class="mod-command">!tts defaultvoice Friendly_Person</code>
                             <code class="mod-command">!tts defaultvoice reset</code>
+                            <code class="mod-command">!tts defaultvoice</code> <span>(displays current channel default)</span>
+                            <p><strong>Notes:</strong> Use <span class="inline-code">reset</span> to revert to the system default. Use <span class="inline-code">!tts voices</span> for a link to voice IDs.</p>
                             <p><strong>Permission:</strong> Moderator</p>
-                            <p><strong>Usage:</strong> <span class="inline-code">!tts defaultvoice Friendly_Person</span> (Use a valid Voice ID from the <span class="inline-code">minimax/speech-02-turbo</span> model)</p>
-                            <p><strong>Note:</strong> This sets the <em>channel-wide</em> default voice. Individual users can still set their own preferred voice with <span class="inline-code">!tts voice &lt;voice_id&gt;</span>.</p>
                         </td>
                     </tr>
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts speed &lt;0.5-2.0&gt;</td>
-                        <td>(Conceptual) Sets the default speech speed. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td class="mod-command">!tts defaultemotion &lt;emotion_name|reset&gt;</td>
+                        <td>Sets the default TTS emotion for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <code class="mod-command">!tts speed 1.2</code> <span>(1.0 is normal)</span>
+                            <code class="mod-command">!tts defaultemotion happy</code>
+                            <code class="mod-command">!tts defaultemotion reset</code>
+                            <code class="mod-command">!tts defaultemotion</code> <span>(displays current channel default)</span>
+                            <p><strong>Notes:</strong> Valid emotions: <span class="inline-code">auto</span>, <span class="inline-code">neutral</span>, <span class="inline-code">happy</span>, <span class="inline-code">sad</span>, <span class="inline-code">angry</span>, <span class="inline-code">fearful</span>, <span class="inline-code">disgusted</span>, <span class="inline-code">surprised</span>. Use <span class="inline-code">reset</span> for system default (<span class="inline-code">auto</span>).</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
                 </tbody>
-                 <tbody class="dropdown-group">
+                <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts pitch &lt;-12-12&gt;</td>
-                        <td>(Conceptual) Sets the default speech pitch. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td class="mod-command">!tts defaultpitch &lt;value|reset&gt;</td>
+                        <td>Sets the default TTS pitch for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <code class="mod-command">!tts pitch 2</code> <span>(0 is normal)</span>
+                            <code class="mod-command">!tts defaultpitch 2</code>
+                            <code class="mod-command">!tts defaultpitch reset</code>
+                            <code class="mod-command">!tts defaultpitch</code> <span>(displays current channel default)</span>
+                            <p><strong>Notes:</strong> Value must be an integer between -12 and 12 (0 is normal). Use <span class="inline-code">reset</span> for system default (0).</p>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts defaultspeed &lt;value|reset&gt;</td>
+                        <td>Sets the default TTS speed for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts defaultspeed 1.2</code>
+                            <code class="mod-command">!tts defaultspeed reset</code>
+                            <code class="mod-command">!tts defaultspeed</code> <span>(displays current channel default)</span>
+                            <p><strong>Notes:</strong> Value must be a number between 0.5 and 2.0 (1.0 is normal). Use <span class="inline-code">reset</span> for system default (1.0).</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
                 </tbody>
 
                 <tbody>
-                    <tr class="category-header"><td colspan="2">Direct TTS (Moderator Only)</td></tr>
+                    <tr class="category-header"><td colspan="2">Direct TTS (Moderator Only - for testing/announcements)</td></tr>
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts say &lt;message&gt;</td>
-                        <td>Enqueues the provided message for TTS. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Immediately enqueues the provided message for TTS, regardless of the current mode. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
