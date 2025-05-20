@@ -95,7 +95,8 @@
         @media (max-width: 768px) {
             #content, #content.expanded {
                 padding: 20px 0;
-                margin-left: 0;
+                margin-left: auto;
+                margin-right: auto;
                 width: 100%;
             }
             
@@ -152,6 +153,8 @@
         #content.expanded {
             margin-left: 50px;
             width: calc(100% - 50px);
+            margin-right: auto;
+            margin-left: auto;
         }
         
         .section,
@@ -206,6 +209,7 @@
         /* Always show border under details row */
         .dropdown-details td {
             border-bottom: 1px solid var(--color-border, #ddd);
+            text-align: center;
         }
         /* Only remove border from last row if not a dropdown-details row */
         tr:last-child:not(.dropdown-details) td {
@@ -258,6 +262,10 @@
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid var(--color-border, #ddd);
+        }
+        
+        td:last-child {
+            text-align: left;
         }
         th { 
             background-color: rgba(var(--accent-color-rgb, 120, 120, 120), 0.3); 
