@@ -258,37 +258,30 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts ignore add &lt;username&gt;</td>
-                        <td>Adds the specified Twitch user to the TTS ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>!tts ignore</td>
+                        <td>Manage the TTS ignore list for the channel (add or remove users, or list ignored users). <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <code class="mod-command">!tts ignore add SomeUser</code>
-                            <p><strong>Permission:</strong> Moderator</p>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody class="dropdown-group">
-                    <tr class="dropdown-summary">
-                        <td class="mod-command">!tts ignore del &lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
-                        <td>Removes the specified Twitch user from the TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
-                    </tr>
-                    <tr class="dropdown-details" style="display:none;">
-                        <td colspan="2">
-                            <code class="mod-command">!tts ignore del SomeUser</code>
-                            <p><strong>Permission:</strong> Moderator</p>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody class="dropdown-group">
-                    <tr class="dropdown-summary">
-                        <td class="mod-command">!tts ignored</td>
-                        <td>Lists all users currently on the TTS ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
-                    </tr>
-                    <tr class="dropdown-details" style="display:none;">
-                        <td colspan="2">
-                            <code class="mod-command">!tts ignored</code>
-                            <p><strong>Permission:</strong> Moderator</p>
+                            <strong>Add yourself or another user to the ignore list:</strong><br>
+                            <ul style="margin-bottom: 0.5em;">
+                                <li><strong>For any user:</strong> <code>!tts ignore add yourusername</code> <span>(to ignore yourself)</span></li>
+                                <li><strong>For Moderators/Broadcaster:</strong> <code class="mod-command">!tts ignore add SomeOtherUser</code> <span>(to ignore any user)</span></li>
+                            </ul>
+                            <strong>Remove a user from the ignore list:</strong><br>
+                            <ul style="margin-bottom: 0.5em;">
+                                <li><code class="mod-command">!tts ignore del &lt;username&gt;</code> <span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></li>
+                                <li><strong>Note:</strong> Users cannot remove themselves from the ignore list using this command; a mod must do it.</li>
+                            </ul>
+                            <strong>List all ignored users:</strong><br>
+                            <ul>
+                                <li><code class="mod-command">!tts ignored</code></li>
+                            </ul>
+                            <p><strong>Permissions:</strong><br>
+                                <strong>Add:</strong> Everyone (to add themselves), Moderator (to add others)<br>
+                                <strong>Remove:</strong> Moderator only<br>
+                                <strong>List:</strong> Moderator only
+                            </p>
                         </td>
                     </tr>
                 </tbody>
