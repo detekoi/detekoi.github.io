@@ -27,6 +27,7 @@
         <ul>
             <li><a href="#commands">Commands</a></li>
             <li><a href="#voices">Voices</a></li>
+            <li><a href="#language-boost">Language Boost</a></li>
         </ul>
     </nav>
 
@@ -55,11 +56,12 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td>!tts status</td>
-                        <td>Gets the current status of the TTS application for the channel, including whether the engine is enabled, the current mode, queue length, and default voice, pitch, speed, and emotion settings. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Gets the current status of the TTS application for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts status</code>
+                            <p><strong>Notes:</strong> Displays engine state, mode, queue length, default voice, pitch, speed, emotion, and language boost settings.</p>
                             <p><strong>Permission:</strong> Everyone</p>
                         </td>
                     </tr>
@@ -72,6 +74,18 @@
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts voices</code>
+                            <p><strong>Permission:</strong> Everyone</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts languageslist</td>
+                        <td>Provides a link to the documentation section for available TTS language boost options. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts languageslist</code>
                             <p><strong>Permission:</strong> Everyone</p>
                         </td>
                     </tr>
@@ -93,7 +107,7 @@
                 <tbody>
                     <tr class="category-header"><td colspan="2">Engine & Mode Control (Moderator Only)</td></tr>
                 </tbody>
-                <tbody class="dropdown-group">
+                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts on<br><span style="font-size:0.9em;">(Alias: !tts enable)</span></td>
                         <td>Enables the TTS engine. Messages and events may be spoken based on the current mode. <span class="dropdown-toggle">&#x25BC;</span></td>
@@ -135,6 +149,7 @@
                         </td>
                     </tr>
                 </tbody>
+
 
                 <tbody>
                     <tr class="category-header"><td colspan="2">Queue Management (Moderator Only)</td></tr>
@@ -226,6 +241,22 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
+                        <td>!tts language &lt;language|reset&gt;<br><span style="font-size:0.9em;">(Alias: !tts lang)</span></td>
+                        <td>Sets your preferred language boost for TTS. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts language English</code>
+                            <code>!tts lang Japanese</code>
+                            <code>!tts language reset</code>
+                            <code>!tts language</code> <span>(displays current personal preference)</span>
+                            <p><strong>Notes:</strong> Affects how speech is interpreted and generated. Use <span class="inline-code">reset</span>, <span class="inline-code">auto</span>, or <span class="inline-code">none</span> to use the channel's default. See <a href="#language-boost" class="default-link-style">Language Boost</a> section or use <span class="inline-code">!tts languageslist</span> for available options.</p>
+                            <p><strong>Permission:</strong> Everyone (for their own preference)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
                         <td>!tts pitch &lt;value|reset&gt;</td>
                         <td>Sets your personal TTS pitch. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
@@ -259,7 +290,7 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td>!tts ignore</td>
-                        <td>Manage the TTS ignore list for the channel (add or remove users, or list ignored users). <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Manage the TTS ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
@@ -300,6 +331,7 @@
                     </tr>
                 </tbody>
 
+
                 <tbody>
                     <tr class="category-header"><td colspan="2">Channel-Wide Default Configuration (Moderator Only)</td></tr>
                 </tbody>
@@ -329,6 +361,21 @@
                             <code class="mod-command">!tts defaultemotion reset</code>
                             <code class="mod-command">!tts defaultemotion</code> <span>(displays current channel default)</span>
                             <p><strong>Notes:</strong> Valid emotions: <span class="inline-code">auto</span>, <span class="inline-code">neutral</span>, <span class="inline-code">happy</span>, <span class="inline-code">sad</span>, <span class="inline-code">angry</span>, <span class="inline-code">fearful</span>, <span class="inline-code">disgusted</span>, <span class="inline-code">surprised</span>. Use <span class="inline-code">reset</span> for system default (<span class="inline-code">auto</span>).</p>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts defaultlanguage &lt;language|reset&gt;</td>
+                        <td>Sets the default TTS language boost for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts defaultlanguage English</code>
+                            <code class="mod-command">!tts defaultlanguage reset</code>
+                            <code class="mod-command">!tts defaultlanguage</code> <span>(displays current channel default)</span>
+                            <p><strong>Notes:</strong> Use <span class="inline-code">reset</span>, <span class="inline-code">auto</span>, or <span class="inline-code">none</span> to use the system default (usually 'Automatic' or 'None'). See <a href="#language-boost" class="default-link-style">Language Boost</a> section or use <span class="inline-code">!tts languageslist</span> for options.</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -365,7 +412,7 @@
                 </tbody>
 
                 <tbody>
-                    <tr class="category-header"><td colspan="2">Direct TTS (Moderator Only - for testing/announcements)</td></tr>
+                    <tr class="category-header"><td colspan="2">Direct TTS (Moderator Only)</td></tr>
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
@@ -714,8 +761,47 @@
                 <li>Turkish_Trustworthyman</li>
                 <li>Ukrainian_CalmWoman</li>
             </ul>
-            <p><em>Note: The full list of pre-trained voices is extensive. The <span class="inline-code">!tts voices</span> command in chat provides a summary. This documentation page aims to give an overview. For the most up-to-date list, refer to the source <span class="inline-code">llms.txt</span> file from Replicate or use the bot's capability to validate voices if a <span class="inline-code">!tts voice</span> command is implemented.</em></p>
+            <p><em>Note: The full list of pre-trained voices is extensive. The <span class="inline-code">!tts voices</span> command in chat links to here. For the most up-to-date list, refer to the source <span class="inline-code">llms.txt</span> file from Replicate or use the bot's capability to validate voices if a <span class="inline-code">!tts voice</span> command is implemented.</em></p>
         </section>
+
+        <section id="language-boost" class="section">
+            <h2>Language Boost</h2>
+            <p>The <span class="inline-code">language_boost</span> feature helps the TTS model better understand and pronounce words from specific languages or dialects. This is particularly useful in multilingual chats or when a specific language's nuances are important for clear TTS.</p>
+            <p>You can set a personal language boost preference using <span class="inline-code">!tts language &lt;language_name&gt;</span> or moderators can set a channel default with <span class="inline-code">!tts defaultlanguage &lt;language_name&gt;</span>.</p>
+            
+            <h3>Available Language Boost Options:</h3>
+            <p>The following values are accepted (case-insensitive when using the command, but stored with specific casing):</p>
+            <ul class="language-list">
+                <li>None</li>
+                <li>Automatic</li>
+                <li>Arabic</li>
+                <li>Chinese</li>
+                <li>Chinese,Yue</li>
+                <li>Czech</li>
+                <li>Dutch</li>
+                <li>English</li>
+                <li>Finnish</li>
+                <li>French</li>
+                <li>German</li>
+                <li>Greek</li>
+                <li>Hindi</li>
+                <li>Indonesian</li>
+                <li>Italian</li>
+                <li>Japanese</li>
+                <li>Korean</li>
+                <li>Polish</li>
+                <li>Portuguese</li>
+                <li>Romanian</li>
+                <li>Russian</li>
+                <li>Spanish</li>
+                <li>Thai</li>
+                <li>Turkish</li>
+                <li>Ukrainian</li>
+                <li>Vietnamese</li>
+            </ul>
+            <p>Using <span class="inline-code">Automatic</span> or <span class="inline-code">None</span> will generally rely on the model's default language detection or no specific boost. <span class="inline-code">English</span> is often a good default for primarily English-speaking chats. Choosing a specific language can significantly improve pronunciation for that language.</p>
+        </section>
+
 
         <div id="last-updated" style="text-align:center; margin-top:2rem; color: #555; font-size:0.9em;">
             Last updated:
