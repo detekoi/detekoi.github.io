@@ -404,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
 "1. Zoom out to a full body, head-to-toe view.\n" +
 "2. Outfit him in new, tasteful designer/vintage attire (menswear/womenswear) selected by a professional stylist.\n" +
 "3. The background should be black.\n" +
-"4. The outfit choices should reflect subculture/fashion aesthetics (e.g., couture, casual, avant-garde).\n" +
+"4. The outfit choices should reflect subculture/fashion aesthetics (e.g., couture, streetwear, grunge, avant-garde).\n" +
 "5. Subtly change or remove his original neckerchief and dark gray waistline to complement the new styling.\n" +
 "Ensure your output includes this newly generated image.\n\n" +
 "**CAPTION TASK (for the NEW image generated above):**\n" +
