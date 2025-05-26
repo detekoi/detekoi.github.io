@@ -1,8 +1,8 @@
 require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const fs = require('fs'); // Add fs module for reading image files
-// Import the necessary class from the library
-const { GoogleGenAI } = require("@google/genai");
+// Import the necessary classes from the library
+const { GoogleGenAI, Modality } = require("@google/genai");
 const path = require('path');
 
 const app = express();
@@ -77,37 +77,21 @@ app.post('/api/generate-image', async (req, res) => {
       }
     ];
     
-    // Call the Gemini image generation model using REST API (more reliable than SDK)
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${API_KEY}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Goog-Api-Client': 'genai-js/1.0.0'
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: contents
-        }],
-        generationConfig: {
-          responseModalities: ["TEXT", "IMAGE"]
-        }
-      })
+    // Call the Gemini image generation model using SDK (following official documentation)
+    const response = await genAI.models.generateContent({
+      model: 'gemini-2.0-flash-preview-image-generation',
+      contents: contents,
+      config: {
+        responseModalities: [Modality.TEXT, Modality.IMAGE]
+      }
     });
     
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error('REST API Error:', response.status, errorData);
-      throw new Error(`REST API Error: ${response.status} - ${errorData}`);
-    }
-    
-    const apiResponse = await response.json();
-    
-    // Extract response data
+    // Extract response data (following official documentation pattern)
     let imageDataUri = null;
     let textResponse = null;
     
-    if (apiResponse && apiResponse.candidates && apiResponse.candidates.length > 0) {
-      const parts = apiResponse.candidates[0].content.parts;
+    if (response && response.candidates && response.candidates.length > 0) {
+      const parts = response.candidates[0].content.parts;
       
       for (const part of parts) {
         if (part.text) {
