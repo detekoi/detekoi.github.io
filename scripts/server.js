@@ -56,9 +56,21 @@ app.get('/', (req, res) => {
 // --- Debug endpoint to list available models ---
 app.get('/api/list-models', async (req, res) => {
   try {
-    const response = await genAI.models.list();
-    console.log('Available models:', response);
-    res.json(response);
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(`REST API Error: ${response.status} - ${errorData}`);
+    }
+    
+    const modelsData = await response.json();
+    console.log('Available models:', modelsData);
+    res.json(modelsData);
   } catch (error) {
     console.error('Error listing models:', error);
     res.status(500).json({
