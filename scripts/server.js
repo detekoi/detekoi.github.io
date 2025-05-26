@@ -92,7 +92,7 @@ app.post('/api/generate-image', async (req, res) => {
     const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the subject has been styled by a professional stylist, make it a cohesive theme.";
     
     console.log(`Using prompt: ${prompt.substring(0, 50)}...`);
-    console.log('Using REST API with global endpoint');
+    console.log('Using SDK with gemini-2.0-flash-exp model');
     
     // Prepare the content parts for the API call
     const contents = [
@@ -105,37 +105,21 @@ app.post('/api/generate-image', async (req, res) => {
       }
     ];
     
-    // Call the Gemini image generation model using REST API (global endpoint)
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${API_KEY}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Goog-Api-Client': 'genai-js/1.0.0'
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: contents
-        }],
-        generationConfig: {
-          responseModalities: ["TEXT", "IMAGE"]
-        }
-      })
+    // Call the Gemini image generation model using SDK (as per official docs)
+    const response = await genAI.models.generateContent({
+      model: 'gemini-2.0-flash-exp',
+      contents: contents,
+      config: {
+        responseModalities: [Modality.TEXT, Modality.IMAGE]
+      }
     });
-    
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error('REST API Error:', response.status, errorData);
-      throw new Error(`REST API Error: ${response.status} - ${errorData}`);
-    }
-    
-    const apiResponse = await response.json();
     
     // Extract response data (following official documentation pattern)
     let imageDataUri = null;
     let textResponse = null;
     
-    if (apiResponse && apiResponse.candidates && apiResponse.candidates.length > 0) {
-      const parts = apiResponse.candidates[0].content.parts;
+    if (response && response.candidates && response.candidates.length > 0) {
+      const parts = response.candidates[0].content.parts;
       
       for (const part of parts) {
         if (part.text) {
