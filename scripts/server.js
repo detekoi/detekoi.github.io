@@ -80,7 +80,7 @@ app.post('/api/generate-image', async (req, res) => {
     const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the subject has been styled by a professional stylist, make it a cohesive theme.";
     
     console.log(`Using prompt: ${prompt.substring(0, 50)}...`);
-    console.log('Using REST API with us-west2 endpoint');
+    console.log('Using REST API with global endpoint');
     
     // Prepare the content parts for the API call
     const contents = [
@@ -93,8 +93,8 @@ app.post('/api/generate-image', async (req, res) => {
       }
     ];
     
-    // Call the Gemini image generation model using REST API with region
-    const response = await fetch(`https://us-west2-generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${API_KEY}`, {
+    // Call the Gemini image generation model using REST API (global endpoint)
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
