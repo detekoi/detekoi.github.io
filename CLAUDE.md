@@ -20,7 +20,7 @@
 - `/assets` - Static assets (images, fonts)
 - `/scripts` - Client-side JavaScript files
 - `/styles` - CSS stylesheets
-- `server.js` - Express server for Gemini API integration
+- `scripts/server.js` - Express server for Gemini API integration
 - `index.html` - Main entry point
 
 ## Git Conventions

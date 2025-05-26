@@ -44,20 +44,20 @@ const genAI = new GoogleGenAI({ apiKey: API_KEY });
 // Note: With GoogleGenAI we access models directly through genAI.models
 
 // --- Serve Static Files (HTML, CSS, JS, Images) ---
-// Serve files from the root directory where index.html is located
-app.use(express.static(path.join(__dirname, '.')));
+// Serve files from the parent directory where index.html is located
+app.use(express.static(path.join(__dirname, '..')));
 
 // Serve index.html for the root path specifically
 // This ensures that navigating to '/' serves the main page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
 // --- API Endpoint for Image Generation ---
 app.post('/api/generate-image', async (req, res) => {
   // Read the original bear image from file system
   try {
-    const imagePath = 'assets/images/PolarBearTransparent4K.png';
+    const imagePath = path.join(__dirname, '..', 'assets/images/PolarBearTransparent4K.png');
     const imageData = fs.readFileSync(imagePath);
     const base64Image = imageData.toString('base64');
     
@@ -77,21 +77,37 @@ app.post('/api/generate-image', async (req, res) => {
       }
     ];
     
-    // Call the Gemini image generation model
-    const response = await genAI.models.generateContent({
-      model: 'gemini-2.0-flash-preview-image-generation',
-      contents: contents,
-      config: {
-        responseModalities: ['Text', 'Image']
+    // Call the Gemini image generation model using REST API (more reliable than SDK)
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${API_KEY}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Client': 'genai-js/1.0.0'
       },
+      body: JSON.stringify({
+        contents: [{
+          parts: contents
+        }],
+        generationConfig: {
+          responseModalities: ["TEXT", "IMAGE"]
+        }
+      })
     });
+    
+    if (!response.ok) {
+      const errorData = await response.text();
+      console.error('REST API Error:', response.status, errorData);
+      throw new Error(`REST API Error: ${response.status} - ${errorData}`);
+    }
+    
+    const apiResponse = await response.json();
     
     // Extract response data
     let imageDataUri = null;
     let textResponse = null;
     
-    if (response && response.candidates && response.candidates.length > 0) {
-      const parts = response.candidates[0].content.parts;
+    if (apiResponse && apiResponse.candidates && apiResponse.candidates.length > 0) {
+      const parts = apiResponse.candidates[0].content.parts;
       
       for (const part of parts) {
         if (part.text) {
