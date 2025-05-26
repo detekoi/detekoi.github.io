@@ -24,7 +24,7 @@ on:
 env:
   PROJECT_ID: shirokuma-fashion  # Use your actual project ID
   SERVICE_NAME: shirokuma-server
-  REGION: us-central1  # Choose your preferred region
+  REGION: us-west2  # Required for Gemini image generation
 
 jobs:
   deploy:
