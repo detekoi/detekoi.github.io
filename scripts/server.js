@@ -80,6 +80,7 @@ app.post('/api/generate-image', async (req, res) => {
     const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the subject has been styled by a professional stylist, make it a cohesive theme.";
     
     console.log(`Using prompt: ${prompt.substring(0, 50)}...`);
+    console.log('Using REST API with us-west2 endpoint');
     
     // Prepare the content parts for the API call
     const contents = [
