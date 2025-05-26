@@ -399,7 +399,17 @@ document.addEventListener('DOMContentLoaded', () => {
   loadStoredCarouselImages(); // Call the modified loading function
   
   // Prompt for the Gemini API
-  const prompt = "IMAGE CONTEXT: Full body, head-to-toe view of Polar Bear. He's professionally styled in tasteful designer/vintage outfits (menswear/womenswear), against a black background. Aesthetics: subculture, couture, casual, avant-garde. Original neckerchief and dark gray waistline might be changed or removed by the stylist. \n\nREQUIRED CAPTION OUTPUT: A brief (140 characters max, markdown) fashion commentary. Describe the outfit, confidently attributing designers/brands (real, plausible vintage, or obscure). Write as a fashion expert. CRITICAL: Do NOT describe the act of creating or presenting the image (e.g., no phrases like 'Zooming out...', 'full-body shot...', 'removed neckerchief...'). Directly describe the fashion elements and their attributions.";
+  const prompt = "**IMAGE GENERATION TASK:**\n" +
+"Modify the provided input image of Polar Bear. Perform the following changes to generate a NEW image:\n" +
+"1. Zoom out to a full body, head-to-toe view.\n" +
+"2. Outfit him in new, tasteful designer/vintage attire (menswear/womenswear) selected by a professional stylist.\n" +
+"3. The background should be black.\n" +
+"4. The outfit choices should reflect subculture/fashion aesthetics (e.g., couture, casual, avant-garde).\n" +
+"5. Subtly change or remove his original neckerchief and dark gray waistline to complement the new styling.\n" +
+"Ensure your output includes this newly generated image.\n\n" +
+"**CAPTION TASK (for the NEW image generated above):**\n" +
+"Provide a brief (140 characters max) fashion caption in markdown format. Write as a knowledgeable fashion commentator. Confidently attribute specific designers, brands (real or plausible vintage/obscure), or styles.\n" +
+"CRITICAL: Do NOT use narrative phrases like 'Zooming out...', 'full-body shot...', 'removed neckerchief...'. Directly describe the fashion elements and their attributions as seen in the new image.";
 
   // Backend API endpoint URL
   const BACKEND_API_URL = 'https://shirokuma-server-580931574321.us-west2.run.app/api/generate-image';
