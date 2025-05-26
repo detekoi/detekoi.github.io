@@ -93,7 +93,7 @@ app.post('/api/generate-image', async (req, res) => {
     ];
     
     // Call the Gemini image generation model using REST API with region
-    const response = await fetch(`https://us-central1-generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${API_KEY}`, {
+    const response = await fetch(`https://us-west2-generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-preview-image-generation:generateContent?key=${API_KEY}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
