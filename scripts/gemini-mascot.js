@@ -399,8 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadStoredCarouselImages(); // Call the modified loading function
   
   // Prompt for the Gemini API
-  const prompt = "Zoom out full body head-to-toe to reveal that Polar Bear has been fully outfitted by a professional stylist in tasteful designer/vintage outfits, drawn from menswear and womenswear. Black background. Inform your choices with subculture/fashion aesthetics. Couture and casual, avant-garde and average. Also, quietly change or remove the neckerchief and dark gray waistline as needed. In brief 140 characters max markdown, as if you have the information at hand, confidently attribute specific designers or brands, even obscure ones (or just 'vintage').";
-
+  const prompt = "IMAGE CONTEXT: Full body, head-to-toe view of Polar Bear. He's professionally styled in tasteful designer/vintage outfits (menswear/womenswear), against a black background. Aesthetics: subculture, couture, casual, avant-garde. Original neckerchief and dark gray waistline might be changed or removed by the stylist. \n\nREQUIRED CAPTION OUTPUT: A brief (140 characters max, markdown) fashion commentary. Describe the outfit, confidently attributing designers/brands (real, plausible vintage, or obscure). Write as a fashion expert. CRITICAL: Do NOT describe the act of creating or presenting the image (e.g., no phrases like 'Zooming out...', 'full-body shot...', 'removed neckerchief...'). Directly describe the fashion elements and their attributions.";
   // Backend API endpoint URL
   const BACKEND_API_URL = 'https://shirokuma-server-580931574321.us-west2.run.app/api/generate-image';
 
