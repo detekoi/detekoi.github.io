@@ -262,8 +262,7 @@ function createLanguageSelector() {
   });
 
   // Add language selector to the page header or body
-  const header = document.querySelector('header') || document.body;
-  header.appendChild(selector);
+  document.body.appendChild(selector);
 }
 
 // Update language selector to reflect current language

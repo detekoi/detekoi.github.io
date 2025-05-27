@@ -263,7 +263,15 @@
     <div id="last-updated" style="text-align:center; margin-top:2rem; color:var(--color-border, #888); font-size:0.95em;">
         Last updated: %%LAST_UPDATED%%
     </div>
-
+    <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+    <script>
+      kofiWidgetOverlay.draw('parfaitfair', {
+        'type': 'floating-chat',
+        'floating-chat.donateButton.text': 'Support me',
+        'floating-chat.donateButton.background-color': '#ffffff',
+        'floating-chat.donateButton.text-color': '#323842'
+      });
+    </script>
     <script src="scripts/static-background.js"></script>
     <script>
       // Replace the placeholder with the current date in a readable format

@@ -23,6 +23,7 @@
         /* Basic table styling to match the theme */
         body {
             padding: 2rem; /* Add some padding */
+            padding-bottom: 100px; /* Ensures space for Ko-fi widget */
             font-family: var(--font-primary); /* Use Atkinson Hyperlegible from main.css */
         }
         table {
@@ -132,6 +133,7 @@
         @media screen and (max-width: 450px) {
             body {
                 padding: 1rem;
+                padding-bottom: 100px; /* Keep extra space on mobile too */
             }
             
             table {
@@ -225,14 +227,15 @@
 
         /* Language selector styling */
         .language-selector {
-            position: relative;
+            position: fixed;
+            right: 0.8rem;
+            bottom: 0.8rem;
             display: inline-block;
             z-index: 1000;
         }
 
         .language-selector .current-lang {
-            background: none;
-            outline: 1px solid var(--color-border);
+            background: var(--bg-color, #fff);
             border-radius: 4px;
             padding: 0.25rem;
             cursor: pointer;
@@ -240,26 +243,50 @@
             color: var(--text-color);
             font-family: var(--font-primary);
             white-space: nowrap;
-            /* Ensure a consistent square size and center content */
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 2.5rem;
             height: 2.5rem;
+            border: 1px solid var(--color-border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: background 0.2s, color 0.2s;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .language-selector .current-lang {
+                background: #23272e;
+                color: #f3f3f3;
+                border: 1px solid #444;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+            }
+            .language-selector .language-grid {
+                background-color: #23272e;
+                color: #f3f3f3;
+                border: 1px solid #444;
+            }
+            .language-selector .language-grid button {
+                color: #f3f3f3;
+            }
         }
 
         .language-selector .language-grid {
             display: none;
             position: absolute;
-            /* Position dropdown above the trigger button */
             bottom: 100%;
-            left: 0;
+            right: 0;
+            left: auto;
             background-color: var(--bg-color, #ffffff);
             border: 1px solid var(--color-border);
             border-radius: 4px;
             padding: 0.5rem;
             grid-template-columns: repeat(3, auto);
             gap: 0.25rem;
+            min-width: 120px;
+            max-width: 100vw;
+            box-sizing: border-box;
+            /* Prevent overflow on the right */
+            overflow-x: auto;
         }
 
         .language-selector.open .language-grid {
