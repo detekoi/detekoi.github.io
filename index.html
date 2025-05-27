@@ -5,19 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Software portfolio of Henry Manes, featuring streaming tools and browser sources for OBS">
   
-  <!-- Additional SEO Meta Tags -->
   <meta name="keywords" content="ChatSage, Twitch chatbot, Twitch, Text-to-Speech, TTS, AI chatbot, OBS tools, streaming tools, Twitch overlay, chat overlay, browser sources, stream clock, stream notifications, Discord notifications, Apple Music widget">
   <meta name="author" content="Henry Manes">
   <meta name="robots" content="index, follow">
   
-  <!-- Open Graph / Social Media Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:title" content="HENRY MANES | OBS Tools">
   <meta property="og:description" content="Free and open source streaming tools designed for maximum customizability and platform independence">
   <meta property="og:url" content="https://detekoi.github.io">
   <meta property="og:site_name" content="Henry Manes OBS Tools">
   
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="HENRY MANES | OBS Tools">
   <meta name="twitter:description" content="Free and open source streaming tools for streamers">
@@ -30,43 +27,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cabin+Condensed:wght@400;500;600;700&family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
-  <script>
-    // 1. Array of SPAM DOMAINS to block
-    const spamDomains = [
-      "sigr.io",
-      "semalt.com",
-      "buttons-for-website.com",
-      "4webmasters.org",
-      // Add more as you discover them
-    ];
-  
-    // 2. Get the referrer URL
-    const referrer = document.referrer;
-  
-    let isSpam = false;
-  
-    // 3. Check if the referrer CONTAINS any of our spam domains
-    for (const spamDomain of spamDomains) {
-      if (referrer.includes(spamDomain)) {
-        isSpam = true;
-        break;
-      }
-    }
-  
-    // 4. If the referrer is NOT a spam domain, THEN add the Rybbit tracking script
-    if (!isSpam) {
-      const rybbitScript = document.createElement("script");
-      rybbitScript.src = "https://app.rybbit.io/api/script.js";
-      rybbitScript.dataset.siteId = "102";
-      rybbitScript.setAttribute("defer", "true");
-      document.head.appendChild(rybbitScript);
-    }
-  
-    // 5. (Optional) Log the referrer for debugging
-    if (isSpam) {
-      console.warn("Spam referrer blocked:", referrer);
-    }
-  </script>
+  <script
+  src="https://app.rybbit.io/api/script.js"
+  data-site-id="102"
+  defer
+></script>
 </head>
 <body>
   <canvas id="staticCanvas"></canvas>
@@ -81,8 +46,7 @@
         <a href="#" id="style-inspiration-link">Style Inspiration!</a>
       </p>
     </div>
-    <div class="header-mascot-area"> <!-- Added a wrapper -->
-      <div class="carousel-wrapper">
+    <div class="header-mascot-area"> <div class="carousel-wrapper">
         <div class="carousel-controls">
           <button class="prev-btn">←</button>
           <button class="next-btn">→</button>
@@ -103,7 +67,6 @@
 
   <main>
     <section class="project-grid">
-      <!-- ChatVibes -->
       <article class="project">
         <h2 class="project-title">ChatVibes</h2>
         <p class="project-description">Twitch Text-to-Speech bot and OBS browser source that reads chat and events aloud. Customizable voices, emotions, and other preferences on per-user and per-channel basis.</p>
@@ -126,7 +89,6 @@
         </div>
       </article>
 
-      <!-- ChatSage -->
       <article class="project">
         <h2 class="project-title">ChatSage</h2>
         <p class="project-description">AI-powered chatbot for Twitch streams with real-time context awareness and natural language understanding</p>
@@ -149,7 +111,6 @@
         </div>
       </article>
 
-      <!-- Chat Overlay -->
       <article class="project">
         <h2 class="project-title">Chat Overlay</h2>
         <p class="project-description">Chat Overlay for Twitch and OBS featuring an AI-powered custom theme generator</p>
@@ -172,7 +133,6 @@
         </div>
       </article>
 
-      <!-- Jam Deck -->
       <article class="project">
         <h2 class="project-title">Jam Deck</h2>
         <p class="project-description">Apple Music Stream Now Playing Widget for OBS (macOS/Apple Music only)</p>
@@ -194,7 +154,6 @@
         </div>
       </article>
 
-      <!-- Minimal Clock -->
       <article class="project">
         <h2 class="project-title">Clock Overlay</h2>
         <p class="project-description">Customizable clock overlay for OBS streams and recordings</p>
@@ -215,7 +174,6 @@
         </div>
       </article>
 
-      <!-- Static Browser Overlays -->
       <article class="project">
         <h2 class="project-title">Overlay Collection</h2>
         <p class="project-description">Collection of static browser overlays for OBS, regularly updated with new components</p>
@@ -239,7 +197,6 @@
         </div>
       </article>
 
-      <!-- Live Notify -->
       <article class="project">
         <h2 class="project-title">Live Notify</h2>
         <p class="project-description">Notification system to alert when you go live on Twitch, with Discord integration</p>
@@ -259,11 +216,36 @@
         </div>
       </article>
     </section>
+
+    <section class="contact-form-section">
+      <h2>Contact Me</h2>
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="c9330023-e8e4-4d38-9571-9870239fdc15">
+    
+        <div>
+          <label for="contact_name">Name:</label>
+          <input type="text" id="contact_name" name="name" required>
+        </div>
+        <div>
+          <label for="contact_email">Email:</label>
+          <input type="email" id="contact_email" name="email" required>
+        </div>
+        <div>
+          <label for="contact_message">Message:</label>
+          <textarea id="contact_message" name="message" required></textarea>
+        </div>
+    
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+    
+        <button type="submit">Submit Form</button>
+      </form>
+    </section>
+
   </main>
 
   <footer>
-    <p>Polar Bear Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank">RUNNERBEAN36</a></p>
-    <p>© 2025 Henry Manes | <a href="https://github.com/detekoi" target="_blank">GITHUB</a></p>
+    <p>Polar Bear Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank">Runnerbean</a></p>
+    <p>© 2025 Henry Manes | <a href="https://github.com/detekoi" target="_blank">GitHub</a></p>
   </footer>
 
   <script src="scripts/theme.js"></script>
