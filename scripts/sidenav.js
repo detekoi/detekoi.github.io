@@ -9,10 +9,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
     
-    // Default to collapsed state unless explicitly set to expanded in localStorage
-    const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') !== 'false';
+    // Check if we have a stored preference, otherwise use responsive default
+    const storedState = localStorage.getItem('sidebarCollapsed');
+    let sidebarCollapsed;
     
-    // Apply the state on page load (collapsed by default)
+    if (storedState !== null) {
+        // Use stored preference if it exists
+        sidebarCollapsed = storedState === 'true';
+    } else {
+        // Default behavior: collapsed on mobile (<=768px), open on desktop medium and larger
+        sidebarCollapsed = window.innerWidth <= 768;
+    }
+    
+    // Apply the state on page load
     if (sidebarCollapsed) {
         sidebar.classList.add('collapsed');
         content.classList.add('expanded');
