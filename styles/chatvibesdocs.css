@@ -421,6 +421,13 @@
             .default-link-style {
                 color: var(--text-color, #eee) !important;
             }
+
+            .submenu-caret {
+                color: #fff !important;
+            }
+            #sidebar ul li.open > a.has-submenu .submenu-caret {
+                color: #fff !important;
+            }
         }
 
         /* Sidebar submenu styles */
