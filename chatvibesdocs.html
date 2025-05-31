@@ -297,30 +297,45 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts ignore</td>
-                        <td>Manage the TTS ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>!tts ignore &lt;username&gt;<br>!tts ignore add &lt;username&gt;</td>
+                        <td>
+                            <strong>For any user:</strong> Add <em>yourself</em> to the TTS ignore list for the channel. Your messages will not be spoken.<br>
+                            <strong>For Moderators/Broadcaster:</strong> Add <em>any specified Twitch user</em> to the TTS ignore list for the channel.<br>
+                            <span class="dropdown-toggle">&#x25BC;</span>
+                        </td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <strong>Add yourself or another user to the ignore list:</strong><br>
-                            <ul style="margin-bottom: 0.5em;">
-                                <li><strong>For any user:</strong> <code>!tts ignore add yourusername</code> <span>(to ignore yourself)</span></li>
-                                <li><strong>For Moderators/Broadcaster:</strong> <code class="mod-command">!tts ignore add SomeOtherUser</code> <span>(to ignore any user)</span></li>
-                            </ul>
-                            <strong>Remove a user from the ignore list:</strong><br>
-                            <ul style="margin-bottom: 0.5em;">
-                                <li><code class="mod-command">!tts ignore del &lt;username&gt;</code> <span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></li>
-                                <li><strong>Note:</strong> Users cannot remove themselves from the ignore list using this command; a mod must do it.</li>
-                            </ul>
-                            <strong>List all ignored users:</strong><br>
+                            <strong>Usage:</strong>
                             <ul>
-                                <li><code class="mod-command">!tts ignored</code></li>
+                                <li><code>!tts ignore yourusername</code> (if you want to ignore yourself)</li>
+                                <li><code class="mod-command">!tts ignore add SomeOtherUser</code> (if you are a mod/broadcaster)</li>
                             </ul>
-                            <p><strong>Permissions:</strong><br>
-                                <strong>Add:</strong> Everyone (to add themselves), Moderator (to add others)<br>
-                                <strong>Remove:</strong> Moderator only<br>
-                                <strong>List:</strong> Moderator only
-                            </p>
+                            <p><strong>Permission:</strong> Everyone (to add themselves), Moderator (to add others)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts ignore del &lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
+                        <td>Removes the specified Twitch user from the TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts ignore del SomeUser</code>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts ignored</td>
+                        <td>Lists all users currently on the TTS ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts ignored</code>
+                            <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
                 </tbody>
@@ -425,11 +440,134 @@
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
                         <td class="mod-command">!tts say &lt;message&gt;</td>
-                        <td>Immediately enqueues the provided message for TTS, regardless of the current mode. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>Immediately enqueues the provided message for TTS, regardless of the current mode. Uses the requesting user's preferences or channel defaults for voice, pitch, speed, and emotion. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code class="mod-command">!tts say Welcome everyone to the stream!</code>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- MUSIC GENERATION COMMANDS SECTION -->
+        <section id="music-commands" class="section">
+            <h2>Music Generation Commands</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!music &lt;prompt&gt;</td>
+                        <td>Generates a short piece of music based on your prompt. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!music epic orchestral battle theme</code>
+                            <p><strong>Permission:</strong> Configurable by mods (default: everyone, can be mods only). User must not be on music ignore list.</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!music on<br>!music off</td>
+                        <td>(Mod only) Enables or disables the music generation feature for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!music on</code>
+                            <code class="mod-command">!music off</code>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!music mode &lt;all|mods&gt;</td>
+                        <td>(Mod only) Sets who can use the <span class="inline-code">!music &lt;prompt&gt;</span> command.<br>
+                            <span class="inline-code">all</span>: Everyone can generate music.<br>
+                            <span class="inline-code">mods</span>: Only moderators and the broadcaster can generate music.
+                            <span class="dropdown-toggle">&#x25BC;</span>
+                        </td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!music mode all</code>
+                            <code class="mod-command">!music mode mods</code>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!music status</td>
+                        <td>Shows the current status of music generation (enabled/disabled, mode, queue length). <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!music status</code>
+                            <p><strong>Permission:</strong> Everyone</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!music clear</td>
+                        <td>(Mod only) Clears all pending music generation requests from the queue. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!music clear</code>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!music ignore &lt;username&gt;<br>!music ignore add &lt;username&gt;</td>
+                        <td>
+                            <strong>For any user:</strong> Add <em>yourself</em> to the music ignore list. Your <span class="inline-code">!music &lt;prompt&gt;</span> requests will be ignored.<br>
+                            <strong>For Moderators/Broadcaster:</strong> Add <em>any specified Twitch user</em> to the music ignore list.<br>
+                            <span class="dropdown-toggle">&#x25BC;</span>
+                        </td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <strong>Usage:</strong>
+                            <ul>
+                                <li><code>!music ignore yourusername</code> (if you want to ignore yourself)</li>
+                                <li><code class="mod-command">!music ignore add SomeOtherUser</code> (if you are a mod/broadcaster)</li>
+                            </ul>
+                            <p><strong>Permission:</strong> Everyone (to add themselves), Moderator (to add others)</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!music ignore del &lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
+                        <td>(Mod only) Removes the specified Twitch user from the music ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!music ignore del SomeUser</code>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!music ignored</td>
+                        <td>(Mod only) Lists all users currently on the music ignore list for the channel. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!music ignored</code>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
