@@ -422,3 +422,71 @@
                 color: var(--text-color, #eee) !important;
             }
         }
+
+        /* Sidebar submenu styles */
+        #sidebar ul .submenu {
+            display: none;
+            padding-left: 10px;
+            margin: 0;
+            transition: max-height 0.2s ease;
+        }
+        #sidebar ul li.open > .submenu {
+            display: block;
+        }
+        #sidebar ul .submenu li a {
+            font-size: 0.93em;
+            padding: 4px 0 4px 28px;
+            margin-bottom: 2px;
+            background: none;
+            border: none;
+            box-shadow: none;
+            color: var(--text-color, #666);
+            opacity: 0.85;
+        }
+        #sidebar ul .submenu li a:hover, #sidebar ul .submenu li a:focus {
+            color: var(--header-color, #222);
+            background: rgba(0,0,0,0.03);
+            text-decoration: underline;
+            box-shadow: none;
+        }
+        #sidebar ul li > a.has-submenu {
+            position: relative;
+            padding-right: 2.2em; /* Make space for the caret */
+        }
+        .submenu-caret {
+            position: absolute;
+            right: 1em;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), color 0.2s;
+            font-size: 1.25em;
+            color: #333;
+            pointer-events: auto;
+            background: none;
+            border: none;
+            outline: none;
+            z-index: 1;
+        }
+        .submenu-caret::before {
+            content: '\25BC'; /* ▼ down arrow */
+            display: inline-block;
+        }
+        #sidebar ul li.open > a.has-submenu .submenu-caret {
+            transform: translateY(-50%) rotate(180deg);
+            color: var(--header-color, #222);
+        }
+        #sidebar ul li.open > a.has-submenu .submenu-caret::before {
+            content: '\25BC'; /* Keep the same arrow, just rotate */
+        }
+        @media (prefers-color-scheme: dark) {
+            #sidebar ul .submenu li a {
+                color: #bbb;
+            }
+            #sidebar ul .submenu li a:hover, #sidebar ul .submenu li a:focus {
+                color: #fff;
+                background: rgba(255,255,255,0.05);
+            }
+            #sidebar ul li.open > a.has-submenu .submenu-caret {
+                color: #fff;
+            }
+        }

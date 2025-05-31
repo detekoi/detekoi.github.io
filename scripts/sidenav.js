@@ -67,4 +67,46 @@ document.addEventListener('DOMContentLoaded', function() {
         sidebar.classList.add('collapsed');
         content.classList.add('expanded');
     }
+    
+    // Collapsible submenu for sidebar
+    const submenuLinks = sidebar.querySelectorAll('a.has-submenu');
+    submenuLinks.forEach(link => {
+        const caret = link.querySelector('.submenu-caret');
+        if (caret) {
+            // Toggle submenu on caret click
+            caret.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const li = link.parentElement;
+                const isOpen = li.classList.contains('open');
+                // Close all other submenus
+                sidebar.querySelectorAll('ul > li.open').forEach(openLi => {
+                    if (openLi !== li) openLi.classList.remove('open');
+                });
+                // Toggle this submenu
+                li.classList.toggle('open', !isOpen);
+            });
+            // Keyboard accessibility
+            caret.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    caret.click();
+                }
+            });
+        }
+        // Also expand submenu on link click (in addition to caret)
+        link.addEventListener('click', function(e) {
+            const li = link.parentElement;
+            const isOpen = li.classList.contains('open');
+            if (!isOpen) {
+                // Close all other submenus
+                sidebar.querySelectorAll('ul > li.open').forEach(openLi => {
+                    if (openLi !== li) openLi.classList.remove('open');
+                });
+                li.classList.add('open');
+                // Allow navigation to anchor
+            }
+            // If already open, just allow navigation
+        });
+    });
 });
