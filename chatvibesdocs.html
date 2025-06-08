@@ -159,6 +159,27 @@
                         </td>
                     </tr>
                 </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts bits [on|off|min &lt;amount&gt;]</td>
+                        <td>Configures the Bits-for-TTS feature, allowing channels to require a minimum Cheer amount to trigger TTS. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code class="mod-command">!tts bits on</code>
+                            <code class="mod-command">!tts bits off</code>
+                            <code class="mod-command">!tts bits min 100</code>
+                            <code class="mod-command">!tts bits</code> <span>(displays current Bits-for-TTS status)</span>
+                            <p><strong>Description:</strong></p>
+                            <ul>
+                                <li><span class="inline-code">on</span>: Enables Bits-for-TTS mode. Only messages with a sufficient cheer will be read.</li>
+                                <li><span class="inline-code">off</span>: Disables Bits-for-TTS mode.</li>
+                                <li><span class="inline-code">min &lt;amount&gt;</span>: Sets the minimum number of Bits required (e.g., <span class="inline-code">min 100</span>).</li>
+                            </ul>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
 
 
                 <tbody>
