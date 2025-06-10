@@ -151,11 +151,28 @@
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <code>!tts mode all</code> <span>(Speak all chat messages & events)</span>
+                            <code>!tts mode all</code> <span>(Speak all chat messages & events; <strong>this is the default mode</strong>)</span>
                             <code>!tts mode command</code> <span>(Only speak on command or for events)</span>
                             <code>!tts mode</code> <span>(Displays current mode)</span>
-                            <p><strong>Notes:</strong> <span class="inline-code">all</span>: All chat messages (not from ignored users or commands) and enabled events will be spoken.<br>
-                            <span class="inline-code">command</span>: Only messages triggered by specific TTS commands (like <span class="inline-code">!tts say</span>) or enabled events will be spoken. Regular chat is ignored.</p>
+                            <p><strong>Notes:</strong> <span class="inline-code">all</span>: All chat messages (not from ignored users or commands) and enabled events will be spoken, subject to the <span class="inline-code">!tts permission</span> setting.<br>
+                            <span class="inline-code">command</span>: Only messages triggered by specific TTS commands (like <span class="inline-code">!tts &lt;message&gt;</span>) or enabled events will be spoken. Regular chat is ignored.</p>
+                            <p><strong>Permission:</strong> Moderator</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command">!tts permission [everyone|all|mods]</td>
+                        <td>Sets a filter on who can trigger TTS when the bot is in <span class="inline-code">all</span> mode. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts permission everyone</code>
+                            <code>!tts permission mods</code>
+                            <code>!tts permission</code> <span>(displays the current permission filter)</span>
+                            <p><strong>Notes:</strong> <span class="inline-code">everyone</span> or <span class="inline-code">all</span>: Any user's chat message can be spoken. (<strong>Default</strong>)<br>
+                            <span class="inline-code">mods</span>: Only messages from moderators and the broadcaster will be spoken.<br>
+                            This does not affect <span class="inline-code">command</span> mode.</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -464,18 +481,25 @@
                 </tbody>
 
                 <tbody>
-                    <tr class="category-header"><td colspan="2">Direct TTS (Moderator Only)</td></tr>
+                    <tr class="category-header"><td colspan="2">Direct TTS</td></tr>
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts say &lt;message&gt;</td>
-                        <td>Immediately enqueues the provided message for TTS, regardless of the current mode. Uses the requesting user's preferences or channel defaults for voice, pitch, speed, and emotion. <span class="dropdown-toggle">&#x25BC;</span></td>
+                        <td>!tts &lt;message&gt;<br><span style="font-size:0.9em;">(Alias: !tts say &lt;message&gt;)</span></td>
+                        <td>Immediately enqueues the provided message for TTS. This works in both <span class="inline-code">all</span> and <span class="inline-code">command</span> modes. Uses the requesting user's preferences (or channel defaults) for voice, pitch, speed, and emotion. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
-                            <code class="mod-command">!tts say Welcome everyone to the stream!</code>
-                            <p><strong>Permission:</strong> Moderator</p>
+                            <code>!tts Welcome everyone to the stream!</code>
+                            <code>!tts say Welcome everyone!</code>
+                            <p><strong>Permission:</strong> Everyone</p>
                         </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td class="mod-command" style="display:none;">!tts say &lt;message&gt;</td>
+                        <td style="display:none;">(Deprecated: see above)</td>
                     </tr>
                 </tbody>
             </table>
