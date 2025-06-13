@@ -316,10 +316,6 @@
             line-height: 1.6;
             margin-bottom: 0.3rem;
         }
-        
-        .tip-text:first-child {
-            font-weight: 500;
-        }
 
         /* Dark mode support */
         @media (prefers-color-scheme: dark) {

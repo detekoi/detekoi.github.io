@@ -55,6 +55,7 @@
             <div class="expand-tip">
               <div class="tip-content">
                 <div class="tip-text">Broadcasters can also configure settings using the <a href="https://chatvibestts.web.app/" class="default-link-style" target="_blank">ChatVibes Web Dashboard</a></div>
+                <div class="tip-text">Viewers can set their own TTS preferences using the web UI using <span class="inline-code">!tts prefs</span>.</div>
               </div>
             </div>
             <h3 id="tts-commands">Text-To-Speech Commands</h3>
@@ -114,6 +115,24 @@
                         <td colspan="2">
                             <code>!tts commands</code>
                             <code>!tts help</code>
+                            <p><strong>Permission:</strong> Everyone</p>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>!tts prefs<br><span style="font-size:0.9em;">(Alias: !tts preferences)</span></td>
+                        <td>Sends you a short-lived link to <strong>your personal TTS settings page</strong>. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <code>!tts prefs</code>
+                            <code>!tts preferences</code>
+                            <ul>
+                                <li>Configure your own voice, pitch, speed, emotion, and language on a per-channel basis.</li>
+                                <li>Includes a red-outlined "Danger Zone" where you can add yourself to the channel's TTS and/or Music ignore lists (only a moderator can undo this).</li>
+                                <li>The bot posts the link publicly in chat; it is signed for you only and expires after first access or 10 minutes. The page is pre-filled with the current channel.</li>
+                            </ul>
                             <p><strong>Permission:</strong> Everyone</p>
                         </td>
                     </tr>
