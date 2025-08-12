@@ -341,6 +341,47 @@ header .tagline {
   margin-bottom: var(--spacing-unit);
 }
 
+/* Invite-only note styling */
+.invite-note {
+  margin: 2px 0 var(--spacing-unit) 0;
+  color: var(--color-border);
+  font-size: var(--font-size-small);
+}
+
+.invite-note a {
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: inline !important;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.invite-note a:hover,
+.invite-note a:focus,
+.invite-note a:active {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Dark mode adjustments for invite note/link */
+@media (prefers-color-scheme: dark) {
+  .invite-note {
+    color: #cccccc; /* subtle grey in dark mode */
+  }
+  .invite-note a {
+    color: #ffffff !important; /* ensure readable on dark bg */
+    text-decoration-color: rgba(255, 255, 255, 0.85);
+  }
+  .invite-note a:hover,
+  .invite-note a:focus {
+    color: #dddddd !important;
+    text-decoration-color: #dddddd;
+  }
+}
+
 .project-tech {
   display: flex;
   flex-wrap: wrap;
