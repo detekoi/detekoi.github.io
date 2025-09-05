@@ -169,6 +169,25 @@
         "langCmd": "!botlang <language>"
       }
     },
+    "auto": {
+      "name": "!auto",
+      "description": "Configure auto-chat mode and options.",
+      "usage": {
+        "status": "Shows current auto-chat mode, frequency, and categories",
+        "modeCmd": "!auto <off|low|medium|high>",
+        "mode": "Sets auto-chat aggressiveness (off disables)",
+        "freqCmd": "!auto config frequency:<minutes>",
+        "freq": "Sets minimum gap between auto messages (minutes)",
+        "greetingsCmd": "!auto config greetings:<on|off>",
+        "greetings": "Enable/disable greetings",
+        "factsCmd": "!auto config facts:<on|off>",
+        "facts": "Enable/disable facts and tips",
+        "questionsCmd": "!auto config questions:<on|off>",
+        "questions": "Enable/disable engagement questions",
+        "multiCmd": "!auto config frequency:<minutes> greetings:<on|off> facts:<on|off> questions:<on|off>",
+        "multi": "Set multiple options at once"
+      }
+    },
     "ping": {
       "name": "!ping",
       "description": "Checks if the bot is responsive. Responds with Pong!"
