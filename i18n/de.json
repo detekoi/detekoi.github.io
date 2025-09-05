@@ -62,6 +62,10 @@
           "basic": "!help oder !commands"
         }
       },
+      "lurk": {
+        "name": "!lurk",
+        "description": "Lass den Chat wissen, dass du lurkst. Gib optional einen Grund für eine individuelle Verabschiedung an."
+      },
       "geo": {
         "name": "!geo",
         "description": "Startet oder verwaltet Geo-Game, ein Geografie-Ratespiel für IRL oder virtuelle Welten.",
@@ -167,6 +171,40 @@
           "off": "Setzt auf Englisch zurück",
           "default": "Setzt auf Englisch zurück",
           "langCmd": "!botlang <Sprache>"
+        }
+      },
+      "auto": {
+        "name": "!auto",
+        "description": "Konfiguriert den Auto-Chat-Modus und Optionen.",
+        "usage": {
+          "status": "Zeigt den aktuellen Auto-Chat-Modus, Häufigkeit und Kategorien",
+          "modeCmd": "!auto <off|low|medium|high>",
+          "mode": "Setzt die Auto-Chat-Aggressivität (off deaktiviert)",
+          "freqCmd": "!auto config frequency:<Minuten>",
+          "freq": "Setzt minimalen Abstand zwischen Auto-Nachrichten (Minuten)",
+          "greetingsCmd": "!auto config greetings:<on|off>",
+          "greetings": "Begrüßungen aktivieren/deaktivieren",
+          "factsCmd": "!auto config facts:<on|off>",
+          "facts": "Fakten und Tipps aktivieren/deaktivieren",
+          "questionsCmd": "!auto config questions:<on|off>",
+          "questions": "Engagement-Fragen aktivieren/deaktivieren",
+          "multiCmd": "!auto config frequency:<Minuten> greetings:<on|off> facts:<on|off> questions:<on|off>",
+          "multi": "Mehrere Optionen auf einmal setzen"
+        }
+      },
+      "disable": {
+        "name": "!disable",
+        "description": "Deaktiviert einen Befehl in diesem Kanal.",
+        "usage": {
+          "lurk": "Deaktiviert den !lurk Befehl",
+          "trivia": "Deaktiviert den !trivia Befehl"
+        }
+      },
+      "enable": {
+        "name": "!enable",
+        "description": "Aktiviert einen zuvor deaktivierten Befehl in diesem Kanal.",
+        "usage": {
+          "trivia": "Aktiviert den !trivia Befehl"
         }
       },
       "ping": {

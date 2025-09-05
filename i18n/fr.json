@@ -62,6 +62,10 @@
         "basic": "!help ou !commands"
       }
     },
+    "lurk": {
+      "name": "!lurk",
+      "description": "Faites savoir au chat que vous êtes en mode furtif. Fournissez une raison facultative pour un envoi personnalisé."
+    },
     "geo": {
       "name": "!geo",
       "description": "Démarre ou gère Geo-Game, un jeu de devinettes géographiques pour les mondes réels ou virtuels.",
@@ -167,6 +171,40 @@
         "off": "Réinitialise en anglais",
         "default": "Réinitialise en anglais",
         "langCmd": "!botlang <langue>"
+      }
+    },
+    "auto": {
+      "name": "!auto",
+      "description": "Configurer le mode de chat automatique et les options.",
+      "usage": {
+        "status": "Affiche le mode de chat automatique actuel, la fréquence et les catégories",
+        "modeCmd": "!auto <off|low|medium|high>",
+        "mode": "Définit l'agressivité du chat automatique (off désactive)",
+        "freqCmd": "!auto config frequency:<minutes>",
+        "freq": "Définit l'écart minimum entre les messages automatiques (minutes)",
+        "greetingsCmd": "!auto config greetings:<on|off>",
+        "greetings": "Activer/désactiver les salutations",
+        "factsCmd": "!auto config facts:<on|off>",
+        "facts": "Activer/désactiver les faits et conseils",
+        "questionsCmd": "!auto config questions:<on|off>",
+        "questions": "Activer/désactiver les questions d'engagement",
+        "multiCmd": "!auto config frequency:<minutes> greetings:<on|off> facts:<on|off> questions:<on|off>",
+        "multi": "Définir plusieurs options à la fois"
+      }
+    },
+    "disable": {
+      "name": "!disable",
+      "description": "Désactive une commande dans ce canal.",
+      "usage": {
+        "lurk": "Désactive la commande !lurk",
+        "trivia": "Désactive la commande !trivia"
+      }
+    },
+    "enable": {
+      "name": "!enable",
+      "description": "Active une commande précédemment désactivée dans ce canal.",
+      "usage": {
+        "trivia": "Active la commande !trivia"
       }
     },
     "ping": {

@@ -31,6 +31,9 @@ const DEFAULT_LANGUAGE = 'en';
 let currentLanguage = DEFAULT_LANGUAGE;
 let translations = {};
 
+// Global style element for mod-command::before
+let modCommandStyle;
+
 // Initialize i18n
 async function initI18n() {
   // Try to get language from URL parameter, e.g., ?lang=es
@@ -171,41 +174,51 @@ function translatePage() {
     if (!commandCell || !descriptionCell) return;
     
     // Get the i18n keys
-    const commandKey = commandCell.getAttribute('data-i18n-key');
+    const commandKey = commandCell.getAttribute('data-i18n-key'); // This will be null for !lurk and !botlang
     const descriptionKey = descriptionCell.getAttribute('data-i18n-key');
+
+    // console.log('--- Processing row ---');
+    // console.log('commandCell:', commandCell.outerHTML);
+    // console.log('descriptionCell:', descriptionCell.outerHTML);
+    // console.log('commandKey:', commandKey);
+    // console.log('descriptionKey:', descriptionKey);
     
-    if (commandKey && descriptionKey) {
+    // Only translate description if descriptionKey is present
+    if (descriptionKey) { // Changed condition from (commandKey && descriptionKey)
+      // No translation for commandCell here, it remains static HTML
+      
       // Get the dropdown toggle element if it exists
       const dropdownToggle = descriptionCell.querySelector('.dropdown-toggle');
       
-      // IMPORTANT: We DO NOT translate the actual command, only descriptions
-      // commandCell.textContent = getTranslation(commandKey, commandCell.textContent);
+      // Get the description text span
+      const descriptionTextSpan = descriptionCell.querySelector('.description-text');
+      if (descriptionTextSpan) {
+        descriptionTextSpan.textContent = getTranslation(descriptionKey, descriptionTextSpan.textContent);
+      } else {
+        // Fallback if for some reason description-text span is not found
+        descriptionCell.textContent = getTranslation(descriptionKey, descriptionCell.textContent);
+      }
       
-      // Set the translated description
-      descriptionCell.textContent = getTranslation(descriptionKey, descriptionCell.textContent);
-      
-      // Re-append the dropdown toggle
+      // Re-append the dropdown toggle (this part remains the same, but now it's safe)
       if (dropdownToggle) {
         descriptionCell.appendChild(dropdownToggle);
       }
+    } else {
+      // console.log('Skipping row due to missing descriptionKey.');
     }
   });
   
   // Translate "Mod" badge
   document.querySelectorAll('.mod-badge').forEach(badge => {
     badge.textContent = getTranslation('ui.mod', 'Mod');
+    // console.log('Mod badge translated:', badge.outerHTML);
   });
   
-  // Translate mod-command::before with CSS
-  const existingStyle = document.getElementById('mod-command-style');
-  if (existingStyle) {
-    existingStyle.remove();
+  // Update mod-command::before with CSS
+  if (modCommandStyle) { // Ensure modCommandStyle is initialized
+    modCommandStyle.textContent = `.mod-command::before { content: "${getTranslation('ui.mod', 'Mod')}"; }`;
+    // console.log('Updated mod-command-style.');
   }
-  
-  const modCommandStyle = document.createElement('style');
-  modCommandStyle.id = 'mod-command-style';
-  modCommandStyle.textContent = `.mod-command::before { content: "${getTranslation('ui.mod', 'Mod')}"; }`;
-  document.head.appendChild(modCommandStyle);
   
   // Translate "Last updated" text
   const lastUpdatedEl = document.getElementById('last-updated');
@@ -278,6 +291,12 @@ function updateLanguageSelector(lang) {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+  // Create modCommandStyle element once
+  modCommandStyle = document.createElement('style');
+  modCommandStyle.id = 'mod-command-style';
+  document.head.appendChild(modCommandStyle);
+  // console.log('Created mod-command-style element once.');
+
   createLanguageSelector();
   initI18n();
 });

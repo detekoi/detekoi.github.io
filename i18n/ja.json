@@ -62,6 +62,10 @@
           "basic": "!help または !commands"
         }
       },
+      "lurk": {
+        "name": "!lurk",
+        "description": "チャットにあなたが潜伏していることを知らせます。カスタムの送り出しのためにオプションの理由を提供します。"
+      },
       "geo": {
         "name": "!geo",
         "description": "現実世界または仮想世界向けの地理当てゲーム「Geo-Game」を開始または管理します。",
@@ -167,6 +171,40 @@
           "off": "英語にリセットします",
           "default": "英語にリセットします",
           "langCmd": "!botlang <言語コード>"
+        }
+      },
+      "auto": {
+        "name": "!auto",
+        "description": "オートチャットモードとオプションを設定します。",
+        "usage": {
+          "status": "現在のオートチャットモード、頻度、カテゴリを表示",
+          "modeCmd": "!auto <off|low|medium|high>",
+          "mode": "オートチャットの積極性を設定（offで無効）",
+          "freqCmd": "!auto config frequency:<分>",
+          "freq": "自動メッセージ間の最小間隔を設定（分）",
+          "greetingsCmd": "!auto config greetings:<on|off>",
+          "greetings": "挨拶を有効/無効にする",
+          "factsCmd": "!auto config facts:<on|off>",
+          "facts": "事実とヒントを有効/無効にする",
+          "questionsCmd": "!auto config questions:<on|off>",
+          "questions": "エンゲージメント質問を有効/無効にする",
+          "multiCmd": "!auto config frequency:<分> greetings:<on|off> facts:<on|off> questions:<on|off>",
+          "multi": "複数のオプションを一度に設定"
+        }
+      },
+      "disable": {
+        "name": "!disable",
+        "description": "このチャンネルでコマンドを無効にします。",
+        "usage": {
+          "lurk": "!lurk コマンドを無効にします",
+          "trivia": "!trivia コマンドを無効にします"
+        }
+      },
+      "enable": {
+        "name": "!enable",
+        "description": "このチャンネルで以前無効にしたコマンドを有効にします。",
+        "usage": {
+          "trivia": "!trivia コマンドを有効にします"
         }
       },
       "ping": {

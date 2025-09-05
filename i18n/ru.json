@@ -62,6 +62,10 @@
           "basic": "!help или !commands"
         }
       },
+      "lurk": {
+        "name": "!lurk",
+        "description": "Сообщите чату, что вы находитесь в режиме скрытого наблюдения. Укажите необязательную причину для индивидуального прощания."
+      },
       "geo": {
         "name": "!geo",
         "description": "Запускает или управляет Geo-Game, географической игрой-угадайкой для реального мира или виртуальных миров.",
@@ -167,6 +171,40 @@
           "off": "Сбрасывает на английский",
           "default": "Сбрасывает на английский",
           "langCmd": "!botlang <язык>"
+        }
+      },
+      "auto": {
+        "name": "!auto",
+        "description": "Настраивает режим автоматического чата и опции.",
+        "usage": {
+          "status": "Показывает текущий режим автоматического чата, частоту и категории",
+          "modeCmd": "!auto <off|low|medium|high>",
+          "mode": "Устанавливает агрессивность автоматического чата (off отключает)",
+          "freqCmd": "!auto config frequency:<минуты>",
+          "freq": "Устанавливает минимальный интервал между автосообщениями (минуты)",
+          "greetingsCmd": "!auto config greetings:<on|off>",
+          "greetings": "Включить/отключить приветствия",
+          "factsCmd": "!auto config facts:<on|off>",
+          "facts": "Включить/отключить факты и советы",
+          "questionsCmd": "!auto config questions:<on|off>",
+          "questions": "Включить/отключить вопросы для вовлечения",
+          "multiCmd": "!auto config frequency:<минуты> greetings:<on|off> facts:<on|off> questions:<on|off>",
+          "multi": "Установить несколько опций одновременно"
+        }
+      },
+      "disable": {
+        "name": "!disable",
+        "description": "Отключает команду в этом канале.",
+        "usage": {
+          "lurk": "Отключает команду !lurk",
+          "trivia": "Отключает команду !trivia"
+        }
+      },
+      "enable": {
+        "name": "!enable",
+        "description": "Включает ранее отключенную команду в этом канале.",
+        "usage": {
+          "trivia": "Включает команду !trivia"
         }
       },
       "ping": {

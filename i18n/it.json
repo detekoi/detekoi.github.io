@@ -62,6 +62,10 @@
           "basic": "!help o !commands"
         }
       },
+      "lurk": {
+        "name": "!lurk",
+        "description": "Fai sapere alla chat che sei in modalità lurk. Fornisci un motivo opzionale per un saluto personalizzato."
+      },
       "geo": {
         "name": "!geo",
         "description": "Avvia o gestisce Geo-Game, un gioco di indovinelli geografici per il mondo reale o mondi virtuali.",
@@ -167,6 +171,40 @@
           "off": "Reimposta su Inglese",
           "default": "Reimposta su Inglese",
           "langCmd": "!botlang <lingua>"
+        }
+      },
+      "auto": {
+        "name": "!auto",
+        "description": "Configura la modalità di chat automatica e le opzioni.",
+        "usage": {
+          "status": "Mostra la modalità di chat automatica attuale, frequenza e categorie",
+          "modeCmd": "!auto <off|low|medium|high>",
+          "mode": "Imposta l'aggressività della chat automatica (off disabilita)",
+          "freqCmd": "!auto config frequency:<minuti>",
+          "freq": "Imposta l'intervallo minimo tra messaggi automatici (minuti)",
+          "greetingsCmd": "!auto config greetings:<on|off>",
+          "greetings": "Abilita/disabilita i saluti",
+          "factsCmd": "!auto config facts:<on|off>",
+          "facts": "Abilita/disabilita fatti e consigli",
+          "questionsCmd": "!auto config questions:<on|off>",
+          "questions": "Abilita/disabilita domande di coinvolgimento",
+          "multiCmd": "!auto config frequency:<minuti> greetings:<on|off> facts:<on|off> questions:<on|off>",
+          "multi": "Imposta più opzioni contemporaneamente"
+        }
+      },
+      "disable": {
+        "name": "!disable",
+        "description": "Disabilita un comando in questo canale.",
+        "usage": {
+          "lurk": "Disabilita il comando !lurk",
+          "trivia": "Disabilita il comando !trivia"
+        }
+      },
+      "enable": {
+        "name": "!enable",
+        "description": "Abilita un comando precedentemente disabilitato in questo canale.",
+        "usage": {
+          "trivia": "Abilita il comando !trivia"
         }
       },
       "ping": {

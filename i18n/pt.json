@@ -62,6 +62,10 @@
           "basic": "!help ou !commands"
         }
       },
+      "lurk": {
+        "name": "!lurk",
+        "description": "Deixe o chat saber que você está lurkando. Forneça um motivo opcional para uma despedida personalizada."
+      },
       "geo": {
         "name": "!geo",
         "description": "Inicia ou gerencia o Geo-Game, um jogo de adivinhação geográfica para o mundo real ou mundos virtuais.",
@@ -120,7 +124,7 @@
           "roundsCmd": "!riddle <rodadas>",
           "subjectRoundsCmd": "!riddle <tema> <rodadas>",
           "gameRoundsCmd": "!riddle game <rodadas>",
-          "reportCmd": "!riddle report <motivo...>",
+          "reportCmd": "!riddle report <motivo... P",
           "configDifficultyCmd": "!riddle config difficulty <fácil|normal|difícil>",
           "questionTimeCmd": "!riddle config questiontime <segundos>",
           "pointsBaseCmd": "!riddle config pointsbase <número>",
@@ -167,6 +171,40 @@
           "off": "Redefine para inglês",
           "default": "Redefine para inglês",
           "langCmd": "!botlang <idioma>"
+        }
+      },
+      "auto": {
+        "name": "!auto",
+        "description": "Configura o modo de chat automático e opções.",
+        "usage": {
+          "status": "Mostra o modo de chat automático atual, frequência e categorias",
+          "modeCmd": "!auto <off|low|medium|high>",
+          "mode": "Define a agressividade do chat automático (off desabilita)",
+          "freqCmd": "!auto config frequency:<minutos>",
+          "freq": "Define o intervalo mínimo entre mensagens automáticas (minutos)",
+          "greetingsCmd": "!auto config greetings:<on|off>",
+          "greetings": "Ativar/desativar saudações",
+          "factsCmd": "!auto config facts:<on|off>",
+          "facts": "Ativar/desativar fatos e dicas",
+          "questionsCmd": "!auto config questions:<on|off>",
+          "questions": "Ativar/desativar perguntas de engajamento",
+          "multiCmd": "!auto config frequency:<minutos> greetings:<on|off> facts:<on|off> questions:<on|off>",
+          "multi": "Definir múltiplas opções de uma vez"
+        }
+      },
+      "disable": {
+        "name": "!disable",
+        "description": "Desabilita um comando neste canal.",
+        "usage": {
+          "lurk": "Desabilita o comando !lurk",
+          "trivia": "Desabilita o comando !trivia"
+        }
+      },
+      "enable": {
+        "name": "!enable",
+        "description": "Habilita um comando previamente desabilitado neste canal.",
+        "usage": {
+          "trivia": "Habilita o comando !trivia"
         }
       },
       "ping": {

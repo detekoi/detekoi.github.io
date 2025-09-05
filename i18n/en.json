@@ -62,6 +62,10 @@
         "basic": "!help or !commands"
       }
     },
+    "lurk": {
+      "name": "!lurk",
+      "description": "Let the chat know you are lurking. Provide an optional reason for a custom send-off."
+    },
     "geo": {
       "name": "!geo",
       "description": "Starts or manages Geo-Game, a geography guessing game for IRL or virtual worlds.",
@@ -186,6 +190,21 @@
         "questions": "Enable/disable engagement questions",
         "multiCmd": "!auto config frequency:<minutes> greetings:<on|off> facts:<on|off> questions:<on|off>",
         "multi": "Set multiple options at once"
+      }
+    },
+    "disable": {
+      "name": "!disable",
+      "description": "Disables a command in this channel.",
+      "usage": {
+        "lurk": "Disables the !lurk command",
+        "trivia": "Disables the !trivia command"
+      }
+    },
+    "enable": {
+      "name": "!enable",
+      "description": "Enables a previously disabled command in this channel.",
+      "usage": {
+        "trivia": "Enables the !trivia command"
       }
     },
     "ping": {
