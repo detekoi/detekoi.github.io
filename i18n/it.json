@@ -188,8 +188,10 @@
           "facts": "Abilita/disabilita fatti e consigli",
           "questionsCmd": "!auto config questions:<on|off>",
           "questions": "Abilita/disabilita domande di coinvolgimento",
-          "multiCmd": "!auto config frequency:<minuti> greetings:<on|off> facts:<on|off> questions:<on|off>",
-          "multi": "Imposta più opzioni contemporaneamente"
+          "adsCmd": "!auto config ads:<on|off>",
+          "ads": "Abilita/disabilita notifiche di pause pubblicitarie",
+        "multiCmd": "!auto config frequency:<minuti> greetings:<on|off> facts:<on|off> questions:<on|off>",
+        "multi": "Imposta più opzioni contemporaneamente"
         }
       },
       "disable": {

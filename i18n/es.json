@@ -179,6 +179,8 @@
         "greetingsCmd": "!auto config greetings:<on|off>",
         "factsCmd": "!auto config facts:<on|off>",
         "questionsCmd": "!auto config questions:<on|off>",
+        "adsCmd": "!auto config ads:<on|off>",
+        "ads": "Habilita/deshabilita notificaciones de pausas publicitarias",
         "multiCmd": "!auto config frequency:<minutos> greetings:<on|off> facts:<on|off> questions:<on|off>"
       }
     },

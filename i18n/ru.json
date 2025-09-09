@@ -188,8 +188,10 @@
           "facts": "Включить/отключить факты и советы",
           "questionsCmd": "!auto config questions:<on|off>",
           "questions": "Включить/отключить вопросы для вовлечения",
-          "multiCmd": "!auto config frequency:<минуты> greetings:<on|off> facts:<on|off> questions:<on|off>",
-          "multi": "Установить несколько опций одновременно"
+          "adsCmd": "!auto config ads:<on|off>",
+          "ads": "Включить/отключить уведомления о рекламных паузах",
+        "multiCmd": "!auto config frequency:<минуты> greetings:<on|off> facts:<on|off> questions:<on|off>",
+        "multi": "Установить несколько опций одновременно"
         }
       },
       "disable": {

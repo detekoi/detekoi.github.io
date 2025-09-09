@@ -188,8 +188,10 @@
           "facts": "Fakten und Tipps aktivieren/deaktivieren",
           "questionsCmd": "!auto config questions:<on|off>",
           "questions": "Engagement-Fragen aktivieren/deaktivieren",
-          "multiCmd": "!auto config frequency:<Minuten> greetings:<on|off> facts:<on|off> questions:<on|off>",
-          "multi": "Mehrere Optionen auf einmal setzen"
+          "adsCmd": "!auto config ads:<on|off>",
+          "ads": "Benachrichtigungen zu Werbepausen aktivieren/deaktivieren",
+        "multiCmd": "!auto config frequency:<Minuten> greetings:<on|off> facts:<on|off> questions:<on|off>",
+        "multi": "Mehrere Optionen auf einmal setzen"
         }
       },
       "disable": {

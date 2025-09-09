@@ -188,6 +188,8 @@
         "facts": "Enable/disable facts and tips",
         "questionsCmd": "!auto config questions:<on|off>",
         "questions": "Enable/disable engagement questions",
+        "adsCmd": "!auto config ads:<on|off>",
+        "ads": "Enable/disable ad break notifications",
         "multiCmd": "!auto config frequency:<minutes> greetings:<on|off> facts:<on|off> questions:<on|off>",
         "multi": "Set multiple options at once"
       }

@@ -188,8 +188,10 @@
           "facts": "事実とヒントを有効/無効にする",
           "questionsCmd": "!auto config questions:<on|off>",
           "questions": "エンゲージメント質問を有効/無効にする",
-          "multiCmd": "!auto config frequency:<分> greetings:<on|off> facts:<on|off> questions:<on|off>",
-          "multi": "複数のオプションを一度に設定"
+          "adsCmd": "!auto config ads:<on|off>",
+          "ads": "広告休憩の通知を有効/無効にする",
+        "multiCmd": "!auto config frequency:<分> greetings:<on|off> facts:<on|off> questions:<on|off>",
+        "multi": "複数のオプションを一度に設定"
         }
       },
       "disable": {
