@@ -367,7 +367,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Content adjustment when sidebar is present */
 #content {
   margin-left: calc(var(--sidebar-width) + 30px);
-  padding: 20px;
+  padding: 20px 20px 20px 0;
   width: calc(100% - var(--sidebar-width) - 30px);
   transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
 }
@@ -375,6 +375,7 @@ h1, h2, h3, h4, h5, h6 {
 #content.expanded {
   margin-left: var(--sidebar-collapsed-width);
   width: calc(100% - var(--sidebar-collapsed-width));
+  padding: 20px 20px 20px 0;
 }
 
 /* =====================================================
@@ -651,10 +652,10 @@ footer a:active {
 
   #content,
   #content.expanded {
-    padding: 20px 0;
+    padding: 20px 20px 20px 0;
     margin-left: 20px;
-    margin-right: auto;
-    width: 100%;
+    margin-right: 0;
+    width: calc(100% - 20px);
   }
 }
 
