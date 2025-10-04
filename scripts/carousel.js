@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCardPositions();
   }
 
-  // Setup lightbox for mascot images and captions
+  // Setup lightbox for mascot images
   function setupLightbox() {
     const cards = getCards();
 
@@ -117,8 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
       const detail = card.querySelector('.detail, .loading-detail');
 
       if (img) {
-        img.style.cursor = 'pointer';
-
         // Remove old listeners by cloning
         const newImg = img.cloneNode(true);
         img.parentNode.replaceChild(newImg, img);
@@ -128,21 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
           const descriptionText = detail ? detail.textContent.trim() : newImg.alt;
           if (window.showLightbox) {
             window.showLightbox(newImg.src, newImg.alt, descriptionText);
-          }
-        });
-      }
-
-      if (detail) {
-        detail.style.cursor = 'pointer';
-
-        // Remove old listeners by cloning
-        const newDetail = detail.cloneNode(true);
-        detail.parentNode.replaceChild(newDetail, detail);
-
-        newDetail.addEventListener('click', (e) => {
-          e.stopPropagation();
-          if (img && window.showLightbox) {
-            window.showLightbox(img.src, img.alt, newDetail.textContent.trim());
           }
         });
       }
