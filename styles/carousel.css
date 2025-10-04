@@ -58,7 +58,7 @@
   position: relative;
   width: 100%;
   max-width: 420px;
-  height: 500px;
+  min-height: 500px;
   perspective: 1000px;
   order: 1;
 }
