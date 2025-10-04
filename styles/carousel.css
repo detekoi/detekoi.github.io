@@ -1,713 +1,219 @@
-/* Carousel styles: Merged visual styles from previous version with functional CSS from example (Attempt 2) */
+/**
+ * 3D Stacking Carousel Styles
+ * Elegant card stacking with depth and smooth transitions
+ */
 
 .carousel-wrapper {
-  display: flex;
-  flex-direction: column; /* Changed to column layout for all screen sizes */
-  align-items: center; /* Center align for all screen sizes */
-  justify-content: center; /* Center for all screen sizes */
-  position: relative; 
-  margin: 0;
-  width: 100%;
-  max-width: 420px; 
-}
-
-/* Container for the cards - Keep perspective, adjust size based on old card size */
-.container.mascot-container {
   position: relative;
-  width: 400px; /* From previous version */
-  height: 452px; /* MODIFIED: Set height to match calculated card height */
-  perspective: 1000px;
-  margin: 0;
-  background: none; /* Reverted: Keep container transparent */
-  border: none; /* From previous */
-  box-shadow: none; /* From previous */
-  order: 1; /* Place above controls for all sizes */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: var(--spacing-medium);
+  gap: var(--spacing-small);
 }
 
-/* Individual card styling - Restore visual styles */
-.card.mascot-card {
-  position: absolute;
-  /* top/left/opacity/transform/z-index set by nth-child */
-  background-color: var(--color-card-bg);
+/* Toggle squares for navigation */
+.carousel-toggles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+  order: 2;
+  margin-top: var(--spacing-small);
+}
+
+.carousel-toggle {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-background);
   color: var(--color-text);
-  width: 320px; /* From previous */
-  height: 452px; /* MODIFIED: Calculated height for 1:1.414 ratio */
-  border-radius: 0; /* From previous */
-  border: 3px solid var(--color-border);
-  /* Default shadow set by nth-child or hover */
-  font-family: var(--font-primary);
-  font-size: var(--font-size-regular);
+  font-size: var(--font-size-small);
+  line-height: 1.3;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  text-align: center;
   overflow: hidden;
-  transform-origin: center;
-  display: flex; /* From previous */
-  flex-direction: column; /* From previous */
-  box-sizing: border-box; /* ADDED */
-  /* max-height: 550px; /* REMOVED */
-
-  /* USE EXAMPLE'S TRANSITION */
-  transition: top 0.4s ease, left 0.4s ease, opacity 0.4s ease, transform 0.4s ease, z-index 0.4s ease, box-shadow 0.4s ease;
-  align-items: center; /* Center align in mobile */
-  padding-left: 0;
-  /* padding-top: 50px; /* REMOVED */
-  max-width: 100%;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
 
-/* Stacking styles using nth-child - USE EXAMPLE'S POSITIONING LOGIC */
-.card.mascot-card:nth-child(1) {
-  /* Frontmost card: Largest blur */
-  box-shadow: 8px 8px 5px var(--color-border); /* Added 5px blur */
-  /* Example's position */
-  z-index: 10;
-  top: 0px;
-  left: 25px;
-  opacity: 1;
-  transform: scale(1);
+.carousel-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Restore hover/active from previous, adding blur */
-.card.mascot-card:nth-child(1):hover {
-  transform: translate(-2px, -2px); /* Keep previous hover transform */
-  box-shadow: 11px 11px 6px rgba(0, 0, 0, 0.6); /* Increased offset, added 6px blur */
-  z-index: 11; /* Ensure hover card is on top */
+.carousel-toggle.active {
+  background-color: var(--color-text);
+  color: var(--color-background);
+  border-color: var(--color-text);
 }
 
-.card.mascot-card:nth-child(1):active {
-  transform: translate(2px, 2px); /* Keep previous active transform */
-  box-shadow: 4px 4px 3px var(--color-border); /* Reduced offset, added 3px blur */
-  background-color: #eaeaea; /* Keep previous active bg */
-}
-
-.card.mascot-card:nth-child(2) {
-  /* Second card: Medium blur */
-  box-shadow: 6px 6px 3px var(--color-border); /* Added 3px blur */
-  /* Example's position - Increased left, slightly less top offset */
-  z-index: 9;
-  top: -5px; /* Was -10px */
-  left: 45px; /* Was 15px */
-  opacity: 0.9;
-  transform: scale(0.95);
-}
-
-.card.mascot-card:nth-child(3) {
-  /* Third card: Small blur */
-  box-shadow: 5px 5px 2px var(--color-border); /* Added 2px blur */
-  /* Example's position - Increased left, zero top offset */
-  z-index: 8;
-  top: 0px; /* Was -20px */
-  left: 65px; /* Was 5px */
-  opacity: 0.8;
-  transform: scale(0.9);
-}
-
-.card.mascot-card:nth-child(4) {
-  /* Fourth card: Minimal blur */
-  box-shadow: 4px 4px 1px var(--color-border); /* Added 1px blur */
-  /* Example's position - Increased left, positive top offset */
-  z-index: 7;
-  top: 5px; /* Was -30px */
-  left: 85px; /* Was -5px */
-  opacity: 0.7;
-  transform: scale(0.85);
-}
-
-/* Subsequent cards (5) - Sharp shadow */
-.card.mascot-card:nth-child(5) {
-  /* Fifth card: Sharp shadow */
-  box-shadow: 3px 3px 0 var(--color-border); /* Sharp shadow */
-  /* Example's position - Visible, increased left, positive top offset */
-  z-index: 6;
-  top: 10px; /* Was -40px */
-  left: 105px; /* Was -15px */
-  opacity: 0.6; /* Was 0 */
-  transform: scale(0.8);
-}
-
-/* ADDED: Sixth Card Styling */
-.card.mascot-card:nth-child(6) {
-  /* Sixth card: Sharp shadow */
-  box-shadow: 2px 2px 0 var(--color-border); /* Even smaller shadow */
-  z-index: 5;
-  top: 15px; /* Slightly further down */
-  left: 125px; /* Slightly further right */
-  opacity: 0.5; /* Slightly less visible */
-  transform: scale(0.75); /* Slightly smaller */
-}
-
-/* Subsequent cards (7+) - Hidden, sharp shadow */
-.card.mascot-card:nth-child(n+7) { /* MODIFIED: Changed from n+6 to n+7 */
-  /* Seventh+ card: Sharp shadow */
-  box-shadow: 2px 2px 0 var(--color-border); /* Sharp shadow */
-  /* Example's position - Hidden further back */
-  z-index: 4; /* Decreased z-index */
-  top: 20px; /* Offset slightly more */
-  left: 145px; /* Offset slightly more */
-  opacity: 0;
-  transform: scale(0.7); /* Scale down further */
-}
-
-/* --- Keep all other visual styles below --- */
-
-/* REMOVED Original Mascot specific detail hiding rule, JS handles this */
-/* .card.mascot-card.original-mascot .detail { */
-/*  display: none !important;  */
-/* } */
-
-/* Restore Image container styles */
-.card.mascot-card .image {
-  width: 100%;
-  /* height: auto; /* REMOVED */
-  flex-grow: 1; /* ADDED: Allow image area to grow */
-  flex-shrink: 1; /* ADDED: Allow image area to shrink */
-  flex-basis: 0; /* ADDED: Base size before growing/shrinking */
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center; /* ADDED: Vertically center image */
+/* Container for mascot cards */
+.mascot-container {
   position: relative;
-  /* min-height: 300px; /* REMOVED */
-  background-color: black; /* ADDED */
-  /* aspect-ratio: 1 / 1.414; /* REMOVED */
+  width: 100%;
+  max-width: 420px;
+  height: 500px;
+  perspective: 1000px;
+  order: 1;
 }
 
-.card.mascot-card .image img {
+/* Base mascot card styling */
+.mascot-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Active/visible card */
+.mascot-card.card-pos-0 {
+  opacity: 1;
+  visibility: visible;
+  z-index: 10;
+}
+
+/* Hide all other cards */
+.mascot-card.card-pos-1,
+.mascot-card.card-pos-2,
+.mascot-card.card-pos-3,
+.mascot-card.card-pos-4 {
+  display: none;
+}
+
+/* Image container */
+.mascot-card .image,
+.mascot-card .loading-image-placeholder {
   width: 100%;
-  height: 100%; /* MODIFIED: Fill container */
-  object-fit: contain;
-  /* max-height: 525px; /* REMOVED */
+  position: relative;
+}
+
+.mascot-card .image img {
+  width: 100%;
+  height: auto;
   display: block;
 }
 
-/* REMOVED Special case for original mascot image styling */
-/* .card.mascot-card.original-mascot .image { */
-/*   aspect-ratio: 1500/2121; */
-/* } */
-
-/* .card.mascot-card.original-mascot .image img { */
-/*   width: 100%; */
-/*   height: 100%; */
-/*   object-fit: cover; */
-/*   max-height: none; */
-/* } */
-
-/* Restore Detail section styles */
-.card.mascot-card .detail {
-  padding: var(--spacing-small);
-  background-color: var(--color-card-bg);
-  font-family: var(--font-carousel);
-  font-size: var(--font-size-small);
-  height: 100px;
-  overflow-y: auto; /* Changed from auto to hidden */
-  display: flex;
-  flex-direction: column;
-  /* flex-basis: 0%; REMOVED */
-  flex-grow: 0; /* ADDED: Don't grow */
-  flex-shrink: 0; /* ADDED: Don't shrink */
-}
-
-.card.mascot-card .detail .force-overflow {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100%;
-  width: 100%;
-}
-
-/* Restore Detail text styles */
-.card.mascot-card .detail p,
-.card.mascot-card .detail h1,
-.card.mascot-card .detail h2,
-.card.mascot-card .detail h3,
-.card.mascot-card .detail h4,
-.card.mascot-card .detail ul,
-.card.mascot-card .detail ol,
-.card.mascot-card .detail li,
-.card.mascot-card .detail blockquote {
-  margin: 0 0 0.5em 0;
-  padding: 0;
-  line-height: 1.25;
-  font-size: 14px;
-  letter-spacing: 0.01em;
-  text-align: left; 
-  width: 100%; 
-  max-width: 280px; 
-  font-family: var(--font-carousel); 
-}
-
-.card.mascot-card .detail > *:last-child {
-  margin-bottom: 0;
-}
-
-.card.mascot-card .detail h1 { font-size: 18px; font-weight: bold; }
-.card.mascot-card .detail h2 { font-size: 16px; font-weight: bold; }
-.card.mascot-card .detail h3 { font-size: 15px; font-weight: bold; }
-.card.mascot-card .detail strong { font-weight: bold; }
-.card.mascot-card .detail em { font-style: italic; }
-.card.mascot-card .detail code { 
-  font-family: var(--font-code);
-  background: rgba(0,0,0,0.05);
-  padding: 0 3px;
-  border-radius: 3px;
-}
-.card.mascot-card .detail ul, 
-.card.mascot-card .detail ol {
-  display: inline-block;
-  text-align: left;
-  padding-left: var(--spacing-medium); 
-}
-.card.mascot-card .detail blockquote {
-  border-left: 3px solid var(--color-border);
-  padding-left: var(--spacing-unit); 
-  margin-left: var(--spacing-unit); 
-  color: #777;
-}
-
-/* Carousel controls for all screen sizes */
-.carousel-controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 100%;
-  margin-top: var(--spacing-medium);
-  order: 2; /* Place below container for all sizes */
-  z-index: 11;
-  position: relative; /* Non-absolute for all sizes */
-}
-
-.prev-btn, .next-btn {
-  background-color: var(--color-background);
-  color: var(--color-text);
-  border: 2px solid var(--color-border);
-  border-radius: 50%;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
-  font-weight: normal; /* Restore default weight */
-  cursor: pointer;
-  margin: 0 var(--spacing-unit); /* Consistent spacing for all sizes */
-  box-shadow: var(--shadow-size-default) var(--shadow-size-default) 0 var(--color-border);
-  transition: all 0.2s ease; /* Restore previous transition */
-}
-
-.prev-btn:hover, .next-btn:hover {
-  transform: var(--hover-transform);
-  box-shadow: var(--shadow-size-hover) var(--shadow-size-hover) 1px rgba(0, 0, 0, var(--shadow-opacity-light));
-}
-
-.prev-btn:active, .next-btn:active {
-  transform: var(--active-transform);
-  box-shadow: 1px 1px 0 var(--color-border);
-  background-color: var(--color-secondary);
-}
-
-/* Restore Dark Mode Adjustments */
-@media (prefers-color-scheme: dark) {
-  .prev-btn, .next-btn {
-    background-color: var(--color-background);
-    color: var(--color-text);
-    border: 2px solid var(--color-border);
-    box-shadow: var(--shadow-size-default) var(--shadow-size-default) 0 var(--shadow-color);
-  }
-  
-  .prev-btn:hover, .next-btn:hover {
-    box-shadow: var(--shadow-size-hover) var(--shadow-size-hover) 1px rgba(255, 255, 255, 0.1);
-  }
-  
-  .prev-btn:active, .next-btn:active {
-    box-shadow: 1px 1px 0 var(--shadow-color);
-    background-color: var(--color-active-dark);
-  }
-  
-  .card.mascot-card {
-    /* Default sharp shadow for dark mode (applied in nth-child rules now) */
-    /* box-shadow: var(--shadow-size-card) var(--shadow-size-card) 0 var(--shadow-color); */
-  }
-
-  .card.mascot-card:nth-child(1) {
-     /* Dark mode: Frontmost card: Largest blur */
-     box-shadow: 8px 8px 5px var(--shadow-color); /* Added 5px blur */
-  }
-  .card.mascot-card:nth-child(2) {
-     /* Dark mode: Second card: Medium blur */
-     box-shadow: 6px 6px 3px var(--shadow-color); /* Added 3px blur */
-  }
-  .card.mascot-card:nth-child(3) {
-     /* Dark mode: Third card: Small blur */
-     box-shadow: 5px 5px 2px var(--shadow-color); /* Added 2px blur */
-  }
-  .card.mascot-card:nth-child(4) {
-     /* Dark mode: Fourth card: Minimal blur */
-     box-shadow: 4px 4px 1px var(--shadow-color); /* Added 1px blur */
-  }
-  .card.mascot-card:nth-child(n+5):not(:nth-child(6)) { /* MODIFIED: Adjust dark mode shadow for 5th */
-     /* Dark mode: Fifth card: Sharp shadow */
-     box-shadow: 3px 3px 0 var(--shadow-color); /* Sharp shadow */
-  }
-
-  /* ADDED: Dark mode for 6th card */
-  .card.mascot-card:nth-child(6) {
-     /* Dark mode: Sixth card: Sharp shadow */
-     box-shadow: 2px 2px 0 var(--shadow-color); /* Smaller sharp shadow */
-  }
-
-  /* MODIFIED: Dark mode for 7th+ card */
-  .card.mascot-card:nth-child(n+7) {
-     /* Dark mode: Seventh+ cards: Sharp shadow */
-     box-shadow: 2px 2px 0 var(--shadow-color); /* Sharp shadow */
-  }
-
-  .card.mascot-card:nth-child(1):hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 11px 11px 6px rgba(255, 255, 255, 0.1); /* Increased offset, added 6px blur */
-  }
-  
-  .card.mascot-card:nth-child(1):active {
-    transform: translate(2px, 2px);
-    box-shadow: 4px 4px 3px var(--shadow-color); /* Reduced offset, added 3px blur */
-    background-color: #333333;
-  }
-  
-  /* Restore styling for force-overflow (if used by JavaScript) */
-  .card .detail .force-overflow {
-    /* Styles for force-overflow in dark mode if needed */
-  }
-
-  /* Restore other dark mode specific visual styles if any */
-  .card.mascot-card .detail code {
-     background: rgba(255,255,255,0.1);
-  }
-  .card.mascot-card .detail blockquote {
-    border-left-color: var(--color-border);
-    color: #aaa;
-  }
-}
-
-/* --- Loading Card Styles --- */
-.card.mascot-card.loading-card {
-  /* Ensure it doesn't get hover/active effects meant for the front card */
-  pointer-events: none; 
-  position: relative; /* Ensure context for absolute children */
-}
-
-.card.mascot-card.loading-card .image.loading-image-placeholder {
-  background-color: var(--color-secondary); /* Use secondary background */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute; /* Change to absolute */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 100px; /* Set bottom relative to detail height */
-  overflow: hidden; /* Hide parts of canvas outside */
-}
-
-/* Add styles for the new canvas */
-.loading-static-canvas {
+/* Card detail/caption text - overlay at bottom */
+.mascot-card .detail,
+.mascot-card .loading-detail {
+  display: block !important;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: block; /* Ensure it takes up space */
-  z-index: 1; /* Place above background color */
-}
-
-.card.mascot-card.loading-card .detail.loading-detail {
-  /* display: flex; /* Keep flex for centering text */
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 100px; /* Explicit height */
-  z-index: 2; /* Ensure text is above canvas */
-  position: absolute; /* Change to absolute */
   bottom: 0;
   left: 0;
   right: 0;
-  background: transparent; /* Make sure detail bg doesn't obscure canvas */
-}
-
-.card.mascot-card.loading-card .detail.loading-detail p {
-  margin: 0;
-  font-weight: bold;
+  padding: var(--spacing-small);
   font-size: var(--font-size-small);
-  color: var(--color-text);
+  line-height: 1.4;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.75) 100%);
+  color: #ffffff;
+  max-height: 50px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.mascot-card .detail:hover,
+.mascot-card .loading-detail:hover {
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.85) 100%);
 }
 
-/* Dark Mode Adjustments */
-@media (prefers-color-scheme: dark) {
-  .card.mascot-card.loading-card .image.loading-image-placeholder {
-    background-color: var(--color-secondary); /* Use dark secondary */
-  }
-
-  .card.mascot-card.loading-card .detail.loading-detail p {
-    color: var(--color-text);
-  }
+.mascot-card .detail p,
+.mascot-card .loading-detail p {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Responsive Adjustments */
-/* Tablet/Mobile (Default styles cover this now, but adjust container/card sizes) */
-@media (max-width: 768px) { 
-  /* Keep only necessary size/positioning changes */
-  .carousel-wrapper {
-    padding-left: 0; 
-    padding-top: 20px;  /* Reduced from 50px */
-    max-width: 100%; 
-  }
-  
-  .container.mascot-container {
-    width: 320px; /* Increased from 300px */
-    height: 424px; /* Increased from 396px */
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .card.mascot-card {
-    width: 300px; /* Increased from 280px */
-    height: 424px; /* Increased from 396px */
-  }
-
-  /* Card positioning for tablet/mobile - USE EXAMPLE'S OFFSETS */
-  /* Note: These values might need tweaking if the card size changes don't match the example's assumptions */
-  .card.mascot-card:nth-child(1) {
-     left: 20px; /* Adjusted base offset slightly */
-     /* Shadow already defined above with blur */
-  }
-  
-  .card.mascot-card:nth-child(2) {
-     left: 35px; /* Was 18px */
-     /* Shadow already defined above with blur */
-  }
-  
-  .card.mascot-card:nth-child(3) {
-     left: 50px; /* Was 11px */
-     /* Shadow already defined above with blur */
-  }
-  
-  .card.mascot-card:nth-child(4) {
-     left: 65px; /* Was 4px */
-     /* Shadow already defined above with blur */
-  }
-  
-  .card.mascot-card:nth-child(5) {
-     left: 80px; /* Was -3px */
-     opacity: 0.6; /* Make visible */
-     /* Shadow already defined above (sharp) */
-  }
-  
-  /* ADDED: Responsive positioning for 6th card */
-  .card.mascot-card:nth-child(6) {
-     left: 95px; /* Based on 5th card offset */
-     opacity: 0.5; /* Make visible */
-     /* Shadow already defined above (sharp) */
-  }
-  
-  /* Subsequent cards (7+) - Hidden */
-  .card.mascot-card:nth-child(n+7) { /* MODIFIED: n+7 */
-     left: 110px; /* Further offset */
-     opacity: 0; /* Keep hidden */
-     /* Shadow already defined above (sharp) */
-  }
-  /* Top/Opacity/Transform/Z-index should still come from the main nth-child rules */
-
-  /* Restore image/detail adjustments */
-  .card.mascot-card .image {
-    /* aspect-ratio: auto; /* REMOVED */
-    /* min-height: 280px; /* REMOVED */
-    /* Image height now handled by flexbox */
-  }
-  .card.mascot-card .image img {
-    /* max-height: 420px; /* REMOVED */
-    /* Image height now handled by flexbox */
-  }
-  .card.mascot-card .detail {
-    height: 120px; /* Keep adjusted height for tablet */
-    /* Flex properties already set */
-  }
+/* Loading card specific styles */
+.mascot-card.loading-card {
+  pointer-events: none;
 }
 
-/* Desktop and Larger Screens */
-@media (min-width: 769px) {
-  .carousel-wrapper {
-    padding-left: 35px; 
-    width: 78%; 
-    max-width: none; /* Override default max-width */
-  }
-
-  .container.mascot-container {
-    width: 400px; 
-    margin: 0 auto; /* Center container */
-  }
+.loading-static-canvas {
+  width: 100%;
+  height: 300px;
+  display: block;
+  background-color: #000;
 }
 
-@media (max-width: 575px) {
-  /* Keep only size changes, no need to repeat flex/order properties */
-  .container.mascot-container {
-    width: 280px;
-    height: 368px; /* MODIFIED: Match calculated mobile card height */
-  }
-  
-  .card.mascot-card {
-    width: 260px;
-    height: 368px; /* MODIFIED: Calculated height for 1:1.414 ratio */
-  }
-  
-  /* Card positioning for smallest screens */
-  /* Note: These values might need tweaking */
-  .card.mascot-card:nth-child(1) {
-    left: 15px; /* Adjusted base offset slightly */
-    /* Shadow already defined above with blur */
-  }
-  .card.mascot-card:nth-child(2) {
-    left: 28px; /* Was 15px */
-    /* Shadow already defined above with blur */
-  }
-  .card.mascot-card:nth-child(3) {
-    left: 41px; /* Was 10px */
-    /* Shadow already defined above with blur */
-  }
-  .card.mascot-card:nth-child(4) {
-    left: 54px; /* Was 5px */
-    /* Shadow already defined above with blur */
-  }
-  .card.mascot-card:nth-child(5) {
-    left: 67px; /* Was 0px */
-    opacity: 0.6; /* Make visible */
-    /* Shadow already defined above (sharp) */
-  }
-  
-  /* ADDED: Smallest responsive positioning for 6th card */
-  .card.mascot-card:nth-child(6) {
-     left: 80px; /* Based on 5th card offset */
-     opacity: 0.5; /* Make visible */
-     /* Shadow already defined above (sharp) */
-  }
-  
-  /* Subsequent cards (7+) - Hidden */
-  .card.mascot-card:nth-child(n+7) { /* MODIFIED: n+7 */
-    left: 93px; /* Further offset */
-    opacity: 0; /* Keep hidden */
-    /* Shadow already defined above (sharp) */
-  }
-  /* Top/Opacity/Transform/Z-index should still come from the main nth-child rules */
-
-  /* Restore image/detail adjustments */
-  .card.mascot-card .image {
-     /* min-height: 250px; /* REMOVED */
-     /* Image height now handled by flexbox */
-  }
-  .card.mascot-card .image img {
-    /* max-height: 380px; /* REMOVED */
-    /* Image height now handled by flexbox */
-  }
-  /* REMOVED: Original mascot overrides */
-  /* .card.mascot-card.original-mascot .image { */
-  /*   aspect-ratio: 1500/2121; */
-  /*   height: auto !important; */
-  /* } */
-  /* .card.mascot-card.original-mascot .image img { */
-  /*   width: 100%; */
-  /*   height: 100%; */
-  /*   object-fit: cover; */
-  /*   max-height: none; */
-  /* } */
-  .card.mascot-card .detail {
-    height: 100px; /* Keep adjusted height for mobile */
-    /* Flex properties already set */
-  }
-}
-
-/* Loading animation styles */
-.mascot-loading {
-  position: fixed; /* Changed from absolute */
-  /* Removed width: 100%; and height: 100%; */
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
-  transform: translate(-50%, -50%); /* Adjust centering */
-  /* background-color: rgba(255, 255, 255, 0.95); Removed, using variable */
-  background-color: var(--color-card-bg); /* Use card background */
-  color: var(--color-text); /* Use main text color */
-  border: 3px solid var(--color-border); /* Added border */
-  z-index: 100; /* Increased z-index */
-  display: none; /* Keep initial state */
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /* Removed height: 100%; */ /* Redundant */
+.loading-detail p {
+  font-weight: 600;
   text-align: center;
-  padding: 30px; /* Increased padding */
-  box-sizing: border-box;
-  border-radius: 0; /* Removed border-radius to match sharp style */
-  /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); Replaced with sharp shadow */
-  box-shadow: 8px 8px 0 var(--color-border); /* Added sharp shadow */
-  font-family: var(--font-primary); /* Use primary font */
 }
 
-.mascot-loading p {
-  margin-top: 15px;
-  font-weight: bold;
-  color: var(--color-text); /* Ensure text color variable is used */
-  font-family: var(--font-primary); /* Ensure font consistency */
-}
-
-.mascot-loading-spinner {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.mascot-loading-spinner::before {
-  content: '';
-  position: absolute;
-  width: 50px;
-  height: 48px;
-  /* background-color: var(--color-text); Use border color instead */
-  background-color: var(--color-border);
-  border-radius: 50%;
-  animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Dark Mode Adjustments */
+/* Dark mode adjustments */
 @media (prefers-color-scheme: dark) {
-  .mascot-loading {
-     /* background-color: rgba(40, 40, 40, 0.95); Use variable */
-     background-color: var(--color-card-bg);
-     /* box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); Use sharp shadow */
-     box-shadow: 8px 8px 0 var(--shadow-color);
-     border-color: var(--color-border);
-     color: var(--color-text);
+  .carousel-toggle {
+    border-color: rgba(255, 255, 255, 0.2);
   }
 
-  .mascot-loading p {
-    color: var(--color-text); /* Use variable */
-  }
-  
-  .mascot-loading-spinner::before {
-    /* Ensure spinner uses dark mode colors */
-    background-color: var(--color-border);
+  .carousel-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
-  /* Remove the border override for the spinner itself if it exists */
-  /* .mascot-loading-spinner { */
-  /*   border: 5px solid #333333; Remove if present */
-  /*   border-top: 5px solid #ffffff; Remove if present */
-  /* } */
+  .carousel-toggle.active {
+    background-color: var(--color-text);
+    color: var(--color-background);
+    border-color: var(--color-text);
+  }
+
+  .mascot-card {
+    background-color: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  .mascot-card .detail,
+  .mascot-card .loading-detail {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 100%);
+  }
+
+  .mascot-card .detail:hover,
+  .mascot-card .loading-detail:hover {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.9) 100%);
+  }
 }
-  
+
+/* Responsive adjustments */
+@media (max-width: 575px) {
+  .mascot-container {
+    max-width: 340px;
+    min-height: 450px;
+  }
+
+  .mascot-card {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .carousel-toggles {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 340px;
+  }
+
+  .carousel-toggle {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+    min-height: 40px;
+  }
+}
