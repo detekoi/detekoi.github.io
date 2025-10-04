@@ -21,7 +21,8 @@
   
   <title>HENRY MANES | Streaming Tools</title>
   <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/unified.css">
+  <link rel="stylesheet" href="styles/components.css">
   <link rel="stylesheet" href="styles/carousel.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,8 +34,20 @@
   defer
 ></script>
 </head>
-<body>
+<body class="has-navbar">
   <canvas id="staticCanvas"></canvas>
+
+  <!-- Unified Navigation Bar -->
+  <nav class="site-navbar">
+    <a href="index.html" class="site-navbar-brand">HENRY MANES</a>
+    <button class="navbar-toggle" aria-label="Toggle navigation">☰</button>
+    <ul class="site-navbar-menu">
+      <li><a href="index.html">Portfolio</a></li>
+      <li><a href="botcommands.html">ChatSage Docs</a></li>
+      <li><a href="chatvibesdocs.html">ChatVibes Docs</a></li>
+    </ul>
+  </nav>
+
   <header>
     <div class="header-content">
       <h1>Henry Manes</h1>
@@ -257,6 +270,7 @@
       'floating-chat.donateButton.text-color': '#323842'
     });
   </script>
+  <script src="scripts/navigation.js"></script>
   <script src="scripts/theme.js"></script>
   <script src="scripts/lightbox.js"></script>
   <script src="scripts/static-background.js"></script>

@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChatVibes TTS Bot Commands</title>
     <link rel="stylesheet" href="styles/reset.css">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/botcommands.css">
-    <link rel="stylesheet" href="styles/chatvibesdocs.css">
+    <link rel="stylesheet" href="styles/unified.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/carousel.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
@@ -17,9 +17,20 @@
     defer
 ></script>
 </head>
-<body>
+<body class="has-navbar has-sidebar">
     <canvas id="staticCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></canvas>
-    
+
+    <!-- Unified Navigation Bar -->
+    <nav class="site-navbar">
+        <a href="index.html" class="site-navbar-brand">HENRY MANES</a>
+        <button class="navbar-toggle" aria-label="Toggle navigation">☰</button>
+        <ul class="site-navbar-menu">
+            <li><a href="index.html">Portfolio</a></li>
+            <li><a href="botcommands.html">ChatSage Docs</a></li>
+            <li><a href="chatvibesdocs.html">ChatVibes Docs</a></li>
+        </ul>
+    </nav>
+
     <nav id="sidebar">
         <div class="sidebar-header">
             <h2>ChatVibes</h2>
@@ -1079,7 +1090,8 @@
         'floating-chat.donateButton.background-color': '#ffffff',
         'floating-chat.donateButton.text-color': '#323842'
       });
-    </script>   
+    </script>
+    <script src="scripts/navigation.js"></script>
     <script src="scripts/static-background.js"></script>
     <script src="scripts/sidenav.js"></script>
 

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="meta.title">Bot Commands</title>
     <link rel="stylesheet" href="styles/reset.css">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/botcommands.css">
+    <link rel="stylesheet" href="styles/unified.css">
+    <link rel="stylesheet" href="styles/components.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,12 +48,41 @@
       console.warn("Spam referrer blocked:", referrer);
     }
   </script>
+  <script src="scripts/last-updated.js" data-owner="detekoi" data-repo="detekoi.github.io"></script>
   <script src="scripts/i18n.js"></script>
 </head>
-<body>
+<body class="has-navbar has-sidebar">
     <canvas id="staticCanvas"></canvas>
 
-    <h1 data-i18n="page.title">ChatSage Bot Commands</h1>
+    <!-- Unified Navigation Bar -->
+    <nav class="site-navbar">
+        <a href="index.html" class="site-navbar-brand">HENRY MANES</a>
+        <button class="navbar-toggle" aria-label="Toggle navigation">☰</button>
+        <ul class="site-navbar-menu">
+            <li><a href="index.html">Portfolio</a></li>
+            <li><a href="botcommands.html">ChatSage Docs</a></li>
+            <li><a href="chatvibesdocs.html">ChatVibes Docs</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h2>ChatSage</h2>
+            <div id="sidenav-toggle-container">
+                <img src="assets/images/sidenav-icon.png" id="sidenav-toggle" alt="Toggle Sidebar" title="Toggle Sidebar">
+            </div>
+        </div>
+        <ul>
+            <li><a href="#general">General Commands</a></li>
+            <li><a href="#games">Games</a></li>
+            <li><a href="#config">Config</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="content">
+        <h1 data-i18n="page.title">ChatSage Bot Commands</h1>
 
     <div class="expand-tip">
       <span data-i18n="page.expandTip">Click any command row below to expand and see usage details.</span>
@@ -67,7 +96,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="category-header">
+            <tr class="category-header" id="general">
                 <td colspan="2" data-i18n="table.categories.general">General</td>
             </tr>
         </tbody>
@@ -144,7 +173,7 @@
             </tr>
         </tbody>
         <tbody>
-            <tr class="category-header">
+            <tr class="category-header" id="games">
                 <td colspan="2" data-i18n="table.categories.games">Games</td>
             </tr>
         </tbody>
@@ -240,7 +269,7 @@
             </tr>
         </tbody>
         <tbody>
-            <tr class="category-header">
+            <tr class="category-header" id="config">
                 <td colspan="2" data-i18n="table.categories.config">Config</td>
             </tr>
         </tbody>
@@ -312,9 +341,11 @@
         </tbody>
     </table>
     
-    <div id="last-updated" style="text-align:center; margin-top:2rem; color:var(--color-border, #888); font-size:0.95em;">
-        Last updated: %%LAST_UPDATED%%
-    </div>
+        <div id="last-updated" style="text-align:center; margin-top:2rem; color:var(--color-border, #888); font-size:0.95em;">
+            Last updated: %%LAST_UPDATED%%
+        </div>
+    </main>
+
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
     <script>
       kofiWidgetOverlay.draw('parfaitfair', {
@@ -324,14 +355,10 @@
         'floating-chat.donateButton.text-color': '#323842'
       });
     </script>
+    <script src="scripts/navigation.js"></script>
+    <script src="scripts/sidenav.js"></script>
     <script src="scripts/static-background.js"></script>
     <script>
-      // Replace the placeholder with the current date in a readable format
-      document.getElementById('last-updated').textContent =
-        'Last updated: ' + new Date(document.lastModified).toLocaleDateString('en-US', {
-          year: 'numeric', month: 'long', day: 'numeric'
-        });
-
       document.querySelectorAll('.dropdown-summary').forEach(row => {
         row.addEventListener('click', function() {
           const group = row.parentElement;

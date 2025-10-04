@@ -1,23 +1,26 @@
 /**
  * sidenav.js - Handles the sidebar navigation toggle functionality
- * This script enables expanding and collapsing the sidebar when clicking on the toggle icon
+ * Updated to work with unified navigation system
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Only run on pages with sidebar
+    const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
     // Get DOM elements
     const sidebarToggle = document.getElementById('sidenav-toggle');
-    const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
-    
+
     // Check if we have a stored preference, otherwise use responsive default
     const storedState = localStorage.getItem('sidebarCollapsed');
     let sidebarCollapsed;
-    
+
     if (storedState !== null) {
         // Use stored preference if it exists
         sidebarCollapsed = storedState === 'true';
     } else {
-        // Default behavior: collapsed on mobile (<=768px), open on desktop medium and larger
+        // Default behavior: collapsed on mobile (<=768px), open on desktop
         sidebarCollapsed = window.innerWidth <= 768;
     }
     
