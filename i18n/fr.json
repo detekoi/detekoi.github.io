@@ -217,5 +217,10 @@
   "ui": {
     "languageSelector": "Langue",
     "mod": "Mod"
+  },
+  "sidebar": {
+    "generalCommands": "Commandes Générales",
+    "games": "Jeux",
+    "config": "Configuration"
   }
 }

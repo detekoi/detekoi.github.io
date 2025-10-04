@@ -217,5 +217,10 @@
     "ui": {
       "languageSelector": "言語",
       "mod": "モデレーター"
+    },
+    "sidebar": {
+      "generalCommands": "一般",
+      "games": "ゲーム",
+      "config": "設定"
     }
   }
