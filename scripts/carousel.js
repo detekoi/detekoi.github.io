@@ -143,6 +143,8 @@ document.addEventListener('DOMContentLoaded', function() {
     setupLightbox();
   };
 
-  // Expose function globally for Gemini mascot integration
+  // Expose functions globally for Gemini mascot integration
   window.updateCarouselPositions = updateCardPositions;
+  window.updateCarouselControls = updateCardPositions; // Alias for compatibility
+  window.resetCardPositions = updateCardPositions; // Alias for compatibility
 });
