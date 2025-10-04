@@ -677,6 +677,8 @@ tr:last-child:not(.dropdown-details) td {
 footer {
   margin-top: var(--spacing-large);
   padding-top: var(--spacing-large);
+  padding-bottom: 80px;
+  padding-left: var(--spacing-medium);
   border-top: 4px solid var(--color-border);
   font-size: var(--font-size-small);
 }
