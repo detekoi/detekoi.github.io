@@ -716,11 +716,13 @@ footer {
   }
 
   table {
-    width: 80%;
+    width: 95%;
+    display: block;
+    overflow-x: auto;
   }
 
   .expand-tip {
-    width: 100%;
+    width: 95%;
   }
 }
 
@@ -750,6 +752,8 @@ footer {
     width: 100%;
     margin: 1rem 0;
     font-size: 0.9rem;
+    display: block;
+    overflow-x: auto;
   }
 
   th,
