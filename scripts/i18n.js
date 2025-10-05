@@ -125,7 +125,7 @@ function getTranslation(key, defaultValue = null) {
 // Translate the entire page
 function translatePage() {
   // First translate non-span elements with data-i18n
-  document.querySelectorAll('h1[data-i18n], th[data-i18n], td[data-i18n]:not(.dropdown-summary td)').forEach(element => {
+  document.querySelectorAll('h1[data-i18n], th[data-i18n], td[data-i18n]:not(.dropdown-summary td), a[data-i18n]').forEach(element => {
     const key = element.getAttribute('data-i18n');
     element.textContent = getTranslation(key, element.textContent);
   });
