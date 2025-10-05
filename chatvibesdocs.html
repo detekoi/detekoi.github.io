@@ -49,6 +49,7 @@
             </li>
             <li><a href="#voices">Voices</a></li>
             <li><a href="#language-boost">Language Boost</a></li>
+            <li><a href="#web-dashboard">Web Dashboard</a></li>
             <li><a href="#troubleshooting">Troubleshooting</a></li>
         </ul>
     </nav>
@@ -203,16 +204,20 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts mode [all|command]</td>
+                        <td class="mod-command">!tts mode [all|command|bits_points_only]</td>
                         <td>Toggles the TTS mode. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
                         <td colspan="2">
                             <code>!tts mode all</code> <span>(Speak all chat messages &amp; events; <strong>this is the default mode</strong>)</span>
                             <code>!tts mode command</code> <span>(Only speak on command or for events)</span>
+                            <code>!tts mode bits_points_only</code> <span>(Only speak Bits cheers &amp; Channel Point redemptions)</span>
+                            <code>!tts mode bits</code> <span>(Alias for bits_points_only)</span>
+                            <code>!tts mode points</code> <span>(Alias for bits_points_only)</span>
                             <code>!tts mode</code> <span>(Displays current mode)</span>
                             <p><strong>Notes:</strong> <span class="inline-code">all</span>: All chat messages (not from ignored users or commands) and enabled events will be spoken, subject to the <span class="inline-code">!tts permission</span> setting.<br>
-                            <span class="inline-code">command</span>: Only messages triggered by specific TTS commands (like <span class="inline-code">!tts &amp;lt;message&gt;</span>) or enabled events will be spoken. Regular chat is ignored.</p>
+                            <span class="inline-code">command</span>: Only messages triggered by specific TTS commands (like <span class="inline-code">!tts &lt;message&gt;</span>) or enabled events will be spoken. Regular chat is ignored.<br>
+                            <span class="inline-code">bits_points_only</span>: Only Bits cheers and Channel Point redemptions are read aloud. Regular chat and commands are ignored.</p>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
@@ -236,7 +241,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts bits [on|off|min &amp;lt;amount&gt;]</td>
+                        <td class="mod-command">!tts bits [on|off|min &lt;amount&gt;]</td>
                         <td>Configures the Bits-for-TTS feature, allowing channels to require a minimum Cheer amount to trigger TTS. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -249,13 +254,43 @@
                             <ul>
                                 <li><span class="inline-code">on</span>: Enables Bits-for-TTS mode. Only messages with a sufficient cheer will be read.</li>
                                 <li><span class="inline-code">off</span>: Disables Bits-for-TTS mode.</li>
-                                <li><span class="inline-code">min &amp;lt;amount&gt;</span>: Sets the minimum number of Bits required (e.g., <span class="inline-code">min 100</span>).</li>
+                                <li><span class="inline-code">min &lt;amount&gt;</span>: Sets the minimum number of Bits required (e.g., <span class="inline-code">min 100</span>).</li>
                             </ul>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
                     </tr>
                 </tbody>
 
+                <tbody>
+                    <tr class="category-header"><td colspan="2">Channel Points → TTS (Web Dashboard Only)</td></tr>
+                </tbody>
+                <tbody class="dropdown-group">
+                    <tr class="dropdown-summary">
+                        <td>Channel Points → TTS</td>
+                        <td>Create a custom Twitch Channel Point reward for viewers to redeem with a message to be read aloud. <span class="dropdown-toggle">&#x25BC;</span></td>
+                    </tr>
+                    <tr class="dropdown-details" style="display:none;">
+                        <td colspan="2">
+                            <p><strong>Note:</strong> This feature is configured exclusively through the <a href="https://chatvibestts.web.app/" class="default-link-style" target="_blank">ChatVibes Web Dashboard</a> under the "Channel Points → TTS" section.</p>
+                            <p><strong>How It Works:</strong></p>
+                            <ol>
+                                <li><strong>Streamer Setup:</strong> Enable the feature in the dashboard.</li>
+                                <li><strong>Reward Creation:</strong> The bot automatically creates a custom Channel Point reward on your Twitch channel.</li>
+                                <li><strong>Viewer Redemption:</strong> Viewers redeem the reward with a custom message, which gets read aloud.</li>
+                                <li><strong>Content Policy:</strong> Built-in filtering (length limits, link blocking, banned words).</li>
+                            </ol>
+                            <p><strong>Configuration Options:</strong></p>
+                            <ul>
+                                <li><strong>Basic Settings:</strong> Reward title, cost (points), prompt text, auto-approve</li>
+                                <li><strong>Advanced Settings:</strong> Global cooldown, per-stream limit, per-user limit</li>
+                                <li><strong>Content Policy:</strong> Min/max message length, block links, banned words list</li>
+                            </ul>
+                            <p><strong>TTS Modes:</strong> Works with all TTS modes (All Messages, Commands Only, Bits/Points Only).</p>
+                            <p><strong>Requirements:</strong> Must grant <span class="inline-code">channel:manage:redemptions</span> and <span class="inline-code">channel:read:redemptions</span> OAuth scopes during initial dashboard setup.</p>
+                            <p><strong>Permission:</strong> Streamer/Broadcaster (via Web Dashboard)</p>
+                        </td>
+                    </tr>
+                </tbody>
 
                 <tbody>
                     <tr class="category-header"><td colspan="2">Queue Management (Moderator Only)</td></tr>
@@ -322,7 +357,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts voice &amp;lt;voice_id|reset&gt;</td>
+                        <td>!tts voice &lt;voice_id|reset&gt;</td>
                         <td>Allows a user to set their preferred voice for messages they send. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -337,7 +372,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts emotion &amp;lt;emotion_name|reset|auto&gt;</td>
+                        <td>!tts emotion &lt;emotion_name|reset|auto&gt;</td>
                         <td>Allows a user to set their preferred emotion for their messages. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -352,7 +387,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts language &amp;lt;language|reset&gt;<br><span style="font-size:0.9em;">(Alias: !tts lang)</span></td>
+                        <td>!tts language &lt;language|reset&gt;<br><span style="font-size:0.9em;">(Alias: !tts lang)</span></td>
                         <td>Sets your preferred language boost for TTS. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -368,7 +403,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts pitch &amp;lt;value|reset&gt;</td>
+                        <td>!tts pitch &lt;value|reset&gt;</td>
                         <td>Sets your personal TTS pitch. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -384,7 +419,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts speed &amp;lt;value|reset&gt;</td>
+                        <td>!tts speed &lt;value|reset&gt;</td>
                         <td>Sets your personal TTS speed. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -400,7 +435,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts ignore &amp;lt;username&gt;<br>!tts ignore add &amp;lt;username&gt;</td>
+                        <td>!tts ignore &lt;username&gt;<br>!tts ignore add &lt;username&gt;</td>
                         <td>
                             <strong>For any user:</strong> Add <em>yourself</em> to the TTS ignore list for the channel. Your messages will not be spoken.<br>
                             <strong>For Moderators or Broadcaster:</strong> Add <em>any specified Twitch user</em> to the TTS ignore list for the channel.<br>
@@ -420,7 +455,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts ignore del &amp;lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
+                        <td class="mod-command">!tts ignore del &lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
                         <td>Removes the specified Twitch user from the TTS ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -463,7 +498,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts defaultvoice &amp;lt;voice_id|reset&gt;</td>
+                        <td class="mod-command">!tts defaultvoice &lt;voice_id|reset&gt;</td>
                         <td>Sets the default TTS voice for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -478,7 +513,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts defaultemotion &amp;lt;emotion_name|reset&gt;</td>
+                        <td class="mod-command">!tts defaultemotion &lt;emotion_name|reset&gt;</td>
                         <td>Sets the default TTS emotion for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -493,7 +528,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts defaultlanguage &amp;lt;language|reset&gt;</td>
+                        <td class="mod-command">!tts defaultlanguage &lt;language|reset&gt;</td>
                         <td>Sets the default TTS language boost for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -508,7 +543,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts defaultpitch &amp;lt;value|reset&gt;</td>
+                        <td class="mod-command">!tts defaultpitch &lt;value|reset&gt;</td>
                         <td>Sets the default TTS pitch for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -523,7 +558,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!tts defaultspeed &amp;lt;value|reset&gt;</td>
+                        <td class="mod-command">!tts defaultspeed &lt;value|reset&gt;</td>
                         <td>Sets the default TTS speed for the <em>channel</em>. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -542,7 +577,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!tts &amp;lt;message&gt;<br><span style="font-size:0.9em;">(Alias: !tts say &amp;lt;message&gt;)</span></td>
+                        <td>!tts &lt;message&gt;<br><span style="font-size:0.9em;">(Alias: !tts say &lt;message&gt;)</span></td>
                         <td>Immediately enqueues the provided message for TTS. This works in both <span class="inline-code">all</span> and <span class="inline-code">command</span> modes. Uses the requesting user's preferences (or channel defaults) for voice, pitch, speed, and emotion. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -555,7 +590,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command" style="display:none;">!tts say &amp;lt;message&gt;</td>
+                        <td class="mod-command" style="display:none;">!tts say &lt;message&gt;</td>
                         <td style="display:none;">(Deprecated: see above)</td>
                     </tr>
                 </tbody>
@@ -582,7 +617,7 @@
                 </thead>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!music &amp;lt;prompt&gt;</td>
+                        <td>!music &lt;prompt&gt;</td>
                         <td>Generates a short piece of music based on your prompt. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -607,8 +642,8 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!music mode &amp;lt;all|mods&gt;</td>
-                        <td>(Mod only) Sets who can use the <span class="inline-code">!music &amp;lt;prompt&gt;</span> command.<br>
+                        <td class="mod-command">!music mode &lt;all|mods&gt;</td>
+                        <td>(Mod only) Sets who can use the <span class="inline-code">!music &lt;prompt&gt;</span> command.<br>
                             <span class="inline-code">all</span>: Everyone can generate music.<br>
                             <span class="inline-code">mods</span>: Only moderators and the broadcaster can generate music.
                             <span class="dropdown-toggle">&#x25BC;</span>
@@ -624,7 +659,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!music bits [on|off|min &amp;lt;amount&gt;]</td>
+                        <td class="mod-command">!music bits [on|off|min &lt;amount&gt;]</td>
                         <td>(Mod only) Configures Bits-for-Music. When enabled, users must cheer with their prompt to generate music. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -637,7 +672,7 @@
                             <ul>
                                 <li><span class="inline-code">on</span>: Enables Bits-for-Music mode.</li>
                                 <li><span class="inline-code">off</span>: Disables Bits-for-Music mode.</li>
-                                <li><span class="inline-code">min &amp;lt;amount&gt;</span>: Sets the minimum number of Bits required (e.g., <span class="inline-code">min 100</span>).</li>
+                                <li><span class="inline-code">min &lt;amount&gt;</span>: Sets the minimum number of Bits required (e.g., <span class="inline-code">min 100</span>).</li>
                             </ul>
                             <p><strong>Permission:</strong> Moderator</p>
                         </td>
@@ -683,9 +718,9 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td>!music ignore &amp;lt;username&gt;<br>!music ignore add &amp;lt;username&gt;</td>
+                        <td>!music ignore &lt;username&gt;<br>!music ignore add &lt;username&gt;</td>
                         <td>
-                            <strong>For any user:</strong> Add <em>yourself</em> to the music ignore list. Your <span class="inline-code">!music &amp;lt;prompt&gt;</span> requests will be ignored.<br>
+                            <strong>For any user:</strong> Add <em>yourself</em> to the music ignore list. Your <span class="inline-code">!music &lt;prompt&gt;</span> requests will be ignored.<br>
                             <strong>For Moderators or Broadcaster:</strong> Add <em>any specified Twitch user</em> to the music ignore list.<br>
                             <span class="dropdown-toggle">&#x25BC;</span>
                         </td>
@@ -703,7 +738,7 @@
                 </tbody>
                 <tbody class="dropdown-group">
                     <tr class="dropdown-summary">
-                        <td class="mod-command">!music ignore del &amp;lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
+                        <td class="mod-command">!music ignore del &lt;username&gt;<br><span style="font-size:0.9em;">(Aliases: delete, rem, remove)</span></td>
                         <td>(Mod only) Removes the specified Twitch user from the music ignore list. <span class="dropdown-toggle">&#x25BC;</span></td>
                     </tr>
                     <tr class="dropdown-details" style="display:none;">
@@ -730,10 +765,10 @@
 
         <section id="voices" class="section">
             <h2>Voices</h2>
-            <p>The following voices are available from the <span class="inline-code">minimax/speech-02-turbo</span> model on Replicate. The bot fetches this list periodically. The <span class="inline-code">voice_id</span> is used in commands like <span class="inline-code">!tts voice &amp;lt;voice_id&gt;</span>.</p>
+            <p>The following voices are available from the <span class="inline-code">minimax/speech-02-turbo</span> model on Replicate. The bot fetches this list periodically. The <span class="inline-code">voice_id</span> is used in commands like <span class="inline-code">!tts voice &lt;voice_id&gt;</span>.</p>
             
             <h3>Common Voice IDs</h3>
-            <p>Featured voices from the <span class="inline-code">minimax/speech-02-turbo</span> model. For any voide in this list, you can use the command <span class="inline-code">!tts voice &amp;lt;voice_id&gt;</span> to use it.</p>
+            <p>Featured voices from the <span class="inline-code">minimax/speech-02-turbo</span> model. For any voide in this list, you can use the command <span class="inline-code">!tts voice &lt;voice_id&gt;</span> to use it.</p>
             <ul>
                 <li>Wise_Woman</li>
                 <li>Friendly_Person</li>
@@ -755,8 +790,15 @@
                 </ul>
 
             <h3>Pre-trained Voice List (from <a href="https://replicate.com/minimax/speech-02-turbo/readme" target="_blank" class="default-link-style">minimax/speech-02-turbo README</a>)</h3>
-            <p>This is a more extensive list.</p>
-            <ul>
+            <p>This is a more extensive list of all available voices.</p>
+
+            <details class="voice-list-details">
+                <summary class="voice-list-summary">
+                    <span class="summary-text">Click to expand full voice list (300+ voices)</span>
+                    <span class="summary-arrow">▼</span>
+                </summary>
+                <div class="voice-list-content">
+                    <ul class="extensive-voice-list">
                 <li>English_Trustworth_Man</li>
                 <li>English_Aussie_Bloke</li>
                 <li>English_CalmWoman</li>
@@ -1059,14 +1101,17 @@
                 <li>Turkish_CalmWoman</li>
                 <li>Turkish_Trustworthyman</li>
                 <li>Ukrainian_CalmWoman</li>
-            </ul>
+                    </ul>
+                </div>
+            </details>
+
             <p><em>Note: The full list of pre-trained voices is extensive. The <span class="inline-code">!tts voices</span> command in chat links to here. For the most up-to-date list, refer to the source <span class="inline-code">llms.txt</span> file from Replicate or use the bot's capability to validate voices if a <span class="inline-code">!tts voice</span> command is implemented.</em></p>
         </section>
 
         <section id="language-boost" class="section">
             <h2>Language Boost</h2>
             <p>The <span class="inline-code">language_boost</span> feature helps the TTS model better understand and pronounce words from specific languages or dialects. This is particularly useful in multilingual chats or when a specific language's nuances are important for clear TTS.</p>
-            <p>You can set a personal language boost preference using <span class="inline-code">!tts language &amp;lt;language_name&gt;</span> or moderators can set a channel default with <span class="inline-code">!tts defaultlanguage &amp;lt;language_name&gt;</span>.</p>
+            <p>You can set a personal language boost preference using <span class="inline-code">!tts language &lt;language_name&gt;</span> or moderators can set a channel default with <span class="inline-code">!tts defaultlanguage &lt;language_name&gt;</span>.</p>
             
             <h3>Available Language Boost Options</h3>
             <p>The following values are accepted:</p>
@@ -1101,12 +1146,61 @@
             <p>Using <span class="inline-code">Automatic</span> or <span class="inline-code">None</span> will generally rely on the model's default language detection or no specific boost. <span class="inline-code">English</span> is often a good default for primarily English-speaking chats. Choosing a specific language can significantly improve pronunciation for that language.</p>
         </section>
 
+        <section id="web-dashboard" class="section">
+            <h2>Web Dashboard</h2>
+            <p>The <a href="https://chatvibestts.web.app/" class="default-link-style" target="_blank">ChatVibes Web Dashboard</a> provides streamers with a comprehensive interface to configure all TTS and music settings. Access it by logging in with your Twitch account.</p>
+
+            <h3>Available Dashboard Settings</h3>
+            <ul>
+                <li><strong>Engine Control:</strong> Enable/disable TTS, announce events, set TTS mode and permissions</li>
+                <li><strong>Viewer Preferences:</strong> Allow or force channel default voice for all messages</li>
+                <li><strong>URL Reading:</strong> Read full URLs or just domain names</li>
+                <li><strong>Bits → TTS:</strong> Require minimum bits for TTS messages</li>
+                <li><strong>Channel Points → TTS:</strong> Create and configure a custom Channel Point reward (see section above)</li>
+                <li><strong>Music Generation:</strong> Enable/disable music, set permissions, require bits</li>
+                <li><strong>Ignore Lists:</strong> Manage TTS and music ignore lists with add/remove interface</li>
+                <li><strong>Default Voice Settings:</strong> Set channel defaults for voice, emotion, pitch, speed, language, and text normalization</li>
+                <li><strong>OBS Setup:</strong> Get your unique secure TTS URL and detailed setup instructions</li>
+                <li><strong>Voice Preview:</strong> Test your current voice settings before going live</li>
+            </ul>
+
+            <h3>OBS Browser Source Setup</h3>
+            <p><strong>Step 1: Add Browser Source in OBS</strong></p>
+            <ol>
+                <li>In OBS, click the "+" under Sources</li>
+                <li>Select "Browser"</li>
+                <li>Name it (e.g., "ChatVibes TTS")</li>
+                <li>Configure:
+                    <ul>
+                        <li><strong>URL:</strong> Paste your unique URL from the dashboard</li>
+                        <li><strong>Width/Height:</strong> 300x100 (doesn't matter, it's audio-only)</li>
+                        <li><strong>✓ Control audio via OBS</strong> (must be checked)</li>
+                        <li>Uncheck "Shutdown source when not visible" for persistent audio</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <p><strong>Step 2: Enable Audio Monitoring</strong></p>
+            <ol>
+                <li>Find the audio mixer in OBS (bottom panel)</li>
+                <li>Click the gear (⚙️) next to "ChatVibes TTS" → "Advanced Audio Properties"</li>
+                <li>Set "Audio Monitoring" to:
+                    <ul>
+                        <li><strong>Monitor and Output</strong> - You AND stream hear it</li>
+                        <li><strong>Monitor Only</strong> - Only you hear it (for testing)</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <p><strong>Important:</strong> Make sure the source is unmuted in your audio mixer and volume is set appropriately.</p>
+        </section>
+
         <section id="troubleshooting" class="section">
             <h2>Troubleshooting</h2>
             <ul>
                 <li><strong>Bot not responding to commands?</strong> Make sure the bot is a moderator in your channel. You can do this by typing <span class="inline-code">/mod chatvibesbot</span> in your Twitch chat. In many cases, the bot may need moderator permissions to read messages and respond to commands.</li>
                 <li><strong>Bot not speaking?</strong> Make sure the bot is enabled in your channel. You can do this by typing <span class="inline-code">!tts on</span> in your Twitch chat. Also, check the current mode <span class="inline-code">!tts mode</span> and permissions <span class="inline-code">!tts permission</span>.</li>
-                <li><strong>Bot not speaking in a specific language, or reading numbers in Chinese?</strong> Make sure the language boost is set to the correct language. You can do this by typing <span class="inline-code">!tts language &amp;lt;language_name&gt;</span> for yourself or <span class="inline-code">!tts defaultlanguage &amp;lt;language_name&gt;</span> for the channel in your Twitch chat. You can check the current language boost using <span class="inline-code">!tts defaultlanguage</span>.</li>
+                <li><strong>Bot not speaking in a specific language, or reading numbers in Chinese?</strong> Make sure the language boost is set to the correct language. You can do this by typing <span class="inline-code">!tts language &lt;language_name&gt;</span> for yourself or <span class="inline-code">!tts defaultlanguage &lt;language_name&gt;</span> for the channel in your Twitch chat. You can check the current language boost using <span class="inline-code">!tts defaultlanguage</span>.</li>
                 <li><strong>Need help?</strong> Contact the developer via the <a href="https://detekoi.github.io/index.html#contact-me" class="default-link-style" target="_blank">contact form</a> at Henry's portfolio website.</li>
             </ul>
         </section>
