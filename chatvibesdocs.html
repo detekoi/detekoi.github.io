@@ -16,6 +16,7 @@
     data-site-id="102"
     defer
 ></script>
+  <script src="scripts/last-updated.js" data-owner="detekoi" data-repo="detekoi.github.io"></script>
 </head>
 <body class="has-navbar has-sidebar">
     <canvas id="staticCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></canvas>
@@ -1205,8 +1206,8 @@
             </ul>
         </section>
 
-        <div id="last-updated" style="text-align:center; margin-top:2rem; color: #555; font-size:0.9em;">
-            Last updated:
+        <div id="last-updated" style="text-align:center; margin-top:2rem; color:var(--color-border, #888); font-size:0.95em;">
+            Last updated: %%LAST_UPDATED%%
         </div>
     </main>
     <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
@@ -1224,14 +1225,6 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Populate "Last updated" date
-        const lastUpdatedElem = document.getElementById('last-updated');
-        if (lastUpdatedElem) {
-            lastUpdatedElem.textContent = 'Last updated: ' + new Date(document.lastModified).toLocaleDateString('en-US', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-        }
-
         // Dropdown functionality for command table
         document.querySelectorAll('.dropdown-summary').forEach(row => {
             row.addEventListener('click', function() {
