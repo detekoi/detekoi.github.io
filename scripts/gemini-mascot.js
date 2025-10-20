@@ -477,30 +477,43 @@ document.addEventListener('DOMContentLoaded', () => {
     "opera gloves in contrasting fabric",
   ];
 
-  const chosenSilhouette = sample(SILHOUETTES)[0];
-  const chosenBottom = sample(BOTTOMS)[0];
-  const chosenFootwear = sample(FOOTWEAR)[0];
-  const chosenTextures = sample(TEXTURES, 2).join(", ");
-  const chosenPalette = sample(PALETTES)[0];
-  const chosenRefs = sample(REFERENCES, 2).join(" and ");
-  const chosenAccessory = sample(ACCESSORIES)[0];
+  // Function to generate a new dynamic prompt each time
+  function generateDynamicPrompt() {
+    const chosenSilhouette = sample(SILHOUETTES)[0];
+    const chosenBottom = sample(BOTTOMS)[0];
+    const chosenFootwear = sample(FOOTWEAR)[0];
+    const chosenTextures = sample(TEXTURES, 2).join(", ");
+    const chosenPalette = sample(PALETTES)[0];
+    const chosenRefs = sample(REFERENCES, 2).join(" and ");
+    const chosenAccessory = sample(ACCESSORIES)[0];
 
-  // Prompt for the Gemini API
-  const prompt = `**IMAGE GENERATION TASK:**\n` +
-  `Edit the provided polar bear image (blue ascot original). Create a NEW\n` +
-  `runway-ready, couture look with rich variety. Keep the sundae in the same hand.\n` +
-  `1) Full body, head-to-toe.\n` +
-  `2) Black studio background.\n` +
-  `3) Fashion direction: ${chosenSilhouette} paired with ${chosenBottom}; textiles include ${chosenTextures}.\n` +
-  `4) Color palette: ${chosenPalette}.\n` +
-  `5) Footwear: ${chosenFootwear}.\n` +
-  `6) Accessory: ${chosenAccessory}.\n` +
-  `7) References/influences: ${chosenRefs}.\n` +
-  `8) Emphasize originality, confident styling, and avant-garde expression with couture-level construction and proportion play.\n` +
-  `9) Harmonize or restyle the original blue neckerchief to suit the look (or swap for the accessory above).\n` +
-  `Return only the newly generated image.\n\n` +
-  `**CAPTION TASK (for the NEW image):**\n` +
-  `Return a single 140-character max markdown caption describing the look and citing designer-style influences.`;
+    console.log('🎨 Dynamic Prompt Elements:', {
+      silhouette: chosenSilhouette,
+      bottom: chosenBottom,
+      footwear: chosenFootwear,
+      textures: chosenTextures,
+      palette: chosenPalette,
+      references: chosenRefs,
+      accessory: chosenAccessory
+    });
+
+    // Prompt for the Gemini API
+    return `**IMAGE GENERATION TASK:**\n` +
+    `Edit the provided polar bear image (blue ascot original). Create a NEW\n` +
+    `runway-ready, couture look with rich variety. Keep the sundae in the same hand.\n` +
+    `1) Full body, head-to-toe.\n` +
+    `2) Black studio background.\n` +
+    `3) Fashion direction: ${chosenSilhouette} paired with ${chosenBottom}; textiles include ${chosenTextures}.\n` +
+    `4) Color palette: ${chosenPalette}.\n` +
+    `5) Footwear: ${chosenFootwear}.\n` +
+    `6) Accessory: ${chosenAccessory}.\n` +
+    `7) References/influences: ${chosenRefs}.\n` +
+    `8) Emphasize originality, confident styling, and avant-garde expression with couture-level construction and proportion play.\n` +
+    `9) Harmonize or restyle the original blue neckerchief to suit the look (or swap for the accessory above).\n` +
+    `Return only the newly generated image.\n\n` +
+    `**CAPTION TASK (for the NEW image):**\n` +
+    `Return a single 140-character max markdown caption describing the look and citing designer-style influences.`;
+  }
 
   // Backend API endpoint URL
   const BACKEND_API_URL = 'https://shirokuma-server-580931574321.us-west2.run.app/api/generate-image';
@@ -553,6 +566,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
+      // Generate a fresh prompt with new random selections
+      const prompt = generateDynamicPrompt();
+      console.log('Generated new dynamic prompt:', prompt);
       console.log('Sending image generation request to server...');
       const response = await fetch(BACKEND_API_URL, {
         method: 'POST',
