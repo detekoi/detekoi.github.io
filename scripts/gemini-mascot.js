@@ -398,18 +398,109 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize and load stored images
   loadStoredCarouselImages(); // Call the modified loading function
   
+  // --- Dynamic Prompt Builder for Couture Variety (positive-only) ---
+  function sample(arr, n = 1) {
+    const copy = [...arr];
+    const out = [];
+    while (n-- > 0 && copy.length) out.push(copy.splice(Math.floor(Math.random() * copy.length), 1)[0]);
+    return out;
+  }
+
+  const SILHOUETTES = [
+    "floor-length cape over sharp waistcoat",
+    "kimono-inspired wrap coat with obi belt",
+    "deconstructed trench with exaggerated lapels",
+    "cropped biker jacket in unexpected pastel leather",
+    "boxy chore jacket with couture finishing",
+    "sculptural bomber with rounded seams",
+    "draped toga-esque knit with couture tailoring",
+    "double-breasted longline coat with couture darts",
+    "cropped blazer with strong shoulders and cinched waist",
+    "sleeveless long vest with architectural lines",
+  ];
+
+  const BOTTOMS = [
+    "high-waisted pleated trousers",
+    "wide palazzo pants",
+    "tailored jodhpurs",
+    "fluid silk skirt-over-trouser layering",
+    "paperbag-waist pants",
+    "carrot-fit suiting pants",
+  ];
+
+  const FOOTWEAR = [
+    "platform derbies",
+    "square-toe boots",
+    "two-strap monk shoes",
+    "tabi-inspired boots",
+    "glossy combat boots",
+  ];
+
+  const TEXTURES = [
+    "mohair",
+    "bouclé",
+    "raw silk",
+    "satin",
+    "lacquered leather",
+    "waxed cotton",
+    "crinkled taffeta",
+    "denim with couture topstitching",
+  ];
+
+  const PALETTES = [
+    "cream, powder blue, and cocoa",
+    "charcoal, moss, and celadon",
+    "ivory, aubergine, and blush",
+    "sand, ultramarine, and slate",
+    "pearl grey, saffron, and ink",
+    "bone, copper, and deep teal",
+  ];
+
+  const REFERENCES = [
+    "Comme des Garçons",
+    "Issey Miyake Pleats Please",
+    "The Row",
+    "Maison Margiela",
+    "Yohji Yamamoto",
+    "Lemaire",
+    "Prada Linea Rossa",
+    "Bode vintage",
+    "Ann Demeulemeester",
+    "Loewe",
+  ];
+
+  const ACCESSORIES = [
+    "silk neck scarf (blue, patterned, or tonal to the palette)",
+    "long layered pearls",
+    "chunky oxidized chain",
+    "minimal leather belt with oversized buckle",
+    "opera gloves in contrasting fabric",
+  ];
+
+  const chosenSilhouette = sample(SILHOUETTES)[0];
+  const chosenBottom = sample(BOTTOMS)[0];
+  const chosenFootwear = sample(FOOTWEAR)[0];
+  const chosenTextures = sample(TEXTURES, 2).join(", ");
+  const chosenPalette = sample(PALETTES)[0];
+  const chosenRefs = sample(REFERENCES, 2).join(" and ");
+  const chosenAccessory = sample(ACCESSORIES)[0];
+
   // Prompt for the Gemini API
-  const prompt = "**IMAGE GENERATION TASK:**\n" +
-"Modify the provided input image of Polar Bear. Perform the following changes to generate a NEW image:\n" +
-"1. Zoom out to a full body, head-to-toe view.\n" +
-"2. Outfit him in new, tasteful designer/vintage attire (menswear/womenswear) selected by a professional stylist.\n" +
-"3. The background should be black.\n" +
-"4. The outfit choices should reflect subculture/fashion aesthetics (e.g., couture, streetwear, grunge, avant-garde).\n" +
-"5. Subtly change or remove his original neckerchief and dark gray waistline to complement the new styling.\n" +
-"Ensure your output includes this newly generated image.\n\n" +
-"**CAPTION TASK (for the NEW image generated above):**\n" +
-"Provide a brief (140 characters max) fashion caption in markdown format. Write as a knowledgeable fashion commentator. Confidently attribute specific designers, brands (real or plausible vintage/obscure), or styles.\n" +
-"CRITICAL: Do NOT use narrative phrases like 'Zooming out...', 'full-body shot...', 'removed neckerchief...'. Directly describe the fashion elements and their attributions as seen in the new image.";
+  const prompt = `**IMAGE GENERATION TASK:**\n` +
+  `Edit the provided polar bear image (blue ascot original). Create a NEW\n` +
+  `runway-ready, couture look with rich variety. Keep the sundae in the same hand.\n` +
+  `1) Full body, head-to-toe.\n` +
+  `2) Black studio background.\n` +
+  `3) Fashion direction: ${chosenSilhouette} paired with ${chosenBottom}; textiles include ${chosenTextures}.\n` +
+  `4) Color palette: ${chosenPalette}.\n` +
+  `5) Footwear: ${chosenFootwear}.\n` +
+  `6) Accessory: ${chosenAccessory}.\n` +
+  `7) References/influences: ${chosenRefs}.\n` +
+  `8) Emphasize originality, confident styling, and avant-garde expression with couture-level construction and proportion play.\n` +
+  `9) Harmonize or restyle the original blue neckerchief to suit the look (or swap for the accessory above).\n` +
+  `Return only the newly generated image.\n\n` +
+  `**CAPTION TASK (for the NEW image):**\n` +
+  `Return a single 140-character max markdown caption describing the look and citing designer-style influences.`;
 
   // Backend API endpoint URL
   const BACKEND_API_URL = 'https://shirokuma-server-580931574321.us-west2.run.app/api/generate-image';
