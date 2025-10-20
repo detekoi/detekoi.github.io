@@ -92,8 +92,8 @@ app.post('/api/generate-image', async (req, res) => {
     const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the subject has been styled by a professional stylist, make it a cohesive theme.";
     
     console.log(`Using prompt: ${prompt.substring(0, 50)}...`);
-    console.log('Using SDK with gemini-2.0-flash-exp model');
-    
+    console.log('Using SDK with gemini-2.5-flash-image model');
+
     // Prepare the content parts for the API call
     const contents = [
       { text: prompt },
@@ -104,10 +104,10 @@ app.post('/api/generate-image', async (req, res) => {
         }
       }
     ];
-    
+
     // Call the Gemini image generation model using SDK (as per official docs)
     const response = await genAI.models.generateContent({
-      model: 'gemini-2.0-flash-exp',
+      model: 'gemini-2.5-flash-image',
       contents: contents,
       config: {
         responseModalities: [Modality.TEXT, Modality.IMAGE]

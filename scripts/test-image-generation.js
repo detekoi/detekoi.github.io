@@ -46,7 +46,7 @@ async function generateImage() {
 
     // Call the Gemini image generation model
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-exp-image-generation',
+      model: 'gemini-2.5-flash-image',
       contents: contents,
       config: {
         responseModalities: ['Text', 'Image']
