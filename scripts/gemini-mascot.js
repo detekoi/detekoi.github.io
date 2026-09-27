@@ -192,100 +192,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   // --- End Loading Card Static Effect ---
 
-  // Function to add a new image to the carousel
-  function addImageToCarousel(imageDataUri, description, addAsFront = false) {
-    // Create a new card element
-    const newCard = document.createElement('div');
-    newCard.classList.add('card', 'mascot-card');
-    newCard.dataset.card = ($('.card').length + 1).toString();
-    
-    // Attempt to parse description as markdown if it contains markdown syntax
-    let formattedDescription = description;
-    try {
-      // Check if the text has markdown-like syntax
-      if (description && 
-          (description.includes('*') || 
-           description.includes('#') || 
-           description.includes('_') || 
-           description.includes('`') ||
-           description.includes('[') ||
-           description.includes('>'))) {
-        formattedDescription = marked.parse(description);
-      }
-    } catch (e) {
-      console.log('Error parsing markdown, using plain text', e);
-      formattedDescription = description;
-    }
-    
-    // Structure the card with both image and description components
-    newCard.innerHTML = `
-      <div class="image">
-        <img src="${imageDataUri}" alt="AI-generated polar bear mascot: ${description}" class="mascot">
-      </div>
-      <div class="detail">
-        ${formattedDescription}
-      </div>
-    `;
-    
-    // Add the new card to the container (either at front or end)
-    if (addAsFront) {
-      // Add as the first child
-      if (mascotContainer.firstChild) {
-        // Insert the new card at the front
-        mascotContainer.insertBefore(newCard, mascotContainer.firstChild);
-      } else {
-        mascotContainer.appendChild(newCard);
-      }
-    } else {
-      // Add at the end
-      mascotContainer.appendChild(newCard);
-    }
-    
-    // Add click listener for lightbox if available
-    const newImg = newCard.querySelector('.mascot');
-    if (newImg && window.showLightbox) {
-      newImg.style.cursor = 'pointer';
-      newImg.addEventListener('click', () => {
-        window.showLightbox(newImg.src, newImg.alt, description);
-      });
-    }
-    
-    // Store the image data in local storage
-    carouselImages.push({
-      imageDataUri,
-      description,
-      timestamp: Date.now()
-    });
-    
-    // Keep only the MAX_AI_IMAGES most recent images
-    if (carouselImages.length > MAX_AI_IMAGES) {
-      // Remove the oldest image
-      carouselImages.shift();
-      
-      // Use setTimeout to delay DOM manipulation for better performance
-      setTimeout(() => {
-        // Also remove the oldest card in the DOM if there are more than MAX_AI_IMAGES
-        if ($('.card').length > MAX_AI_IMAGES) {
-          $('.card:last-child').remove();
-        }
-      }, 100);
-    }
-    
-    // Call updateCarouselControls to show controls if more than one card
-    if (typeof window.updateCarouselControls === 'function') {
-      window.updateCarouselControls();
-    }
-    
-    // Save to localStorage - use timeout to not block UI
-    setTimeout(() => {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(carouselImages));
-      } catch (error) {
-        console.error('Error saving AI images to localStorage:', error);
-      }
-    }, 50);
-  }
-
   // --- Helper: Get AI cards (excluding original and loading) ---
   function getAiCards() {
     return Array.from(mascotContainer.querySelectorAll('.card.mascot-card:not(.original-mascot):not(.loading-card)'));
@@ -341,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             storedCard.innerHTML = `
                 <div class="image">
-                    <img src="${imageData.imageDataUri}" alt="AI-generated polar bear mascot: ${imageData.description}" class="mascot">
+                    <img src="${imageData.imageDataUri}" alt="Polar Bear in a new outfit: ${imageData.description}" class="mascot">
                 </div>
                 <div class="detail">
                     ${formattedDescription}
@@ -583,11 +489,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let errorMessage = `HTTP error! status: ${response.status}`;
         try {
           const errorData = await response.json();
-          errorMessage += ` - ${errorData.error || 'Unknown error'}${errorData.details ? ': ' + errorData.details : ''}`;
+          if (response.status === 429) {
+            // Rate limited: show the friendly message as-is
+            errorMessage = `${errorData.error}. ${errorData.details || ''}`.trim();
+          } else {
+            errorMessage += ` - ${errorData.error || 'Unknown error'}${errorData.details ? ': ' + errorData.details : ''}`;
+          }
         } catch (e) {
           errorMessage += ` - ${response.statusText}`;
         }
-        throw new Error(errorMessage); // Throw to be caught by the catch block
+        const httpError = new Error(errorMessage);
+        httpError.isRateLimited = response.status === 429;
+        throw httpError; // Throw to be caught by the catch block
       }
 
       const data = await response.json();
@@ -628,7 +541,7 @@ document.addEventListener('DOMContentLoaded', () => {
               // Set the inner HTML directly
               newCard.innerHTML = `
                 <div class="image">
-                  <img src="${newImageSrc}" alt="AI-generated polar bear mascot: ${newDescription}" class="mascot">
+                  <img src="${newImageSrc}" alt="Polar Bear in a new outfit: ${newDescription}" class="mascot">
                 </div>
                 <div class="detail">
                   ${formattedDescription}
@@ -799,29 +712,25 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="error-icon">⚠️</div>
       </div>
       <div class="detail error-detail">
-        <p>Failed to generate style: ${error.message}</p>
+        <p>${error.isRateLimited ? error.message : `Failed to generate style: ${error.message}`}</p>
       </div>
     `;
     
-    // Add the error card to the front if no cards exist OR only the original exists
-    const existingCards = mascotContainer.querySelectorAll('.card.mascot-card:not(.error-card)');
-    if (existingCards.length === 0 || (existingCards.length === 1 && existingCards[0].classList.contains('original-mascot'))) {
-      mascotContainer.appendChild(errorCard);
-    } else {
-      // Add as the first child (before potentially existing AI cards or original)
-      mascotContainer.insertBefore(errorCard, mascotContainer.firstChild);
-
-      // Remove after 5 seconds
-      setTimeout(() => {
-        if (errorCard.parentNode === mascotContainer) {
-          errorCard.remove();
-          // Reset positions after removing error card
-          if (typeof window.resetCardPositions === 'function') {
-             window.resetCardPositions();
-          }
-        }
-      }, 5000);
+    // Show the error card in front so the message is visible, then dismiss it
+    mascotContainer.insertBefore(errorCard, mascotContainer.firstChild);
+    if (typeof window.resetCardPositions === 'function') {
+      window.resetCardPositions();
     }
+
+    setTimeout(() => {
+      if (errorCard.parentNode === mascotContainer) {
+        errorCard.remove();
+        // Reset positions after removing error card
+        if (typeof window.resetCardPositions === 'function') {
+          window.resetCardPositions();
+        }
+      }
+    }, 8000);
 
     // Reset state after animation/timeout
     setTimeout(() => {

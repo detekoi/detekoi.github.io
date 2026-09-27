@@ -4,7 +4,7 @@
 - `npm install` - Install dependencies
 - `npm start` - Start the server in production mode
 - `npm run dev` - Start server with hot reloading for development
-- `node scripts/test-image-generation.js` - Test Gemini API image generation
+- `node tests/test-image-generation.js` - Test Gemini API image generation
 
 ## Code Style
 - **JavaScript**: Use ES6+ features, arrow functions, and template literals

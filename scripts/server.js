@@ -1,11 +1,14 @@
 require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
+const rateLimit = require('express-rate-limit');
 const fs = require('fs'); // Add fs module for reading image files
 // Import the necessary classes from the library
 const { GoogleGenAI, Modality } = require("@google/genai");
 const path = require('path');
 
 const app = express();
+// Cloud Run sits behind one proxy hop; trust it so rate limits see the visitor's IP
+app.set('trust proxy', 1);
 const port = process.env.PORT || 3000; // Use port from env var or default to 3000
 
 // Ensure CORS is allowed if your frontend will be hosted separately
@@ -23,7 +26,7 @@ app.use((req, res, next) => {
 });
 
 // Middleware to parse JSON bodies
-app.use(express.json({ limit: '10mb' })); // Increase limit for base64 image data
+app.use(express.json({ limit: '16kb' })); // Requests only carry a text prompt
 
 // --- Gemini API Configuration ---
 const API_KEY = process.env.GEMINI_API_KEY;
@@ -80,58 +83,125 @@ app.get('/api/list-models', async (req, res) => {
   }
 });
 
+// --- Image generation settings ---
+// Nano Banana 2. Output is sized for the ~420px mascot frame: the 512 tier
+// (424x632 at 2:3) costs fewer output tokens than the 1K default and keeps
+// each image small enough that the page can store several in localStorage.
+const IMAGE_MODEL = 'gemini-3.1-flash-image';
+const IMAGE_CONFIG = { aspectRatio: '2:3', imageSize: '512' };
+const MAX_PROMPT_LENGTH = 4000;
+
+// Reference image for every outfit: read and encode once at startup instead of
+// blocking the event loop with a 1.6MB synchronous read on each request
+const BEAR_IMAGE_PATH = path.join(__dirname, '..', 'assets/images/PolarBearTransparent4K.png');
+const BEAR_IMAGE_BASE64 = fs.readFileSync(BEAR_IMAGE_PATH).toString('base64');
+
+/**
+ * Generate an outfit image with Nano Banana 2.
+ * @param {Array} contents - Prompt and reference image parts
+ * @param {Array} responseModalities - Requested output modalities
+ * @returns {Promise<{imageDataUri: ?string, textResponse: ?string}>}
+ */
+async function generateOutfitImage(contents, responseModalities) {
+  const response = await genAI.models.generateContent({
+    model: IMAGE_MODEL,
+    contents,
+    config: {
+      responseModalities,
+      imageConfig: IMAGE_CONFIG
+      // thinkingLevel defaults to minimal, the lowest-latency, lowest-cost option
+    }
+  });
+
+  let imageDataUri = null;
+  let textResponse = null;
+  const parts = response?.candidates?.[0]?.content?.parts || [];
+
+  for (const part of parts) {
+    // Gemini 3 image models may return interim "thought" parts; skip them
+    if (part.thought) {
+      continue;
+    }
+    if (part.text) {
+      textResponse = part.text;
+    } else if (part.inlineData) {
+      console.log(`Image generated (MIME type: ${part.inlineData.mimeType})`);
+      imageDataUri = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
+    }
+  }
+
+  return { imageDataUri, textResponse };
+}
+
+// --- Rate limiting ---
+// Counters live in memory, so the Cloud Run service runs a single instance
+// (see --max-instances in .github/workflows/deploy.yml).
+const PER_IP_LIMIT = Number(process.env.RATE_LIMIT_PER_IP) || 5;
+const PER_IP_WINDOW_MINUTES = Number(process.env.RATE_LIMIT_WINDOW_MINUTES) || 15;
+const DAILY_LIMIT = Number(process.env.DAILY_GENERATION_LIMIT) || 100;
+
+/**
+ * Build a JSON 429 handler with a friendly retry hint.
+ * @param {string} message - Short message shown to the visitor
+ * @returns {Function} express-rate-limit handler
+ */
+const rateLimitHandler = (message) => (req, res) => {
+  const resetTime = req.rateLimit?.resetTime;
+  const minutes = resetTime ? Math.max(1, Math.ceil((resetTime - Date.now()) / 60000)) : null;
+  let details = 'Try again later.';
+  if (minutes && minutes > 90) {
+    const hours = Math.round(minutes / 60);
+    details = `Try again in about ${hours} hour${hours === 1 ? '' : 's'}.`;
+  } else if (minutes) {
+    details = `Try again in about ${minutes} minute${minutes === 1 ? '' : 's'}.`;
+  }
+  res.status(429).json({ error: message, details });
+};
+
+const perIpLimiter = rateLimit({
+  windowMs: PER_IP_WINDOW_MINUTES * 60 * 1000,
+  limit: PER_IP_LIMIT,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  handler: rateLimitHandler('Polar Bear needs a breather')
+});
+
+const dailyLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  limit: DAILY_LIMIT,
+  keyGenerator: () => 'all-visitors',
+  standardHeaders: false,
+  legacyHeaders: false,
+  handler: rateLimitHandler("Polar Bear's wardrobe is closed for today")
+});
+
 // --- API Endpoint for Image Generation ---
-app.post('/api/generate-image', async (req, res) => {
-  // Read the original bear image from file system
+// Per-visitor limit runs first on purpose: requests it rejects never reach the
+// daily counter, so one visitor spamming the endpoint can't use up everyone's
+// daily budget.
+app.post('/api/generate-image', perIpLimiter, dailyLimiter, async (req, res) => {
   try {
-    const imagePath = path.join(__dirname, '..', 'assets/images/PolarBearTransparent4K.png');
-    const imageData = fs.readFileSync(imagePath);
-    const base64Image = imageData.toString('base64');
-    
     // Get prompt from the request, or use default
     const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the subject has been styled by a professional stylist, make it a cohesive theme.";
     
-    console.log(`Using prompt: ${prompt.substring(0, 50)}...`);
-    console.log('Using SDK with gemini-2.5-flash-image model');
+    if (typeof prompt !== 'string' || prompt.length > MAX_PROMPT_LENGTH) {
+      return res.status(400).json({ error: 'Invalid prompt' });
+    }
 
+    console.log(`Using prompt: ${prompt.substring(0, 50)}...`);
     // Prepare the content parts for the API call
     const contents = [
       { text: prompt },
       {
         inlineData: {
           mimeType: 'image/png',
-          data: base64Image
+          data: BEAR_IMAGE_BASE64
         }
       }
     ];
 
-    // Call the Gemini image generation model using SDK (as per official docs)
-    const response = await genAI.models.generateContent({
-      model: 'gemini-2.5-flash-image',
-      contents: contents,
-      config: {
-        responseModalities: [Modality.TEXT, Modality.IMAGE]
-      }
-    });
-    
-    // Extract response data (following official documentation pattern)
-    let imageDataUri = null;
-    let textResponse = null;
-    
-    if (response && response.candidates && response.candidates.length > 0) {
-      const parts = response.candidates[0].content.parts;
-      
-      for (const part of parts) {
-        if (part.text) {
-          console.log('Text response received');
-          textResponse = part.text;
-        } else if (part.inlineData) {
-          console.log(`Image generated (MIME type: ${part.inlineData.mimeType})`);
-          imageDataUri = `data:${part.inlineData.mimeType};base64,${part.inlineData.data}`;
-        }
-      }
-    }
-    
+    const { imageDataUri, textResponse } = await generateOutfitImage(contents, [Modality.TEXT, Modality.IMAGE]);
+
     res.json({
       imageDataUri,
       textResponse

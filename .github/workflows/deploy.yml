@@ -55,7 +55,8 @@ jobs:
           region: ${{ env.REGION }}
           source: .
           env_vars: GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
-          flags: '--allow-unauthenticated'
+          # One instance keeps the in-memory rate limits authoritative and bounds API spend
+          flags: '--allow-unauthenticated --max-instances=1'
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}

@@ -2,7 +2,7 @@
  * Test script for Gemini image generation API
  * 
  * This is a standalone script to test the Gemini API for image generation.
- * Run with: node scripts/test-image-generation.js
+ * Run from the repo root with: node tests/test-image-generation.js
  */
 
 require('dotenv').config();
@@ -46,10 +46,11 @@ async function generateImage() {
 
     // Call the Gemini image generation model
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: process.env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image',
       contents: contents,
       config: {
-        responseModalities: ['Text', 'Image']
+        responseModalities: ['Text', 'Image'],
+        imageConfig: { aspectRatio: '2:3', imageSize: '512' }
       },
     });
 
@@ -66,6 +67,9 @@ async function generateImage() {
     console.log(`Found ${parts.length} parts in the response.`);
 
     for (const part of parts) {
+      if (part.thought) {
+        continue;
+      }
       if (part.text) {
         console.log("Text response:", part.text);
       } else if (part.inlineData) {
