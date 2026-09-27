@@ -3,23 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Software portfolio of Henry Manes, featuring streaming tools and browser sources for OBS">
+  <meta name="description" content="QA engineer in San Diego testing AI features in production. Portfolio of Twitch and OBS streaming tools with CI-gated test suites.">
   
-  <meta name="keywords" content="WildcatSage, WildcatTTS, wildcat.chat, Twitch chatbot, Twitch, Text-to-Speech, TTS, AI chatbot, OBS tools, streaming tools, Twitch overlay, chat overlay, browser sources, stream clock, stream notifications, Discord notifications, Apple Music widget">
+  <meta name="keywords" content="Henry Manes, QA engineer, AI testing, test automation, Jest, WildcatSage, WildcatTTS, wildcat.chat, Twitch chatbot, Twitch, Text-to-Speech, TTS, AI chatbot, OBS tools, streaming tools, Twitch overlay, chat overlay, browser sources, stream clock, stream notifications, Discord notifications, Apple Music widget">
   <meta name="author" content="Henry Manes">
   <meta name="robots" content="index, follow">
   
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="HENRY MANES | OBS Tools">
-  <meta property="og:description" content="Free and open source streaming tools designed for maximum customizability and platform independence">
-  <meta property="og:url" content="https://detekoi.github.io">
-  <meta property="og:site_name" content="Henry Manes OBS Tools">
-  
+  <link rel="canonical" href="https://detekoi.github.io/">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Henry Manes | QA Engineer · AI Testing &amp; Automation">
+  <meta property="og:description" content="QA engineer in San Diego testing AI features in production. Portfolio of Twitch and OBS streaming tools with CI-gated test suites.">
+  <meta property="og:url" content="https://detekoi.github.io/">
+  <meta property="og:site_name" content="Henry Manes">
+  <meta property="og:image" content="https://detekoi.github.io/assets/images/og-preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Henry Manes portfolio: QA engineer, AI testing and automation, with the polar bear mascot demo">
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="HENRY MANES | OBS Tools">
-  <meta name="twitter:description" content="Free and open source streaming tools for streamers">
-  
-  <title>HENRY MANES | Streaming Tools</title>
+  <meta name="twitter:title" content="Henry Manes | QA Engineer · AI Testing &amp; Automation">
+  <meta name="twitter:description" content="QA engineer in San Diego testing AI features in production. Portfolio of Twitch and OBS streaming tools with CI-gated test suites.">
+  <meta name="twitter:image" content="https://detekoi.github.io/assets/images/og-preview.png">
+
+  <title>Henry Manes | QA Engineer · AI Testing &amp; Automation</title>
   <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/unified.css">
   <link rel="stylesheet" href="styles/components.css">
@@ -49,6 +56,7 @@
       <li><a href="https://wildcat.chat/" target="_blank" rel="noopener">Wildcat.chat</a></li>
       <li><a href="https://docs.wildcat.chat/botcommands.html" target="_blank" rel="noopener">WildcatSage Docs</a></li>
       <li><a href="https://docs.wildcat.chat/chatvibesdocs.html" target="_blank" rel="noopener">WildcatTTS Docs</a></li>
+      <li><a href="assets/docs/Henry-Manes-Resume.pdf" target="_blank" rel="noopener">Resume</a></li>
       <li><a href="index.html#contact-me">Contact</a></li>
     </ul>
   </nav>
@@ -60,20 +68,22 @@
       <!-- ═══ Identity ═══ -->
       <section class="tile tile--identity" data-area="identity" aria-labelledby="identity-heading">
         <div class="identity__text">
-          <div class="eyebrow">Portfolio · Free &amp; open source</div>
+          <div class="eyebrow">Portfolio · San Diego, CA</div>
           <h1 id="identity-heading" class="identity__name">Henry Manes</h1>
-          <p class="identity__role">Streaming Tools &amp; OBS Browser Sources</p>
-          <p class="identity__bio">Free and open source streaming tools designed for maximum customizability and platform independence.</p>
+          <p class="identity__role">QA Engineer · AI Testing &amp; Automation</p>
+          <p class="identity__bio">6+ years testing commercial software and three years testing AI features in production. I build and test the free, open source streaming tools below, where 1,400+ automated tests gate every deploy to live LLM and text-to-speech services.</p>
         </div>
         <p class="links identity__links">
-          <a href="https://github.com/detekoi" target="_blank" rel="noopener">My GitHub</a>
+          <a href="assets/docs/Henry-Manes-Resume.pdf" target="_blank" rel="noopener">Resume (PDF)</a>
+          <a href="https://www.linkedin.com/in/henrymanes" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/detekoi" target="_blank" rel="noopener">GitHub</a>
         </p>
       </section>
 
       <!-- ═══ Mascot (polar bear dress-up carousel) ═══ -->
-      <section class="tile tile--mascot" data-area="mascot" aria-label="Polar bear mascot">
+      <section class="tile tile--mascot" data-area="mascot" aria-label="Live demo: AI outfit generator for the polar bear mascot">
         <div class="tile__header">
-          <span class="tile__kicker">Mascot · Shirokuma</span>
+          <span class="tile__kicker">Live demo · AI image generation</span>
         </div>
         <div class="header-mascot-area">
           <div class="carousel-wrapper">
@@ -91,7 +101,8 @@
         </div>
         <div class="mascot__actions">
           <a href="#" id="style-inspiration-link" role="button">Style Inspiration!</a>
-          <p class="mascot__hint"><span class="identity__bear" aria-hidden="true">ʕ •ᴥ•ʔ</span> Dress up the polar bear with Gemini</p>
+          <p class="mascot__hint"><span class="identity__bear" aria-hidden="true">ʕ •ᴥ•ʔ</span> Dress up the polar bear with Nano Banana 2 (Gemini 3.1 Flash Image), with automatic fallback to Nano Banana 2 Lite. Served from a Node.js backend on Cloud Run. <a href="https://github.com/detekoi/detekoi.github.io/blob/main/server.js" target="_blank" rel="noopener">Server code</a></p>
+          <p class="mascot__credit">Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank" rel="noopener">Runnerbean</a>, used with permission, including for AI outfit variations. Generated on a paid Gemini API key, so Google doesn't train on the art or the results.</p>
         </div>
       </section>
 
@@ -139,6 +150,8 @@
             <li>Twitch API</li>
             <li>Google Gemini</li>
             <li>Google Cloud Run</li>
+            <li>Jest</li>
+            <li>GitHub Actions</li>
           </ul>
         </div>
 
@@ -175,6 +188,8 @@
             <li>Twitch API</li>
             <li>Replicate API</li>
             <li>Google Cloud Run</li>
+            <li>Jest</li>
+            <li>GitHub Actions</li>
           </ul>
         </div>
 
@@ -363,7 +378,7 @@
             <span class="tile__kicker">Get in touch</span>
           </div>
           <h2 id="contact-heading" class="tile__handle">Contact Me</h2>
-          <p class="tile__desc">Access requests for WildcatSage or WildcatTTS, collabs, questions, or just saying hello.</p>
+          <p class="tile__desc">Hiring, collaboration, access requests for WildcatSage or WildcatTTS, or just saying hello.</p>
         </div>
 
         <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
@@ -391,23 +406,14 @@
     </main>
 
     <footer class="footer">
-      <span>Polar Bear Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank" rel="noopener">Runnerbean</a></span>
+      <span>Polar bear artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank" rel="noopener">Runnerbean</a>, used with permission</span>
       <span class="footer__sep" aria-hidden="true">·</span>
-      <span>© 2025 Henry Manes</span>
+      <span>© 2026 Henry Manes</span>
       <span class="footer__sep" aria-hidden="true">·</span>
       <a href="https://github.com/detekoi" target="_blank" rel="noopener">GitHub</a>
     </footer>
   </div>
 
-  <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-  <script>
-    kofiWidgetOverlay.draw('parfaitfair', {
-      'type': 'floating-chat',
-      'floating-chat.donateButton.text': 'Support me',
-      'floating-chat.donateButton.background-color': '#ffffff',
-      'floating-chat.donateButton.text-color': '#323842'
-    });
-  </script>
   <script src="scripts/navigation.js"></script>
   <script src="scripts/theme.js"></script>
   <script src="scripts/lightbox.js"></script>

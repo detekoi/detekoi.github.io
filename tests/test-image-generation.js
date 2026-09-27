@@ -46,7 +46,7 @@ async function generateImage() {
 
     // Call the Gemini image generation model
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: process.env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image',
       contents: contents,
       config: {
         responseModalities: ['Text', 'Image']
@@ -66,6 +66,9 @@ async function generateImage() {
     console.log(`Found ${parts.length} parts in the response.`);
 
     for (const part of parts) {
+      if (part.thought) {
+        continue;
+      }
       if (part.text) {
         console.log("Text response:", part.text);
       } else if (part.inlineData) {
