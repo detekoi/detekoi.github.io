@@ -411,6 +411,7 @@
    IDENTITY TILE
    ===================================================== */
 .tile--identity {
+  justify-content: center;
   gap: 1.25rem;
   padding: clamp(1.2rem, 2vw, 1.75rem);
 }
@@ -460,18 +461,6 @@
 .links a {
   margin: 0;
   white-space: nowrap;
-}
-
-.identity__foot {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--text-subtle);
-  padding-top: 0.85rem;
-  border-top: 1px dashed var(--border-soft);
 }
 
 .identity__bear {
@@ -538,6 +527,34 @@
   display: block;
   cursor: pointer;
   transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Style Inspiration lives with the bear it dresses up */
+.mascot__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 420px;
+  margin: auto auto 0;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--border-soft);
+}
+
+.mascot__actions #style-inspiration-link {
+  display: block;
+  text-align: center;
+  margin: 0;
+}
+
+.mascot__hint {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-subtle);
+  text-align: center;
 }
 
 /* =====================================================
