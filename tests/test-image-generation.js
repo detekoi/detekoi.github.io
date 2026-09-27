@@ -49,7 +49,8 @@ async function generateImage() {
       model: process.env.GEMINI_IMAGE_MODEL || 'gemini-3.1-flash-image',
       contents: contents,
       config: {
-        responseModalities: ['Text', 'Image']
+        responseModalities: ['Text', 'Image'],
+        imageConfig: { aspectRatio: '2:3', imageSize: '512' }
       },
     });
 

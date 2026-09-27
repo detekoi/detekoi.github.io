@@ -563,8 +563,39 @@
   letter-spacing: 0.03em;
 }
 
+.mascot__details {
+  font-size: 0.7rem;
+  color: var(--text-subtle);
+  text-align: center;
+}
+
+.mascot__details summary {
+  display: inline-block;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+.mascot__details summary::-webkit-details-marker {
+  display: none;
+}
+
+.mascot__details summary:hover {
+  color: var(--color-text);
+}
+
+.mascot__details p {
+  margin: 0.5rem 0 0;
+  line-height: 1.45;
+  text-align: left;
+  text-wrap: pretty;
+}
+
 .mascot__hint a,
-.mascot__credit a {
+.mascot__credit a,
+.mascot__details a {
   display: inline;
   padding: 0;
   border: none;
@@ -580,7 +611,10 @@
 .mascot__hint a:active,
 .mascot__credit a:hover,
 .mascot__credit a:focus,
-.mascot__credit a:active {
+.mascot__credit a:active,
+.mascot__details a:hover,
+.mascot__details a:focus,
+.mascot__details a:active {
   transform: none;
   box-shadow: none;
   background: none;

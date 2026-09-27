@@ -583,11 +583,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let errorMessage = `HTTP error! status: ${response.status}`;
         try {
           const errorData = await response.json();
-          errorMessage += ` - ${errorData.error || 'Unknown error'}${errorData.details ? ': ' + errorData.details : ''}`;
+          if (response.status === 429) {
+            // Rate limited: show the friendly message as-is
+            errorMessage = `${errorData.error}. ${errorData.details || ''}`.trim();
+          } else {
+            errorMessage += ` - ${errorData.error || 'Unknown error'}${errorData.details ? ': ' + errorData.details : ''}`;
+          }
         } catch (e) {
           errorMessage += ` - ${response.statusText}`;
         }
-        throw new Error(errorMessage); // Throw to be caught by the catch block
+        const httpError = new Error(errorMessage);
+        httpError.isRateLimited = response.status === 429;
+        throw httpError; // Throw to be caught by the catch block
       }
 
       const data = await response.json();
@@ -799,7 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="error-icon">⚠️</div>
       </div>
       <div class="detail error-detail">
-        <p>Failed to generate style: ${error.message}</p>
+        <p>${error.isRateLimited ? error.message : `Failed to generate style: ${error.message}`}</p>
       </div>
     `;
     
