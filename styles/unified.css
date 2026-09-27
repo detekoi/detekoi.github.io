@@ -43,6 +43,21 @@
   --hover-transform: translate(-2px, -2px);
   --active-transform: translate(2px, 2px);
 
+  /* Bento tiles (shared look with parfaitfair.com) */
+  --surface: #ffffff;
+  --surface-2: #f5f5f5;
+  --border: #121212;
+  --border-soft: rgba(18, 18, 18, 0.15);
+  --text-muted: #555555;
+  --text-subtle: #777777;
+  --focus-ring: #000000;
+  --shadow: #121212;
+  --shadow-hover-color: rgba(0, 0, 0, 0.6);
+  --shadow-size: 4px;
+  --shadow-hover: 7px;
+  --tile-border: 1.5px;
+  --transition: 0.18s ease;
+
   /* Navigation */
   --nav-height: 60px;
   --sidebar-width: 200px;
@@ -89,6 +104,32 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Accessible skip link */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  z-index: 1100;
+  background: var(--color-text);
+  color: var(--color-background);
+  border: var(--tile-border) solid var(--border);
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  text-decoration: underline;
+  box-shadow: var(--shadow-size) var(--shadow-size) 0 var(--shadow);
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  transform: none;
+}
+
 /* =====================================================
    NAVIGATION BAR (Top)
    ===================================================== */
@@ -99,17 +140,18 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   height: var(--nav-height);
   background-color: var(--color-background);
-  border-bottom: 3px solid var(--color-border);
+  border-bottom: var(--tile-border) solid var(--border);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 var(--spacing-large);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 var(--shadow-size) 0 var(--border-soft);
 }
 
 .site-navbar-brand {
   font-size: var(--font-size-medium);
+  white-space: nowrap;
   font-weight: 700;
   color: var(--color-text);
   text-decoration: none;
@@ -144,14 +186,16 @@ h1, h2, h3, h4, h5, h6 {
 .site-navbar-menu a {
   background-color: white;
   color: var(--color-text);
-  border: 2px solid var(--color-text);
-  box-shadow: 4px 4px 0 var(--color-text);
+  border: var(--tile-border) solid var(--color-text);
+  box-shadow: 3px 3px 0 var(--color-text);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all var(--transition);
   padding: 6px 12px;
   display: inline-block;
-  font-weight: 600;
-  font-size: var(--font-size-small);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .site-navbar-menu a:hover,
@@ -176,8 +220,8 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
   background-color: white;
   color: var(--color-text);
-  border: 2px solid var(--color-text);
-  box-shadow: 4px 4px 0 var(--color-text);
+  border: var(--tile-border) solid var(--color-text);
+  box-shadow: 3px 3px 0 var(--color-text);
   padding: 8px 12px;
   cursor: pointer;
   font-size: var(--font-size-regular);
@@ -385,10 +429,10 @@ h1, h2, h3, h4, h5, h6 {
 a {
   background-color: white;
   color: var(--color-text);
-  border: 2px solid var(--color-text);
+  border: var(--tile-border) solid var(--color-text);
   box-shadow: 4px 4px 0 var(--color-text);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all var(--transition);
   padding: 6px 12px;
   display: inline-block;
   font-weight: 600;
@@ -445,12 +489,23 @@ footer a:active {
     --color-card-bg: #1e1e1e;
     --color-border: #ffffff;
     --shadow-color: rgba(255, 255, 255, 0.33);
+
+    --surface: #1e1e1e;
+    --surface-2: #121212;
+    --border: #ffffff;
+    --border-soft: rgba(255, 255, 255, 0.12);
+    --text-muted: #b8b8b8;
+    --text-subtle: #8a8a8a;
+    --focus-ring: #ffffff;
+    --shadow: rgba(255, 255, 255, 0.33);
+    --shadow-hover-color: rgba(255, 255, 255, 0.18);
   }
 
   /* Navigation */
   .site-navbar {
     background-color: var(--color-background);
-    border-bottom-color: var(--color-border);
+    border-bottom-color: var(--border);
+    box-shadow: 0 var(--shadow-size) 0 var(--border-soft);
   }
 
   .site-navbar-brand {
@@ -464,7 +519,7 @@ footer a:active {
   .site-navbar-menu a {
     background-color: #ffffff;
     color: #000000;
-    border: 2px solid #555555;
+    border: var(--tile-border) solid #555555;
     box-shadow: 4px 4px 0 var(--shadow-color);
   }
 
@@ -486,7 +541,7 @@ footer a:active {
   .navbar-toggle {
     background-color: #ffffff;
     color: #000000;
-    border: 2px solid #555555;
+    border: var(--tile-border) solid #555555;
     box-shadow: 4px 4px 0 var(--shadow-color);
   }
 
@@ -551,7 +606,7 @@ footer a:active {
   a {
     background-color: #ffffff;
     color: #000000;
-    border: 2px solid #555555;
+    border: var(--tile-border) solid #555555;
     box-shadow: 4px 4px 0 var(--shadow-color);
   }
 
@@ -592,6 +647,21 @@ footer a:active {
 /* =====================================================
    RESPONSIVE ADJUSTMENTS
    ===================================================== */
+@media (max-width: 1024px) {
+  .site-navbar {
+    padding: 0 var(--spacing-medium);
+  }
+
+  .site-navbar-menu {
+    gap: var(--spacing-small);
+  }
+
+  .site-navbar-menu a {
+    padding: 6px 8px;
+    letter-spacing: 0.04em;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --font-size-huge: 3.5rem;
@@ -617,7 +687,7 @@ footer a:active {
     left: 0;
     right: 0;
     background-color: var(--color-background);
-    border-bottom: 3px solid var(--color-border);
+    border-bottom: var(--tile-border) solid var(--border);
     flex-direction: column;
     gap: 0;
     padding: var(--spacing-medium);

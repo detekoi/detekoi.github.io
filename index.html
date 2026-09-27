@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Software portfolio of Henry Manes, featuring streaming tools and browser sources for OBS">
   
-  <meta name="keywords" content="ChatSage, Twitch chatbot, Twitch, Text-to-Speech, TTS, AI chatbot, OBS tools, streaming tools, Twitch overlay, chat overlay, browser sources, stream clock, stream notifications, Discord notifications, Apple Music widget">
+  <meta name="keywords" content="WildcatSage, WildcatTTS, wildcat.chat, Twitch chatbot, Twitch, Text-to-Speech, TTS, AI chatbot, OBS tools, streaming tools, Twitch overlay, chat overlay, browser sources, stream clock, stream notifications, Discord notifications, Apple Music widget">
   <meta name="author" content="Henry Manes">
   <meta name="robots" content="index, follow">
   
@@ -24,6 +24,8 @@
   <link rel="stylesheet" href="styles/unified.css">
   <link rel="stylesheet" href="styles/components.css">
   <link rel="stylesheet" href="styles/carousel.css">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,230 +37,369 @@
 ></script>
 </head>
 <body class="has-navbar">
-  <canvas id="staticCanvas"></canvas>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <canvas id="staticCanvas" aria-hidden="true"></canvas>
 
   <!-- Unified Navigation Bar -->
-  <nav class="site-navbar">
+  <nav class="site-navbar" aria-label="Primary">
     <a href="index.html" class="site-navbar-brand">ʕ •ᴥ•ʔ</a>
     <button class="navbar-toggle" aria-label="Toggle navigation">☰</button>
     <ul class="site-navbar-menu">
       <li><a href="index.html">Portfolio</a></li>
-      <li><a href="https://docs.wildcat.chat/botcommands.html" target="_blank">ChatSage Docs</a></li>
-      <li><a href="https://docs.wildcat.chat/chatvibesdocs.html" target="_blank">ChatVibes Docs</a></li>
+      <li><a href="https://wildcat.chat/" target="_blank" rel="noopener">Wildcat.chat</a></li>
+      <li><a href="https://docs.wildcat.chat/botcommands.html" target="_blank" rel="noopener">WildcatSage Docs</a></li>
+      <li><a href="https://docs.wildcat.chat/chatvibesdocs.html" target="_blank" rel="noopener">WildcatTTS Docs</a></li>
       <li><a href="index.html#contact-me">Contact</a></li>
     </ul>
   </nav>
 
-  <header>
-    <div class="header-content">
-      <h1>Henry Manes</h1>
-      <p class="role">Streaming Tools & OBS Browser Sources</p>
-      <p class="tagline">Free and open source streaming tools designed for maximum customizability and platform independence.</p>
-      <p class="links">
-        <a href="https://github.com/detekoi" target="_blank">My GitHub</a>
-        <a href="#" id="style-inspiration-link">Style Inspiration!</a>
-      </p>
-    </div>
-    <div class="header-mascot-area">
-      <div class="carousel-wrapper">
-        <div class="container mascot-container">
-          <div data-card="1" class="card mascot-card original-mascot">
-            <div class="image">
-              <img src="assets/images/PolarBearCafeFin.jpg" alt="This illustration depicts Shirokuma (Polar Bear), a character from the anime Shirokuma Cafe (Polar Bear Cafe). He's standing upright wearing a blue patterned scarf or neckerchief tied around his neck. He's holding a tray with an ube-flavored parfait in a tall glass - the dessert is light purple in color and garnished with flowers. Shirokuma has a gentle, pleasant expression and is positioned in front of his own cafe building with green foliage visible to the side. The art style is colorful and cheerful, with a warm, inviting atmosphere typical of the anime's lighthearted tone." class="mascot">
-            </div>
-            <div class="detail">
-              <p>Shirokuma (Polar Bear) from Shirokuma Cafe serving ube parfait in his signature blue neckerchief</p>
+  <div class="page">
+    <!-- ═══ Bento shell ═══ -->
+    <main id="main-content" class="shell">
+
+      <!-- ═══ Identity ═══ -->
+      <section class="tile tile--identity" data-area="identity" aria-labelledby="identity-heading">
+        <div class="identity__text">
+          <div class="eyebrow">Portfolio · Free &amp; open source</div>
+          <h1 id="identity-heading" class="identity__name">Henry Manes</h1>
+          <p class="identity__role">Streaming Tools &amp; OBS Browser Sources</p>
+          <p class="identity__bio">Free and open source streaming tools designed for maximum customizability and platform independence.</p>
+        </div>
+        <p class="links identity__links">
+          <a href="https://github.com/detekoi" target="_blank" rel="noopener">My GitHub</a>
+          <a href="#" id="style-inspiration-link">Style Inspiration!</a>
+        </p>
+        <div class="identity__foot">
+          <span class="identity__bear" aria-hidden="true">ʕ •ᴥ•ʔ</span>
+          <span>Hit Style Inspiration! to dress up the polar bear</span>
+        </div>
+      </section>
+
+      <!-- ═══ Mascot (polar bear dress-up carousel) ═══ -->
+      <section class="tile tile--mascot" data-area="mascot" aria-label="Polar bear mascot">
+        <div class="tile__header">
+          <span class="tile__kicker">Mascot · Shirokuma</span>
+        </div>
+        <div class="header-mascot-area">
+          <div class="carousel-wrapper">
+            <div class="container mascot-container">
+              <div data-card="1" class="card mascot-card original-mascot">
+                <div class="image">
+                  <img src="assets/images/PolarBearCafeFin.jpg" alt="This illustration depicts Shirokuma (Polar Bear), a character from the anime Shirokuma Cafe (Polar Bear Cafe). He's standing upright wearing a blue patterned scarf or neckerchief tied around his neck. He's holding a tray with an ube-flavored parfait in a tall glass - the dessert is light purple in color and garnished with flowers. Shirokuma has a gentle, pleasant expression and is positioned in front of his own cafe building with green foliage visible to the side. The art style is colorful and cheerful, with a warm, inviting atmosphere typical of the anime's lighthearted tone." class="mascot">
+                </div>
+                <div class="detail">
+                  <p>Shirokuma (Polar Bear) from Shirokuma Cafe serving ube parfait in his signature blue neckerchief</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </header>
+      </section>
 
-  <main>
-    <section class="project-grid">
-      <article class="project">
-        <h2 class="project-title">ChatVibes</h2>
-        <p class="project-description">Twitch Text-to-Speech bot and OBS browser source that reads chat and events aloud. Customizable voices, emotions, and other preferences on per-user and per-channel basis.</p>
-        <p class="invite-note">Currently invite-only. <a href="#contact-me">Request access</a>.</p>
+      <!-- ═══ Wildcat.chat hub ═══ -->
+      <a href="https://wildcat.chat/" target="_blank" rel="noopener" class="tile tile--featured" data-area="wildcat">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="4 17 10 11 4 5" />
+              <line x1="12" x2="20" y1="19" y2="19" />
+            </svg>
+          </div>
+          <span class="tile__kicker">Home base</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">wildcat.chat</h2>
+          <p class="tile__desc">Home of WildcatSage, WildcatTTS, and Chat Overlay: Twitch streamer tools for chat, text-to-speech, and an AI knowledge bot.</p>
+        </div>
+        <div class="tile__cta">
+          <span>Visit site</span>
+          <svg class="icon-cta" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7" />
+            <polyline points="7 7 17 7 17 17" />
+          </svg>
+        </div>
+      </a>
 
-        <div class="project-tech">
-          <span>Node.js</span>
-          <span>Twitch API</span>
-          <span>Replicate API</span>
-          <span>Google Cloud Run</span>
+      <!-- ═══ WildcatSage ═══ -->
+      <article class="tile tile--project" data-area="sage">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2z" />
+              <path d="M19 3v4M21 5h-4" />
+            </svg>
+          </div>
+          <span class="tile__kicker">Twitch · AI chatbot</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">WildcatSage</h2>
+          <p class="tile__desc">AI-powered chatbot for Twitch streams with real-time context awareness and natural language understanding</p>
+          <p class="tile__note">Currently invite-only. <a href="#contact-me">Request access</a>.</p>
+          <ul class="tile__tech" aria-label="Technologies">
+            <li>Node.js</li>
+            <li>Twitch API</li>
+            <li>Google Gemini</li>
+            <li>Google Cloud Run</li>
+          </ul>
         </div>
 
-        <div class="screenshot-container fade-out-bottom">
-          <img src="assets/images/screenshots/chatvibes.png" alt="Screenshot of the ChatVibes documentation page showing available voices for the minimax/speech-02-turbo model. The page lists common voice IDs such as Wise_Woman, Friendly_Person, Inspirational_girl, and others, and explains how to use the !tts voice <voice_id> command in Twitch chat." class="screenshot">
+        <div class="tile__preview tile__preview--fade">
+          <img src="assets/images/screenshots/botcommands.png" alt="Screenshot of WildcatSage's command list interface displaying a table of bot commands. The table has three columns: Command, Description, and Usage. Featured commands include !ask/!sage for AI-powered questions, !game for game information, !search for web queries, !translate for message translation, !geo for geography games, and !ping for bot status. The image crops the table in the middle of the !translate command row. Each command row shows its syntax and usage examples, with some commands having moderator-specific options. The interface uses a clean, minimalist design with a white background and dark text." class="screenshot">
         </div>
 
-        <div class="project-links">
-          <a href="https://chatvibestts.web.app/" target="_blank">Web App</a>
-          <a href="https://docs.wildcat.chat/chatvibesdocs.html" target="_blank">Docs</a>
-          <a href="https://github.com/detekoi/chatvibes" target="_blank">GitHub</a>
+        <div class="tile__links">
+          <a href="https://wildcat.chat/" target="_blank" rel="noopener">Wildcat.chat</a>
+          <a href="https://streamsage-bot.web.app" target="_blank" rel="noopener">Web App</a>
+          <a href="https://docs.wildcat.chat/botcommands.html" target="_blank" rel="noopener">Docs</a>
+          <a href="https://github.com/detekoi/chatsage" target="_blank" rel="noopener">GitHub</a>
         </div>
       </article>
 
-      <article class="project">
-        <h2 class="project-title">ChatSage</h2>
-        <p class="project-description">AI-powered chatbot for Twitch streams with real-time context awareness and natural language understanding</p>
-        <p class="invite-note">Currently invite-only. <a href="#contact-me">Request access</a>.</p>
-
-        <div class="project-tech">
-          <span>Node.js</span>
-          <span>Twitch API</span>
-          <span>Google Gemini</span>
-          <span>Google Cloud Run</span>
+      <!-- ═══ WildcatTTS ═══ -->
+      <article class="tile tile--project" data-area="tts">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            </svg>
+          </div>
+          <span class="tile__kicker">Twitch · Text-to-speech</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">WildcatTTS</h2>
+          <p class="tile__desc">Twitch Text-to-Speech bot and OBS browser source that reads chat and events aloud. Customizable voices, emotions, and other preferences on per-user and per-channel basis.</p>
+          <p class="tile__note">Currently invite-only. <a href="#contact-me">Request access</a>.</p>
+          <ul class="tile__tech" aria-label="Technologies">
+            <li>Node.js</li>
+            <li>Twitch API</li>
+            <li>Replicate API</li>
+            <li>Google Cloud Run</li>
+          </ul>
         </div>
 
-        <div class="screenshot-container fade-out-bottom">
-          <img src="assets/images/screenshots/botcommands.png" alt="Screenshot of ChatSage's command list interface displaying a table of bot commands. The table has three columns: Command, Description, and Usage. Featured commands include !ask/!sage for AI-powered questions, !game for game information, !search for web queries, !translate for message translation, !geo for geography games, and !ping for bot status. The image crops the table in the middle of the !translate command row. Each command row shows its syntax and usage examples, with some commands having moderator-specific options. The interface uses a clean, minimalist design with a white background and dark text." class="screenshot">
+        <div class="tile__preview tile__preview--fade">
+          <img src="assets/images/screenshots/chatvibes.png" alt="Screenshot of the WildcatTTS documentation page showing available voices for the minimax/speech-02-turbo model. The page lists common voice IDs such as Wise_Woman, Friendly_Person, Inspirational_girl, and others, and explains how to use the !tts voice <voice_id> command in Twitch chat." class="screenshot">
         </div>
 
-        <div class="project-links">
-          <a href="https://streamsage-bot.web.app" target="_blank">Web App</a>
-          <a href="https://docs.wildcat.chat/botcommands.html" target="_blank">Docs</a>
-          <a href="https://github.com/detekoi/chatsage" target="_blank">GitHub</a>
+        <div class="tile__links">
+          <a href="https://wildcat.chat/" target="_blank" rel="noopener">Wildcat.chat</a>
+          <a href="https://chatvibestts.web.app/" target="_blank" rel="noopener">Web App</a>
+          <a href="https://docs.wildcat.chat/chatvibesdocs.html" target="_blank" rel="noopener">Docs</a>
+          <a href="https://github.com/detekoi/chatvibes" target="_blank" rel="noopener">GitHub</a>
         </div>
       </article>
 
-      <article class="project">
-        <h2 class="project-title">Chat Overlay</h2>
-        <p class="project-description">Chat Overlay for Twitch and OBS featuring an AI-powered custom theme generator</p>
-
-        <div class="project-tech">
-          <span>JavaScript</span>
-          <span>Twitch API</span>
-          <span>Google Gemini</span>
-          <span>Google Cloud Run</span>
+      <!-- ═══ Chat Overlay ═══ -->
+      <article class="tile tile--project" data-area="overlay">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <span class="tile__kicker">OBS source</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">Chat Overlay</h2>
+          <p class="tile__desc">Chat Overlay for Twitch and OBS featuring an AI-powered custom theme generator</p>
+          <ul class="tile__tech" aria-label="Technologies">
+            <li>JavaScript</li>
+            <li>Twitch API</li>
+            <li>Google Gemini</li>
+            <li>Google Cloud Run</li>
+          </ul>
         </div>
 
-        <div class="screenshot-container">
+        <div class="tile__preview">
           <img src="assets/images/screenshots/chat.png" alt="Screenshot of a stylized chat overlay featuring an elegant wavy line pattern background in soft gray tones. The chat messages are displayed with clean typography, where usernames appear in a bold blue font followed by message text in a darker shade. The layout includes subtle message containers with rounded corners and a semi-transparent backdrop, creating a layered effect against the patterned background. Each message is clearly separated with consistent spacing, demonstrating the overlay's minimal yet refined design approach." class="screenshot">
           <img src="assets/images/screenshots/chat-theme-generator.png" alt="Screenshot showing a side-by-side view of both the chat window and its theme settings panel. On the left is the chat window with the wavy pattern background and example messages. On the right is the normally-overlapping settings panel pulled out to show the AI Theme Generator interface. The settings panel features the theme title 'Serene Mist', navigation arrows, a 'Game or Vibe' input field (showing 'Morning mist Japanese zen garden'), a purple 'Generate Theme' button, and a checkbox for background image generation. This split view demonstrates how the settings panel would typically float over the chat window during theme customization." class="screenshot">
         </div>
 
-        <div class="project-links">
-          <a href="https://detekoi.github.io/compact-chat-overlay/" target="_blank">Use Now</a>
-          <a href="https://github.com/detekoi/compact-chat-overlay" target="_blank">GitHub</a>
+        <div class="tile__links">
+          <a href="https://wildcat.chat/" target="_blank" rel="noopener">Wildcat.chat</a>
+          <a href="https://detekoi.github.io/compact-chat-overlay/" target="_blank" rel="noopener">Use Now</a>
+          <a href="https://github.com/detekoi/compact-chat-overlay" target="_blank" rel="noopener">GitHub</a>
         </div>
       </article>
 
-      <article class="project">
-        <h2 class="project-title">Jam Deck</h2>
-        <p class="project-description">Apple Music Stream Now Playing Widget for OBS (macOS/Apple Music only)</p>
-
-        <div class="project-tech">
-          <span>Python</span>
-          <span>AppleScript</span>
-          <span>macOS</span>
+      <!-- ═══ Jam Deck ═══ -->
+      <article class="tile tile--project" data-area="jamdeck">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+          </div>
+          <span class="tile__kicker">OBS widget · macOS</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">Jam Deck</h2>
+          <p class="tile__desc">Apple Music Stream Now Playing Widget for OBS (macOS/Apple Music only)</p>
+          <ul class="tile__tech" aria-label="Technologies">
+            <li>Python</li>
+            <li>AppleScript</li>
+            <li>macOS</li>
+          </ul>
         </div>
 
-        <div class="screenshot-container">
+        <div class="tile__preview">
           <img src="assets/images/screenshots/jam-deck.png" alt="Screenshot of Jam Deck showing four Apple Music now playing widgets with different color themes. Each widget displays album artwork, song title, and artist information in various styles - pink, green, dark, and white themes with different song information including Japanese characters, Wintime by CHAI, 'Dakotas' by Sofia Kourtesis, 'Learning Lessens (Shy One Remix)' by Andrew Ashong & Kaidi Tatham, and 'Hidden Memory' by AceMoMa." class="screenshot">
           <img src="assets/images/screenshots/jam-deck-macos-notification.png" alt="Screenshot of a macOS system notification from Jam Deck. The notification features the Jam Deck icon (a pink jar) and displays 'Server Started' as the header, followed by the message 'Now playing overlay is active!' The notification uses the standard macOS rounded rectangle design with a light gray background." class="screenshot">
         </div>
 
-        <div class="project-links">
-          <a href="https://github.com/detekoi/jam-deck/releases" target="_blank">Download</a>
-          <a href="https://github.com/detekoi/jam-deck" target="_blank">GitHub</a>
+        <div class="tile__links">
+          <a href="https://github.com/detekoi/jam-deck/releases" target="_blank" rel="noopener">Download</a>
+          <a href="https://github.com/detekoi/jam-deck" target="_blank" rel="noopener">GitHub</a>
         </div>
       </article>
 
-      <article class="project">
-        <h2 class="project-title">Clock Overlay</h2>
-        <p class="project-description">Customizable clock overlay for OBS streams and recordings</p>
-
-        <div class="project-tech">
-          <span>HTML</span>
-          <span>CSS</span>
-          <span>JavaScript</span>
+      <!-- ═══ Clock Overlay ═══ -->
+      <article class="tile tile--project" data-area="clock">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <span class="tile__kicker">OBS source</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">Clock Overlay</h2>
+          <p class="tile__desc">Customizable clock overlay for OBS streams and recordings</p>
+          <ul class="tile__tech" aria-label="Technologies">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+          </ul>
         </div>
 
-        <div class="screenshot-container">
+        <div class="tile__preview">
           <img src="assets/images/screenshots/default-clock.png" alt="Screenshot of the Custom Clock overlay showing a minimalist clock with both analog and digital displays. The analog clock has a clean white circle design with thin hour marks and dark gray hands with green accents at the tips. Below it, a digital time display shows '03:47 PM' in a modern gray font. The design features a transparent background suitable for stream overlays." class="screenshot">
         </div>
 
-        <div class="project-links">
-          <a href="https://detekoi.github.io/minimal-clock-overlay/" target="_blank">Use Now</a>
-          <a href="https://github.com/detekoi/minimal-clock-overlay" target="_blank">GitHub</a>
+        <div class="tile__links">
+          <a href="https://detekoi.github.io/minimal-clock-overlay/" target="_blank" rel="noopener">Use Now</a>
+          <a href="https://github.com/detekoi/minimal-clock-overlay" target="_blank" rel="noopener">GitHub</a>
         </div>
       </article>
 
-      <article class="project">
-        <h2 class="project-title">Overlay Collection</h2>
-        <p class="project-description">Collection of static browser overlays for OBS, regularly updated with new components</p>
-
-        <div class="project-tech">
-          <span>HTML</span>
-          <span>CSS</span>
-          <span>JavaScript</span>
+      <!-- ═══ Overlay Collection ═══ -->
+      <article class="tile tile--project" data-area="collection">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+          </div>
+          <span class="tile__kicker">OBS sources</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">Overlay Collection</h2>
+          <p class="tile__desc">Collection of static browser overlays for OBS, regularly updated with new components</p>
+          <ul class="tile__tech" aria-label="Technologies">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+          </ul>
         </div>
 
-        <div class="screenshot-container">
+        <div class="tile__preview tile__preview--row">
           <img src="assets/images/screenshots/overlay-collection.png" alt="Screenshot of a geometric background overlay featuring a repeating pattern of small triangles creating a subtle 3D cube illusion effect. The pattern is rendered in two shades of steel blue, with lighter triangles creating depth against darker ones. This tessellating design creates a sophisticated, modern aesthetic suitable for stream backgrounds or overlay borders." class="screenshot">
-        </div>
-        <div class="screenshot-container">
           <img src="assets/images/screenshots/overlay-collection-cozygb.png" alt="Screenshot of the 'Cozy 10:9' browser overlay featuring a minimalist design with a warm beige color scheme. The layout includes a large central rectangular frame with rounded corners and delicate corner accents in mint green. To the right are complementary elements: a circular frame at the top and a vertical rectangular frame below, both styled with the same beige tones. The design evokes a nostalgic Game Boy aesthetic while maintaining a cozy, comfortable atmosphere." class="screenshot">
         </div>
 
-        <div class="project-links">
-          <a href="https://detekoi.github.io/static-browser-overlays/" target="_blank">Check It Out</a>
-          <a href="https://github.com/detekoi/static-browser-overlays" target="_blank">GitHub</a>
+        <div class="tile__links">
+          <a href="https://detekoi.github.io/static-browser-overlays/" target="_blank" rel="noopener">Check It Out</a>
+          <a href="https://github.com/detekoi/static-browser-overlays" target="_blank" rel="noopener">GitHub</a>
         </div>
       </article>
 
-      <article class="project">
-        <h2 class="project-title">Live Notify</h2>
-        <p class="project-description">Notification system to alert when you go live on Twitch, with Discord integration</p>
-
-        <div class="project-tech">
-          <span>Python</span>
-          <span>Twitch API</span>
-          <span>Discord Webhook</span>
+      <!-- ═══ Live Notify ═══ -->
+      <article class="tile tile--project" data-area="notify">
+        <div class="tile__header">
+          <div class="tile__logo">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+          </div>
+          <span class="tile__kicker">Discord alerts</span>
+        </div>
+        <div class="tile__body">
+          <h2 class="tile__handle">Live Notify</h2>
+          <p class="tile__desc">Notification system to alert when you go live on Twitch, with Discord integration</p>
+          <ul class="tile__tech" aria-label="Technologies">
+            <li>Python</li>
+            <li>Twitch API</li>
+            <li>Discord Webhook</li>
+          </ul>
         </div>
 
-        <div class="screenshot-container">
+        <div class="tile__preview">
           <img src="assets/images/screenshots/live-notify.png" alt="Screenshot of a Discord notification generated by the 'LIVE NOTIFY' system. The notification alerts that Twitch user 'parfaitfair' is 'LIVE NOW!' streaming the game 'Wylde Flowers'. It shows the stream uptime is '0h 2m' and includes an embedded preview of the actual stream, featuring gameplay and a small webcam overlay of the streamer. The notification is timestamped '3/25/25, 2:43 PM'." class="screenshot">
         </div>
 
-        <div class="project-links">
-          <a href="https://github.com/detekoi/live-notify" target="_blank">GitHub</a>
+        <div class="tile__links">
+          <a href="https://github.com/detekoi/live-notify" target="_blank" rel="noopener">GitHub</a>
         </div>
       </article>
-    </section>
 
-    <section id="contact-me" class="contact-form-section">
-      <h2>Contact Me</h2>
-      <form action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="c9330023-e8e4-4d38-9571-9870239fdc15">
-    
-        <div>
-          <label for="contact_name">Name:</label>
-          <input type="text" id="contact_name" name="name" required>
+      <!-- ═══ Contact ═══ -->
+      <section id="contact-me" class="tile tile--contact" data-area="contact" aria-labelledby="contact-heading">
+        <div class="contact__intro">
+          <div class="tile__header">
+            <div class="tile__logo">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
+            <span class="tile__kicker">Get in touch</span>
+          </div>
+          <h2 id="contact-heading" class="tile__handle">Contact Me</h2>
+          <p class="tile__desc">Access requests for WildcatSage or WildcatTTS, collabs, questions, or just saying hello.</p>
         </div>
-        <div>
-          <label for="contact_email">Email:</label>
-          <input type="email" id="contact_email" name="email" required>
-        </div>
-        <div>
-          <label for="contact_message">Message:</label>
-          <textarea id="contact_message" name="message" required></textarea>
-        </div>
-    
-        <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-    
-        <button type="submit">Submit Form</button>
-      </form>
-    </section>
 
-  </main>
+        <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="c9330023-e8e4-4d38-9571-9870239fdc15">
 
-  <footer>
-    <p>Polar Bear Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank">Runnerbean</a></p>
-    <p>© 2025 Henry Manes | <a href="https://github.com/detekoi" target="_blank">GitHub</a></p>
-  </footer>
+          <div class="form-field">
+            <label for="contact_name" class="field-label">Name</label>
+            <input type="text" id="contact_name" name="name" class="input" autocomplete="name" required>
+          </div>
+          <div class="form-field">
+            <label for="contact_email" class="field-label">Email</label>
+            <input type="email" id="contact_email" name="email" class="input" autocomplete="email" required>
+          </div>
+          <div class="form-field form-field--wide">
+            <label for="contact_message" class="field-label">Message</label>
+            <textarea id="contact_message" name="message" class="input textarea" required></textarea>
+          </div>
+
+          <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+          <button type="submit" class="submit-btn">Submit Form</button>
+        </form>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <span>Polar Bear Artwork by <a href="https://bsky.app/profile/runnerbean36.bsky.social" target="_blank" rel="noopener">Runnerbean</a></span>
+      <span class="footer__sep" aria-hidden="true">·</span>
+      <span>© 2025 Henry Manes</span>
+      <span class="footer__sep" aria-hidden="true">·</span>
+      <a href="https://github.com/detekoi" target="_blank" rel="noopener">GitHub</a>
+    </footer>
+  </div>
+
   <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
   <script>
     kofiWidgetOverlay.draw('parfaitfair', {

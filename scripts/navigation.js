@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Set active class based on current page
     navLinks.forEach(link => {
+        // External links (e.g. wildcat.chat) are never the current page
+        if (link.hostname !== window.location.hostname) return;
+
         const href = link.getAttribute('href');
         const linkPage = href.split('/').pop();
 
