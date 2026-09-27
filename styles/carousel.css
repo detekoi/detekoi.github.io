@@ -163,6 +163,27 @@
   font-size: 3rem;
 }
 
+/* Unlike other captions, the error message is shown on the card itself */
+.mascot-card.error-card .error-detail {
+  display: block !important;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border-top: var(--tile-border) solid var(--border);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.mascot-card.error-card .error-detail p {
+  margin: 0;
+}
+
 /* Dark mode adjustments */
 @media (prefers-color-scheme: dark) {
   .carousel-toggle {

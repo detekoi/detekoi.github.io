@@ -91,6 +91,11 @@ const IMAGE_MODEL = 'gemini-3.1-flash-image';
 const IMAGE_CONFIG = { aspectRatio: '2:3', imageSize: '512' };
 const MAX_PROMPT_LENGTH = 4000;
 
+// Reference image for every outfit: read and encode once at startup instead of
+// blocking the event loop with a 1.6MB synchronous read on each request
+const BEAR_IMAGE_PATH = path.join(__dirname, '..', 'assets/images/PolarBearTransparent4K.png');
+const BEAR_IMAGE_BASE64 = fs.readFileSync(BEAR_IMAGE_PATH).toString('base64');
+
 /**
  * Generate an outfit image with Nano Banana 2.
  * @param {Array} contents - Prompt and reference image parts
@@ -158,7 +163,7 @@ const perIpLimiter = rateLimit({
   limit: PER_IP_LIMIT,
   standardHeaders: 'draft-7',
   legacyHeaders: false,
-  handler: rateLimitHandler('The polar bear needs a breather')
+  handler: rateLimitHandler('Polar Bear needs a breather')
 });
 
 const dailyLimiter = rateLimit({
@@ -167,17 +172,15 @@ const dailyLimiter = rateLimit({
   keyGenerator: () => 'all-visitors',
   standardHeaders: false,
   legacyHeaders: false,
-  handler: rateLimitHandler("The polar bear's wardrobe is closed for today")
+  handler: rateLimitHandler("Polar Bear's wardrobe is closed for today")
 });
 
 // --- API Endpoint for Image Generation ---
+// Per-visitor limit runs first on purpose: requests it rejects never reach the
+// daily counter, so one visitor spamming the endpoint can't use up everyone's
+// daily budget.
 app.post('/api/generate-image', perIpLimiter, dailyLimiter, async (req, res) => {
-  // Read the original bear image from file system
   try {
-    const imagePath = path.join(__dirname, '..', 'assets/images/PolarBearTransparent4K.png');
-    const imageData = fs.readFileSync(imagePath);
-    const base64Image = imageData.toString('base64');
-    
     // Get prompt from the request, or use default
     const prompt = req.body.prompt || "Zoom out full body head-to-toe to reveal that the subject has been styled by a professional stylist, make it a cohesive theme.";
     
@@ -192,7 +195,7 @@ app.post('/api/generate-image', perIpLimiter, dailyLimiter, async (req, res) => 
       {
         inlineData: {
           mimeType: 'image/png',
-          data: base64Image
+          data: BEAR_IMAGE_BASE64
         }
       }
     ];

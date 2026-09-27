@@ -2,7 +2,7 @@
  * Test script for Gemini image generation API
  * 
  * This is a standalone script to test the Gemini API for image generation.
- * Run with: node scripts/test-image-generation.js
+ * Run from the repo root with: node tests/test-image-generation.js
  */
 
 require('dotenv').config();

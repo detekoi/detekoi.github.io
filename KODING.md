@@ -1,14 +1,14 @@
 ## Commands
 
-*   **Start server:** `npm start` or `node server.js`
-*   **Start server (dev mode):** `npm run dev` or `nodemon server.js`
-*   **Test image generation:** `node scripts/test-image-generation.js`
+*   **Start server:** `npm start` or `node scripts/server.js`
+*   **Start server (dev mode):** `npm run dev` or `nodemon scripts/server.js`
+*   **Test image generation:** `node tests/test-image-generation.js`
 *   **Install dependencies:** `npm install`
 
 ## Code Style
 
 *   **General:** Follow standard JavaScript conventions.
-*   **Imports:** Use `require` for imports in Node.js files (`server.js`, `scripts/*.js`). Use standard HTML script tags for frontend JavaScript.
+*   **Imports:** Use `require` for imports in Node.js files (`scripts/server.js`, `tests/*.js`). Use standard HTML script tags for frontend JavaScript.
 *   **Formatting:** Use Prettier defaults (implied, no config found). Aim for 2-space indentation.
 *   **Naming:** Use camelCase for variables and functions. Use PascalCase for classes (if any).
 *   **Types:** This project does not use TypeScript. Add types via JSDoc where helpful.

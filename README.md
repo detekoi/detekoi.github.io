@@ -32,14 +32,14 @@ This repository contains the code for my personal portfolio website.
    ```
 4. Start the server:
    ```bash
-   node server.js
+   npm start
    ```
 5. Open http://localhost:3000 in your browser
 
 ### Testing
 To test the mascot image generation functionality:
 ```bash
-node scripts/test-image-generation.js
+node tests/test-image-generation.js
 ```
 
 ## Technology Stack
@@ -224,11 +224,11 @@ To use your own mascot, you'll need to update several files:
      ```html
      <img src="assets/images/YourMascot.jpg" alt="Your Mascot Description" class="mascot">
      ```
-   - `server.js`: Update the AI generation image path (around line 50)
+   - `scripts/server.js`: Update the AI generation image path
      ```javascript
-     const imagePath = 'assets/images/PolarBearTransparent4K.png';
+     const BEAR_IMAGE_PATH = path.join(__dirname, '..', 'assets/images/PolarBearTransparent4K.png');
      ```
-   - `scripts/test-image-generation.js`: Update the test script image path
+   - `tests/test-image-generation.js`: Update the test script image path
      ```javascript
      const imagePath = 'assets/images/PolarBearTransparent4K.png';
      ```
@@ -237,7 +237,7 @@ To use your own mascot, you'll need to update several files:
 
 5. Test the image generation using the test script:
    ```
-   node scripts/test-image-generation.js
+   node tests/test-image-generation.js
    ```
 
 ### Gemini API Performance
@@ -248,25 +248,18 @@ To use your own mascot, you'll need to update several files:
    - Smaller images may reduce generation quality
 
 2. **Rate Limiting**
-   - Default cooldown period between generations
-   - Prevents API abuse and manages costs
-   - Adjust in `server.js` if needed:
-     ```javascript
-     const RATE_LIMIT_MS = 5000; // 5 seconds between generations
+   - 5 generations per visitor every 15 minutes, and 100 per day overall
+   - Prevents API abuse and manages costs; Cloud Run runs a single instance so the in-memory counts hold
+   - Adjust with environment variables:
+     ```
+     RATE_LIMIT_PER_IP=5
+     RATE_LIMIT_WINDOW_MINUTES=15
+     DAILY_GENERATION_LIMIT=100
      ```
 
-3. **Caching Strategy**
-   - Generated outfits are cached server-side
-   - Reduces API calls and improves response times
-   - Configure cache size in `server.js`:
-     ```javascript
-     const CACHE_SIZE = 10; // Number of recent generations to keep
-     ```
-
-4. **Error Handling**
-   - Graceful fallbacks when API is unavailable
-   - Automatic retries for failed generations
-   - User feedback through UI state changes
+3. **Error Handling**
+   - Failed or rate-limited generations show a message on the mascot card, then clear after a few seconds
+   - Up to 5 generated outfits are kept in the visitor's browser (localStorage)
 
 ### Static Background Customization
 
